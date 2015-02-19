@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>Inexact numbers</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="tolerance.htm">&gt&gt;</a>&nbsp;
+<a href="print_precision.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Inexact numbers</h1><TR><TD>
+
+<P>The way numbers are stored in a computer limits the maximum number of digits in the number. This maximum depends on the hardware, but typically a <TT>pps </TT>argument of <TT>20 </TT>guarantees that all the digits available for a value will be displayed.</P>
+
+<PRE>   pps 6
+
+   %3
+0.333333
+   pps 12
+
+   %3
+0.333333333333
+   pps 20
+
+   %3
+0.33333333333333331</PRE>
+
+<P>At <TT>20</TT> digits of precision the result of <TT>%3</TT> displays all the detail it has on the number in <TT>17 </TT>digits. The result of <TT>%3</TT> is not the exact mathematical result, but is the closest number to that exact result that can be stored in the computer. This difference between what you would expect from exact math and the limitations on how numbers are stored in computers can be confusing. </P>
+
+<PRE>   3 * % 3
+1
+</PRE>
+<P>The result of <TT>%3</TT> is not the exact value, but it is so close that when multiplied by <TT>3</TT> it gives the exact expected value of <TT>1</TT>.</P>
+
+<PRE>   3 * 10 * % 3
+10
+</PRE>
+<P>Multiplying the inexact result of <TT>%3</TT> by <TT>10 </TT>magnifies the error, but it is still close enough to the exact value that when multiplied by<TT> 3</TT> it gives the exact expected value of <TT>10</TT>.</P>
+
+<PRE>   3 * 100 * % 3
+99.999999999999986</PRE>
+
+<P>However, multiplying <TT>%3</TT> by <TT>100 </TT>magnifies the error enough so that when multiplied by <TT>3</TT> you do not get the exact expected answer of <TT>100</TT>, but instead get a number that is very close to <TT>100</TT>.</P>
+
+<P>Using lists you can combine the above examples.
+</P>
+<PRE>   3 * 1 10 100 * % 3
+1 10 99.999999999999986</PRE>
+
+<P>The fact the <TT>%3</TT> isn't stored exactly in the computer may not surprise you too much if you realize that an exact representation in decimal digits would take an infinite numbers of 3's.</P>
+
+<P>There is an additional source of confusion due to the fact that computers store numbers internally in a binary format where each digit is a 0 or 1, rather than the decimal format you are familiar with where the digits range in value from 0 to 9. A consequence of this is that even very simple decimal numbers, exactly expressed with a few digits, when converted to the computer's binary format, are stored as an inexact value.</P>
+
+<PRE>   pps 20
+
+   0.5 0.25 0.1
+0.5 0.25 0.10000000000000001</PRE>
+
+<P>The <TT>0.5</TT> and <TT>0.25</TT> are stored exactly, but the <TT>0.1</TT> is stored inexactly, and when displayed with maximum precision shows as <TT>0.10000000000000001</TT> .</P>
+
+<P>These are facts of life with the way computers store floating point numbers and apply to all computer languages, not just J. Usually you can ignore these details, but they can sometimes cause problems or confusion if you don't have an idea about what is going on.</P>
+
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="tolerance.htm">&gt&gt;</a>&nbsp;
+<a href="print_precision.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

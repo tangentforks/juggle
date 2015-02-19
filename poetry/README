@@ -1,0 +1,37 @@
+Welcome to the CVS demo project!
+
+Please add your own stanza to the limerix.ijs script.
+
+Each stanza is started by a line with an asterisk (*).
+In case you happen to know this funny programming language
+called J and want to improve the code:  please keep it portable
+across platforms.
+
+To get notified of later commits, you can add your email address
+to the file poets.  One line per address.
+
+You would then get notified about further commits then, in
+particluar of new limericks if the testers here are kind.
+
+DOs and and DON'Ts:
+
+Not many, really.  But some:
+
+(1)  Don't lock files too long by doing a "cvs edit".
+You should resolve such a lock after the testing again,
+either by doing a "cvs commit" (normal) or "cvs unedit"
+(bail out making any changes undone).
+
+(2)  If you are smart, then you won't molest registered
+"poets" with dozens of test commits.  They way to do
+is a project on its own:
+
+	- check out "people".
+	- edit and "cvs commit people" so that only your address
+	  is listet.
+	- do your gazillions of cvs execises.
+	- afterwards, restore "poets".  A "cvs diff -D yesterday poets"
+	  will  remind you what you had deleted in the beginning.
+
+(3)  And finally, I reminder to the most important DO:
+     Please DO donate a limerick!

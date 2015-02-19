@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Math&Stats</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="plotting.htm">&gt&gt;</a>&nbsp;
+<a href="e_pluribus_unum.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Math&Stats</h1>
+<TR><TD colspan="2"> 
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+
+
+<TR><TD><TT>m0=: median=: &lt;.@-:@# { /:~</TT></TD>	<TD>Median of y</TD></TR>
+<TR><TD><TT>m1=: tc=: (+. +./ .*.~)^:_</TT></TD>	<TD>Transitive closure of connection matrix y</TD></TR>
+<TR><TD><TT>c2=: ^:</TT></TD>	<TD>Apply function x y times</TD></TR>
+<TR><TD><TT>c3=: ^:</TT></TD>	<TD>Conditional application of x if y is 0 or 1</TD></TR>
+<TR><TD><TT>m4=: gamma=: !@&lt;:</TT></TD>	<TD>Gamma function of y</TD></TR>
+<TR><TD><TT>d5=: beta=: *&amp;m4 % m4@+</TT></TD>	<TD>Beta function of x and y</TD></TR>
+<TR><TD><TT>d6=: pd=: ^@-@] * ^~ % !@[</TT></TD>	<TD>Poisson distribution of states x with average number y</TD></TR>
+<TR><TD><TT>d7=: outof=: !</TT></TD>	<TD># of combs of y objects taken x at a time</TD></TR>
+<TR><TD><TT>d8=: ppr=: +//.@(*/)</TT></TD>	<TD>Product of polynomials x and y</TD></TR>
+<TR><TD><TT>m9=: -&lt;./"1</TT></TD>	<TD>Move rows of table y into first quadrant</TD></TR>
+<TR><TD><TT>m10=: npb=: p:^:_1 </TT></TD>	<TD>Number of primes before y</TD></TR>
+<TR><TD><TT>m11=: pto=: p:@i.@npb</TT></TD>	<TD>List of primes to y</TD></TR>
+<TR><TD><TT>d12=: dpr=: [: 0 2 1 3&amp;|: */</TT></TD>	<TD>Direct matrix product of x and y</TD></TR>
+<TR><TD><TT>d13=: shurp=: (0 2;3 1)&amp;|:@(*/)</TT></TD>	<TD>Shur product of x and y</TD></TR>
+<TR><TD><TT>d14=: shurs=: (0 2;3 1)&amp;|:@(+/)</TT></TD>	<TD>Shur sum of x and y</TD></TR>
+<TR><TD><TT>m15=: &lt;./ .+~</TT></TD>	<TD>Extend distance table to next leg</TD></TR>
+<TR><TD><TT>d16=: +./ .*.</TT></TD>	<TD>Extend a transitive binary relation</TD></TR>
+<TR><TD><TT>d17=: +/ .* % #@]</TT></TD>	<TD>Mean of x weighted by y</TD></TR>
+<TR><TD><TT>d18=: -/ .%</TT></TD>	<TD>Alternating sum of reciprocal series x%y</TD></TR>
+<TR><TD><TT>d19=: +/ .%</TT></TD>	<TD>Sum of reciprocal series x%y</TD></TR>
+<TR><TD><TT>d20=: +/ .*</TT></TD>	<TD>Matrix product</TD>
+</TR><TR><TD><TT>d21=: +/ .*</TT></TD>	<TD>Sum over subsets of x located by y</TD></TR>
+<TR><TD><TT>m22=: +/ .*~</TT></TD>	<TD>Sum of squares of y</TD></TR>
+<TR><TD><TT>d23=: +/ .*</TT></TD>	<TD>Scalar (dot) product of vectors x and y</TD></TR>
+<TR><TD><TT>d24=: */ .^</TT></TD>	<TD>Product over subsets of x located by y</TD></TR>
+<TR><TD><TT>m25=: +/@:*:</TT></TD>	<TD>Sum of squares of y</TD></TR>
+<TR><TD><TT>m26=: det=: -/ .*</TT></TD>	<TD>Determinant</TD></TR>
+<TR><TD nowrap><TT>m27=: (+/@(*:@(] - +/ % #)) % #}"1</TT></TD>	<TD>Sample variance (dispersion) of y</TD></TR>
+<TR><TD><TT>m28=: %:@m27"1</TT></TD>	<TD>Standard deviation of y</TD></TR>
+<TR><TD nowrap><TT>d29=: (+/@((]-+/@]%#@])^[)%#@])"1</TT></TD>	<TD>xth moment of y</TD></TR>
+<TR><TD><TT>m30=: m31"1</TT></TD>	<TD>Mean of rows of table y</TD></TR>
+<TR><TD><TT>m31=: +/%#</TT></TD>	<TD>Mean of list y or columns of table y
+</TD></TR>
+
+
+</table>
+
+
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="plotting.htm">&gt&gt;</a>&nbsp;
+<a href="e_pluribus_unum.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

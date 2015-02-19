@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>Type Change</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="execution_time_space.htm">&gt&gt;</a>&nbsp;
+<a href="character.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Type Change</h1>
+<TR><TD colspan="2"> 
+
+
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0=: [: 0&amp;": 10"_ #. #:</TT></TD>	<TD>Character binary format of integer y</TD></TR>
+  <TR><TD><TT>m1=: 1: ": |:@(10 10"_ #: &gt;:@i.)</TT></TD>	<TD>Character form of column # heading</TD></TR>
+  <TR><TD><TT>m2=: ] { '0123456789abcdef'"_</TT></TD>	<TD>Character form of #, bases 2 thru 16</TD></TR>
+  <TR><TD><TT>m3=: &lt;"1</TT></TD>	<TD>Box lists of array y</TD></TR>
+  <TR><TD><TT>m4=:16"_#.'0123456789abcdef'"_ i.]</TT></TD>	<TD>Decimal from hexadecimal characters y</TD></TR>
+  <TR><TD><TT>m5=: 10"_ #. '0123456789'"_ i. ]</TT></TD>	<TD>Decimal from decimal characters y</TD></TR>
+  <TR><TD><TT>m6=: ".</TT></TD>	<TD>Convert rows of y to numbers (default 0)</TD></TR>
+  <TR><TD><TT>d7=:  [ ]`[@.(0: = #@]) ".@]</TT></TD>	<TD># from character y, x if y not a number</TD></TR>
+  <TR><TD NOWRAP><TT>m8=: }.@(".@('0 '&amp;,@(*./@(e.&amp;<BR>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'0123456789'@]) # ])))	</TT></TD><TD># from character, empty if not character</TD></TR>
+  <TR><TD><TT>m9=: ".</TT></TD>	<TD>Execute each row of  character table y</TD></TR>
+  <TR><TD><TT>m10=: +/@:".</TT></TD>	<TD>Sum of numbers in character table y</TD></TR>
+  <TR><TD><TT>m11=: ":@,.</TT></TD>	<TD>Format numeric list y as table</TD></TR>
+  <TR><TD><TT>d12=: [:}."1[:": (10"_^[)+([:,.])</TT></TD>	<TD>Format list y as x-wide col with leading 0s</TD></TR>
+  <TR><TD><TT>d13=: [ n24 } m25@]</TT></TD>	<TD>Format y with 0s replaced by x</TD></TR>
+  <TR><TD><TT>d14=: ":"_1</TT></TD>	<TD>Row-wise format of y by x</TD></TR>
+  <TR><TD><TT>d15=: ": </TT></TD>	<TD>Fmt y in fields &lt;.x wide and 1|x decimals</TD></TR>
+  <TR><TD><TT>m16=: #@":</TT></TD>	<TD>Number of characters in format of y</TD></TR>
+  <TR><TD><TT>n17=: rn=: 'MDCLXVI'</TT></TD>	<TD>Roman numerals</TD></TR>
+  <TR><TD><TT>m18=: rn&amp;i.</TT></TD>	<TD>Roman numerals y in code</TD></TR>
+  <TR><TD><TT>m19=: {&amp;1000 500 100 50 10 5 1</TT></TD>	<TD>Decode decimal values from indices y</TD></TR>
+  <TR><TD><TT>m20=: [: | [:-/]+//.~0:,~2:&lt;/\]</TT></TD>	<TD>Decimal number  from values of Roman</TD></TR>
+  <TR><TD><TT>m21=: DFR=: m20@m19@m18 </TT></TD>	<TD>Decimal from Roman</TD></TR>
+  <TR><TD><TT>m22=: RFD=:#&amp;rn@(5 2 5 2 5 2 5&amp;#:)</TT></TD>	<TD>Roman  from Decimal  (no refinements)</TD></TR>
+  <TR><TD><TT>v23=: [: &lt;"1 $ #: [: m26 [:,'1'"_ =]</TT></TD>	<TD>Indices of  '1' in character table y</TD></TR>
+  <TR><TD><TT>n24=: [`(v23@{:@])`({.@])</TT></TD>	<TD>Gerund for amend</TD></TR>
+  <TR><TD><TT>m25=: [: ": ] ,: ] = 0:</TT></TD>	<TD>Laminate boolean array locating free 0s in y</TD></TR>
+  <TR><TD><TT>m26=: +/ {. \:</TT></TD>	<TD>Indices of 1s in Boolean list y</TD></TR>
+  
+</TABLE>
+
+ 
+<PRE>   y
+ 12.34 4 0   7.8
+     0 6 0   8.9
+123.45 0 0 10.11
+   ' ' d13 y
+ 12.34 4     7.8
+       6     8.9
+123.45     10.11
+
+
+   DFR 'MCMIX'
+1909
+   RFD 1909
+MDCCCCVIIII</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="execution_time_space.htm">&gt&gt;</a>&nbsp;
+<a href="character.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

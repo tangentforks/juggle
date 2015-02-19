@@ -1,0 +1,76 @@
+<html>
+<head><title>u. v. Explicit Verb Args</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="duco.htm">&gt&gt;</a>&nbsp;
+<a href="dtcapdot.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Explicit Arguments</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>u. &nbsp;v.</font></td>
+<td align=right  width=33%>&nbsp;</td>
+</tr></table>
+<br>
+
+<table width=100%><tr><td valign=top bgcolor=#eeeeee>
+The name<tt> u. </tt>denotes a <i>verb</i> left argument in an 
+explicitly-defined adverb or conjunction, and the name<tt> v. </tt>
+denotes a <i>verb</i> right argument in an explicitly-defined conjunction.  
+See the names<tt> m. n. x. y. </tt>and Explicit Definition<tt> </tt>(<tt>:</tt>).
+<br>&nbsp;</td>
+</tr></table><br>
+
+For example:<br>
+
+<pre>
+pow=: 2 : 0
+ i=.0
+ t=.]
+ while. n.>i do.                <font face=Times size=+1>Uses</font> n. <font face=Times size=+1>(noun right argument)</font>
+  i=.1+i
+  t=.u.@t f.                    <font face=Times size=+1>Uses</font> u. <font face=Times size=+1>(verb left argument)</font>
+ end.
+)
+
+   o. pow 2
+o.@(o.@])
+   o. pow 3
+o.@(o.@(o.@]))
+
+   o. pow 3 x=: 1
+31.0063
+   o.^:3 x
+31.0063
+
+   o. pow +
+|value error: n.
+|       n.>i
+</pre>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="duco.htm">&gt&gt;</a>&nbsp;
+<a href="dtcapdot.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

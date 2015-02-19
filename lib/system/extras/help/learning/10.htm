@@ -1,0 +1,685 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 10: Tacit Verbs Continued</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 10: Tacit Verbs Continued</H1>
+<p>
+This chapter continues from Chapter 3  
+the theme of verbs tacitly defined.  
+<H2>10.1  Bonding</H2>
+<p>
+Recall that the bonding conjunction <TT>&</TT> produces a monad from a dyad by fixing one of the arguments 
+of the dyad.  The scheme is that if <TT>N</TT> is a noun and <TT>V</TT> a dyad, then: 
+<PRE>
+    (N & V) y    means   N V y 
+    (V & N) y    means   y V N 
+</PRE>
+<p>
+More generally, <TT>N</TT> can be an expression denoting an noun, and <TT>V</TT> an expression denoting a verb. 
+Let's look now at how these expressions  
+get evaluated.  This question is relevant, not just to 
+the bonding conjunction, but to any conjunction where the arguments may be a mixture of nouns and verbs. 
+<p>
+Firstly, the noun-expression <TT>N</TT> gets evaluated right away.  
+Here is an example of a function <TT>f</TT> to multiply 
+by nine-over-five, the numerical value being given as the expression <TT>a % b</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a =: 9</TT></TD> 
+<TD><TT>b =: 5</TT></TD> 
+<TD><TT>f =: * & (a % b)</TT></TD> 
+<TD><TT>f 10</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>9</TD> 
+<TD><PRE>5</TD> 
+<TD><PRE>*&1.8</TD> 
+<TD><PRE>18</TD> 
+</PRE></TABLE> 
+<p>
+We see that function <TT>f</TT> contains the computed number 
+<TT>1.8</TT> so that <TT>a%b</TT> has been evaluated. 
+<p>
+Secondly, in <TT>N&V</TT> the verb-expression <TT>V</TT> is 
+not necessarily fully evaluated.  
+If expression <TT>V</TT> is the name of a verb,  
+then the name is enough: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>w =: *</TT></TD> 
+<TD><TT>g =: w & (a % b)</TT></TD> 
+<TD><TT> g 10</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>*</TD> 
+<TD><PRE>w&1.8</TD> 
+<TD><PRE>18</TD> 
+</PRE></TABLE> 
+<p>
+Thirdly, when a new name is encountered,  
+it is assumed to be a yet-to-be-defined verb if it possibly can be. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>h =: ytbd & (a%b)</TT></TD> 
+<TD><TT>ytbd =: *</TT></TD> 
+<TD><TT>h 10</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>ytbd&1.8</TD> 
+<TD><PRE>*</TD> 
+<TD><PRE>18</TD> 
+</PRE></TABLE> 
+<p>
+Any sequence of hitherto-unknown names is assumed to be a train of verbs: 
+<PRE>
+   Ralph Waldo Emerson
+Ralph Waldo Emerson
+</PRE>
+<p>
+Consequently, a verb can be defined in "top-down" fashion, that is, with detail presented later.   
+For example, here is a Celsius-to-Fahrenheit  
+converter presented top-down.  
+<PRE>
+   ctof =: shift @ scale
+           shift =: + & 32
+           scale =: * & (9 % 5)        
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>ctof</TT></TD> 
+<TD><TT>ctof 0 100</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>shift@scale</TD> 
+<TD><PRE>32 212</TD> 
+</PRE></TABLE> 
+<p>
+We can see that <TT>ctof</TT> is defined solely in terms of 
+(the names) <TT>scale</TT> and <TT>shift</TT>. Hence if we now change <TT>scale</TT> or <TT>shift</TT> 
+we will effectively change the definition of <TT>ctof</TT>. 
+<PRE>
+   ctof 100
+212
+   scale =: * & 2
+   ctof 100
+232
+   scale =: * & (9 % 5)
+   ctof 100
+212
+</PRE>
+<p>
+This possibility, changing the definition 
+of a function simply by changing one of its 
+subordinate functions, may or may not be regarded as desirable. It is useful, 
+in so far as we can correct a definition just by changing a small 
+part. However, it may be a source of error: we may introduce 
+a new verb <TT>scale</TT> say forgetting that <TT>scale</TT> is already defined as subordinate in <TT>ctof</TT>. 
+<p>
+There are ways we can protect <TT>ctof</TT> against 
+accidental redefinition of its subordinate 
+functions. 
+Firstly, we can put a  wrapper of  
+explicit definition around  
+it, making <TT>scale</TT> and <TT>shift</TT> local, thus: 
+<PRE>
+   CTOF =: 3 : 0
+shift =. + & 32
+scale =. * & (9 % 5)
+shift @ scale y.
+)
+   CTOF 100
+212
+</PRE>
+<p>
+A second method is to,  so to speak, 
+"freezing" or "fixing" the definition of <TT>ctof</TT>,  
+with the "Fix" adverb <TT>f.</TT> (letter-f dot). 
+Observe the difference between the values 
+of the verbs <TT>ctof</TT> and <TT>(ctof f.)</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>ctof</TT></TD> 
+<TD><TT>ctof f.</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>shift@scale</TD> 
+<TD><PRE>+&32@(*&1.8)</TD> 
+</PRE></TABLE> 
+<p>
+We see that adverb <TT>f.</TT> applied to a tacit verb 
+replaces names by definitions, giving an 
+equivalent verb defined only in terms of 
+built-in functions. Here is yet another 
+definition of <TT>ctof</TT>. 
+<PRE>
+   scale =: * & (9 % 5)
+   shift =: + & 32
+   ctof  =: (shift @ scale) f.
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>ctof</TT></TD> 
+<TD><TT>ctof 0 100</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+&32@(*&1.8)</TD> 
+<TD><PRE>32 212</TD> 
+</PRE></TABLE> 
+<p>
+After this definition,, 
+the names <TT>scale</TT> and <TT>shift</TT> are still defined, 
+but are no longer important in the 
+definition of <TT>ctof</TT>. 
+<H3>10.1.1  Parametric Functions</H3>
+<p>
+A curve may be specified by  
+an equation such as, for example: 
+<PRE>
+      y  =   4 * lambda * x * (1 - x) 
+</PRE>
+<p>
+This equation describes a family of similar  
+parabolic curves, and different members of the family are  
+picked out by choosing different values for <TT>lambda</TT>.  
+<p>
+A J function to correspond to 
+this equation might be written explicitly as: 
+<PRE>
+   parab =: 3 : '4 * lambda * y. * (1 - y.)'
+</PRE>
+<p>
+Here <TT>lambda</TT> is not an argument to the  
+function, but a variable 
+which makes a difference to the result.  
+We say that <TT>lambda</TT> is a parameter, 
+or that the <TT>parab</TT> function is parametric.  
+<p>
+Now, can we write a tacit version of <TT>parab</TT> 
+without fixing <TT>lambda</TT> in advance? 
+Something like this perhaps? 
+  
+<TT>   parab1  =: ((4 * lambda) & *) * (1 & -)</TT> 
+<p>
+This won't do: <TT>lambda</TT> is unknown, so <TT>4 * lambda</TT> 
+can't be evaluated. How about this? 
+<PRE>
+   lambda =: 0.5
+   parab2 =: ((4 * lambda) & *) * (1 & -)
+   
+</PRE>
+<p>
+No good: <TT>lambda</TT> here is fixed in advance: 
+it is now a constant rather than a parameter. 
+<PRE>
+   parab2
+2&* * 1&-
+   
+</PRE>
+<p>
+In short, a fully tacit exact equivalent to <TT>parab</TT> 
+is not possible. We can come close by making 
+the parameter <TT>lambda</TT> a (constant) function rather than a number: 
+<PRE>
+   lambda =: 0.5 " 0
+   parab3 =: (4: * lambda) * (1&-)
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>parab3</TT></TD> 
+<TD><TT>parab3 0.5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>(4: * lambda) * 1&-</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+Now we can vary the parameter without 
+redefining the <TT>parab</TT> function: 
+<PRE>
+   lambda =: 0.75 " 0
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>parab3</TT></TD> 
+<TD><TT>parab3 0.5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>(4: * lambda) * 1&-</TD> 
+<TD><PRE>1.5</TD> 
+</PRE></TABLE> 
+<H2>10.2  Cases and Recursion</H2>
+<H3>10.2.1  Cases</H3>
+<p>
+Think of a number (some positive whole number).  
+If it is odd, multiply by 3 and then add 1. Otherwise, halve the number you thought of.  
+This procedure computes from 1 the new number 4, and from 4 the new number 2. 
+<p>
+To write a function to compute a new number according to this procedure, we will 
+need three verbs, say <TT>halve</TT> to halve, <TT>mult</TT> to multiply-and-add,  
+and <TT>odd</TT> to test for an odd number: 
+<PRE>
+   halve =: % & 2
+   mult  =: 1: + (* 3:)
+   odd   =: 2 & |
+</PRE>
+<p>
+Now our procedure for a new number can be written as an explicit verb: 
+<PRE>
+   NEW =: 3 : 0
+if. odd (y.) do. (mult y.)
+else.            (halve y.)
+end.
+)
+</PRE>
+<p>
+and equivalently as a tacit verb: 
+<PRE>
+   new =: (halve ` mult) @. odd
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>NEW 1</TT></TD> 
+<TD><TT>new 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>4</TD> 
+<TD><PRE>4</TD> 
+</PRE></TABLE> 
+<p>
+In the definition of <TT>new</TT> , the symbol <TT>`</TT> (backquote, called the "Tie" conjunction)  
+ ties together <TT>halve</TT> and <TT>mult</TT> to make a list of two verbs.  Then, 
+in evaluating <TT>(new y)</TT>,   
+the value of <TT>(odd y)</TT> is used to index the list <TT>(halve`mult)</TT>. Then the 
+selected verb is applied to <TT>y</TT>. That is, <TT>halve y</TT> or <TT>mult y</TT> is computed 
+accordingly as <TT>odd y</TT> is 0 or 1. 
+<p>
+In this example, we have two cases to consider: the argument is odd or not.  
+In general, there may be several cases. 
+The general scheme is, if <TT>u0</TT>, <TT>u1</TT> , ... <TT>un</TT> are verbs, 
+and <TT>t</TT> is a verb computing an integer in the range <TT>0</TT> .. <TT>n</TT>,   then 
+the verb: 
+<p>
+<TT>     foo =: u0 ` u1 ` ...` un  @. t   </TT> 
+<p>
+can be modelled by the explicit verb: 
+<PRE>
+   FOO =: 3 : 0
+if.     (t y.) = 0  do. u0 y. 
+elseif. (t y.) = 1  do. u1 y.
+
+NB. ...
+
+elseif. (t y.) = n  do. un y.
+end.
+)
+</PRE>
+<p>
+That is, verb <TT>t</TT> tests the argument <TT>y</TT> and then <TT>u0</TT> or <TT>u1</TT> or ... is applied to y 
+according to  whether <TT>(t y)</TT> is 0 or 1 or ....  Here is another example, with three cases. 
+<p>
+Suppose that, each month, a bank pays or charges interest  
+according to the balances of customers' accounts as follows. There are three cases: 
+<p>
+* If the balance is $100 or more, the bank pays interest of 0.5% 
+<p>
+* If the balance is negative, the bank charges interest at 2%.  
+<p>
+* Otherwise the bank pays or charges nothing. 
+<p>
+Three verbs, one for each of the three cases, could be:  
+<PRE>
+   pi =: * & 1.005        NB.  pay interest 
+   ci =: * & 1.02         NB.  charge interest
+   dn =: * & 1            NB.  do nothing
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>pi 1000</TT></TD> 
+<TD><TT>ci _100</TT></TD> 
+<TD><TT>dn 50</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1005</TD> 
+<TD><PRE>_102</TD> 
+<TD><PRE>50</TD> 
+</PRE></TABLE> 
+<p>
+Now we want a verb to compute, from a given balance, 0 or 1 or 2 as  
+the appropriate index into a list of three verbs 
+containing <TT>pi</TT> , <TT>ci</TT> and <TT>dn</TT>.   
+A somewhat heavy-handed but general method is 
+to write verbs to recognise each of the three cases, tried in order: 
+<PRE>
+   rpi =: >: & 100 NB. equal to or greater than 100
+   rci =: &lt; &  0   NB. otherwise, less than 0
+   rdn =: 1:       NB. otherwise 
+   
+</PRE>
+<p>
+and combine them into a case-recognising verb as follows: 
+<PRE>
+   recognise =: (i. & 1 ) @: (rpi, rci, rdn) 
+   
+   recognise " 0 (1000 _100 50)
+0 1 2
+   
+</PRE>
+<p>
+Now  we can put everything together:  
+the processing of a balance can be represented by the verb <TT>PB</TT> say: 
+<PRE>
+   PB =: pi ` ci ` dn @. recognise
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>PB 1000</TT></TD> 
+<TD><TT>PB _100</TT></TD> 
+<TD><TT>PB 50</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1005</TD> 
+<TD><PRE>_102</TD> 
+<TD><PRE>50</TD> 
+</PRE></TABLE> 
+<p>
+The argument of <TT>PB</TT> is expected to fall under  
+exactly one of the three possible cases,  
+in order to select exactly one verb (<TT>pi</TT> or <TT>ci</TT> or <TT>dn</TT>) 
+to apply to the whole argument. 
+<p>
+Hence, if the argument is a list such that different  
+items fall under different cases, then the <TT>PB</TT> function 
+must be applied separately to each item of its argument. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>PB 99 100</TT></TD> 
+<TD><TT>(PB "0 ) 99 100</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>100.98 102</TD> 
+<TD><PRE>99 100.5</TD> 
+</PRE></TABLE> 
+<H3>10.2.2  Recursion</H3>
+<p>
+To compute the sum of a list of numbers, we heve seen the verb <TT>+/</TT> but let us 
+look at another way of defining a summing verb. 
+<p>
+The sum of an empty list of numbers is zero,  
+and otherwise 
+the sum of a list is given by the first item plus 
+the sum of the remaining items. If we define three verbs, 
+to test for an empty list, to take the first item and to take the remaining 
+items: 
+<PRE>
+   empty =: # = 0:
+   first =: {.
+   rest  =: }.
+</PRE>
+<p>
+then the two cases to consider are: 
+an empty list, in which case we apply the <TT>0:</TT> function 
+to return zero, and 
+<p>
+a non-empty list, in which case we want the first  
+plus the sum of the rest: 
+<PRE>
+   Sum =: (first + Sum @ rest) ` 0:  @. empty 
+   
+   Sum 1 1 2
+4
+</PRE>
+<p>
+Here we see that the verb "Sum" recurs in its own definition 
+and so the definition is said to be recursive. 
+<p>
+In such a recursive definition, the name which recurs can be written as <TT>$:</TT> (dollar colon), 
+meaning "this function".  This enables us to write a recursive function 
+as an expression, without assigning a name. Here is the "Sum" function as an expression: 
+<PRE>
+   ((first+ $: @ rest) ` 0: @. empty)  1 2 3
+6
+   
+</PRE>
+<p>
+For another example, let us look at 
+Ackermann's function, celebrated for being extremely recursive.  Textbooks 
+show it in a form something like  
+this explicit definition of a dyad: 
+<PRE>
+   Ack =: 4 : 0
+if.       x. = 0  do.  y. + 1                     
+elseif.   y. = 0  do.  (x. - 1) Ack 1                 
+elseif.   1       do.  (x. - 1) Ack (x. Ack y. -1) 
+end.
+)
+   
+   2 Ack 3
+9
+</PRE>
+<p>
+A tacit version is due to Roger Hui (Vector, Vol 9 No 2, Oct 1992,  page 142): 
+<PRE>
+   ack =: c1 ` c1 ` c2 ` c3 @. (#. @(,&*))
+   
+   c1 =: >:@]                NB. 1 + y
+   c2 =: &lt;:@[ ack 1:         NB. (x-1) ack 1
+   c3 =: &lt;:@[ ack [ack &lt;:@]  NB. (x -1) ack x ack y -1
+   
+   2 ack 3
+9
+</PRE>
+<p>
+Notice that in the line defining <TT>c2</TT> the function is referred to as <TT>ack</TT>, not as <TT>$:</TT>,  
+because here <TT>$:</TT>  would mean <TT>c2</TT>. 
+<p>
+Here is yet another version. The tacit version can be made to look  
+a little more conventional by first defining <TT>x</TT> and <TT>y</TT> as the verbs <TT>[</TT> and <TT>]</TT>.  
+Also, we test for only one case on a line. 
+<PRE>
+   x =: [
+   y =: ]
+   
+   ACK =: A1 ` (y + 1:)                    @. (x = 0:)
+   A1  =: A2 ` ((x - 1:) ACK 1:)           @. (y = 0:)
+   A2  =:      (x - 1:) ACK (x ACK (y - 1:))
+   
+   2 ACK 3
+9
+   
+   
+</PRE>
+<H3>10.2.3  Iteration</H3>
+<p>
+Think of a number, double it, double that result, double again. 
+The result of three doublings is eight times the original number. 
+The built-in verb <TT>+:</TT> is "double",  
+and the verb "three doublings" can be written  
+using the "Power" conjunction (<TT>^:</TT>) as 
+<TT>+: ^: 3</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+: +: +: 1</TT></TD> 
+<TD><TT>(+: ^: 3 ) 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>8</TD> 
+<TD><PRE>8</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that for a verb <TT>f</TT> and 
+an integer <TT>n</TT>  
+<PRE>
+ (f ^: n) y  means  f f f ... f f f f  y 
+                    &lt;---  n f's  ---> 
+</PRE>
+<p>
+Notice that <TT>f ^: 0 y</TT> is just <TT>y</TT> and  
+then <TT>f ^: 1 y</TT> is <TT>f y</TT> . 
+For example ,recall the <TT>new</TT> verb 
+"halve or multiply-by-3-and-add-1 if odd". 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(new ^: 0) 6</TT></TD> 
+<TD><TT>(new ^: 1) 6</TT></TD> 
+<TD><TT>new 6</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>6</TD> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+With the Power conjunction we can generate a series 
+by  applying 
+<TT>new</TT> 0 times, once , twice and so on,  
+starting with 6 for example 
+<PRE>
+   (new ^: 0 1 2 3 4 5 6 ) 6
+6 3 10 5 16 8 4
+</PRE>
+<p>
+The expression <TT>f ^: _</TT>, where the Power conjunction 
+ is given a right argument 
+of infinity (<TT>_</TT>),  is a verb where <TT>f</TT> is applied  
+until a result 
+is reached which is the same as the previous result. 
+The scheme is: 
+<PRE>
+f ^: _ y    means    
+              r  such that r = f f ... f f y 
+                       and r = f r  
+</PRE>
+<p>
+Here is an example. Recall the <TT>parab</TT> function 
+we defined above. Setting the parameter 
+<TT>lambda</TT> to say, 0.7. Then  if we 
+repeatedly  applied to any argument in the neighbourhood 
+of <TT>0.5</TT>,  after 20 or so iterations the result will settle on a result of  
+about <TT>0.643</TT> 
+<PRE>
+   lambda =: 0.7
+   (9 !: 11) 4 NB. set print precision
+
+   
+   (parab ^: 0 1 2 3 4 5 6 _) 0.5
+0.5 0.7 0.588 0.6783 0.611 0.6655 0.6233 0.6429
+   
+</PRE>
+<p>
+and this value, <TT>r</TT> say, is called a fixed point of the  
+<TT>parab</TT> function because <TT>r = parab r</TT>  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>r =: (parab ^: _) 0.5 </TT></TD> 
+<TD><TT>parab r</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.6429</TD> 
+<TD><PRE>0.6429</TD> 
+</PRE></TABLE> 
+<H3>10.2.4  Iterating While </H3>
+<p>
+The right argument of the "Power" conjunction can be a verb 
+which computes the number of iterations to be performed. 
+The scheme is: 
+<PRE>
+(f ^: g) y  means  f ^: (g y) y 
+</PRE>
+<p>
+If <TT>g y</TT> computes <TT>0</TT> or <TT>1</TT>, then <TT>f</TT> will be applied  
+<TT>0</TT> times or <TT>1</TT> time: For example, here 
+is a verb which halves an even number 
+and leaves an odd number alone: 
+<PRE>
+   halve =: -:
+   even  =: 0: = 2 & |
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>foo =: halve ^: even </TT></TD> 
+<TD><TT>(foo " 0) 1 2 3 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>halve^:even</TD> 
+<TD><PRE>1 1 3 2</TD> 
+</PRE></TABLE> 
+<p>
+Now consider the function  
+<PRE>
+   w =: (halve ^: even) ^: _
+</PRE>
+<p>
+This means "halve if even, and keep doing this so long as the  
+result keeps changing". 
+In other words, while the argument is even, keep halving it. 
+<PRE>
+   w (3 * 16)
+3
+   
+</PRE>
+<p>
+The scheme is that a function written (<TT>f ^: g ^: _ </TT>) 
+can be modelled by an explicit definition: 
+<PRE>
+   model =: 3 : 0
+while. (g y.) 
+   do. y. =.  f y. 
+end.
+y.
+)
+   
+   f =: halve
+   g =: even
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(f ^: g ^: _) 3 * 16</TT></TD> 
+<TD><TT>model 3*16</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+This is the end of Chapter 10 
+  </tr> </table>
+
+<HR> 
+
+<p ALIGN=LEFT>
+<A HREF="11.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p><FONT SIZE=-2>Copyright &copy; Roger Stokes 1999. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 10 September 1999</p>
+</BODY>
+</HTML>

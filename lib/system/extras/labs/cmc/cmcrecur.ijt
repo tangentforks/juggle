@@ -1,0 +1,134 @@
+LABTITLE=: 'Recursion'
+
+NB. =========================================================
+Lab Section RECURSIVE DEFINITION
+
+If a function recurs in the expression that defines it, the function is said to be recursively defined. Such a definition must be supplemented by a definition for some specific argument, using an expression that does not make use of the function being defined.
+
+For example, the factorial of the argument j may be defined by j * f j-1 (or more formally by ] * f@<:), supplemented by the definition 1: for the case j=: 0. Thus:
+)
+f=: 1:`(]*f@<:) @. *
+
+f 5
+
+f"0 i. 6 NB. The function f is applied to each rank-0 cell
+
+NB. =========================================================
+Lab Section
+
+In the foregoing definition, the signum function * yields 0 if the argument is zero, and 1 if it is greater than zero.
+
+Consequently, the agenda @. chooses the last element of the gerund 1:`(]*f@<:) each time until the argument, repeatedly decremented by <:, becomes zero, in which case it chooses the constant function 1:, thus terminating the process.
+
+Alternatively, the imposition of zero rank could be incorporated in the recursive definition :
+)
+f=: 1:`(]*f@<:) @. * " 0
+
+f i. 6
+
+NB. =========================================================
+Lab Section
+
+The reference to f within the definition works only because the name f is assigned to the function defined; we may instead use the symbol $: for self-reference to define an anonymous function to which any name may be assigned:
+)
+1:`(]*$:@<:) @. * " 0 i. 6
+
+factorial=: 1:`(]*$:@<:) @. * " 0
+
+factorial i. 6
+
+NB. =========================================================
+Lab Section TOWER OF HANOI
+
+In this puzzle, discs are to be moved from post A to post B using post C, a larger disc never being placed on a smaller.
+
+The two expressions in GKP1.1 for the number of moves required for n discs lead to the following recursive definition:
+)
+T=: 0:`(1:+2:*T@<:) @. * " 0
+
+T x=: i. 10
+
+NB. =========================================================
+Lab Section
+
+This result suggests experiments that lead to an equivalent non-recursive definition:
+)
+1+T x
+
+2^x
+
+t=: (2: ^ ]) - 1:
+
+t x
+
+(T = t) x
+
+(T -: t) x	 NB. A tautology (true for any argument)
+
+NB. =========================================================
+Lab Section INDUCTIVE PROOF
+
+Properties of a function that is defined recursively can often be established inductively: a property is assumed to hold for a specific argument value j, and this assumption is used to prove that it must then hold for the argument j+1.
+
+It then remains to show that it does indeed hold for some specific value of the argument. For example, we will assume that the functions T and t agree for the argument j. Stated formally:
+
+(T=t) j       Induction Hypothesis
+)
+
+NB. =========================================================
+Lab Section
+
+We now establish that (T=t) j+1 is therefore true:
+
+(T=t) j+1
+
+(T j+1)=(t j+1)        NB. Definition of the fork T=t
+
+(T j+1)=((2^j+1)-1)    NB. Definition of t
+
+(T j+1)=((2*2^j)-1)    NB. Definition of power
+
+(T j+1)=(1+2*t j)      NB. Def of t and simple algebra
+
+(1+2*T j)=(1+2*t j)    NB. Definition of T
+
+(T j)=(t j)            NB. Simple algebra
+
+(T = t) j              NB. Definition of fork
+
+1                      NB. Induction hypothesis
+)
+
+NB. =========================================================
+Lab Section
+
+This inductive proof may be illuminated by first assigning some value to j and then executing any of the lines, or partial lines, of the proof. For example:
+)
+j=: 5
+
+(T j+1)=((2*2^j)-1)    NB. Definition of power
+
+(T j+1)
+
+((2*2^j)-1)
+
+NB. =========================================================
+Lab Section QUICKSORT
+
+Quicksort is based on three selections of elements of the argument list: those that are less than, equal to, and greater than, the leading element. To this end we define an operator S such that the functions <S and =S, and >S provide the desired selections.
+
+The following recursive definition of qs re-applies the function qs to two of these selections. Thus:
+)
+S=: 1 : '(] x. {.) # ]'
+
+qs=: ]`($:@(<S), =S, $:@(>S)) @. (1:<#)
+
+y =: 15 2 9 10 4 0 13 13 18 7
+
+qs y
+
+<S y
+
+=S y
+
+>S y

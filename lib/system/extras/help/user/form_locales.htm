@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Form Locales</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="other_message_handlers.htm">&gt&gt;</a>&nbsp;
+<a href="enter_info.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Form Locales</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+A key point about forms is that they may be created and run in any locale, in fact this would typically be the case. Forms can be created as a class, then instantiated as an object when they are to be run. For a description, see the labs on <I> Locales</I> and <I>Object Oriented Programming.</I>
+
+<P>
+When a form is created, the current locale is recorded as the form locale. This locale is part of the event information, and allows an event to be handled by the form handler in the locale.
+
+<P>
+For example, this means a form can be run in its own locale, without conflicting in any way with definitions in other locales. You can design a form in the base locale, and run it without change in another locale.
+
+<P>
+To experiment with this, switch to the J session, and clear out existing definitions in the base locale:
+
+<pre>
+   clear''
+</pre>
+
+<P>
+Check there are no definitions in the base locale:
+
+<pre>
+   names''
+</pre>
+
+<P>
+Load the form into a locale <code>myname</code>:
+
+<pre>
+   'myname' load 'system\examples\demo\name.ijs'
+</pre>
+
+<P>
+The form is shown. Change the name and click OK to close the form and update the global, <code>NAME</code>. Note that there are still no definitions in the base locale:
+
+<pre>
+   names''
+</pre>
+
+<P>
+However, there <I> are</I> definitions in the <code>myname</code> locale:
+
+<pre>
+   names_myname_''
+EDITNAME               NAME                   
+editname               editname_Cancel_button 
+editname_OK_button     wdq
+</pre>
+
+<P>
+Read the value of the name defined:
+
+<pre>
+   NAME_myname_
+Squirrel Nutkin
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="other_message_handlers.htm">&gt&gt;</a>&nbsp;
+<a href="enter_info.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,155 @@
+Format of the dictionary.txt files
+
+Lines starting with the character '#' in column 1 are comments
+and completely ignored.  They are intended to point out
+editorial changes, arguable layout etc.
+
+Each entry is a paragraph, beginning with an "N" section
+and terminated be an empty line.
+
+A paragraph is a sequence of sections.  A section starts with a
+code character in column 1.
+
+Some code letters are followed by a space and the
+contents in the rest of the line.
+
+Other code letters are followed by several lines of material which
+is then indented with a space.  Empty lines within such material
+still have their space in column 1 in order not to break the entry's
+paragraph.
+
+Code Letters
+
+N Name of the entry
+
+	The name is capitalized, as in "Item Amend".
+
+M symbol
+D symbol
+A symbol (+argument)
+C symbol (+argument(s))
+P symbol
+F [x] 3!:5 y
+I symbol (=. or =:)
+U symbol
+
+	Monad, dyad, adverb, conjunction, punctuation, foreign,
+	"Is", and "unclassified" with respect to the above.
+
+	There is no "V" for "verb".  M and D are used instead.
+	However, M and D are not used for !:-derived verbs.
+	In these cases, "F" entries are used.
+
+	Adverbs and conjunctions are often shown with different
+	arguments in the Dictionary, such as    m}  u} We continue
+	this practice here, in particular since the Rank spec often
+	depends on it.  To ease automated lookups, we require that,
+	for 'C mumble',   ~.(;:mumble)-. <"0 'mnuvxy()' returns
+	something suitable for a lookup.
+
+R (derived) rank(s)
+
+	A one, two, or three element spec "as usual", possibly
+	referring to "mu" etc.  The most complicated is for
+	Cut:  _ 1/2 _
+
+T
+	[multi-line, markup]
+	The proper definition of the item, ie. the whole text
+	of the Dictionary entries as for J versions 1 - 7, or
+	the boxed parts starting with J Release 2.  Also, all
+	of the text material in Parts I and II.
+
+	The text is written as a sequence of (internal) paragraphs
+	which are considered to be reformatted (but are, by and
+	large, reasonably pre-formatted for to width of roughly 55
+	characters).  Any post-processing *must* preserve the empty
+	lines separating the paragraphs.  Internal one-line paragraphs
+	are also used were line breaks need to be forced, for
+	example for an enumeration.  There are no special constructs
+	for things like tables, and single-line paragraphs are
+	often used as a poor but working substitute.
+
+	There are a few special bracket schemes for easy text
+	markup, though:
+
+	Embedded J phrases, even just a single "y", have to be
+	quoted using double brackets, as in [[#y]].
+	The double bracket is set off from the phrase with a space
+	if a similar bracket borders the phrase, as in [[# * ] ]].
+
+	Italic text from the Dictionary is transcribed using
+	"*(mumble)*" where emphasis is intended and "_(mumble)_"
+	where a special term is defined or used.
+
+	These bracket constructs must not span across lines.
+	Furthermore, none of the brackets appear in the running
+	text.  (Where necessary, a text such as "(5+3)*(5-3)"
+	was rewritten (e.g., into "(5+3) * (5-3)").)
+
+	The text is strictly 7-bit ASCII.  Special characters such
+	as Section signs or bullets have been rewritten.  For
+	example, "<=>" is used (throughout) as the sign for "is
+	equivalent to".
+
+	Likewise, the layout of the text was adopted to
+	this simple text format:
+
+	Side-by-side constructs have been "serialized".  Most
+	importantly, the parallel boxes for a monad and dyad
+	definition are affected by this; two separate but neighboured
+	entries are now used.  The hints and examples following
+	both boxes have been split or duplicated for the monad and
+	dyad as appropriate.  The split was the favored solution,
+	but when a split would destroy the illustration of a concept,
+	the entire example would rather be duplicated.
+
+	Beyond this reordering, examples have not been changed; in
+	particular, phrases demonstrating both the dyadic and
+	monadic application of a verb have been left untouched and
+	were duplicated.
+
+	Comments next to code have been rewritten into
+	"NB." comments.
+
+
+E
+	[multi-line]
+	A series of example J phrases, without the computed answers.
+	The answers are supposed to be provided by post-processing
+	from/with J.
+
+	Each entry starts "from a clean slate".  Definitions can be
+	made in one E section and used in the next, as long as they
+	are in the same "N" entry.  The standard library is not assumed,
+	the examples may demonstrate errors, and even create files.
+
+	E sections can appear both together with T or C sections.
+
+H
+	[multi-line, markup]
+	Further hints, remarks, and comments for the entry, as
+	found after the boxes.  The first H section terminates the
+	T+E reference section(s).  Sometimes an empty H section is
+	used to separate further Examples from the reference T+E
+	sections.
+
+|	[multi-line, no markup]
+|	displays of tabular material
+|	or "ascii art" is written
+|	using styles in the first
+|	column.
+|	During output, spaces are
+|	retained and a constant-width
+|	font is to be used.
+|	Displays can appear with T and H sections.
+
+Order and repetitions
+
+	N		exactly once
+	[MDACFPIU]	once typically, but not at all
+			for the informal Chapters/Sections
+			(mostly of Parts I + II).
+	R		once for MDAC
+	T { E|T ...}	mandatory
+	H { E|H ...}	optional

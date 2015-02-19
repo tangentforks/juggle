@@ -1,0 +1,19 @@
+NB. project file: c:\mn\j\projects\lab\lab
+
+coclass 'jproject'
+
+PRIMARYFILES=: 'c:\mn\j\projects\lab\lab'
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+STARTUP=: ''
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: '0'

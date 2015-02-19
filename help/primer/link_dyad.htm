@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Link - dyad ;</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="open_monad.htm">&gt&gt;</a>&nbsp;
+<a href="box_monad.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Link - dyad ;</h1><TR><TD>
+
+<P>The dyad <TT>;</TT> (link) makes it easy to create a list of boxed nouns.
+</P>
+<PRE>   2 3 4 ; 4 7 9
++-----------+
+¦2 3 4¦4 7 9¦
++-----------+
+
+   'abc' ; 5 7 9
++---------+
+¦abc¦5 7 9¦
++---------+
+
+   (2 3 $ 'abcdef') ; (i. 3 4) ; 23
++----------------+
+¦abc¦0 1  2  3¦23¦
+¦def¦4 5  6  7¦  ¦
+¦   ¦8 9 10 11¦  ¦
++----------------+
+
+</PRE><P>Look link up in the J Dictionary. Note that its dyad rank is <TT>_ _</TT> so it applies to its entire left and entire right argument. It always boxes its left argument, and its right argument is boxed only if not already boxed. Boxing its right argument only if not already boxed makes the following work:</P>
+
+<PRE>   'abc' ; 'defg' ; 'hijkl'
++--------------+
+¦abc¦defg¦hijkl¦
++--------------+
+</PRE>
+<P>This is evaluated from right-to-left as:
+</P>
+<PRE>   'abc' ; ('defg' ; 'hijkl')
+</PRE>
+<P>So the right argument to the leftmost link is already boxed, and will not be boxed again. Boxed again? What would that look like?</P>
+
+ 
+<PRE>   'abc' ; < 'defg' ; 'hijkl'
++----------------+
+¦abc¦+----------+¦
+¦   ¦¦defg¦hijkl¦¦
+¦   ¦+----------+¦
++----------------+</Pre>
+
+<P>Boxes can be nested!
+</P>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="open_monad.htm">&gt&gt;</a>&nbsp;
+<a href="box_monad.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,15 @@
+This is "pwgen", a simple-as-can-be random password/token/identifier
+generator.
+
+(C)opyright 1996,1999 Martin Neitzel / Gaertner Datensysteme.  Put into the
+public domain for any use, no restrictions apply.
+
+For installation,
+(1) adjust the proper destination paths in the Makefile,
+(2) enable the #define in the source if your Unix supports
+    a /dev/random pseudo device and you think you really need
+    this feature [note that reading from that device can be slow]
+(3) run "make", check it out
+(4) run "make install"
+
+That's all, folks.

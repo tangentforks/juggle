@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>Adverbs &amp; Conjunctions</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="explicit_def.htm">&gt&gt;</a>&nbsp;
+<a href="ambivalent_functions.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Adverbs And Conjunctions</h1></td></TR>
+<TR><TD colspan="2">
+<table border="0" width="500"><tr><td>
+<B><P>Adverbs From Conjunctions
+</P></B>
+<P>A conjunction together with one of its arguments produces an adverb defined in an obvious way. For example, if <TT>a1=: &3</TT>, then <TT>^ a1</TT> is equivalent to <TT>^&3 3 </TT>(the cube function), and if <TT>a2=: 3&</TT> then <TT>^ a2</TT> is equivalent to <TT>3&^</TT> (the three-to-the-power function). It is therefore easy to define useful families of adverbs from a conjunction, so easy that it is fruitless to attempt an exhaustive catalogue. The following list is intended to suggest the possibilities in various classes:</P>
+
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD>a0=: I=: ^:_1</TD>	<TD>Inverse <TT>(^I</TT> is <TT>^.)</TT></TD>
+  </TR><TR><TD>a1=:  L=: ^:_</TD>	<TD>Limit <TT>(2&o.L 1</TT> for soln of y=cos y)</TD>
+  </TR><TR><TD>a2=: LI=: ^:__</TD>	<TD>Limit of inverse</TD>
+  </TR><TR><TD>a3=: SQ=: ^:2</TD>	<TD>Square <TT>(1&o.SQ</TT> for sine squared)</TD>
+  </TR><TR><TD>a4=: C=: &o.</TD>	<TD>Family of circular <TT>fns (3 C </TT>is tangent)</TD>
+  </TR><TR><TD>a5=: CO=: %@C</TD>	<TD><TT>3 CO</TT> is cotangent</TD>
+  </TR><TR><TD>m6=: rfd=: 1r180p1&*</TD> 	<TD>Radians from degrees</TD>
+  </TR><TR><TD>m7=: dfr=: rfd I</TD>	<TD>Use <TT>dfr=: dfr f.</TT> to fix definition</TD>
+  </TR><TR><TD>a8=: D=: @rfd</TD>	<TD>Try <TT>1 C D 0 30 45 60 90 180</TT></TD>
+  </TR><TR><TD>m9=: SIN=: 1&o. D</TD>	<TD>Sine for degree arguments</TD>
+  </TR><TR><TD>a10=: T=: "2</TD>	<TD>Try <TT>&lt;T I. 2 3 4 3</TT> (BOX TABLES)</TD>
+  </TR><TR><TD>a11=: S=: ^!.</TD>	<TD>Stope (rising or falling factorial fn etc)</TD>
+  </TR><TR><TD>a12=: P=: p.!.</TD>	<TD>Stope polynomial</TD>
+  </TR><TR><TD>a13=: FILL=: |.!.</TD>	<TD>Fill for shift (non-cyclic rotate)</TD>
+  </TR><TR><TD>a14=:  FILE=: 1!:</TD>	<TD>File functions (<TT>1 FILE</TT> for read, etc.)</TD></TR>
+</TABLE>
+
+
+<B><P>Explicit Definitions</P></B>
+
+<p>Especially for a beginner, it may be easier to read and write the definition of an adverb or conjunction in explicit form. In some cases a tacit definition is not possible; when it is it may be obtained from the explicit form by using the forms <TT>11 :</TT> and <TT>12 :</TT> instead of <TT>1 :</TT> and <TT>2 :</TT> for establishing the definitions. For example:</p></table>
+
+<PRE>   split=: 2 : ',.@(x.@(y.&{.) ; x.@(y.&}.))'
+   ]x=: i. 5 3
+ 0  1  2
+ 3  4  5
+ 6  7  8
+ 9 10 11
+12 13 14
+
+   (+: split 2 ,. |. split 3 ,. +/ split 2) x
++--------------------------+
+¦0 2  4  ¦6 7 8   ¦3 5 7   ¦
+¦6 8 10  ¦3 4 5   ¦        ¦
+¦        ¦0 1 2   ¦        ¦
++--------+--------+--------¦
+¦12 14 16¦12 13 14¦27 30 33¦
+¦18 20 22¦ 9 10 11¦        ¦
+¦24 26 28¦        ¦        ¦
++--------------------------+
+
+   tacitsplit=: 12 : ',.@(x.@(y.&{.) ; x.@(y.&}.))'
+   split
+2 : ',.@(x.@(y.&{.) ; x.@(y.&}.))'
+
+   tacitsplit
+,. @ (([. @ (]. & {.)) ; ([. @ (]. & }.)))</PRE>
+
+
+<table border="0" width="500"><tr><td>
+<P> Note that none of the spaces in the display of tacitsplit are required.
+</P> 
+
+
+<TABLE BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%" align="center">
+  <TR><TD><TT>c15=: ,.@([.@(].&{.);([.@(].&}.)))</TT></TD>	<TD>Tacit split as defined above</TD>
+  </TR>
+  <TR><TD><TT>d16=: by=: ' '&;@,.@[,.]</TT></TD>	<TD>Verbs for use in the table adverb below</TD>
+  </TR><TR><TD><TT>d17=: over=: ({.;}.)@":@,</TT></TD><TD>&nbsp;</TD>	
+  </TR><TR><TD><TT>a18=: tab=: 1 :'[ by ]over x./'</TT></TD>	<TD>Try <TT>1 2 3 *tab 4 5 6 7</TT></TD>
+  </TR>
+</TABLE>
+
+<B><P>Noun Arguments</P></B>
+
+<P>Adverbs that apply to a noun argument, and conjunctions that apply to one noun argument and one verb argument are commonplace. For example:</P></td></tr></table>
+
+<pre>   x=: 0 0 1 1 [ y=: 0 1 0 1
+   x *. y				Boolean and
+0 0 0 1
+
+   x 1 b. y			Boolean adverb
+0 0 0 1
+
+   x (i.16) b. y			All sixteen Boolean functions
+0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1
+0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1
+0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1
+0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+
+   C=: &o.			Circle adverb
+   1 C 0 1r4p1 1r3p1 1r2p1 1p1	Sine  function
+0 0.7071068 0.8660254 1 0
+
+   ^&3 x=: i. 6	 		Cube
+0 1 8 27 64 125
+
+   2 |. !. 1 x			Shift in ones
+2 3 4 5 1 1</pre>
+
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P>Conjunctions that apply to two nouns are less familiar, although the definitions of functions in terms of nouns occur frequently in math. For example, a <I>rational </I>function (the quotient of a polynomial <TT>a&p.</TT> divided by another <TT>b&p.</TT>) is defined by a pair of coefficients. Thus:</P></TD></TR></TABLE>
+
+<PRE>   a=: 1 4 6 4 1 [ b=: 1 2 1
+   RAT=: [. & p. % (]. & p.)
+   a RAT b
+1 4 6 4 1&p. % 1 2 1&p.
+
+   a RAT b y=: i.6
+1 4 9 16 25 36
+
+   b RAT a y
+1 0.25 0.111111 0.0625 0.04 0.0277778
+
+   (a RAT b * b RAT a) y
+1 1 1 1 1 1</PRE>
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P>We may also remark that expressions such as 2 x<SUP>3</SUP> and 2 x<SUP>3</SUP>  + 4 x<SUP>2</SUP> are commonly used in elementary math to define functions rather than to indicate explicit computation: the x in the foregoing can be construed (and defined) as a conjunction such that 2 x 3 is the function <TT>2:*]^3:</TT> . Thus:</P></TD></TR></TABLE>
+
+<PRE>   x=: [.&* @ (^&].)"0
+   2 x 3
+2&*@(^&3)"0
+
+   2 x 3 y=: 0 1 2 3 4 5
+0 2 16 54 128 250
+
+   2 * y ^ 3
+0 2 16 54 128 250
+
+   2 3 5 x 1 2 4 y
+ 0  0    0
+ 2  3    5
+ 4 12   80
+ 6 27  405
+ 8 48 1280
+10 75 3125
+</PRE>
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The last result above gave the values of the individual terms; in order to obtain their sums (and yet retain the behaviour for a single term), we redefine the conjunction x as follows:</P></TD></TR></TABLE>
+
+<PRE>   x=: +/@([.&*@ (^&].))"0
+   2 3 5 x 1 2 4 y
+0 10 96 438 1336 3210
+
+   (2 x 1 + 3 x 2 + 5 x 4) y
+0 10 96 438 1336 3210
+
+   2 x 3 y
+0 2 16 54 128 250
+</PRE>
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<TR>  <TD><TT>c19=: RAT=: [. & p. % (]. & p.)</TT></TD><TD>Produces rational function</TD>
+</TR>  
+<TR><TD><TT>c20=: x=: +/@([.&* @ (^&].))"0</TT></TD><TD>Mimics notation of elementary math</TD>
+</TR>
+
+<TR><TD><TT>c21=: bind=: [.@("_)</TT></TD>	<TD>Binds <TT>y</TT> to the monad <TT>x</TT></TD></TR>
+</TABLE>
+
+
+<P>It is often convenient to bind an argument to a monad, producing a function that ignores its argument. For example, using <TT>wdinfo</TT>, a monad that displays its argument in a message box, the definition <TT>fini=: wdinfo bind 'Job Finished'</TT> produces a function such that <TT>fini''</TT> is equivalent to <TT>wdinfo 'Job Finished'</TT>.</P></TD></TR></TABLE>
+
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="explicit_def.htm">&gt&gt;</a>&nbsp;
+<a href="ambivalent_functions.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

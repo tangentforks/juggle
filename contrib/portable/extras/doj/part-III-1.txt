@@ -1,0 +1,3178 @@
+
+N Self classify
+M =
+R _
+T
+ [[=y]] classifies the items of the nub of [[y]]
+ (that is, [[~.y]]) according to equality
+ with the items of [[y]], producing a boolean
+ table of shape [[#~.y]] by [[#y]].
+E
+ y=: 3 3 $ 'abcdef'
+ y ; (~.yy) ; (=y)
+H
+ Both the monadic and dyadic cases of the
+ verb [[=]] apply to nouns of any rank, and to
+ boxed as well as simple nouns.
+E
+ ]a=: ;: 'Try and try and try again.'
+ ~.a
+ =a
+ a= <'and'
+H
+ Because of the limited precision of the
+ computer, results which should agree
+ (such as [[144 * (13%144)]] and [[13]]) may not;
+ the tolerant comparison allows such
+ a comparison to show agreement
+ (a result [[1]]).  More or less stringent
+ comparisons may be made by using the
+ conjunction [[!.]] to specify a tolerance [[t]],
+ as in the function [[eq=: =!.t]].
+
+N Equal
+D =
+R 0 0
+T
+ [[x=y]] is [[1]] if [[x]] is equal to [[y]], and is
+ otherwise [[0]].
+ The comparison is made with tolerance [[t]],
+ normally [[2]] to the power [[_44]] but also
+ controlled by the fit conjunction [[!.]],
+ as in [[x=!.0 y]].  Formally, [[x=y]] is [[1]] if the
+ magnitude of [[x-y]] does not exceed [[t]] times
+ the larger of the magnitudes of [[x]] and [[y]].
+ 
+ Tolerance applies similarly to other verbs
+ as indicated for each, notably to Match ([[-:]]),
+ to Floor ([[<.]]), and to Signum ([[*]]), but not
+ to Grade ([[/:]]).
+H
+ Both the monadic and dyadic cases of the
+ verb [[=]] apply to nouns of any rank, and to
+ boxed as well as simple nouns.
+E
+ ]a=: ;: 'Try and try and try again.'
+ ~.a
+ =a
+ a= <'and'
+H
+ Because of the limited precision of the
+ computer, results which should agree
+ (such as [[144 * (13%144)]] and [[13]]) may not;
+ the tolerant comparison allows such
+ a comparison to show agreement
+ (a result [[1]]).  More or less stringent
+ comparisons may be made by using the
+ conjunction [[!]]. to specify a tolerance [[t]],
+ as in the function [[eq=: =!.t]].
+
+N Copula (Is) Local
+I =.
+T
+ The copula is used to assign a referent
+ to a name, as in [[a=:3]] and in [[sum=:+/]].
+ The copula [[=.]] is local as discussed under
+ Explicit Definition ([[:]]), and [[=:]] is global.
+ Copulas may also be used indirectly, with
+ the name or names specified as a character
+ list or a boxed list; moreover, if the
+ character list begins with [[`]] then gerund
+ referents are evoked.
+E
+ f=: 3 : 0
+  a=. +:y.
+  b=: *:a
+  10*b
+ )
+ 
+ a=: b=: 678
+ a,b
+ 
+ f 3
+ a,b
+ 
+ x=: 'abc';'c'
+ (x) =: 3 4 ; 5 6 7
+ abc
+ c
+H
+ Note that the parentheses around the name
+ [[x]] force it to be evaluated before the
+ assignment specified by the copula is
+ effected.
+E
+ 'alpha beta'=: i.2 4
+ alpha
+ beta
+ 
+ '`sum sqrt'=: +/ ` %:
+ sum 3 1 4 2
+ sqrt 2
+
+N Copula (Is) Global
+I =:
+T
+ The copula is used to assign a referent
+ to a name, as in [[a=:3]] and in [[sum=:+/]].
+ The copula [[=.]] is local as discussed under
+ Explicit Definition ([[:]]), and [[=:]] is global.
+ Copulas may also be used indirectly, with
+ the name or names specified as a character
+ list or a boxed list; moreover, if the
+ character list begins with [[`]] then gerund
+ referents are evoked.
+E
+ f=: 3 : 0
+  a=. +:y.
+  b=: *:a
+  10*b
+ )
+ 
+ a=: b=: 678
+ a,b
+ 
+ f 3
+ a,b
+ 
+ x=: 'abc';'c'
+ (x) =: 3 4 ; 5 6 7
+ abc
+ c
+H
+ Note that the parentheses around the name
+ [[x]] force it to be evaluated before the
+ assignment specified by the copula is
+ effected.
+E
+ 'alpha beta'=: i.2 4
+ alpha
+ beta
+ 
+ '`sum sqrt'=: +/ ` %:
+ sum 3 1 4 2
+ sqrt 2
+
+N Box
+M <
+R _
+T
+ [[<y]] is an _(atomic encoding)_ of [[y]], as
+ discussed in Section II A.  The result has rank [[0]],
+ and is _(decoded)_ by [[>]].
+H
+ Boxing is also affected by verbs such as Link ([[;]])
+ and Word Formation ([[;:]]):
+E
+ (<'abc'),(<5 7),(i.2 3)
+ ;:'Now is the time'
+ ] a=: 2;3 5;7 11 13
+ > a
+H
+ Cut ([[;.]]) with [[<]] has several uses (chosen by
+ the right argument);  the phrase [[<@v]] avoids the
+ padding (and some domain errors) that may result from
+ applying [[v]] alone:
+E
+ <;._1 '/i sing/of olaf/'
+ i."(0) 2 3 4
+ <@i."(0) 2 3 4
+H
+ If [[y]] is a high-rank array, [[<"_1 y]] or [[<"_2 y]]
+ often gives a more intelligible display than [[y]]
+ itself.  The display of a boxed array would normally
+ be corrupted by control characters (such as carriage
+ returns and linefeeds) occurring therein; in the
+ display such characters are replaced by spaces.  For
+ example, try [[< 8 32 $ a.]].
+
+N Less Than
+D <
+R 0 0
+T
+ [[x<y]] is [[1]] if [[x]] is tolerantly less than
+ [[y]].  See Equal ([[=]]) for a definition of
+ tolerance.  [[<!.t]] uses tolerance [[t]].
+
+N Floor
+M <.
+R 0
+T
+ [[<.y]] gives the _(floor)_ of [[y]], that is, the
+ largest integer less than or equal to [[y]].  Thus:
+E
+ <. 4.6 4 _4 _4.6
+T
+ The implied comparison with integers is tolerant, as
+ discussed under Equal ([[=]]), and is controlled by
+ [[<.!.t]].   See below for complex arguments.
+H
+ For a complex argument, the definition of [[<.]] is
+ modelled by:
+E
+ floor=: j./@(ip+(c2>c1),c1+:c2)
+ '`c1 c2 fp ip'=:(1:>+/@fp)`(>:/fp)`(+.-ip)`(<.@+.)
+H
+ As developed by McDonnell [10], this function has the
+ following properties:
+ 
+ Convexity:  If [[(<.z1)=(<.z2)]] and [[z3]] lies on a
+ line between [[z1]] to [[z2]], then [[(<.z3)=(<.z1)]].
+ 
+ Translatability:  If [[z4]] is a Gaussian integer,
+ then [[(z4+<.z5)=(<.z4+z5)]].
+ 
+ Compatibility:  [[(<.x j.0)=((<.x)j.0)]] and
+ [[(<.0 j.x)=(0 j.(<.x))]]
+ 
+ The function [[<.]] can be viewed as a tiling by
+ rectangles of unit area, all arguments within a
+ rectangle sharing the same floor.  One rectangle has
+ vertices at [[1j0]] and [[0j1]], with the other side
+ passing through the origin.  Rectangles along
+ successive diagonals are displaced by one-half the
+ length.
+ 
+ The phrase [[j./@ip]] "floors" the individual parts of
+ a complex argument.  Moreover, the floor [[<.y]] is
+ equivalent to [[->.-y]].  In other words, it is the
+ dual of _(ceiling)_ with respect to (that is,
+ _(under)_) arithmetic negation:
+ [[<.]] <=> [[>.&.-]] and [[>.]] <=> [[<.&.-]].
+ Thus:
+E
+ (>.&.- ; <.) 4.6 4 _4 _4.6
+H
+ The expression [[<.x=0.5]] gives the integer
+ *(nearest)* to the real argument [[x]], and
+ [[<.z+0.5j0.5]] gives the Gaussian integer nearest to
+ [[z]].  The number of digits needed to represent an
+ integer is gien by one plus the floor of its base ten
+ logarithm:
+E
+ a ,. (,. 1:+<.) 10^. a=: 9 10 11 99 100 101
+
+N Lesser Of (Min)
+D <.
+R 0 0
+T
+ [[x<.y]] is the lesser [[x]] and [[y]].
+ For example:
+E
+ 3 <. 4 _4
+ <./7 8 5 9 2
+ <./\7 8 5 9 2
+
+N Decrement
+M <:
+R 0
+T
+ [[<:]] is [[y-1]].  For example:
+E
+ <: 2 3 5 7
+T
+ Also see Not ([[-.]])
+H
+ The inverse of [[<:]] is [[>:]] (Increment).
+ For example:
+E
+ n=:5
+ <: ^: _1 n
+ <: ^: 0 1 2 n	NB. Here ^: applies to a noun right argument (0 1 2)
+ <: ^: i. n	NB. Here ^: applies to a verb right argument (i.)
+ */ <: ^: i. n
+ f=: */ @ (<: ^: i.)
+ f n
+ f"0 i. n
+ (f"0 = !) i. n
+
+N Less Than or Equal
+D <:
+R 0 0
+T
+ [[x<:y]] is [[1]] if [[x]] is less than or equal to
+ [[y]], and is otherwise [[0]].  See Equal ([[=]]) for
+ a discussion of tolerance.  The fit conjunction
+ ([[!.]]) applies to [[<:]].
+H
+E
+ <:/ ~ i. 5	NB. Table of the dyad <:
+
+N Open
+M >
+R 0
+T
+ Open is the inverse of box, that is, [[><y]] is [[y]].
+ When applied to an open array (that has no boxed
+ elements), open has no effect.  Opened atoms are
+ brought to a common shape as discussed in Sec. II B.
+H
+ Since the rank of open is [[0]], it applies to each
+ atom of its argument.  For example:
+E
+ ]a=: 1 2 3;4 5 6;7 8 9
+ >a
+H
+ Results of different shapes are padded as defined in
+ Section II B.  For example:
+E
+ (>1;2 3;4 5 6); (>'a';'bc';'def'); (<\i.4); (><\i.4)
+
+N Larger Than
+D >
+R 0 0
+T
+ [[x>y]] is [[1]] if [[x]] is tolerantly larger than
+ [[y]].  See Equal ([[=]]) for a discussion of tolerance.
+ For example:
+E
+ 1 2 3 4 5 > 5 4 3 2 1
+T
+ Tolerance [[t]] is provided by [[>!.t]].
+H
+E
+ </~ i.5		NB. Table of the dyad <
+ 1 < 1+10^-8+i.15	NB. Tolerant comparison
+ 1 <!.(0) 1+10^-8+i.15	NB. Exact comparison (0-tolerance)
+
+N Ceiling
+M >.
+R 0
+T
+ [[>.y]] gives the _(ceiling)_ of [[y]], that is, the
+ smallest integer greater than or equal to [[y]].
+ Thus:
+E
+ >. 4.6 4 _4 _4.6
+T
+ The implied comparison with integers is tolerant, as
+ discussed under Equal ([[=]]), and is controlled by
+ [[>.!.t]].  See Floor ([[<.]]) and McDonnell [10] for
+ complex arguments.
+H
+ The comparison [[x = >. x]] determines whether [[x]]
+ is an integer.  Thus:
+E
+ Integer_test=: ] = >.	NB. See the definition of fork in Section II F.
+ Integer_test 3 3.14 _5
+ 
+ f=: = >.	NB. The same function may be defined by a hook.
+ f 3 3.14 _5
+H
+ The _(ceiling)_ [[>.y]] is equivalent to [[-<.-y]].
+ In other words, it is the dual of _(floor)_ with
+ respect to (that is, _(under)_) arithmetic negation:
+ [[>.]] <=> [[<.&.-]] and [[<.]] <=> [[>.&.-]].
+ For example:
+E
+ (<.&.- ; >.) 4.6 4 _4 _4.6
+
+N Larger Of (Max)
+D >.
+R 0 0
+T
+ [[x>.y]] is the larger of [[x]] and [[y]].  For
+ example:
+E
+ 3>.4 _4
+ >./7 8 5 9 2
+ >./\7 8 5 9 2
+
+N Increment
+M >:
+R 0
+T
+ [[>:y]] is [[y+1]].  For example:
+E
+ >: 2 3 5 7
+T
+ Also see Not ([[-.]])
+H
+E
+ +: i. 6		NB. Even numbers
+ >: +: i. 6		NB. Odd numbers
+ odds=: >:@+:@i.
+ odds 10
+ +/ odds 10
+ (+/@odds , *:) 10	NB. Sum of first n odds equals the square of n
+
+N Larger or Equal
+D >:
+R 0 0
+T
+ [[x>:y]] is [[1]] if [[x]] is tolerantly greater than
+ or equal to [[y]].
+ 
+ See Equal ([[=]]) for a discussion of tolerance.
+ [[>:!.t]] uses tolerance [[t]].
+H
+E
+ >:/ ~ i. 5		NB. Table of the dyad >:
+
+N Negative Sign and Infinity
+U _
+T
+ The symbol [[_]] followed by a digit denotes a
+ negative number (as in [[_3.4]]), and denotes infinity
+ when used alone, or negative infinity (in [[__]]).  It
+ is also used in names, as discussed in Part I and in
+ Part II Section I.
+H
+ For example:
+E
+ 2 % 0			NB. Two divided by zero
+ 10 ^. 0		NB. Base ten logarithm of zero
+ _2 _3 + 5
+ integer_test=: =<.	NB. Use of break in name
+ integer_test  3 3.5
+H
+ Although [[-2]] may sometimes be used instead of
+ [[_2]], it is important to understand that the former
+ is the application of a function to the number [[2]],
+ whereas the symbol [[_]] is an indivisible part of the
+ number representation, just as the period is an
+ indivisible part of a number such as [[8.9]].
+
+N Indeterminate
+U _.
+T
+ The indeterminate [[_.]] results from such expressions
+ such as [[_-_]] (infinity minus infinity) and from
+ expressions (such as [[3+_.]]) in which an
+ indeterminate occurs.
+
+N Infinity
+M _:
+R _
+T
+ [[_:]] is a _(constant)_ function that yields an
+ infinite result, that is, [[_: y]] is [[_]].
+H
+ For example:
+E
+ y=: 1 2 3 4
+ _: y
+ _:"0 y			NB. Rank zero applies to each element
+H
+ Other constant functions include [[_9:]] and [[_8:]]
+ etc. to [[9:]].  More generally, the expression
+ [[x"r]] defines a constant function of rank [[r]] that
+ yields the constant value [[x]].  For example:
+E
+ 3.14"0 y
+ 3.14"1 y
+H
+ The specific constant functions mentioned can
+ therefore be written alternatively as [[_"_]] and
+ [[_9"_]] and [[0"_]] and [[9"_]], etc.
+
+N Infinity
+D _:
+R _ _
+T
+ [[_:]] is a _(constant)_ function that yields an
+ infinite result, that is, [[_: y]] is [[_]].
+H
+ For example:
+E
+ y=: 1 2 3 4
+ _: y
+ _:"0 y			NB. Rank zero applies to each element
+H
+ Other constant functions include [[_9:]] and [[_8:]]
+ etc. to [[9:]].  More generally, the expression
+ [[x"r]] defines a constant function of rank [[r]] that
+ yields the constant value [[x]].  For example:
+E
+ 3.14"0 y
+ 3.14"1 y
+H
+ The specific constant functions mentioned can
+ therefore be written alternatively as [[_"_]] and
+ [[_9"_]] and [[0"_]] and [[9"_]], etc.
+
+N Conjugate
+M +
+R 0
+T
+ [[+ y]] is the _(conjugate)_ of [[y]].  For example,
+ [[+3j4]] is [[3j_4]].
+H
+ A complex number [[y]] multiplied by its conjugate
+ produces a real number equal to the square of its
+ magnitude [[|y]].  For example:
+E
+ 3j4 * 3j_4
+H
+ The function [[j.]] multiplies its argument by the
+ square root of negative one:
+E
+ ]i=: i. 5
+ j. i
+ ]y=: i + 2 * j. i
+ +y
+ y * +y
+ %: y * +y
+ |y
+H
+ The conjugate of [[y]] can also be expressed as
+ [[(|y*y)%y]].  For example:
+E
+ (|y*y)%y
+
+N Plus
+D +
+R 0 0
+T
+ [[+]] is defined as in elementary arithmetic, and is
+ extended to complex numbers as usual.
+
+N Real/Imaginary
+M +.
+R 0
+T
+ [[+.y]] yields a two-element list of the real and
+ imaginary parts of its argument.  For example,
+ [[+.3j5]] is [[3 5]], and [[+.3]] is [[3 0]].
+H
+E
+ ]y=: i+2*j. i=: i.4
+ +. y
+
+N GCD (Or)
+D +.
+R 0 0
+T
+ [[x+.y]] is the _(greatest common divisor)_ of [[x]]
+ and [[y]].  If the arguments are boolean ([[0]] or
+ [[1]]), the functions [[+.]] and [[*.]] are equivalent
+ to logical _(or)_ and _(and)_.  The function [[-.]]
+ similarly restricted is _(not)_.
+H
+ The greatest common divisor divides both of its
+ arguments [[x]] and [[y]] to produce results that have
+ no common factor, that is, the GCD of the quotients is
+ [[1]].  Moreover, these quotients represent the
+ fraction [[x%y]] in lowest from.  For example:
+E
+ x=: 24 [ y=: 60
+ x;y;(x +. y);((x , y) % (x +. y))
+ lff=: , % +.		NB. Gives lowest form of fraction 
+H
+ Since the functions [[=|]] and [[=<.]] (tests for
+ non-negative and for integer) produce boolean results,
+ the phrase [[(=|)+.(=<.)]] is a test for non-negative
+ *(or)* integer:
+E
+ (test=: (=|) +. (=<.)) _2 _2.4 3 3.5
+H
+ The duality of _(or)_ and _(and)_ may be shown as
+ follows:
+E
+ d (+./ ; *.&.-./ ; *./ ; +.&.-./) d=: 0 1
+
+N Double
+M +:
+R 0
+T
+ [[+: y]] is twice [[y]].  For example:
+E
+ +: 3 0 _2
+H
+ Since the square of the sum of two arguments equals
+ the sum of their squares and *(twice)* their product,
+ the following functions are equivalent:
+E
+ f=: + * +
+ g=: *:@[ + +:@* + *:@]
+H
+ For example:
+E
+ x=: 7 6 3 [ y=: 6 5 3
+ x (f ; g ; (f=g) ; (f-:g)) y
+
+N Not-Or
+D +:
+R 0 0
+T
+ [[x +: y]] is the negation of [[x]] _(or)_ [[y]].  For
+ example, [[0 +: 0]] is [[1]].
+H
+ Since the domain of not-or is limited to zero and one,
+ its entire behaviour can be seen in the following
+ function tables:
+E
+ d=: 0 1		NB. Domain of nor
+ d +:/ d		NB. Table of nor
+ d +./ d		NB. Table of or
+ -. d +./ d		NB. Negation of table of or
+ (+:&.-./~d) ; (*:/~d)	NB. Nand and nor are duals under not
+
+N Signum
+M *
+R 0
+T
+ [[*y]] is [[_1]] if [[y]] is negative, [[0]] if it is
+ zero, [[1]] if it is positive; more generally, [[*y]]
+ is the intersection of the unit circle with the line
+ from the origin through the argument [[y]] in the
+ complex plane.  For example:
+E
+ *_3 0 5 3j4
+T
+ The comparison with zero is tolerant, as defined by
+ the phrase [[(y%|y) * t<:|y]] where [[t]] denotes the
+ tolerance.  The fit conjunction applies to signum, as
+ in [[*!.t]].
+H
+ Signum is useful in effecting selections.  For
+ example:
+E
+ * y=: _4 0 4
+ 
+ >:@* y
+ 
+ f=: %:
+ f ^: * " 0 y		NB. Inverse of f, Identity, or f
+ 
+ (* y) { ;:'Yes No Maybe'	NB. Select using indexing ({)
+ 
+ g=: <:`-:`+:@.*"0		NB. See Agenda (@.)
+ g y
+
+N Times
+D *
+R 0 0
+T
+ [[*]] denotes multiplication, defined as in elementary
+ mathematics and extended to the complex numbers as
+ usual:
+E
+ t=:+.x,y [ x=:2j4 [ y=:5j3
+ r=:-/*/t [ i=:+/ . * t
+ (x,:y);t;r;i;(r j. i);(x*y)
+H
+ The dyad [[*]] used on a list and a table illustrates
+ the significance of _(agreement)_, as discussed in
+ Section II B:
+E
+ m=: i. 3 4 [ v=: 3 2 1
+ m ; (v*m) ; (m*v) ; (+/ m*v) ; (v +/ . * m)
+
+N Length/Angle
+M *.
+R 0
+T
+ [[*.y]] is a two-element list of the length and angle
+ (in radians) of the hypotenuse of a triangle with base
+ and altitude equal to the real and imaginary parts of
+ [[y]].  For example, [[*. 3j4]] is [[5 0.927295]].
+H
+ Some properties of length/angle are illustrated in the
+ following, including the fact that the length
+ (i.e. magnitude) of the product of two complex numbers
+ is the product of their lengths, and the angle of the
+ product is the sum of their angles:
+E
+ (| ; *. ; r./@*.) y=: 3j4
+ 
+ x=: 2j_6
+ *. x,y				NB. Polar coordinates
+ 
+ f=: */@:({."1) , +/@:(}."1)	NB. Product over first col and sum over last
+ f *. x , y
+ 
+ *. x * y			NB. Length and angle of product
+
+N LCM (And)
+D *.
+R 0 0
+T
+ [[x*.y]] is the least common multiple of [[x]] and
+ [[y]].  For boolean arguments ([[0]] and [[1]]) it is
+ equivalent to _(and)_.  Thus:
+E
+ 0 1 *./ 0 1
+H
+ The least common multiple is the product divided by
+ the GCD.  For example:
+E
+ 24 (+. ; *. ; */ % +.) 60
+
+N Square
+M *:
+R 0
+T
+ [[*: y]] is the square of [[y]].
+H
+ The inverse of the square is the square root.  For
+ example:
+E
+ *: ^: _1 (_2 _1 0 1 2)
+ 
+ 3 +&.*: 4		NB. Hypotenuse of triangle with sides 3 and 4
+
+N Not-And
+D *:
+R 0 0
+T
+ [[x*:y]] is the negation of [[x]] _(and)_ [[y]].  For
+ example [[0 *: 0]] is [[1]].
+H
+ Since the domain of nand is limited to zero and one,
+ its entire behaviour can be seen in the following
+ function tables:
+E
+ d=: 0 1		NB. Domain of nand
+ d *:/ d		NB. Table of nand
+ 
+ d *./ d		NB. Table of and
+ -. d *./ d
+H
+ Nand, Not and, and the dual of Nor all agree, as
+ illustrated below:
+E
+ (*:/~ ; -.@*./~ ; +:&.-./~) d
+
+N Negate
+M -
+R 0
+T
+ [[-y]] is the negative of [[y]].  That is, it is
+ defined as [[0 - y]].  Thus, [[-2 0 _2]] is
+ [[_2 0 2]].
+H
+ The function [[-]] is self-inverse, that is, [[-^:_1]]
+ is [[-]] itself.
+ 
+ Although [[-2]] may often be used instead of [[_2]],
+ it is important to understand that the former is the
+ application of a function to the number [[2]], whereas
+ the symbol [[_]] is an indivisible part of the number
+ representation, just as the period is an indivisible
+ part of a number such as [[8.9]].
+
+N Minus
+D -
+R 0 0
+T
+ [[-]] is defined as in element arithmetic, and is
+ extended to complex numbers as usual.
+
+N Not
+M -.
+R 0
+T
+ [[-.y]] is [[1-y]]; for a boolean argument it is the
+ complement (not); for a probability, it is the
+ complementary probability.
+
+N Less
+D -.
+R _ _
+T
+ [[x-.y]] includes all items of [[x]] except for those
+ that are cells of [[y]].
+ 
+ Tolerance [[t]] is provided by [[-.!.t]].
+H
+ The function _(less)_ applies to any conformable pair
+ of arguments.  For example:
+E
+ (i. 9) -. 2 3 5 7
+ 
+ 'abcdefghij' -. 'aeiou'
+ 
+ ]m=: i. 4 5
+ 
+ m -. 5 6 7 8 9
+ 
+ b=: <\ 'abcdefg'
+ b
+ b -. 'abc';'abcde;'cba'
+ 2 3 4 5 -. 'abcdef'
+
+N Halve
+M -:
+R 0
+T
+ [[-:y]] is one half of [[y]].  For example:
+E
+ -: i. 5
+H
+ For example:
+E
+ x=: 0 1 2 3 4 5
+ ,.&.> (] ; -: ; +:@-: ; (%&2) ; (2: %~ ])) y
+ x = +: -: x
+ x -: +: -: x
+
+N Match
+D -:
+R _ _
+T
+ [[x -: y]] yields [[1]] if the arguments match:
+ in shapes, boxing, and elements; but using tolerant
+ comparison.  See Equal ([[=]]).
+ 
+ Matching with a tolerance [[t]] can be obtained using
+ the verb [[-: !. t]].
+E
+ x=: 0 1 2 3 4 5
+ x = +: -: x
+ x -: +: -: x
+
+N Reciprocal
+M %
+R 0
+T
+ [[% y]] is the reciprocal of [[y]], that is, [[1%y]].
+ For example, [[%4]] <=> [[0.25]].
+
+N Divided by
+D %
+R 0 0
+T
+ [[x % y]] is the division of [[x]] by [[y]] as defined
+ in elementary math, except that [[0%0]] is [[0]].
+ See McDonnell [11], and the resulting pattern in the
+ middle column and middle row of the table below.
+H
+ We will illustrate the divide function by tables,
+ using a function to generate lists symmetric about
+ zero:
+E
+ sym=: i.@>:@+: - ]		NB. Symmetric integers
+ ] a=: sym 3
+ (] ; *) |. a%/a
+ 6j2 ": |. a %/ a
+H
+ The final use of the format function gives a more
+ readable result, with a width of six spaces per column
+ and a uniform two digits after the decimal point.
+E
+ |. a %/ x: a
+
+N Matrix Inverse
+M %.
+R 2
+T
+ If [[y]] is a non-singular matrix, then [[%.y]] is the
+ inverse of [[y]].  For example:
+E
+ mp=: +/ . *		NB. matrix product
+ (%. ; ] ; %. mp ]) i. 2 2
+T
+ More generally, [[%.y]] is defined in terms of the
+ dyadic case, with the left argument [[=i.{:$y]] (an
+ identity matrix) or, equally, by the relation
+ [[(%.y)mp x]] <=> [[x %. y]].
+ 
+ The shape of [[%.y]] is [[|.$y]].
+ 
+ The vector and scalar cases are defined by using the
+ matrix [[,.y]], but the shape of the result is [[$y]].
+ 
+ For a non-zero vector [[y]], the result of [[%.y]] is
+ a vector collinear with [[y]] whose length is the
+ reciprocal of that of [[y]]; it is called the
+ reflection of [[y]] in the unit circle (or sphere).
+ Thus:
+E
+ (%. ,: ] % %.) 2 3 4
+
+N Matrix Divide
+D %.
+R _ 2
+T
+ If [[y]] is non-singular, then [[x %. y]] is
+ [[(%.y) mp x]].  More generally, if the columns of
+ [[y]] are linearly independent and if [[#x]] and [[#y]]
+ agree, then [[x%.y]] minimizes the difference:
+ 
+ [[d=: x - y mp x %. y]]
+ 
+ in the sense that the magnitudes [[+/d*+d]] are
+ minimized.  Scalar and vector cases of [[y]] are
+ treated as the one-column matrix [[,.y]].
+ 
+ Geometrically, [[y mp x%.y]] is the _(projection)_ of
+ the vector [[x]] on the column space of [[y]], the
+ point nearest to [[x]] in the space spanned by the
+ columns of [[y]].
+ 
+ Common uses of [[%.]] are in the solution of linear
+ equations and in the approximation of functions by
+ polynomials, as in [[c=: (f x)%. x ^ / i.4]].
+ 
+ We will illustrate the use of [[%.]] in function
+ fitting by the sine function, showing, in particular,
+ the maximum over the magnitudes of the differences
+ from the function being approximated:
+H
+E
+ sin=: 1&o. [. x=: 5 %~ i. 6		NB. Function to be approximated
+ c=: (sin x) %. x ^/ i. 4		NB. Use of matric divide
+ ,.&.>@(] ; c"_ ; sin ; c&p. ; >./@:|@(sin-c&p.)) x
+
+N Square Root
+M %:
+R 0
+T
+ [[%: y]] is the square root of [[y]].  If [[y]] is
+ negative, the result is an imaginary number.
+ For example, [[%:-4]] <=> [[0j2]].
+H
+ For example:
+E
+ y=: i. 7
+ y
+ 2 %: y
+ %: y
+
+N Root
+D %:
+R 0 0
+T
+ [[x %: y]]is the [[x]] root of [[y]].  Thus, [[3%:8]]
+ is [[2]], and [[2%:y]] is [[%:]].  In general,
+ [[x %: y]] <=> [[y^%x]].
+E
+ y=: i. 7
+ y
+ 2 %: y
+ %: y
+ r=: 1 2 3 4
+ z=: r %:/ y
+ z
+ r ^~ z		NB. See agreement in Section II B, and note the use of ~
+
+N Exponential
+M ^
+R 0
+T
+ [[^y]] is equivalent to [[e^y]], where [[e]] is
+ _(Euler's number)_ [[^1]] (approximately 2.71828).
+ The _(natural logarithm)_ ([[^.]]) is inverse to [[^]]
+ (that is, [[y=^.^y]] and [[y=^^.y]]).
+ 
+ The monad [[x&^]] is inverse to the monad [[x&^.]].
+ For example:
+E
+ 10&^ 10&^. 1 2 3 4 5
+ 10&^. 10&^ 1 2 3 4 5
+
+N Power
+D ^
+R 0 0
+T
+ [[x^2]] and [[x^3]] and [[x^0.5]] are the _(square)_,
+ _(cube)_, and _(square root)_ of [[x]].
+ 
+ In general, [[x^y]] is [[^y*^.x]], applying for
+ complex numbers as well as real.
+ 
+ For a non-negative integer [[y]], the phrase [[x ^ y]]
+ is equivalent to [[*/y # x]]; in particular, [[*/]] on
+ an empty list is [[1]], and [[x^0]] is [[1]] for any
+ [[x]], including [[0]].
+ 
+ The fit conjunction applies to [[^]] to yield a stope
+ defined as follows:  [[x!.k n]] is [[*/x + k*i. n]].
+ In particular, [[^!._1]] is the _(falling factorial)_
+ function.
+H
+ The last result in the first example illustrates the
+ falling factorial function, formed by the fit
+ conjunction.  See Chapter 4 of [8] for the use of
+ stope functions, stope polynomials, and Stirling
+ numbers in the difference calculus:
+E
+ e=: ^ 1 [ x=: 4 [ y=: 0 1 2 3
+ ,.&.> x (e"_ ; e&^@] ; ^ ; ^@(] * ^.@]) ; (]^]) ; ^!._1) y
+ S2=: %.@S1=: (^!._1/~ %. ^/~) @ i. @ x:
+ (S1;S2) 8
+H
+ [[S1]] gives (signed) Stirling numbers of the first
+ kind and [[S2]] gives Stirling numbers of the second
+ kind.  They can be used to transform between ordinary
+ and stope polynomials.  Note that [[x:]] gives
+ extended precision.
+
+N Natural Log
+M ^.
+R 0
+T
+ The _(natural logarithm)_ ([[^.]]) is inverse to the
+ exponential [[^]] (i.e., [[y=^.^y]] and [[y=^^.y]]).
+H
+ The first derivative of the natural logarithm is the
+ reciprocal.  For example:
+E
+ ^. d. 1 y=: 0 1 2 3 4 5 6
+ % ^. d. 1 y
+
+N Logarithm
+D ^.
+R 0 0
+T
+ The _(base-x logarithm)_ [[x^.y]] is the inverse of
+ power ([[^]]) in the sense that [[y = x^.x^y]] and
+ [[y = x^x^.y]].
+H
+ Certain properties are illustrated below:
+E
+ x=: 4 [ y=: 0 1 2 3
+ (x^y);(x^.x^y);(x^.y);(x^x^.y)
+ 
+ logtable=: ^./~@i.
+ <6j2 ": logtable 6
+
+N Power
+C u^:n  u^:v
+R _ _ _
+T
+# Since noun and verb cases are collected in one
+# entry, there a small editorial change ahead:
+ Two cases of [[u^:n]] occur: a numeric integer [[n]],
+ and a gerund [[n]].
+ 
+ *(Numeric Case)*.  The verb [[u]] (or [[x&u]]) is
+ applied [[n]] times.  For example:
+E
+ (] ; +/\ ; +/\^:2 ; +/\^:0 1 2 3 _1 _2 _3 _4) 1 2 3 4 5
+T
+ An infinite power [[n]] produces the limit of the
+ application of [[u]].  For example, if [[x=:2]] and
+ [[y=:1]], then [[x o.^:_ y]] is [[0.73908]], the
+ solution of the equation y=Cos y.  If [[n]] is
+ negative, the obverse [[u^:_1]] is applied [[|n]]
+ times.  The obverse (which is normally the inverse) is
+ specified for six cases:
+ 
+ 1. The self-inverse functions [[+ - -. % %. |. |: /: [ ] C. p.]]
+ 
+# layout change:
+# also: special character big-Pi ahead:
+ 2. The pairs in the following list:
+ [[(< >)  (<: >:)  (+. (j./"1"_))  (+: -:)  (+~ -:)]]
+ [[(*. (r./"1"_))  (*: %:)  (*~ %:)  (^ ^.)  (,: {.)]]
+ [[(,~ ((<.@-:@#)&{.))  (;: (;@(,&' '&.>"1))  (#. #:)]]
+ [[(". ":)  (;~ >@{.)  ((3!:1) (3!:2))  ((3!:3) (3!:2))]]
+ [[(p: PI(n))  (q: */)  (\: (/:@|.))  (o. (%&(o.1)]]
+ [[(j. (%&0j1))  (r. (%&0j1@^.))]]
+ 
+ 3. Obviously invertible bounded dyads such as [[-&3]]
+ and [[10&^.]] and [[1 0 2&|:]] and [[3&|.]] and
+ [[1&o.]] and [[a.&i.]] as well as [[u@v]] and [[u&v]]
+ if [[u]] and [[v]] are invertible.
+ 
+ 4. Monads of the form [[v/\]] and [[v/\.]] where [[v]]
+ is one of [[+ * - % = ~:]].
+ 
+ 5. Obverses specified by the conjunction [[:.]]
+ 
+ 6. The following cases merit special mention:
+ 
+# special character big-Pi ahead:
+ [[p:^:_1 n]] gives the number of primes less than
+ [[n]], denoted by PI(n) in math
+ 
+ [[q:^:_1]] is [[*/]]
+ 
+ [[#^:_1]] with a boolean left argument is "Expand"
+ (whose fill atom [[f]] can be specified by _(fit)_,
+ [[b&#^:_1!.f]])
+ 
+ [[a&#.^:_1]] produces the base-a representation
+ 
+ [[!^:_1]] and [[!&n^:_1]] and [[!&n&^:_1]] produce the
+ appropriate results
+ 
+ *(Gerund case)*.  (Compare with the gerund case of the
+ merge adverb [[}]])
+ 
+ [[x u^:(v0`v1`v2)y]] <=> [[(x v0 y) u^:(x v1 y) (x v2 y)]]
+ 
+ [[x u^:(   v1`v2)y]] <=> [[x u^:(` v1`v2) y]]
+ 
+ [[  u^:(   v1`v2)y]] <=> [[u^:(v1 y) (v2 y)]]
+ 
+ The case of [[^:]] with a verb right argument is
+ defined in terms of the noun right argument case
+ ([[u ^: n]]) as follows:
+ 
+ [[x u ^: v y]] <=> [[x u^:(x v y) y]]
+ 
+ [[u ^: v y]]   <=> [[u^:(v y) y]]
+H
+ For example:
+E
+ x=: 1 3 3 1
+ y=: 0 1 2 3 4 5 6
+ x p. y
+ 
+ x p. ^: (]>3:)"1 0 y
+ 
+ a=: _3 _2 _1 0 1 2 3
+ %: a
+ 
+ * a
+ 
+ %: ^: * " 0 a
+ 
+ %: a
+H
+ The following monads are equivalent.  (See the example
+ of [[^ T. _]] in the definition of the Taylor
+ Approximation [[T.]].)
+E
+ g=: u ^: p ^: _
+ h=: 3 : 't=. y. while. p t do. t=. u t end.'
+ 
+ u=: -&3 [. p=: 0&<
+ (g"0 ; h"0) i. 10
+
+N Shape Of
+M $
+R _
+T
+ [[$ y]] yields the shape of [[y]] as defined in
+ Section II A.  For example, the shape of a 2-by-3
+ matrix is [[2 3]], and the shape of the scalar [[3]]
+ is the empty list (whose shape is [[0]]).
+ 
+ The rank of an argument [[y]] is [[#@$ y]].
+ For example:
+E
+ rank=: #@$
+ (rank 3) , (rank ,3)
+ 
+ (rank 3 4),(rank i. 2 3 4)
+
+N Shape
+D $
+R 1 _
+T
+ The shape of [[x$y]] is [[x,siy]] where [[siy]] is the
+ shape of an item of [[y]]; [[x$y]] gives a length
+ error if [[y]] is empty and [[x,siy]] does not contain
+ a zero.  For example:
+E
+ y=: 3 4$'abcdefghijkl'
+ y ; 2 2$ y
+T
+ This example shows how the result is formed from the
+ *(items)* of [[y]], the last 1-cell ([[abcd]]) showing
+ that the selection is cyclic.  The fit conjunction
+ ([[$!.f]]) provides fill specified by the items of
+ [[f]].
+H
+ Since [[x $ y]] uses *(items)* from [[y]], it is
+ sometimes useful to ravel the right argument, as in
+ [[x $ ,y]].  For example (using the [[y]] defined
+ above):
+E
+ 2 3 $ ,y
+H
+ The fit conjunction is often useful for appending
+ zeros or spaces.  For example:
+E
+ 8 $!.0 (2 3 4)
+ 
+ ]z=: 8$!.'*' 'abc'
+ 
+ |. z
+ 
+ 2 5$!.a: ;: 'zero one two three four five six'
+
+N Self Reference
+# XXX it's a verb, really
+U $:
+R _ _ _
+T
+ [[$:]] is a proxy that assumes the result of the
+ phrase in which it occurs, the phrase being terminated
+ on the left by a copula or by the completion of the
+ sentence.  For example:
+E
+ 1:`(] * $:@<:)@.* 5
+T
+ In the foregoing expression, the agenda ([[@.]])
+ chooses the verb [[] * $:@<:]] as long as the argument
+ (reduced by one each time be the application of the
+ decrement) remains non-zero.  When the argument
+ becomes zero, the result of the right argument of
+ [[@.]] is zero, and the constant function [[1:]] is
+ chosen.
+ 
+ If [[$:@]] where omitted from the expression, it would
+ execute as follows:
+E
+ 1:`(] * <:)@.* 5
+H
+ The inclusion of self-reference ensures that the
+ entire function is re-executed after decrementing the
+ argument.
+
+N Evoke
+A m~
+R _
+T
+ If [[m]] is a name, then [['m'~]] is equivalent to
+ [[m]].  For example:
+E
+ m=: 2 3 4
+ 'm'~
+ 
+ m=: +/
+ 'm'~ 2 3 5 7
+ 
+ m=: /
+ + 'm'~ 2 3 5 7
+
+N Reflexive
+A u~
+R _
+T
+ [[u~ y]] is [[y u y]].  For example, [[^~ 3]] is
+ [[27]], and [[+/~ i. n]] is an addition table.
+H
+ Certain uses of reflexive and passive are illustrated below:
+E
+ x=: 1 2 3 4 [ y=: 4 5 6
+ x (,.@[ ; ^/ ; ^/~ ; ^/~@[ ; ]) y
+ 
+ into=: %~
+ (i. 6) % 5
+ 
+ 5 into i. 6
+ 
+ from=: -~
+ (i.6) - 5
+ 
+ 5 from i.6
+ 
+ (x %/ y);(x %~/ y);(x %/~ y)
+
+N Passive
+A u~
+R ru lu
+T
+ [[~]] _(commutes)_ or _(crosses)_ connections to
+ arguments: [[x u~ y]] <=> [[y u x]].
+H
+ Certain uses of reflexive and passive are illustrated below:
+E
+ x=: 1 2 3 4 [ y=: 4 5 6
+ x (,.@[ ; ^/ ; ^/~ ; ^/~@[ ; ]) y
+ 
+ into=: %~
+ (i. 6) % 5
+ 
+ 5 into i. 6
+ 
+ from=: -~
+ (i.6) - 5
+ 
+ 5 from i.6
+ 
+ (x %/ y);(x %~/ y);(x %/~ y)
+
+N Nub
+M ~.
+R _
+T
+ [[~.y]] selects the _(nub)_ of [[y]], that is, all of
+ its distinct items.  For example:
+E
+ y=: 3 3 $ 'ABCABCDEF'
+ y;(~.y);(~.3);($~.3)
+H
+ More precisely, the nub is found by selecting the
+ leading item, suppressing from the argument all items
+ tolerantly equal to it, selecting the next remaining
+ item, and so on.  The fit conjunction applies to nub
+ to specify the tolerance used.
+ 
+ If [[f]] is a costly function, it may be quicker to
+ evaluate [[f y]] by first evaluating [[f~. y]] (which
+ yields all of the distinct results required), and then
+ distributing them to their appropriate positions.  The
+ inner product with the self-classification table
+ (produced by [[=]]) can be used to effect this
+ distribution.  For example:
+E
+ f=: *:
+ f y=: 2 7 1 8 2 8 1 8
+ 
+ ,.&.>(~. ; f@~. ; = ; (f@~.(+/ .*)=) ; f)y
+ 
+ NUB=: 1 : 'x.@~. +/ . * ='		NB. Adverb
+ *: NUB y
+ 
+ nubindex=: ~. i. ]
+ (nubindex ; (nubindex { ~.)) y
+
+N Nub Sieve
+M ~:
+R _
+T
+ [[~:y]] is the boolean list [[b]] such that [[b#y]] is
+ the nub of [[y]].  For example:
+E
+ ~: 'Mississippi'
+H
+ The result of nub-sieve can be used to select the nub
+ as follows:
+E
+ y=: 8 1 8 2 8 1 7 2
+ ~. y
+ 
+ ~: y
+ 
+ (~: y) # y
+ 
+ y #~ ~: y
+
+N Not Equal
+D ~:
+R 0 0
+T
+ [[x~:y]] is [[1]] if [[x]] is tolerantly unequal to
+ [[y]].  See Equal ([[=]]).
+ 
+ The fit conjunction may be used to specify tolerance,
+ as in [[~:!.t]].
+H
+ The dyad [[~:]] applies to any argument, but for
+ booleans it is called _(exclusive-or)_.  For example:
+E
+ d=: 0 1
+ d ~:/ d
+H
+ Not-equal, not equal, and the dual of equal with
+ respect to not, all agree as illustrated below.
+E
+ (~:/ ; -.@=/ ; =&.-./)~ d
+
+N Magnitude
+M |
+R 0
+T
+ [[|y]] <=> [[%:y*+y]].  For example:
+E
+ | 6 _6 3j4
+
+N Residue
+D |
+R 0 0
+T
+ The familiar use of residue is in determining the
+ remainder on dividing a non-negative integer by a
+ positive:
+E
+ 3 | 0 1 2 3 4 5 6 7
+# unboxed in printed version:
+T
+ The definition [[y-x*<. y % x+0=x]] extends the
+ residue to a zero left argument, and to negative and
+ fractional arguments.
+H
+ For example:
+E
+ over=: ({. ,.@; }.)@":@,
+ by  =: ' '&;@,.@[ ,. ]
+ x=: 3 2 1 0 _1 2 3 [ y=: 0 1 2 3 4 5 6 7 8
+ x by y over x |/ y
+H
+ To produce a true zero for cases such as
+ [[(%3)|(2%3)]] the residue is made tolerant as shown
+ in the definition of [[res]] below:
+E
+ res=: f`g@.agenda"0
+    agenda=: ([ = 0:) +. (<. = >.)@S
+       S=: ] % [ + [ = 0:
+    f=: ] - [ * <.@S [, g=: ] * [ = 0:
+ 0.1 res 2.5 3.64 2 _1.6
+ (,. ; res/~ ; |/~) a=: 2 -~ i.5
+H
+ The dyad [[|]] applies to complex numbers.  Moreover,
+ the fit conjunction may be applied to control the
+ tolerance used.  The dyad [[m&|@^]] on integer
+ arguments is computed in a way that avoids large
+ intermediate numbers.  For example:
+ [[2 (1e6&|@^) 10^100x]]
+
+N Reverse
+M |.
+R _
+T
+ [[|. y]] reverses the order of the items of [[y]].
+ For example:
+E
+ |. t=: 'abcdefg'
+T
+ The _(right shift)_ is the dyadic case of [[|.!.f]]
+ with the left argument [[_1]].  For example:
+E
+ |.!.'#' t
+H
+# mixed examples for monadic and dyad cases:
+E
+ y=: a.{~ (a. i. 'A') + i. 5 6
+ (] ; 2&|. ; 2&|."1 ; 2&(|.!.'*'"1)) y
+ (] ; |. ; |."1 ; |.!.'*'"1 ; (2: |. ])) y
+ 1 _2 |. !. '*' 3{. y
+
+N Rotate (Shift)
+D |.
+R 1 _
+T
+ [[x|.y]] rotates successive axes of [[y]] by
+ successive elements of [[x]].  Thus:
+E
+ 1 2 |. i. 3 5
+T
+ The phrase [[x |.!.f y]] produces a _(shift)_: the
+ items normally brought around by the cyclic rotation
+# How about "replaced by the items of f", as in
+# Reshape?
+ are replaced by [[f]] unless [[f]] is empty
+ ([[0=#f]]), in which case they are replaced by the
+# font change for "take" below:
+ normal fill defined under [[{.]] (take):
+E
+# t (as taken from monadic entry) expanded to literal:
+ 2 _2 |.!.'#'"0 1 'abcdefg'
+H
+# mixed examples for monadic and dyad cases:
+E
+ y=: a.{~ (a. i. 'A') + i. 5 6
+ (] ; 2&|. ; 2&|."1 ; 2&(|.!.'*'"1)) y
+ (] ; |. ; |."1 ; |.!.'*'"1 ; (2: |. ])) y
+ 1 _2 |. !. '*' 3{. y
+
+N Transpose
+M |:
+R _
+T
+ [[|:]] reverses the order of the axes of its argument.
+ For example:
+E
+ (] ; |:) i. 3 4
+H
+ For example:
+# mixed examples
+E
+ y=: a.{~ (a. i. 'a') + i. 2 3 4
+ z=: y;(2 1 |: y);((<2 1) |: y); (i. 4 5)
+ z ,&< |:&.> z
+
+N Transpose
+D |:
+R 1 _
+T
+ [[x|:y]] moves axes [[x]] to the tail end.  If [[x]]
+ is boxed, the axes in each box are _(run together)_ to
+ produce a single axis:
+E
+ y=: 3 4$'abcdefghijkl'
+ y;(1 0|:y);(0|:y);((<0 1)|:y)
+H
+ For example:
+# mixed examples
+E
+ y=: a.{~ (a. i. 'a') + i. 2 3 4
+ z=: y;(2 1 |: y);((<2 1) |: y); (i. 4 5)
+ z ,&< |:&.> z
+
+N Determinant
+C u . v y
+R 2
+T
+ The phrases [[-/ . *]] and [[+/ . *]] are the
+ _(determinant)_ and _(permanent)_ of square matrix
+ arguments.  More generally, the phrase [[u . v]] is
+ defined in terms of a recursive expansion by minors
+ along the first column, as discussed below.
+# mixed examples
+H
+ For example:
+E
+ x=: 1 2 3 [ m=: >1 6 4;4 1 0;6 6 8
+ det=: -/ . * [. mp=: +/ . *
+ x ([ ; ] ; det@] ; mp ; mp~ ; mp~@]) m
+H
+ The monad [[u . v]] is defined as illustrated below:
+E
+ DET=: 2 : 'v./@,`({."1 u. . v. $:@minors)@.(0:<{:@$) @ ,. "2'
+   minors=: }."1 @ (1&([\.))
+ 
+ -/ DET * m
+ -/ DET * 1 16 64
+ -/ DET * i.3 0
+ +/ DET * m
+
+N Dot Prod
+C x u . v y
+R _ _
+T
+ For vectors and matrices, the phrase [[x +/ . * y]] is
+ equivalent to the _(dot)_, _(inner)_, or _(matrix)_
+ product of math; other rank-0 verbs such as [[<.]] and
+ [[*.]] treated analogously.  In general, [[u . v]] is
+ defined by [[u@(v"(1+lv,_))]], restated in English
+ below.
+H
+ For example:
+# mixed examples
+E
+ x=: 1 2 3 [ m=: >1 6 4;4 1 0;6 6 8
+ det=: -/ . * [. mp=: +/ . *
+ x ([ ; ] ; det@] ; mp ; mp~ ; mp~@]) m
+H
+ The definition of [[u@(v"(1+lv,_))]] given above for
+ the dyadic case may be re-stated in words as follows:
+ [[u]] is applied to the result of [[v]] on lists of
+ "left argument cells" and the right argument
+ *(in toto)*.  The number of items in a list of
+ left argument cells must agree with the number in the
+ right argument.  Thus, if [[v]] has ranks [[2 3]] and
+ the shapes of [[x]] and [[y]] are [[2 3 4 5 6]] and
+ [[4 7 8 9 10 11]], then there are [[2 3]] lists of
+ left argument cells (each shaped [[4 5 6]]); and if
+ the shape of a result cell is [[sr]], the overall
+ shape is [[2 3,sr]].
+
+N Even
+C u .. v
+R _ _ _
+T
+ [[u .. v]] <=> [[(u + u&v) % 2:]]
+H
+ In the most commonly used case, [[v]] is arithmetic
+ negation, and [[f=: u .. v]] is therefore
+ [[f=: (u + u&-) % 2:]];  that is, one-half the sum of
+ [[u y]] and [[u -v]].  The resulting function is
+ therefore _(even)_ in the sense that
+ [[f y]] <=> [[f -y]] for any [[y]]; its graph is
+ reflected in the vertical axis.  (Similarly,
+ [[u .: v]] is _(odd)_ ([[f y]] <=> [[-f-y]]), and its
+ graph is reflected in the origin.)
+ Less commonly, [[v]] is matrix transpose ([[|:]]), and
+ may be any monadic function.
+E
+ y=: _2 _1 0 1 2
+ 1 2 3 4 5 & p. y	NB. polynomial with even and odd terms
+ 
+ 1 2 3 4 5 & p. .. - y	NB. Even part of polynomial
+ 1 2 3 4 5 & p. .: - y	NB. Odd part of polynomial
+ 
+ 1 0 3 0 5 & p. y	NB. Polynomial with even terms only
+ 
+ E=: .. -		NB. Even adverb
+ O=: .: -		NB. Odd adverb
+ d=: 5j2&":@,.&.>	NB. Display as columns with two digits.
+ 
+ d (5&o. ; ^O ; 6&o. ; ^E ; ^ ; (^E + ^O) ; 2&o. ; ^@j.E) y
+ 
+ m=: ?. 4 4 $ 9
+ (] ; (] .. |:) ; (] .: |:)) m
+
+N Odd
+C u .: v
+R _ _ _
+T
+ [[u .. v]] <=> [[(u - u&v) % 2:]]
+H
+ In the most commonly used case, [[v]] is arithmetic
+ negation, and [[f=: u .. v]] is therefore
+ [[f=: (u - u&-) % 2:]];  that is, one-half the
+ difference between
+ [[u y]] and [[u -v]].  The resulting function is
+ therefore _(odd)_ in the sense that
+ [[f y]] <=> [[-f-y]] for any [[y]]; its graph is
+ reflected in the origin.  (Similarly,
+ [[u .. v]] is _(even)_ ([[f y]] <=> [[f -y]]), and its
+ graph is reflected in the vertical axis.)
+ Less commonly, [[v]] is matrix transpose ([[|:]]), and
+ may be any monadic function.
+E
+ y=: _2 _1 0 1 2
+ 1 2 3 4 5 & p. y	NB. polynomial with even and odd terms
+ 
+ 1 2 3 4 5 & p. .. - y	NB. Even part of polynomial
+ 1 2 3 4 5 & p. .: - y	NB. Odd part of polynomial
+ 
+ 1 0 3 0 5 & p. y	NB. Polynomial with even terms only
+ 
+ E=: .. -		NB. Even adverb
+ O=: .: -		NB. Odd adverb
+ d=: 5j2&":@,.&.>	NB. Display as columns with two digits.
+ 
+ d (5&o. ; ^O ; 6&o. ; ^E ; ^ ; (^E + ^O) ; 2&o. ; ^@j.E) y
+ 
+ m=: ?. 4 4 $ 9
+ (] ; (] .. |:) ; (] .: |:)) m
+
+N Explicit Definition
+C m : n
+R _ _ _
+# unknown extent of T section
+T
+ As defined and illustrated in Section II H, the phrase
+ [[s=: 0 : 0]] may be used to define [[s]] as a script,
+ and the explicit definition conjunction can be further
+ used to produce a dyadic-only verb ([[4 : 0]]),
+ conjunction ([[2 : 0]]), adverb ([[1 : 0]]), or noun
+ ([[0 : 0]]).  The left arguments [[14]] to [[10]] may
+ be used instead of [[4]] to [[0]] to produce
+ equivalent results in tacit form if possible.  The
+ right argument [[0]] may be used in each case to make
+ the corresponding definitions directly from the
+ keyboard: [[k : 0]] is equivalent to [[k :(0 : 0)]].
+ Furthermore, the boxed representation [[b=: <;._2 s]]
+ or the table representation [[t=: >b]]
+ (or [[t=:[:._2 s]]) may be used in lieu of the script
+ [[s]] in every case.  Thus:
+E
+ f=: 3 : 0
+   a=: 2+b=. y. ^ 2
+   a+a*b
+ :
+   x.*x.+y.
+ )
+ 
+ a=: b=: 19
+ f 3
+ 
+ a,b		NB. Only the globally assigned name is changed.
+T
+ As illustrated by the foregoing:
+ 
+ 1. The definitions of the monadic and dyadic cases
+ produced by [[3 : 0]] are separated by a colon on a
+ line by itself; if none occurs, the domain of the
+ dyadic case is empty.
+ 
+ 2. The explicit result is the result of the last
+ non-test block sentence executed.  See
+ _(Control Structures)_ for the definition of a
+ test block.
+ 
+ 3. A name assigned by the copula [[=.]] is made
+ _(local)_; values assigned to it have no effect on the
+ use of the same name *(without)* the entity defined or
+ *(within)* other entities invoked by it.  A name
+ assigned by [[=:]] is global.
+ 
+ 4. A locative cannot be localized.
+ 
+ 5. The names [[x.]] and [[y.]] denote the left and
+ right arguments.  In defining a conjunction it may be
+ necessary to refer to *(its)* arguments (using [[u.]]
+ and [[v.]] as well as to the arguments of the
+ resulting function ([[x.]] and [[y.]]).  The use of
+ [[m.]] instead of [[u.]] restricts the corresponding
+ argument to be a noun, as does the use of [[n.]]
+ instead of [[v.]].  For example:
+E
+ conj=: 2 : '(u. y.)+ (v. y.)'
+ mc=: 2 : 0
+   (u.y.)+(v.y.)
+ )
+ 
+ dc=: 2 : 0		NB. Dyadic case
+ :
+   (u.y.)+(v.x.)
+ )
+ 
+ (!conj% 2 4 5);(!mc% 2 4 5);(1 2 3 !dc% 2 4 5)
+T
+ *(Control Structures.)*
+ The sequence of execution of an explicit definition
+ may be determined by _(control words)_ such as [[if.]]
+ [[do.]] [[else.]] [[end.]] and [[while.]].  For
+ example, a function to find the root of a function
+ [[f]] from a two-element list that brackets the root
+ may be written and executed as follows:
+E
+ root=: 3 : 0
+   m=.+/%#while.~:/y.do.if.~:/*f b=.(m,{.)y.do.y.=.b else.y.=.(m,{:)y.end.end.m y.
+   )
+   f=: 4:-%:
+   b=: 1 32
+   root b
+T
+ Such a definition may also be written on successive
+ lines by breaking it before or after any control word,
+ and the foregoing definition may be made more readable
+ as follows:
+E
+ root=: 3 : 0
+   m=.+/ % #
+   while. ~:/y.
+      do. if. ~:/*f b=. (m,{.) y.
+               do. y.=. b
+	     else. y.=. (m,{:) y.
+	  end.
+   end. m y.
+ )
+T
+ As illustrated by the foregoing, the word [[if.]] and
+ a matching [[end.]] mark the beginning and end of a
+ _(control structure)_, as do [[while.]] and a matching
+ [[end.]]; such structure may be _(nested)_ as is the
+ [[if.]] structure within the [[while.]] structure.
+ 
+ The control words [[for.]], [[if.]], [[select.]],
+ [[try.]], [[while]], and [[whilst.]] mark the
+ beginnings of control structures that are each
+ terminated by a matching [[end.]], and therefore
+ provide a form of punctuation.  In the foregoing
+ example, [[do.]] and [[else.]] break the [[if.]]
+ structure into three simple blocks, each comprising a
+ sentence, whereas the [[do.]] in the [[while.]]
+ structure breaks it into two blocks, the first being a
+ simple sentence, and the second being itself an
+ [[if.]] control structure.
+ 
+ In general, a _(block)_ comprises zero or more simple
+ sentences and control structures.  The role of blocks
+ is summarized as follows:
+ 
+ [[for.     T do. B end.]]
+ 
+ [[for_xyz. T do. B end.]]
+ 
+ [[if. T do. B end.]]
+ 
+ [[if. T do B else. B1 end.]]
+ 
+ [[if. T do B elseif. T1 do. B1 elseif. T2 do. B2 end.]]
+ 
+ [[select. T case. T0 do. B0 fcase. T1 do. B1 case. T2 do. B2 end.]]
+ 
+ [[try. B catch. B1 end.]]
+ 
+ [[while. T do. B end.]]
+ 
+ [[whilst. T do. B end.]]   Like [[while.]] but *(S)*kip *(T)*est first time.
+ 
+ Words beginning with [[B]] or [[T]] denote blocks.
+ The last sentence executed in a [[T]] block is tested
+ for a non-zero value in its leading atom, and the
+ result of the test determines the block to be executed
+ next.  (An empty [[T]] block result or an omitted
+ [[T]] block tests true.)  If an error occurs in a
+ [[try.]] block, execution continues in the matching
+ [[catch.]] block.  The final result is the result of
+ the last sentence executed that was not in a [[T]]
+ block, and if there is no such last sentence, the
+ final result is [[i. 0 0]].
+ 
+ The behaviour of of the remaining control words may be
+ summarized as follows:
+ 
+ [[break.]]:  Go to the end of [[for.]], [[while.]], or
+ [[whilst.]] control structure
+ 
+ [[continue.]]:  Go to top of [[for.]], [[while.]], or
+ [[whilst.]] control structure
+ 
+ [[goto_name.]]:  Go to label of same name
+ 
+ [[label_name.]]:  Target of [[goto_name.]]
+ 
+ [[return.]]:  Exit the function
+ 
+ Additional explanations and examples can be found in
+ the Control Structures section.
+H
+ The following example uses control words as well as
+ [[u.]] and [[n.]] in modelling the Level conjunction
+ [[L:]]:
+E
+ Level=: 2 : 0
+   m=. 0{ 3&$&.|. n.
+   ly=. L. y. if. 0>m do. m=.0>.m+ly end.
+   if. m>:ly do. u. y. else. u. Level m&.> y. end.
+ :
+   'l r'=. 1 2{ 3&$&.|. n.
+   lx=. L. x. if. 0>l do. l=.0>. l + lx end.
+   ly=. L. y. if. 0>r do. r=.0>. r + ly end.
+   b=. (l,r)>:lx,ly
+   if.     b-: 0 0 do. x.    u. Level(l,r)&.>y.
+   elseif. b-: 0 1 do. x.    u. Level(l,r)&.>y.
+   elseif. b-: 1 0 do. (<x.) u. Level(l,r)&.>y.
+   elseif. 1       do. x. u. y.
+   end.
+ )
+ ] a=: (i. 2 3);(<<2 3 4) ; 3
+ +: Level 0 a
+ +: L: 0 a
+
+N Monad/Dyad
+C u : v
+# XXX:  The printed dictionary specs this as _ _ _
+# (i. : +) b. 0  tells a different story, though.
+R mu lv rv
+T
+ The first argument specifies the monadic case and the
+ second argument the dyadic case.
+H
+ For example:
+E
+ y=: 10 64 100
+ ^. y			NB. Natural logarithm
+ 
+ 10&^. y		NB. Base ten logarithm
+ 
+ log=: 10&^. : ^.
+ log y
+ 
+ 8 log y
+ 
+ (^1) log y
+ 
+ LOG=: 10&$: : ^.	NB. Use of self-reference
+ LOG y
+ 
+ f=: %: : ($:@-)
+ 
+ (f y),: 100 f y
+ 
+ ABS=: | : [:
+ ABS _4
+ 3 ABS _4
+H
+ The domain of the dyad [[ABS]] is empty because the
+ domain of [[ [: ]] is empty.
+
+N Obverse
+C u :. v
+R mu lu ru
+T
+ The result of [[u :. v]] is the verb [[u]], but with
+ an assigned obverse [[v]] (used as the "inverse" under
+ the conjunctions [[&.]] and [[^:]]).
+H
+ For example:
+E
+ y=: _4 0 4 3j4
+ rp=: <@(%: , -@%:)"0		NB. Root pairs
+ rp y
+ I=: ^: _1
+ rp I				NB. No assigned obverse
+ rp I rp y
+ 
+ inv=: *:@{.@,@>
+ inv rp y
+ 
+ RP=: rp :. inv			NB. Assigned obverse in RP
+ RP I RP y
+ 
+# the trailing "0 is redundant:
+ rc=: <@(,: +)@(, -)@%:"0	NB. Root companions
+ rc y
+ 
+ RC=: rc :. inv
+ RC I RC y
+
+N Adverse
+C u :: v
+R _ _ _
+T
+ The result of [[u :: v]] is that of [[u]], provided
+ that [[u]] completes without error; otherwise the
+ result is the result of [[v]].
+H
+ For example:
+E
+ p=: 3 1 0 2		NB. A permutation vector
+ x=: 'ABCD'
+ p{x
+ 
+ ]i=: A. p		NB. Atomic index in ordered list of permutations
+ 
+ i A. x			NB. Permutation by atomic
+ representation
+ 
+ q=: 3 1 1 0		NB. Not a permutation
+ q{x
+ 
+ A. q
+ 
+ A=: A. :: (!@#)	NB. Give index outside range in case of error
+ A p
+ A q
+ 
+ 24 A. x
+
+N Ravel
+M ,
+R _
+T
+ [[,y]] gives a list of the atoms in [[y]] in "normal"
+ order: the result is ordered by items, by items within
+ items, etc.  The result shape is [[1$*/$ y]].  Thus:
+E
+ y=: 2 4 $ 'abcdefgh'
+ y
+ ,y
+H
+E
+ ]a=: 2 3 3
+ ,a
+ ,"2 a
+
+N Append
+D ,
+R _ _
+T
+ [[x,y]] appends items of [[y]] to items of [[x]]
+ after:
+ 
+ 1) Reshaping an atomic argument to the shape of the
+ items of the other,
+ 
+ 2) Bringing the arguments to a common rank (of at
+ least [[1]]) by repeatedly _(itemizing)_ ([[,:]]) any
+ of lower rank, and
+ 
+ 3) Bringing them to a common shape by padding with
+ fill elements in the manner described in Section II B.
+ 
+ The fit conjunction ([[,!.f]]) provides fill specified
+ by the items of [[f]].
+H
+ The following examples illustrate the dyadic case:
+E
+ ('abc','de');('abc',"0/'de');(5 6 7,i.2 3);(7,i.2 3)
+
+N Ravel Items
+M ,.
+R _
+T
+ If [[y]] is an atom, then [[,.y]] is [[1 1$y]];
+ otherwise, [[,.y]] is [[,"_1 y]], the table formed by
+ ravelling each item of [[y]].
+H
+ For example:
+E
+ a=: i. 2 3 2
+ ($,.3) ; (,.2 3 5 7 11) ; ($,.<'abcd') ; a ; (,.a)
+
+N Stitch
+D ,.
+R _ _
+T
+ [[x,.y]] is equivalent to [[x,"_1 y]].  In other
+ words, items of [[x]] are stitched to corresponding
+ items of [[y]].
+ 
+ The fit conjunction ([[,.!.f]]) provides fill
+ specified by the items of [[f]].
+H
+ The following examples illustrate the dyadic case:
+E
+ a=: i. 2 3 2
+ b=:3 4$'abcdefghijkl' [ c=:3 4$'ABCDEFGHIJKL'
+ b ; c ; (b,.c) ; (b,c) ; a ; (a ,. |."1 a) ; (,/a) ; (,./a)
+
+N Itemize
+M ,:
+R _
+T
+ [[,:y]] adds a leading unit axis to [[y]], giving a
+ result of shape [[1,$y]].  Thus:
+E
+ $ ,: 2 3 4
+H
+E
+ s=: 3 [ v=: 2 3 4 [ m=: i. 3 3
+ (,:s); ($,:s); (,:v); ($,:v); ($,:m); ($,:^:4 v)
+
+N Laminate
+D ,:
+R _ _
+T
+ An atomic argument in [[x,:y]] is first reshaped to
+ the shape of the other (or to a list if the other is
+ also atomic); the results are then itemized and
+ catenated, as in [[(,:x),(,:y)]].
+ 
+ The fit conjunction ([[,:!.f]]) provides fill
+ specified by the items of [[f]].
+H
+ The following examples compare the dyadic cases of
+ Append and Laminate:
+E
+ a=: 'abcd' [ A=: 'ABCD' [ b=: 'abcdef'
+ m=: i. 3 3
+ (a,A) ; (a,:A) ; (a,:b) ; (m,m) ; (m ,: m)
+ t=: i. 3 2 2
+ t ; (,/t) ; (,./t) ; (,:/t)
+
+N Raze
+M ;
+R _
+T
+ [[;y]] assembles along a leading axis the opened
+ elements of the ravel of [[y]].
+H
+E
+ ]bv=: 1 2 3;4 5 6;7 8 9
+ ;bv
+ 
+ ]txt=: '3 %: 4 ^. 5'
+ ]s=: ;: txt		NB. Word formation
+ ;s
+
+N Link
+D ;
+R _ _
+T
+ [[x;y]] is [[(<x),y]] if [[y]] is boxed, and
+ [[(<x),<y]] if [[y]] is open.
+H
+E
+ ]bv=: 1 2 3;4 5 6;7 8 9
+ ]m=: >bv
+ ;/ m
+ 
+ (;/1 2 3 4 5) ,&< (;/i. 3 4)
+ 
+ (boxifopen=: <^:(< -: {:@;~)) 3 4
+ (<3 4) = boxifopen <3 4
+
+# m;.n could be factored out nicely
+N Cut
+C m;.n u;.n
+R _ 1/2 _
+T
+ *(Monads)*:
+ 
+ [[u;.0 y]] applies [[u]] to [[y]] after reversing
+ [[y]] along each axis; it is equivalent to
+ [[(0 _1 */$y) u;.0 y]].
+# could be simplified to:  (-$y) u;.0 y
+ 
+ The _(fret)_ [[0{y]] (the leading item of [[y]]) marks
+ the start of an interval of items of [[y]]; the phrase
+ [[u;.1 y]] applies [[u]] to each such interval.  The
+ phrase [[u;._1]] differs only in that frets are
+# better: "from the interval"?:
+ excluded from the result.
+ In [[u;.2]] and [[u;._2]] the fret is the *(last)*
+ item, and marks the *(ends)* of intervals.
+ 
+ The monads [[u;.3]] and [[u;._3]] apply [[u]] to
+ tessellation by "maximal cubes", that is, they are
+ defined by their dyadic cases using the left argument
+ [[($$y)$<./$y]].
+ 
+ [[m;.n y]] applies successive verbs from gerund [[m]]
+ to the cuts of [[y]], extending [[m]] cyclically as
+ required.
+ 
+ *(Dyads)*:
+ 
+ [[x u;.0 y]] applies [[u]] to a rectangle or cuboid of
+ [[y]] with one vertex at the point in [[y]] indexed by
+ [[v=:0{x]], and with the opposite vertex determined as
+ follows: the dimension is [[|1{x]], but the rectangle
+ extends *(back)* from [[v]] along any axis [[j]] for
+ which the index [[j{v]] is negative.
+ Finally, the order of the selected items is reversed
+ along each axis [[k]] for which [[k{1{x]] is negative.
+ If [[x]] is a vector, it is treated as the matrix
+ [[0,:x]].
+ 
+ The frets in the dyadic cases [[1]], [[_1]], [[2]],
+ and [[_2]] are determined by the [[1]] in the boolean
+ vector [[x]].
+ 
+ [[u;.3]] and [[u;._3]] yield (possibly overlapping)
+ tessellations.  [[x u;._3 y]] applies [[u]] to each
+ complete rectangle of size [[|1{x]] beginning at
+ integer multiples of (each item of) the movement
+ vector [[0{x]].  As in [[u;.0]], reversal occurs along
+ each axis for which the size [[1{x]] is negative.  The
+ case of a list [[x]] is equivalent to [[1,:x]], and
+ therefore provides a complete tessellation of size
+ [[x]].  The case [[u;.3]] differs in that shards of
+ length less than [[|1{x]] are included.
+ 
+ [[x m;.n y]] applies successive verbs from the gerund
+ [[m]] to the cuts of [[y]], extending [[m]] cyclically
+ as required.
+ 
+ The 0- and 3-cuts have a left rank of 2;
+ the 1- and 2-cuts have a left rank of 1.
+H
+E
+ y=: 'worlds on worlds '
+ (<;.2 y) ; ($;._2 y) ; (3 5$i.10) ; (+/ ;.1 (3 5$i.10))
+ 
+ x=:1 _2,:_2 3 [ z=: i. 5 5
+ x ; (x ];.0 z) ; z
+ 
+ (y=: a. {~ (a. i. 'a') + i. 4 4);(a=:1 1 ,: 2 2)
+ (<;.3 y) ; ((($$y)$<./$y)<;.3 y) ; (a <;.3 y) ; <(a <;._3 y)
+
+N Word Formation
+M ;:
+R 1
+T
+ [[;:y]] is the list of boxed words in the list [[y]]
+ according to the rhematic rules of Part I.  The
+ function also applies reasonably well to ordinary
+ text.
+H
+E
+ s=: '*: @ -: @ i. 2 3'
+ do=: ".
+ do s
+ 
+ ;: s
+ 
+ ; ;: s
+ 
+ p=: 'When eras die, their legacies/'
+ q=: 'are left to strange police'
+ r=: 'Professors in New England guard'
+ s=: 'the glory that was Greece'
+ ;: p
+ 
+ > ;: p,q
+ 
+ |.&.;: p
+
+N Tally
+M #
+R _
+T
+ [[#y]] is the number of items in [[y]].  Thus:
+E
+ (#'');(#'a');(#'ab')
+ (#3);(#,3);(# 3 4)
+ (#i.4 5 6);(#$i.4 5 6)
+
+N Copy
+D #
+R 1 _
+T
+ If the arguments have an equal number of items, then
+ [[x#y]] copies [[+/x]] items from [[y]], with [[i{x]]
+ repetitions of item [[i{y]].  Otherwise, if one is an
+ atom it is repeated to make the item count of the
+ arguments equal.
+ 
+ The complex left argument [[a j. b]] copies [[a]]
+ items followed by [[b]] fills.  The fit conjunction
+ provides specified fills, as in [[#!.f]].
+H
+ Copy is illustrated by the following examples:
+E
+ 0 1 2 3 4 5 # 0 1 2 3 4 5 
+ 
+ t=: 3 4 $'abcdefghijkl' [ n=: i. 3 4
+ t ; n ; (3 0 1 # t) ; (3 0 1 # n) ; (3 1 4 2 #"1 t)
+ 
+ k=: 2j1 0 1j2
+ (k # t);(k # n);(k #!.'*' t);(k #!.4 n)
+
+N Base Two
+M #.
+R 1
+T
+ [[#.y]] is the base-2 value of [[y]], that is,
+ [[2#.y]].  For example:
+E
+ #. 1 0 1 0
+ #. 2 3$ 0 0 1,1 0 1
+
+N Base
+D #.
+R 1 1
+T
+ [[x#.y]] is a weighted sum of the items of [[y]];
+ that is, [[+/w*y]], where [[w]] is the product scan
+ [[*/\.}.x,1]].  An atomic argument is reshaped to the
+ shape of the other argument.
+H
+E
+ ]a=: i. 3 4
+ 
+ 10 #. a
+ 
+ 8 #. a
+ 
+ ]time=: 0 1 3,1 1 3,:2 4 6
+ 
+ x=: 24 60 60
+ x #. time
+ 
+ x,1
+ 
+ ]w=: +/\.}. x,1
+ 
+ w *"1 time
+ 
+ +/"1 w *"1 time
+ 
+ w +/@:* "1 time
+ 
+ c=: 3 1 4 2 [ y=: 0 1 2 3 4 5
+ c p. y				NB. Polynomial with coefficients in c
+ 
+ y #."0 1 |.c
+
+N Antibase Two
+M #:
+R _
+T
+ [[#: y]] is the binary representation of [[y]], and is
+ equivalent to [[(m#2)#:y]], where [[m]] is the maximum
+ of the number of digits needed to represent the atoms
+ of [[y]] in base [[2]].  For example:
+E
+ i. 8
+ 
+ #: i. 8
+
+N Antibase
+D #:
+R 1 0
+T
+ In simple cases [[r&#:]] is inverse to [[r&#.]].
+ Thus:
+E
+ r=: 24 60 60
+ r #: r #. 2 3 4
+T
+ But if [[r #. y]] exceeds [[(*/r)-1]] (the largest
+ integer representable in the radix [[r]]), then the
+ result of [[r#:y]] is reduced modulo [[*/r]].  For
+ example:
+E
+ r #: r #. 29 3 4
+# The following hint uses just dyadic #:, but
+# generalizes monadic #: -- I don't know where it
+# should really go.
+H
+ A representation in an arbitrary base that is
+ analogous to the base-2 representation provided by the
+ monadic use of [[#:]] may be provided as illustrated
+ below:
+E
+ ndr=: 1: + <.@^.	NB. Number of digits required
+ 10 ndr y=: 9 10 11 100 99 100
+ 
+ (y#:~10 #~ >./10 ndr y);(y#:~8 #~ >./8 ndr y)
+ (10&#.^:_1 ; 8&#:.^:_1) y
+
+N Factorial
+M !
+R 0
+T
+ For a non-negative integer argument [[y]], the
+ definition is [[*/>:i.y]].  In general, [[!y]] is
+# special character big-gamma ahead:
+ [[Gamma(1+y)]] (the gamma function).  Thus:
+E
+ (*/1 2 3 4 5) , (!5)
+ 
+ ]x=: 2 %~ 3 -~ i. 2 4
+ 
+ !x
+ 
+ ]fi=:!:^:_1(24 25 2.1 9876)
+ !fi
+
+N Out Of (Combinations)
+D !
+R 0 0
+T
+ For non-negative arguments [[x!y]] is the number of
+ ways that [[x]] things can be chosen out of [[y]].
+ More generally, [[x!y]] is [[(!y) % (!x) * (!y-x)]].
+ Thus:
+E
+ 3!5
+ (!5)%(!3)*(!5-3)
+ 1j2 ! 3.5
+ 
+ y=:2&!^:_1 (45 4.1 30 123)
+ 2 ! y
+ 
+ ]x=:!&10^:_1 (2.5 45)
+ x ! 10
+H
+ The first table below illustrates the relation between
+ the dyad [[!]] and the table of binomial coefficients;
+ the last two illustrate its relation to the
+ _(figurative numbers)_:
+E
+ h=: 0,i=: i.5 [ j=: -1+i.5 [ k=: 5#1
+ tables=: (,.h);(i,i!/i);(j,i!/j);(k,i(+/\^:)k)
+ format=: ({. ,:&< }.)@":&.>
+ format tables
+H
+ Figurate numbers of order zero all ones; those of
+ higher orders result from successive applications of
+ subtotals (that is, sums over prefixes, or [[+/\]]).
+ Those of order two are the _(triangular numbers)_,
+ resulting from subtotals over the integers beginning
+ with one.
+
+N Fit (Customize)
+# args and rank spec added:
+C u!.n
+R um ul ur
+T
+ This conjunction modifies certain verbs in ways
+ prescribed in their definitions.  For example,
+ [[=!.t]] is the relation of equality using tolerance
+ [[t]], and [[^!.r]] is the _(factorial function)_ so
+ defined that [[x ^!.r n]] is [[*/x + r * i. n]].
+ Consequently, [[^!._1]] is the _(falling)_ factorial
+ function.
+H
+ Fit applies to the following verbs (to produce
+ _(variants)_).  The monadic case is shown before a
+ "*", and the dyadic case after it:
+ 
+ *Tolerance:  [[< <: > >: +. *. -. -: | E. i. i:]]
+ 
+ Tolerance*:  [[<. >. * ~.]]
+ 
+ *Tolerance:  [[#:]]
+ 
+ Tolerance*Tolerance:  [[= ~: #: e.]]
+ 
+ *Stope function and polynomial based thereon:
+ [[^ p.]]
+ 
+ *Fill:  [[$ |. , ,. ,: # {.]]
+ 
+ Print precision*:  [[":]]
+
+N Foreign
+C m!:n
+R various
+T
+ This conjunction is used to communicate with the host
+ system as well as with the keyboard (as an input file)
+ and with the screen (as an output file).  It is also
+ used to provide a variety of extra-lingual facilities,
+ such as setting the form of function display,
+ determining the class of a name (noun, verb, adverb,
+ or conjunction), and listing all existing names in
+ specified classes.
+H
+E
+ (mean=: +/ % #) a=: 2 3 5 7 11 13
+ 
+ mean
+ 
+ 9!:3 (4)		NB. Tree displays of verbs
+ mean
+ 
+ 9!:3 (2 4 5)		NB. Boxed, tree, and linear displays
+ mean
+ 
+ 4!:0 'a';'mean'	NB. Classes of names (noun 0, verb 3)
+ 
+ 4!:1 (3)		NB. List of names in class 3
+H
+ The appendix shows all uses of the foreign
+ conjunction.
+
+N Insert
+A (m/)y   (u/)y
+R _
+T
+ [[u/y]] applies the dyad [[u]] between the items of
+ [[y]].  Thus:
+E
+ m=: i. 3 2
+ m; (+/m);(+/"1 m);(+/2 3 4)
+T
+ [[m/y]] inserts successive verbs from the gerund [[m]]
+ between items of [[y]], extending [[m]] cyclically as
+ required.  Thus, [[+`*/i.6]] is [[0+1*2+3*4+5]].
+H
+ If [[y]] has no items (that is, [[0=#y]]), the result
+ of [[u/y]] is the _(neutral)_ or _(identity element)_
+ of the function [[u]].  A neutral of a function [[u]]
+ is a value [[e]] such that [[x u e]] <=> [[x]] or
+ [[e u x]] <=> [[x]], for every [[x]] in the domain (or
+ some significant sub-domain such as boolean) of [[u]].
+ This definition of insertion over an argument having
+ *(zero)* items extends partitioning identities of the
+ form [[u/y]] <=> [[(u/k{.y u (u/k}.y]] to the cases
+ [[k e. 0,#y]].
+ 
+ The _(identity function)_ of [[u]] is a function
+ [[ifu]] such that [[ifu y]] is [[u/y]] if [[0=#y]].
+ The identity functions used are:
+# layout change:
+ 
+ [[$&0@}.@$]] for: [[< > + - +. ~: | (2 4 5 6 b.)]]
+ 
+ [[$&1@}.@$]] for: [[= <: >: * % *. %: ^ ! (1 9 11 13 b.)]]
+ 
+ [[$&_@}.@$]] for: [[<.]]
+ 
+ [[$&__@}.@$]] for: [[>.]]
+ 
+ [[i.@(0&,)@(2&}.)@$]] for: [[,]]
+ 
+ [[i.@(1&{.)@}.@$]] for: [[C. {]]
+ 
+# added () around mp:
+ [[=@i.@(1&{.)@}.@$]] for: [[%. (+/ . *)]]
+ 
+ [[ifu@#]] for: [[u/]]
+ 
+ [[$&(v^:_1 ifu$0)@}.@$]] for: [[u&.v]]
+
+N Table
+A x(m/)y x(m/)y
+R _ _
+T
+ If [[x]] and [[y]] are numeric lists, then [[x*/y]] is
+ their multiplication table.  Thus:
+E
+ 1 2 3 */ 4 5 6 7
+T
+ In general, each cell of [[x]] is applied to the
+ entire of [[y]].  Thus [[x u/ y]] is equivalent to
+ [[x"(lu,_) y]] where [[lu]] is the left rank of [[u]].
+ 
+ The case [[*/]] is called _(outer product)_ in tensor
+ analysis.
+
+N Oblique
+A (m/.)y (u/.)y
+R _
+T
+ [[u/.y]] applies [[u]] to each of the oblique lines of
+ a table [[y]].  For example:
+E
+ i.3 4
+ </. i.3 4
+T
+ In general, [[u/.y]] is the result of applying [[u]]
+ to the oblique lines of [[_2]]-cells of [[y]].  If the
+ rank of [[y]] is less than two, [[y]] is treated as
+ the table [[,.y]].
+ 
+ [[m/.y]] applies successive verbs from the gerund
+ [[m]] to the oblique lines of [[_2]]-cells of [[y]],
+ extending [[m]] cyclically as required.  Thus:
+E
+ <`(<@|.) /. i.3 4
+H
+ The application of a function to diagonals of a table
+ is commonly useful, as in correlation, in convolution,
+ and in products of polynomial coefficients (or,
+ equivalently, products of numbers in a fixed base).
+ For example:
+E
+ t=: p */ q [ p=: 1 2 1 [ q=: 1 3 3 1
+ t ; (+//.t) ; 1 1 &(+//.@(*/)) ^: (i.6) 1
+ ((10#.p)*10#.q), 10 #. +//. p */ q
+H
+ Unlike polynomial coefficients, the diagonal sums of a
+ multiplication table of digits should be "normalized"
+ if any equal or exceed the radix.
+
+N Key
+A x(m/.)y x(u/.)y
+R _ _
+T
+ [[x u/.y]] <=> [[(=x) u@# y]], that is, items of [[x]]
+ specify keys for corresponding items of [[y]] and
+ [[u]] is applied to each collection of [[y]] having
+ identical keys.  For example:
+E
+ 1 2 3 1 3 2 1 </. 'abcdefg'
+T
+ [[x m/.y]] applies successive verbs from the gerund
+ [[m]] to the collections of [[y]], extending [[m]]
+ cyclically as required.
+
+N Grade Up
+M /:
+R _
+T
+ [[/:]] grades *(any)* argument, yielding a permutation
+ vector; [[(/:y){y]] sorts [[y]] in ascending order.
+ For example:
+E
+ n=: 3 1 4 2 1 3 3
+ ]g=: /: n
+ 
+ g { n
+H
+ Elements of [[/:y]] that select equal elements of
+ [[y]] are in ascending order.  If [[y]] is a table,
+ [[/:y]] grades the base values of rows, using a base
+ larger then twice the magnitude of any of the
+ elements.  Higher ranks are treated as [[,.y]] (as if
+ its items were each ravelled).
+ 
+ If [[y]] is literal, [[/:y]] grades according to the
+ collating sequence determined by the alphabet [[a.]];
+ another collating sequence [[cs]] can be imposed by
+ grading [[cs i. y]].  For example:
+E
+ ]n=: 3 1 4 1 6,2 7 1 8 3,:6 1 8 0 3
+ /: n
+ 
+ Aa=: ' ',. a. {~ 65 97 +/ i. 26
+ x=: words=: >;: 'When eras die'
+ j=: <./Aa i."1 _ x
+ x ; (x/:x) ; (x/:j) ; Aa
+H
+ The three types: numeric or empty, literal, and boxed,
+ are so ordered;  within them, a lower rank precedes
+ a higher, and a smaller shape precedes a larger.
+ Complex arguments are ordered by real part, the by
+ imaginary.  Boxed arrays are sorted according to their
+ opened elements.
+
+N Sort Up
+D /:
+R _ _
+T
+ [[x/:y]] is [[(/:y){x]] i.e., [[x]] is sorted to an
+ order specified by [[y]].  In particular. [[y/:y]] (or
+ [[/:~y]]) sorts [[y]].  For example:
+E
+ y=: 'popfly'
+ y /: 3 1 4 1 5 9
+ y /: y
+
+N Prefix
+A (m\)y (u\)y
+R _
+T
+ [[u\y]] has [[#y]] items resulting from applying [[u]]
+ to each of the prefixes [[k{.y]], for [[k]] from [[1]]
+ to [[#y]].
+ 
+ [[m\y]] applies successive verbs from the gerund [[m]]
+ to the prefixes of [[y]], extending [[m]] cyclically
+ as required.
+H
+E
+ +/\a=: 1 2 4 8 16	NB. Subtotals, or partial sums
+ 
+ */\a			NB. Partial products
+ 
+ <\a
+ <\i.3 4
+ 
+ (+/\^:_1 +/\ a) ,: */\^:_1 a
+
+N Infix
+A x(m\)y x(u\)y
+R 0 _
+T
+ If [[x>:0]], the items of [[x u\ y]] result from
+ applying [[u]] to each infix of length [[x]].  If
+ [[x<0]], [[u]] is applied to *(non-overlapping)*
+ infixes of length [[|x]], including any final shard.
+ 
+ [[x m\ y]] applies successive verbs from the gerund
+ [[m]], extending [[m]] cyclically as required.
+H
+ The following examples illustrate the use of the dyad
+ _(infix)_:
+E
+ a=: 1 2 4 8 16
+ ((2: -/\ [) ; (2: -~/\ ])) a	NB. Backward and forward differences
+ ((3: <\ ]) ,&< (_3: <\ ])) 'abcdefgh'
+
+N Suffix
+A m\.y u\.y
+R _
+T
+ [[u\.y]] has [[#y]] items resulting from applying
+ [[u]] to suffixes of [[y]], beginning with one of
+ length [[#y]] (that is, [[y]] itself), and continuing
+ through a suffix of length [[1]].
+ 
+ [[m\.y]] applies successive verbs from the gerund
+ [[m]] to the suffixes of [[y]], extending [[m]]
+ cyclically as required.
+H
+E
+ */\. y=: 1 2 3 4 5
+ <\. y
+
+N Outfix
+A x(m\.)y x(u\.)y
+R 0 _
+T
+ If [[x>:0]] in [[x u\. y]], then [[u]] applies to
+ outfixes of [[y]] obtained by suppressing successive
+ infixes of length [[x]].  If [[x<0]], the outfixes
+ result from suppressing non-overlapping infixes, the
+ last of which may be a shard.
+ 
+ [[x m\.y]] applies successive verbs from the gerund
+ [[m]] to the outfixes of [[y]], extending [[m]]
+ cyclically as required.
+H
+E
+ 3 <\. 'abcdefgh'
+# editing slip "G" in the printed original fixed below:
+ _3 <\. 'abcdefgh'
+ 
+ ]m=: i.3 3
+ <"_2 (minors=: 1&(|:\.)"2^:2) m
+
+N Grade Down
+M \:
+R _
+T
+ [[\:]] grades *(any)* argument, yielding a permutation
+ vector;  [[(\:y){y]] sorts [[y]] in descending order.
+ For example:
+E
+ ]g=:\:y=:3 1 4 2 1 3 3
+ 
+ g{y
+H
+ Elements of [[\:y]] that select equal elements of
+ [[y]] are in ascending order.  If [[y]] is a table,
+ [[\:y]] grades the base value of the rows, using a
+ base larger than twice the magnitude of any of the
+ elements.  Higher ranks are treated as [[,.y]] (as if
+ the items were each ravelled).
+ 
+ If [[y]] is literal, [[\:y]] grades according to the
+ collating sequence specified by the alphabet [[a.]];
+ another collating sequence [[cs]] can be imposed by
+ grading [[cs i. y.]].  For example:
+E
+ ]n=: 3 1 4 1 6,2 7 1 8 3,:6 1 8 0 3
+ 
+ \: n
+H
+ See Grade Up ([[/:]]) for the treatment of complex and
+ boxed arguments.
+
+N Sort Down
+D \:
+R _ _
+T
+ [[x\:y]] is [[(\:y){x]]; i.e., [[x]] is sorted to
+ order specified by [[y]].  In particular, [[y\:y]] (or
+ [[\:~y]] sorts [[y]].
+ 
+ For example:
+E
+ \:~"1 'dozen',:'disk'
+H
+E
+ \:~ >;:'when eras die, their legacies'
+
+N Same
+M [
+R _
+T
+ The monads [[ [ ]] and [[ ] ]] are each _(identity)_
+ functions; each yields its argument.
+H
+ For example:
+E
+ [ 'abcde'
+ ([\ ; ]\ ; [\. ; ]\.) 'ABCDEF'
+
+N Left
+D [
+R _ _
+T
+ [[x[y]] (*(left bracket)*) yields the left argument
+ [[x]].
+H
+ For example:
+E
+ n=: i. 2 3
+ a=: 'abcde'
+ n[a
+H
+ See the corresponding *(conjunctions)* [[ [. ]] and
+ [[ ]. ]] (Lev and Dex).
+
+N Same
+M ]
+R _
+T
+ The monads [[ [ ]] and [[ ] ]] are each _(identity)_
+ functions; each yields its argument.
+H
+ For example:
+E
+ ] i. 2 3
+ ([\ ; ]\ ; [\. ; ]\.) 'ABCDEF'
+
+N Right
+D ]
+R _ _
+T
+ [[x]y]] (*(right bracket)*) yields the right argument
+ [[y]].
+H
+ For example:
+E
+ n=: i. 2 3
+ a=: 'abcde'
+ n]a
+H
+ See the corresponding *(conjunctions)* [[ [. ]] and
+ [[ ]. ]] (Lev and Dex).
+
+N Lev
+C [.
+T
+ [[ [.]] is a conjunction that yields the left
+ argument.
+H
+ For example:
+E
+ sqrt=: %: [. sqr=: *:
+ sqrt 1 2 3
+ sqr 1 2 3
+
+N Dex
+C ].
+T
+ [[ ].]] is a conjunction that yields the right
+ argument.
+
+N Identity
+A ]:
+T
+ [[ ]:]] is the identity adverb, that yields its
+ argument.
+H
+ For example:
+E
+ ^ ]: 0 1 2 3
+
+# split and essentially duplicated entry.
+# cap in trains is inherently ambivalent (since trains
+# are), and I'm afraid to focus readers on just one
+# meaning.
+N Cap
+M [:
+R _
+T
+ [[ [:]] caps a left branch of a fork, as described in
+ Section II F.  For example, the function
+ [[p=: [: +/ + * -]] applies the monad [[+/]] to the
+ result of the fork [[+ * -]].
+H
+ Caps make it possible to define a wider range of
+ functions as unbroken trains.  For example, the
+ maximum divided by the product of the sum and
+ difference would be defined by a single train, whereas
+ (without the use of the cap) the definition of the
+ maximum divided by the (monad) floor of the product of
+ the sum and difference would require the use of trains
+ interrupted by the monad.  Thus
+E
+ f=: >. % + * -
+ g=: >. % <. @ (+ * -)
+ 2.5 f 4
+ 2.5 g 4
+H
+ The cap makes possible the use of an unbroken train as
+ follows:
+E
+ h=: >. % [: <. + * -
+ 2.5 h 4
+H
+ Since the domain of the cap is empty, it can be used
+ (with [[:]]) to define a function whose monadic or
+ dyadic case invokes an error.  For example:
+E
+ abs=: | : [:
+ res=: [: : |
+ 
+ res _4 0 5
+ abs _4 0 5
+ 
+ 3 res _4 0 5
+ 3 abs _4 0 5
+
+N Cap
+D [:
+R _ _
+T
+ [[ [:]] caps a left branch of a fork, as described in
+ Section II F.  For example, the function
+ [[p=: [: +/ + * -]] applies the monad [[+/]] to the
+ result of the fork [[+ * -]].
+H
+ Caps make it possible to define a wider range of
+ functions as unbroken trains.  For example, the
+ maximum divided by the product of the sum and
+ difference would be defined by a single train, whereas
+ (without the use of the cap) the definition of the
+ maximum divided by the (monad) floor of the product of
+ the sum and difference would require the use of trains
+ interrupted by the monad.  Thus
+E
+ f=: >. % + * -
+ g=: >. % <. @ (+ * -)
+ 2.5 f 4
+ 2.5 g 4
+H
+ The cap makes possible the use of an unbroken train as
+ follows:
+E
+ h=: >. % [: <. + * -
+ 2.5 h 4
+H
+ Since the domain of the cap is empty, it can be used
+ (with [[:]]) to define a function whose monadic or
+ dyadic case invokes an error.  For example:
+E
+ abs=: | : [:
+ res=: [: : |
+ 
+ res _4 0 5
+ abs _4 0 5
+ 
+ 3 res _4 0 5
+ 3 abs _4 0 5
+
+N Catalogue
+M {
+R 1
+T
+ [[{y]] forms a catalogue from the atoms of its
+ argument, its shape being the chain of the shapes of
+ the opened items of [[y.]].  The common shape of the
+ boxed results is [[$y]].  For example:
+E
+ { 'ht';'ao';'gtw'
+T
+ The Cartesian product is readily defined in terms of
+ [[{]], thus:
+E
+ CP=: {@(,&<)
+ 0 1 CP 2 3 4
+
+N From
+D {
+R 0 _
+T
+ If [[x]] is an integer in the range from [[-n=: #y]]
+ to [[n-1]], then [[x{y]] selects item [[n|x]] from
+ [[y]].  Thus:
+E
+ 2 0 _1 _3 { 'abcdefg'
+ 
+ 1{t=:3 4$'abcdefghijkl'
+T
+ More generally, [[>x]] may be a list whose successive
+ elements are (possibly) boxed arrays that specify
+ selection along successive axes of [[y]].
+ 
+ Finally, if any [[r=:>j{>x]] used in the selection is
+ itself boxed, selection is made by the indices along
+ that axis that *(do not)* occur in [[>r]].
+ 
+ Note that the result in the very last dyadic example,
+ that ism [[(<<<_1{m]], is all *(except)* the last
+ item.
+H
+E
+ t; (1{t); (2 1{t); (1{"1 t); ((,1){"1 t); (2 1{"1 t)
+ 
+ t; (2 0{t); ((<2 0){t); ((2 0;1 3){t); ((<2 0;1 3){t)
+ 
+ (_1{m); (_1{"2 m); (_1{"1 m); (<<<_1){m=:i.2 3 4
+
+N Head
+M {.
+R _
+T
+ [[{.y]] selects the leading item of [[y]].  Thus:
+E
+ a=: i. 2 3 4
+ a;({.a);({."2 a);({."1 a)
+ 
+ ]b=: ;/a
+ {.&>b
+
+N Take
+D {.
+R 1 _
+T
+ If [[x]] is an atom, [[x{.y]] takes from [[y]] an
+ interval of [[|x]] items; beginning at the front if
+ [[x]] is positive, ending at the tail if it is
+ negative.
+ 
+ In an _(overtake)_ (in which the number to be taken
+ exceeds the number of the items), extra items consist
+ of _(fills)_; zeros if [[y]] is numeric, [[a:]] if it
+ is boxed, and spaces otherwise.  The fill atom [[f]]
+ is also specified by _(fit)_, as in [[{.!.f]].
+ 
+ In general, if [[y]] is not an atom, [[x]] may be a
+ list of length not more than [[$$y]], and if [[y]] is
+ an atom, it is replaced by [[((#x)$1)$y]].  Element
+ [[k]] produces [[(k{x){."(($$y)-k) y]].
+H
+ The following examples illustrate the use of the dyad
+ _(take)_:
+E
+ y=: i. 3 4
+ y;(2{.y);(5{.y);(_5{.y);(_6{.'abcd');(2 _3{.y)
+ 2 {."1 y
+ 6{.'ab';'cde';'fghi'
+
+N Tail
+M {:
+R _
+T
+ [[{:]] selects the last item of its argument.
+H
+E
+ ]y=: a.{~ (a.i.'A') + i.4 5
+ 
+ f=: }: ; {:
+ f y
+ 
+ g=: }: .,@; {:
+ g y
+  
+ h=: {. ,.@; }.
+ h y
+ 
+ {:"1 y
+
+N Fetch
+D {::
+R 1 _
+T
+ [[x{::y]] fetches a subarray of [[y]] according to
+ path [[x]]; the selection at each level is based on
+ [[{]] and, except at the last level, must result in an
+ atom.
+H
+ Map and Fetch can be modeled as follows:
+E
+ cat  =: { @: (i.&.>) @: $
+ mapp =: 4 : 'if. L. y. do. (<"0 x.,&.><"0 cat y.) mapp&.> y. else. >x. end.'
+ map  =: a:&mapp
+ fetch=: >@({&>/)@(<"0@|.@[ , <@]) " 1 _
+H
+ The following phrases illustrate the use of Map and
+ Fetch:
+E
+ ] y=: 1 2 3;4 5;i.4 5
+ (2;_1 _1){::y		NB. Path to number 19
+ (_1;3 4) {::y		NB. Path to number 19
+ {::y			NB. Paths to each open array
+ {::cat L: 0 y		NB. Paths to each open scalar
+ 
+ ] t=: 5!:2 <'fetch'	NB. An array with an interesting structure
+ (0;2;0;0;0){:: t	NB. Fetch the subarray corresponding to <"0 in t
+ (0;2;0;0;0;_1){:: t	NB. Fetch the 0 in that
+ t ,&< L: 0 1 {:: t	NB. Label each leaf with its path
+ < S: 0 t		NB. The boxed leaves of t
+ < S: 1 {:: t		NB. The boxed paths of t
+ t ,&< S: 0 1 {:: t	NB. The number of leaves in t
+
+N Map
+M {::
+R _
+T
+ [[{::y]] has the same boxing as [[y]] and its elements
+ are the paths to each leaf (each open array).
+H
+ Map and Fetch can be modeled as follows:
+E
+ cat  =: { @: (i.&.>) @: $
+ mapp =: 4 : 'if. L. y. do. (<"0 x.,&.><"0 cat y.) mapp&.> y. else. >x. end.'
+ map  =: a:&mapp
+ fetch=: >@({&>/)@(<"0@|.@[ , <@]) " 1 _
+H
+ The following phrases illustrate the use of Map and
+ Fetch:
+E
+ ] y=: 1 2 3;4 5;i.4 5
+ (2;_1 _1){::y		NB. Path to number 19
+ (_1;3 4) {::y		NB. Path to number 19
+ {::y			NB. Paths to each open array
+ {::cat L: 0 y		NB. Paths to each open scalar
+ 
+ ] t=: 5!:2 <'fetch'	NB. An array with an interesting structure
+ (0;2;0;0;0){:: t	NB. Fetch the subarray corresponding to <"0 in t
+ (0;2;0;0;0;_1){:: t	NB. Fetch the 0 in that
+ t ,&< L: 0 1 {:: t	NB. Label each leaf with its path
+ < S: 0 t		NB. The boxed leaves of t
+ < S: 1 {:: t		NB. The boxed paths of t
+ t ,&< S: 0 1 {:: t	NB. The number of leaves in t
+
+N Item Amend
+A m}y
+R _
+T
+ If [[m]] is numeric and [[z=: m} y]], then [[$z]]
+ equals [[$m]], which equals the shape of an *(item)*
+ of [[y]].  The atom [[j{z]] is [[j{(j{m){y]].  For
+ example:
+E
+ y=: a.{~(a.i.'A')+i.4 5
+ m=: 3 1 0 2 1
+ y ; m ; m}y
+# the following outside the boxed reference text in the
+# original.  We adapt the monadic part as reference
+# here:
+T
+ If [[m]] is a gerund, one one of its elements
+ determines the index argument to the adverb [[}]], and
+ another modifies the the argument [[y]]:
+ 
+ [[(v0`v1`v2)} y]] <=> [[(v1 y)} (v2 y)]]
+ 
+ [[(   v1`v2)} y]] <=> [[(v1 y)} (v2 y)]]
+
+N Amend
+A x(m})y
+R _ _
+T
+ if [[m]] is not a gerund, [[x m} y]] is formed by
+ replacing be [[x]] those parts of [[y]] selected by
+ [[m&{]].  Thus:
+E
+ y; '%*'(1 3;2 _1)} y
+T
+ [[$x]] must be a suffix of [[$m{y]], and [[x]] has the
+ same effect as [[($m{y)$,x]].  Thus:
+E
+ y; 'think' 1 2} y
+T
+ If [[m]] is a gerund, one of its elements determines
+ the index argument to the adverb [[}]], and the others
+ modify the arguments [[x]] and [[y]]:
+ 
+ [[x (v0`v1`v2)} y]] <=> [[(x v0 y) (x v1 y)} (x v2 y)]]
+H
+ For example, the following functions [[E1]], [[E2]],
+ and [[E3]] interchange two rows of a matrix, multiply
+ a row by a constant, and add a multiple of one row to
+ another:
+E
+ E1=: <@] C. [  [.  E2=: f`g`[}  [.  E3=: F`g`[}
+ f=: {:@] * {.@] { [
+ F=: [: +/ (1:,{:@]) * (}:@] { [)
+ g=: {.@]
+ M=: i. 4 5
+ M;(M E1 1 3);(M E2 1 10);(M E3 1 3 10)
+
+N Item Amend
+A (u})y
+R _
+T
+ [[u}]] is defined in terms of the noun case [[m}]],
+ the verb [[u]] applying to the argument to provide the
+ numeric indices required by it.
+
+N Amend
+A x(u})y
+R _ _
+T
+ [[u}]] is defined in terms of the noun case [[m}]],
+ the verb [[u]] applying to the arguments to provide the
+ numeric indices required by it.
+H
+ For example:
+E
+ x=: 100 + i. 2 4
+ u=: */@$@] | (5: * i.@$@[)
+ y=: i. 3 2 4
+ x ; y ; (x u y) ; (x u} y)
+H
+ The positions selected by [[x u} y]] may be made to
+ depend on either or both of the arguments [[x]] and
+ [[y]], and related adverbs can be defined for
+ convenient use in common cases.  For example:
+E
+ A=: @(i.@$@])
+ u=: (<0 1)&|:
+ x=: 'DIAG' [ y=: a. {~ (a. i. 'a') + i. 4 5
+ x;y;(x u A y);(x u A} y)
+H
+ Also see the case [[m}]] for the use of gerunds.
+
+N Behead
+M }.
+R _
+T
+ [[}.]] drops the leading item of its argument.
+H
+E
+ ]y=: a. {~ (a. i. 'A') + i. 4 5
+ 
+ f=: }. ; {.
+ f y
+ 
+ g=: }. ,.@; {.
+ g y
+
+N Drop
+D }.
+R 1 _
+T
+ [[x }. y]] drops (at most) [[|x]] items from [[y]],
+ dropping from the front if [[x]] is positive and from
+ the tail if negative.
+ 
+ In general, if [[y]] is not an atom, [[x]] may be a
+ list of length at most [[r=:$$y]], and the effect of
+ element [[k]] is [[(k{x }."(r-k) y]]; if [[y]] is an
+ atom, the result is [[(0=x)$y]].
+H
+E
+ ]y=: a. {~ (a. i. 'A') + i. 4 5
+ (2}.y) ; (_2}.y) ; (6}.y) ; ($ 6}.y) ; (}."1 y) ; (3}."1 y)
+
+N Curtail
+M }:
+R _
+T
+ [[}:y]] drops the last item of [[y]], and is
+ equivalent to [[_1 }. y]].
+# small move: "thus:" was inside and examples outside of
+# reference box.
+H
+ Thus:
+E
+ ]y=: a. {~ (a. i. 'A') + i. 4 5
+ 
+ f=: }: ; {:
+ f y
+ 
+ g=: }: ,.@; {:
+ g y
+ 
+ h=: {. ,.@; }.
+ h y
+ 
+ }:"1 y
+# vim:tw=55:ai:ic:inf

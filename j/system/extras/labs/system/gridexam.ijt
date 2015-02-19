@@ -1,0 +1,527 @@
+LABTITLE=: 'Grid Examples'
+LABERRORS=: 1
+LABWINDOWED=: 0
+
+NB. =========================================================
+Lab Section overview
+This lab shows examples of forms with grids.
+
+A form uses a grid to display data in cells.
+
+A grid is sometimes called a spreadsheet.
+
+The examples are of jwatch, jtable, and jfreport forms.
+)
+
+NB. =========================================================
+Lab Section
+The grids and forms are implemented with OOP.
+
+This lab will make more sense if you have done lab 'Object Oriented Programming'.
+
+When you've finished this lab, use lab 'Grid Control' to learn how to add a grid to your own form.
+)
+
+NB. =========================================================
+Lab Section jwatch
+The first example is jwatch.
+
+A jwatch object has a form with a grid that displays a variable.
+)
+
+NB. =========================================================
+Lab Section
+To create jwatch objects, the jwatch class must be loaded.
+
+corequire loads a class if it is not already loaded.
+)
+PREPARE
+require'gl2'
+PREPARE
+corequire 'jwatch'
+
+NB. =========================================================
+Lab Section
+When a form is displayed you have to keep track of both the form and the IJX window.
+
+IJX may cover the form and you will have to activate the form to see it.
+
+If ptop is done, the form stays on top, perhaps making it difficult to see IJX.
+
+If you have a large screen, you might want to try:
+
+   wd 'ptop 1'
+
+Ctrl+a won't advance the lab while the form is active.
+)
+
+NB. =========================================================
+Lab Section
+A jwatch is created the same way any object is created.
+
+conew is called to build the object. The left argument is the argument for the create method.
+
+The jwatch create argument is the name to watch.
+
+The next step sets d1 and creates a watch on it.
+)
+
+NB. =========================================================
+Lab Section
+)
+d1=: ?1+i.100 75
+w1=: 'd1' conew 'jwatch'
+
+NB. =========================================================
+Lab Section
+Practice switching between the form and IJX.
+)
+
+NB. =========================================================
+Lab Section
+Play with the form.
+
+Ctrl+arrows scroll.
+
+Use the scroll bars.
+
+Mark a cell with the mouse.
+
+Use arrows to move the marked cell.
+)
+
+NB. =========================================================
+Lab Section
+Try typing into the marked cell.
+
+By default, editing is not allowed.
+
+Ctrl+e enables/disables editing.
+
+Enable editing and edit the marked cell.
+
+Enter or an arrow ends editing.
+
+d1 is numeric and only numeric entries are allowed.
+)
+
+NB. =========================================================
+Lab Section
+Enter a long number so that it shows as #.
+
+Move the mouse over the side edge line at the top of a column and notice that the mouse cursor changes to a double headed arrow. Press the mouse down and drag the column wider.
+
+Ctrl+Shift+arrows changes the size of all columns and rows.
+)
+
+NB. =========================================================
+Lab Section
+Ctrl+f changes the font.
+
+Ctrl+m takes an expression used to highlight cells.
+)
+
+NB. =========================================================
+Lab Section
+Shift+arrows extends the marked range of cells.
+
+You can also mark a range by dragging the mouse.
+
+Copy cells to the clipboard with Ctrl+c.
+
+Paste cells with Ctrl+v.
+
+You can cut/paste between this grid and another J grid, or the grid of other applications (for example, Excel).
+)
+
+NB. =========================================================
+Lab Section
+F1 gives a brief help.
+)
+
+NB. =========================================================
+Lab Section
+The next step sets d2 and creates a watch on it.
+)
+
+NB. =========================================================
+Lab Section
+)
+d2=: 10 10 $ 'ab';'123'
+w2=: 'd2' conew 'jwatch'
+
+NB. =========================================================
+Lab Section
+d2 is a boxed table of strings. d1 is an integer table.
+
+By default a grid displays strings that look like numbers at the right and others at the left.
+
+Enable editing with Ctrl+e and enter some data.
+)
+
+NB. =========================================================
+Lab Section
+The formselect and destroy methods can be used to destroy a form. These methods are discussed in more detail later on.
+
+Close the two watch forms.
+)
+formselect__w1 ''
+destroy__w1 ''
+
+formselect__w2 ''
+destroy__w2 ''
+
+NB. =========================================================
+Lab Section jtable
+The next example is a jtable form.
+
+A jtable is a form with a grid showing a mathematical table.
+
+We need to be sure the jtable class is loaded.
+)
+corequire 'jtable'
+
+NB. =========================================================
+Lab Section
+The argument of create is the expression to use.
+
+We'll use ! to generate the table of binomial coefficients.
+
+The next section creates a ! jtable form.
+)
+
+NB. =========================================================
+Lab Section
+)
+t1=: '!' conew 'jtable'
+
+NB. =========================================================
+Lab Section
+Scroll (cTRL+right arrow) to column 50 or so.
+
+The numbers are too big to display and show as #.
+
+Ctrl+Shift+rightarrow to widen the cells to show the numbers.
+
+Make the form tall to see many rows.
+)
+
+NB. =========================================================
+Lab Section
+The floating point representation obscures the pattern.
+
+Click X precision to use extended precision integers.
+
+Widen columns to display all the digits.
+)
+
+NB. =========================================================
+Lab Section
+The interesting thing about a jtable grid is that it scrolls over an infinitely large table.
+
+As it isn't practical to generate all that data, scrolling frees up data and gets new data as required.
+)
+
+NB. =========================================================
+Lab Section
+Close the table form.
+)
+formselect__t1 ''
+destroy__t1 ''
+
+NB. =========================================================
+Lab Section jfreport
+The jwatch and jtable objects are of some general use.
+
+The jfreport object just shows a few additional features.
+)
+
+NB. =========================================================
+Lab Section
+A jfreport displays data as a quarterly financial report.
+
+The data is expected to have 12 columns.
+
+The next step creates a jfreport.
+)
+
+NB. =========================================================
+Lab Section
+)
+corequire 'jfreport'
+fdata=: ?1+i.10 12
+f1=: 'fdata' conew 'jfreport'
+
+NB. =========================================================
+Lab Section
+Size the form to see all the data.
+
+New data is reflected in the row and column totals.
+)
+
+NB. =========================================================
+Lab Section
+Close the freport form.
+)
+formselect__f1 ''
+destroy__f1 ''
+
+NB. =========================================================
+Lab Section OOP
+The jwatch, jtable, and jfreport forms and their grids are implemented as objects.
+
+The next few sections show how you can work with these objects.
+)
+
+NB. =========================================================
+Lab Section
+The next step creates a watch on d1.
+
+The form is marked ptop so you can see changes.
+
+Size and position the form so you see a few cells and IJX.
+)
+
+NB. =========================================================
+Lab Section
+)
+w1=: 'd1' conew 'jwatch'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+The next section creates a watch on d2.
+
+This form is also marked ptop. Size and position the forms so that you can see the IJX window and both forms.
+)
+
+NB. =========================================================
+Lab Section
+)
+w2=: 'd2' conew 'jwatch'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+Form and grid methods usually run as the result of an event.
+
+Events automatically select the form and control as the target of wd commands,
+
+Form and grid methods usually assume that the form and control are the wd target..
+)
+
+NB. =========================================================
+Lab Section
+pn is defined to set the title of a form.
+
+Click a grid cell on d1 and run pn''. Then click a grid cell on d2 and run pn'' again. The wd target is the last form that had an event.
+)
+a=:0
+pn =: verb define
+wd'pn *test: ',":a=:>:a
+)
+
+NB. run pn'' to affect form with last cell click
+
+NB. =========================================================
+Lab Section
+Sometimes it is useful to call methods directly, rather than as a result of an event on the form.
+
+The form must be selected before calling methods or wd commands that need the form as the wd target.
+)
+
+NB. =========================================================
+Lab Section
+Form objects have a formselect method that selects the form as the wd target.
+
+formselect sets the form as the wd target just as if an event happened to the form.
+)
+formselect__w1 ''
+wd'pn *Watch - d1'
+
+formselect__w2 ''
+wd'pn *Watch - d2'
+
+NB. =========================================================
+Lab Section
+To destroy a form from outside of an event on the form, you can call the destroy method. Since destroy calls wd'pclose' you must first call formselect so that the form is the target.
+)
+
+NB. =========================================================
+Lab Section
+The next section creates a watch on d3 and marks it ptop.
+
+Size and position it appropriately.
+)
+
+NB. =========================================================
+Lab Section
+)
+d3=: 2000+i.10 10
+w3=: 'd3' conew 'jwatch'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+Calling the destroy method in w3 destroys the w3 form.
+
+You must call formselect before calling destroy.
+)
+formselect__w3 ''
+destroy__w3 ''
+
+NB. =========================================================
+Lab Section
+You can also call grid methods.
+
+First you need an object reference for the grid.
+
+A watch has its grid object reference in field grid.
+
+Set g1 as the object reference for the grid in w1.
+)
+g1=: grid__w1
+
+NB. =========================================================
+Lab Section
+Before calling grid methods that use wd and gl..., you must use gridselect to be sure the form and grid control are the wd and gl... targets.
+)
+
+NB. =========================================================
+Lab Section
+The setfont0 grid method sets a font used by the grid.
+
+Note that the font does not change until the grid receives an event, or you explicitly request a repaint.
+)
+gridselect__g1 ''    NB. set wd gl... targets
+setfont0__g1 'arial 8'
+
+NB. =========================================================
+Lab Section
+You might want to make several changes to the grid and you do not want it to repaint between each change.
+
+You can explicitly request a repaint with glpaintx.
+)
+gridselect__g1 ''
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Setting a larger font doesn't fit in the cell heights.
+)
+gridselect__g1 ''  NB. set wd gl... targets
+setfont0__g1 'arial 20'
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Setting the font set a new value in the defheights field.
+
+Calling setheights will use this field to set the heights of all cells.
+)
+setheights__g1 ''
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Set the font back to a more reasonable size.
+)
+gridselect__g1''
+setfont0__g1 '"courier new" 12'
+setheights__g1 ''
+glpaint ''
+
+NB. =========================================================
+Lab Section
+Get the object reference for the d2 grid and set its font.
+)
+g2=: grid__w2
+gridselect__g2 ''
+setfont0__g2 'arial 15'
+setheights__g2 ''
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Define a verb that sets a new value for a cell and then updates the grid.
+
+The left argument is the data and the right is the index.
+)
+cd=: dyad define
+d1=: x. (<y.) } d1
+gridselect__g1 ''
+setdata__g1 ''
+glpaintx ''
+)
+
+NB. =========================================================
+Lab Section
+Experiment with changing d1 and updating the grid.
+)
+123 cd 2;3
+555 cd 1;2
+
+NB. try cd with other values
+
+NB. =========================================================
+Lab Section
+setdata sets all the data in the grid and glpaintx causes the entire grid to repaint. This is very inefficient if the only thing changing is the data of a single cell.
+)
+
+NB. =========================================================
+Lab Section
+updatecell updates the data of a single cell and requests the repaint of just that cell,
+
+cd2 is similar to cd, but uses the more efficient updatecell.
+)
+cd2=: dyad define
+d1=: x. (<y.) } d1
+gridselect__g1 ''
+x. updatecell__g1 1+>y.
+)
+
+NB. =========================================================
+Lab Section
+)
+23 cd2 2;3
+12 cd2 1;2
+
+NB. try cd with other values
+
+NB. =========================================================
+Lab Section
+In previous examples we got the grid object reference from the form and used it to call the grid methods.
+
+You can also use indirect names to go through multiple levels.
+)
+
+NB. =========================================================
+Lab Section
+Name abc__def__ghi is read as:
+ abc in def in ghi
+
+and parses as:
+  abc in ( def in ghi)
+
+foo__grid__w1 is foo in the grid object that is in the w1 object.
+)
+gridselect__grid__w1 ''
+setfont0__grid__w1 'arial 16 bold'
+setheights__grid__w1 ''
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Destroy the d1 and d2 watch forms.
+)
+formselect__w1 ''
+destroy__w1 ''
+formselect__w2 ''
+destroy__w2 ''
+
+NB. =========================================================
+Lab Section the end
+This is the end of the lab on the grid examples.
+
+To learn how to add a grid to your own form, see lab 'Grid Control'.
+)

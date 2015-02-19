@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Commands</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="stops.htm">&gt&gt;</a>&nbsp;
+<a href="debug_verbs.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Commands</h1>
+<TR><TD colspan="2"> 
+
+<P>In the code panel of the Debug window:</P>
+
+<TABLE BORDER="0" cellpadding="5">
+  <TR>
+    <TD>&gt;</TD><TD><P>marks the suspended line, same as the initial run line.</P></TD></TR>
+  <TR>
+    <TD>-</TD><TD><P>marks the run line, if moved back from the suspended line.</P></TD></TR>
+  <TR>
+    <TD>+</TD><TD><P>marks the run line, if moved forward from the suspended line.</P></TD></TR>
+  <TR>
+    <TD>*</TD><TD><P>marks a stop on a specific line.</P></TD></TR>
+      <TR>
+    <TD>|</TD><TD><P>marks a stop on all lines.</P></TD></TR></table>
+
+
+<H2>Toolbar Commands</H2>
+
+<table cellpadding="5"><tr><td><B><P>Command</P></B></td><td><B><P>Shortcut</P></B></td><td><B><P>Description</P></B></td></tr>
+<tr><td><P>run</P></td><td></td><td><P>continue execution at the run line.</P></td></tr>
+<tr><td><P>single step</P></td><td><P>Enter, F10</td><td><P>ontinue execution at the run line, stopping on the next line. Does not stop in definitions on the run line, unless they already have stops set in them.</td></tr>
+<tr><td><P>single step into</td><td><P>F11</td><td><P>continue execution at the run line, stopping on the next line, or on the first line of any definitions on the run line.</td></tr>
+<tr><td><P>back</td><td></td><td><P>move run line back one line. Does not undo sentences already executed.</td></tr>
+<tr><td><P>refresh</td><td></td><td><P>refresh Debug window, and restore run line to suspended line.</td></tr>
+<tr><td><P>forward</td><td></td><td><P>move run line forward one line. Does not execute the run line.</td></tr>
+<tr><td><P>stop line</td><td><P>F9</td><td><P>toggle stop on line at the cursor position.</td></tr>
+<tr><td><P>stop all lines</td><td></td><td><P>toggle stops on all lines.</td></tr>
+<tr><td><P>stop name</td><td></td><td><P>set stops on all lines on name at cursor position, or, if the entire line is selected, on all names on the line. If successful, highlights the name, or entire line of code.</td></tr>
+<tr><td><P>stop manager</td><td></td><td><P>manage the stop settings.</td></tr>
+<tr><td><P>watch manager</td><td></td><td><P>manage the watch names.</td></tr>
+<tr><td><P>edit</td><td></td><td><P>open script window with the current definition.</td></tr>
+<tr><td><P>clear</td><td></td><td><P>reset stack and clear the Debug window. Leaves suspension on.</td></tr>
+<tr><td><P>help</td><td></td><td><P>This help.</td></tr>
+</table>
+
+
+<H2>Other Commands (not on Toolbar)</H2>
+
+<table cellpadding="5">
+<tr><td><B><P>Command</B></td><td><B><P>Shortcut</B></td><td><B><P>Description</B></td></tr>
+<tr><td><P>shortcut helpn</td><td><P>Ctrl+H</td><td><P>shortcut help</td></tr>
+<tr><td><P>topmost</td><td><P>Ctrl+T</td><td><P>toggles the topmost attribute</td></tr>
+<tr><td><P>writeline</td><td><P>Ctrl+W</td><td><P>writes the current line to the execution session.</td></tr>
+<tr><td><P>run next</td><td><P>Ctrl+Shift+F5</td><td><P>continue execution at next sentence. See below for details.</td></tr>
+<tr><td><P>remove stops</td><td><P>Ctrl+Shift+F9</td><td><P>remove all stops</td></tr>
+<tr><td><P>run to cursor</td><td><P>Ctrl+F10</td><td><P>run to cursor line</td></tr>
+<tr><td><P>move to cursor</td><td><P>Ctrl+Shift+F10</td><td><P>move to cursor line</td></tr>
+<tr><td><P>step out</td><td><P>Shift+F11</td><td><P>step out of current definition</td></tr>
+<tr><td><P>cutback</td><td><P>Ctrl+Shift+F11</td><td><P>cutback stack to calling definition. See below for details.</td></tr>
+</table>
+
+
+<H2>cutback</H2>
+<P>This tries to cutback the stack to the calling definition. Since there is no debug command to do this, the method is to stop all definitions on the stack, return a result of 1 from the current definition, then redisplay the Debug window with the appropriate run line. This works as long as returning a result of 1 from the current definition does not cause problems.</P>
+
+<H2>run next</H2>
+<P>If the run line is the same as the suspended line, this executes the next sentence, or the next line if none. Note that several sentences may be included on one line, separated by control words.</P>
+<P>
+If the run line has been moved away from the suspended line, then runnext has the same effect as the run button.</P>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="stops.htm">&gt&gt;</a>&nbsp;
+<a href="debug_verbs.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

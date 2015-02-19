@@ -1,0 +1,660 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 19: Numbers</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 19: Numbers</H1>
+<p>
+The topics covered in this chapter are: 
+are: 
+<p>
+<UL> 
+<LI>The different kinds of numbers available in J 
+<LI>Special numbers (infinities and indeterminates) 
+<LI>Notations for writing numbers 
+<LI>How numbers are displayed 
+</UL> 
+<H2>19.1  Six Different Kinds of Numbers</H2>
+<p>
+J supports computation with numbers of these kinds: 
+<p>
+<UL> 
+<LI>booleans (or truth-values), 
+<LI>integers,  
+<LI>real (or floating-point) numbers,  
+<LI>complex numbers, 
+<LI>extended integers (that is, arbitrarily large integers exactly represented) 
+<LI>rationals (that is, pairs of extended integers) 
+</UL> 
+<H3>19.1.1  Floating-Point Numbers</H3>
+<p>
+A floating-point number is a number represented in the computer in such a way that: 
+(1) there may be a a fractional part as well as a whole-number part. 
+(2) a fixed amount of computer storage is occupied by the number, whatever the value of the number. 
+and (3)the precision with which the number is represented is limited to  
+at most about 17 significant decimal digits (on a PC). 
+<p>
+Examples of floating-point numbers are <TT>0.25 2.5 12345678901</TT> 
+<p>
+We will use the term "real" more or less interchangeably with "floating-point". 
+<p>
+<H3>19.1.2  Scientific Notation</H3>
+<p>
+What is sometimes called "scientific notation" 
+is a convenient way of writing  
+very large or very small numbers.  
+For example, 1500000 may be written as <TT>1.5e6</TT>, 
+ meaning <TT>1.5 * 10^6</TT>.  
+The general scheme is that a number written in the form <TT>XeY</TT>, where <TT>Y</TT> is a 
+(positive or negative) integer means <TT>(X * 10^Y)</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>3e2</TT></TD> 
+<TD><TT>1.5e6</TT></TD> 
+<TD><TT>1.5e_4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>300</TD> 
+<TD><PRE>1500000</TD> 
+<TD><PRE>0.00015</TD> 
+</PRE></TABLE> 
+<p>
+Note that in <TT>3e2</TT> the letter <TT>e</TT> is not any kind of function;  
+it is part of the notation for writing numbers,  
+just as a decimal point is part of the notation.  
+<p>
+We say that the string of characters <TT>3</TT> followed by <TT>e</TT> followed by <TT>2</TT> is a numeral 
+which denotes the number <TT>300</TT>.   
+The string of characters <TT>3</TT> followed by <TT>0</TT>  
+followed by <TT>0</TT> is another numeral denoting the same number.  
+Different forms of numerals provide convenient ways to express  
+different numbers.  A number expressed by a numeral is also called a "constant" 
+(as opposed to a variable.) 
+<p>
+We will come back to the topic of numerals: now we return to the topic 
+of different kinds of numbers. 
+<H3>19.1.3  Booleans and Integers</H3>
+<p>
+When an array contains only the truth-values <TT>0</TT> and <TT>1</TT>, 
+the J system recognises this fact  
+and, for the sake of efficiency,  
+represents the numbers in a compact internal form, called "Boolean", rather  
+than in the floating-point form.  
+<p>
+Similarly for an array containing only (relatively small) 
+whole numbers, a compact internal representation  
+called "integer" is used. 
+<p>
+The choice of appropriate representation 
+is managed entirely automatically by the J system,  
+and is not normally something the programmer must be aware of. 
+<p>
+However, the J system does provide a means of testing 
+the representation of a number.  Here is a utility function for the purpose. 
+<PRE>
+   types =: 'bool';'int';'float';'complex';'ext int';'rational'
+   
+   type =: > @: ({ & types) @: (1 4 8 16 64 128 & i.) @: (3 !: 0)
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>type 0=0</TT></TD> 
+<TD><TT>type 37</TT></TD> 
+<TD><TT>type 2.5</TT></TD> 
+<TD><TT>type 12345678901</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>bool</TD> 
+<TD><PRE>int</TD> 
+<TD><PRE>float</TD> 
+<TD><PRE>float</TD> 
+</PRE></TABLE> 
+<H3>19.1.4  Comparison of Real Numbers</H3>
+<p>
+to be supplied 
+<H3>19.1.5  Complex Numbers</H3>
+<p>
+The square root of -1 is the imaginary number conventionally  
+called "i". 
+A complex number which is conventionally  written as,  
+for example, 3+i4 is in J written as <TT>3j4</TT>.   
+<p>
+In J an imaginary number is always regarded as a complex numbers with real part zero. 
+Thus "i", the square root of -1, can be  
+written <TT>0j1</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>i =: %: _1</TT></TD> 
+<TD><TT>i * i</TT></TD> 
+<TD><TT>0j1 * 0j1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0j1</TD> 
+<TD><PRE>_1</TD> 
+<TD><PRE>_1</TD> 
+</PRE></TABLE> 
+<p>
+A complex number can be built from two separate real numbers by arithmetic 
+in the ordinary way,  
+or more conveniently with the built-in function <TT>j.</TT> (lowercase j dot, called  
+"Complex"). 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>3 + 0j1 * 4</TT></TD> 
+<TD><TT>3 j. 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3j4</TD> 
+<TD><PRE>3j4</TD> 
+</PRE></TABLE> 
+<p>
+A complex number such as <TT>3j4</TT> is a single number, a scalar. To extract 
+its real part and imaginary part separately we can use the built-in verb 
+<TT>+.</TT>(plus dot, called "Real/Imaginary").   
+To extract separately the magnitude and angle (in radians) we can use the  
+built-in verb <TT>*.</TT> (asterisk dot, called "Length/Angle"). 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+. 3j4</TT></TD> 
+<TD><TT>*. 3j4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4</TD> 
+<TD><PRE>5 0.927295</TD> 
+</PRE></TABLE> 
+<p>
+Given a magnitude and angle, we can build a complex number 
+by taking sine and cosine,  or more conveniently with the built-in 
+function <TT>r.</TT> (lowercase r dot, called "Polar"). 
+<PRE>
+   sin =: 1 & o.
+   cos =: 2 & o.
+   mag =: 5
+   ang =: 0.92729522  NB. radians
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>mag * (cos ang) + 0j1 * sin ang</TT></TD> 
+<TD><TT>mag r. ang</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3j4</TD> 
+<TD><PRE>3j4</TD> 
+</PRE></TABLE> 
+<p>
+A complex constant with magnitude <TT>X</TT> and angle (in radians) <TT>Y</TT> 
+can be written in the form 
+<TT>XarY</TT>, meaning <TT>X r. Y</TT>. Similarly, if the angle is given in degrees, 
+we can write <TT>XadY</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>5ar0.9272952</TT></TD> 
+<TD><TT>5ad53.1301</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3j4</TD> 
+<TD><PRE>3j4</TD> 
+</PRE></TABLE> 
+<H3>19.1.6  Extended Integers</H3>
+<p>
+A floating-point number, having a limited storage space in the computer's memory,  
+ can represent an integer exactly only up to about 17 digits.  
+For exact computations with longer numbers, "extended integers" are available.  
+An "extended integer" is a number which exactly represents an integer no matter how many digits are needed. 
+An extended integer is written with the digits followed with the letter 'x'. Compare the following: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a =: *: 10000000001</TT></TD> 
+<TD><TT>b =: *: 10000000001x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1e20</TD> 
+<TD><PRE>100000000020000000001</TD> 
+</PRE></TABLE> 
+<p>
+Here <TT>a</TT> is an approximation while <TT>b</TT> is an exact result. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>type a</TT></TD> 
+<TD><TT>type b</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>float</TD> 
+<TD><PRE>ext int</TD> 
+</PRE></TABLE> 
+<p>
+We can see that adding <TT>1</TT> to <TT>a</TT> makes no difference, while adding 1 to <TT>b</TT> does make a difference: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(a + 1) - a</TT></TD> 
+<TD><TT>(b + 1) - b</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<H3>19.1.7  Rational Numbers</H3>
+<p>
+A "rational number" is a single number which represents exactly the ratio of two 
+integers, for example, two-thirds is the ratio of 2 to 3.  Two-thirds 
+can be written as a rational number with the notation <TT>2r3</TT>. 
+<p>
+The point of rationals is that they are are exact representations  
+using extended integers. Arithmetic with rationals gives exact results. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2r3 + 1r7</TT></TD> 
+<TD><TT>2r3 * 4r7</TT></TD> 
+<TD><TT>2r3 % 5r7</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>17r21</TD> 
+<TD><PRE>8r21</TD> 
+<TD><PRE>14r15</TD> 
+</PRE></TABLE> 
+<p>
+Rationals can be constructed by dividing extended integers. 
+Compare the following: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2 % 3</TT></TD> 
+<TD><TT>2x % 3x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.666667</TD> 
+<TD><PRE>2r3</TD> 
+</PRE></TABLE> 
+<p>
+A rational can be constructed from a given floating-point 
+number with the verb <TT>x:</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x: 0.3</TT></TD> 
+<TD><TT>x: 1 % 3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3r10</TD> 
+<TD><PRE>1r3</TD> 
+</PRE></TABLE> 
+<p>
+A rational number can be converted to a floating-point approximation with the inverse of<TT>x:</TT> , that is, verb <TT>x: ^: _1</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>float =: x: ^: _1</TT></TD> 
+<TD><TT>float  2r3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+--+--+--+ 
+|x:|^:|_1| 
++--+--+--+</TD> 
+<TD><PRE>0.666667</TD> 
+</PRE></TABLE> 
+<p>
+Given a rational number, its numerator and denominator can 
+be recovered with the verb <TT>2 & x:</TT>,  which gives a list of length 2. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>nd =: 2 & x:</TT></TD> 
+<TD><TT>nd 2r3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+--+ 
+|2|&|x:| 
++-+-+--+</TD> 
+<TD><PRE>2 3</TD> 
+</PRE></TABLE> 
+<H3>19.1.8  Type Conversion</H3>
+<p>
+We have numbers of six different types: 
+boolean, integer, extended integer, rational, floating-point and complex. 
+<p>
+Arithmetic can be done with a mixture of types. 
+For example an integer plus an extended gives an extended,  
+and a rational times a float gives a float. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1 + 10^19x</TT></TD> 
+<TD><TT>1r3 * 0.75</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>10000000000000000001</TD> 
+<TD><PRE>0.25</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that the six types 
+ form a progression: from boolean  
+to integer to extended to rational to floating-point to complex. 
+We say that boolean is the simplest or "lowest" type 
+and complex as the most general or "highest" type 
+<p>
+Where we have two numbers of different types, 
+the one of lower type is converted to match the type of the higher. 
+and the result is of the "higher". 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>type 1r3</TT></TD> 
+<TD><TT>type 1%3</TT></TD> 
+<TD><TT>z =: 1r3, 1%3</TT></TD> 
+<TD><TT>type z</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>rational</TD> 
+<TD><PRE>float</TD> 
+<TD><PRE>0.333333 0.333333</TD> 
+<TD><PRE>float</TD> 
+</PRE></TABLE> 
+<H2>19.2  Special Numbers</H2>
+<H3>19.2.1  "Infinity"</H3>
+<p>
+A floating-point number can (on a PC) be no larger than about 1e308, 
+because of the way it is stored in the computer's memory. 
+Any arithmetic which attempts to produce a larger result 
+will in fact produce a special number called "infinity" 
+and written <TT>_</TT> (underscore). For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1e308 * 0 1 2</TT></TD> 
+<TD><TT>1e400</TT></TD> 
+<TD><TT>1 % 0</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1e308 _</TD> 
+<TD><PRE>_</TD> 
+<TD><PRE>_</TD> 
+</PRE></TABLE> 
+<p>
+We also have "negative infinity" written as <TT>__</TT> (underscore underscore). 
+Infinity is a floating-point number: 
+<PRE>
+   type _
+float
+   
+</PRE>
+<H3>19.2.2  Indeterminate Numbers</H3>
+<p>
+to be supplied 
+<H2>19.3  Notations</H2>
+<p>
+We have seen above numerals formed with the letters <TT>e</TT>, <TT>r</TT> and <TT>j</TT>, for example: 
+<TT>1e3</TT>, <TT>2r3</TT>, and <TT>3j4</TT>. Here we look at more letters for forming numerals. 
+<p>
+A numeral written with letter <TT>p</TT>, of the form <TT>XpY</TT>  means <TT>X * pi ^ Y</TT>  
+where <TT>pi</TT> is the familiar value 3.14159265.... 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>pi =: 1p1</TT></TD> 
+<TD><TT>twopi =: 2p1</TT></TD> 
+<TD><TT>2p_1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3.14159</TD> 
+<TD><PRE>6.28319</TD> 
+<TD><PRE>0.63662</TD> 
+</PRE></TABLE> 
+<p>
+Similarly, a numeral written with letter <TT>x</TT>, of the form <TT>XxY</TT>  means <TT>X * e ^ Y</TT>  
+where <TT>e</TT> is the familiar value 2.718281828.... 
+<p>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>e =: 1x1</TT></TD> 
+<TD><TT>2x_1</TT></TD> 
+<TD><TT>2 * e ^ _1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2.71828</TD> 
+<TD><PRE>0.735759</TD> 
+<TD><PRE>0.735759</TD> 
+</PRE></TABLE> 
+<p>
+These <TT>p</TT> and <TT>x</TT> forms of numeral provide a convenient way of writing constants 
+accurately without writing out many digits. 
+<p>
+Finally, we can write numerals with a base other than 10.  
+For example the binary or base-2 number with binary digits <TT>101</TT> has the value <TT>5</TT> 
+ and can be written as <TT>2b101</TT>.  
+<PRE>
+   2b101 
+5
+</PRE>
+<p>
+The general scheme is that <TT>NbDDD.DDD</TT> is a numeral in number-base <TT>N</TT> with digits <TT>DDD.DDD</TT> . 
+With bases larger than 10, we will need 
+digits larger than 9, so we take letter <TT>'a'</TT> as a digit with value 10, <TT>'b'</TT> with value 11,  
+and so on up to <TT>'z'</TT> with value 35.  
+<p>
+For example, letter <TT>'f'</TT> has digit-value 15, so in hexadecimal (base 16) the 
+numeral written <TT>16bff</TT> has the value <TT>255</TT>.  
+The number-base <TT>N</TT> is given in decimal. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>16bff</TT></TD> 
+<TD><TT>(16 * 15) + 15</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>255</TD> 
+<TD><PRE>255</TD> 
+</PRE></TABLE> 
+<p>
+One more example. <TT>10b0.9</TT> is evidently a base-10 number meaning "nine-tenths" and so,  
+in base 20, <TT>20b0.f</TT> means "fifteen twentieths" 
+<PRE>
+   10b0.9 20b0.f
+0.9 0.75
+</PRE>
+<H3>19.3.1  Combining the Notations</H3>
+<p>
+The notation-letters <TT>e</TT>, <TT>r</TT>, <TT>j</TT> <TT>ar</TT> <TT>ad</TT> <TT>p</TT> 
+<TT>x</TT> and <TT>b</TT> may be used in combination.  
+For example we can write <TT>1r2p1</TT> 
+to mean "pi over two". Here are some further examples  
+ of possible combinations. 
+<p>
+A numeral in the form <TT>XrY</TT> denotes the number 
+<TT>X%Y</TT>.  A numeral in the form <TT>XeYrZ</TT> denotes  
+the number <TT>(XeY) % Z</TT> because <TT>e</TT> is considered before <TT>r</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1.2e2</TT></TD> 
+<TD><TT>(1.2e2) % 4</TT></TD> 
+<TD><TT>1.2e2r4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>120</TD> 
+<TD><PRE>30</TD> 
+<TD><PRE>30</TD> 
+</PRE></TABLE> 
+<p>
+A numeral in the form <TT>XjY</TT> denotes the complex number 
+<TT>(X j. Y)</TT> (that is, <TT>(X + (%: _1) * Y)</TT>. 
+A numeral in the form <TT>XrYjZ</TT> denotes the number 
+<TT>(XrY) j. Z</TT> because <TT>r</TT> is considered before <TT>j</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>3r4</TT></TD> 
+<TD><TT>(3r4) j. 5</TT></TD> 
+<TD><TT>3r4j5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3r4</TD> 
+<TD><PRE>0.75j5</TD> 
+<TD><PRE>0.75j5</TD> 
+</PRE></TABLE> 
+<p>
+A numeral in the form <TT>XpY</TT> denotes the number 
+<TT>X*pi^Y</TT>. A numeral in the form <TT>XjYpZ</TT> denotes 
+<TT>(XjY) *pi^Z</TT> because <TT>j</TT> is considered before <TT>p</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>3j4p5</TT></TD> 
+<TD><TT>(3j4) * pi ^ 5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>918.059j1224.08</TD> 
+<TD><PRE>918.059j1224.08</TD> 
+</PRE></TABLE> 
+<p>
+A numeral in the form <TT>XbY</TT> denotes the number 
+<TT>Y-in-base-X</TT>.  A numeral in the form <TT>XpYbZ</TT> 
+denotes the number <TT>Z-in-base-(XpY)</TT> because 
+<TT>p</TT> is considered before <TT>b</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(3*pi)+5</TT></TD> 
+<TD><TT>1p1b35</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>14.4248</TD> 
+<TD><PRE>14.4248</TD> 
+</PRE></TABLE> 
+<H2>19.4  How Numbers are Displayed</H2>
+<p>
+A number is displayed by J with, by default, up to 6 or 7 
+significant digits. 
+This means that, commonly, small integers are shown exactly, 
+while large numbers, or numbers with many  
+significant digits, are shown approximately. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>10 ^ 3</TT></TD> 
+<TD><TT>2.7182818285</TT></TD> 
+<TD><TT>2.718281828 * 10 ^ 7</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1000</TD> 
+<TD><PRE>2.71828</TD> 
+<TD><PRE>2.71828e7</TD> 
+</PRE></TABLE> 
+<p>
+The number of significant digits used 
+for display is determined by a global variable 
+called the "print-precision".  If we define 
+the two functions: 
+<PRE>
+   ppq =: 9 !: 10    NB. print-precision query
+   pps =: 9 !: 11    NB. print-precision set
+</PRE>
+<p>
+then the expression <TT>ppq ''</TT> gives the value 
+of print-precision currently in effect, while 
+<TT>pps n</TT> will set the print-precision to <TT>n</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>ppq ''</TT></TD> 
+<TD><TT>e =: 2.718281828</TT></TD> 
+<TD><TT>pps 8</TT></TD> 
+<TD><TT>e</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>6</TD> 
+<TD><PRE>2.71828</TD> 
+<TD><PRE></TD> 
+<TD><PRE>2.7182818</TD> 
+</PRE></TABLE> 
+<H3>19.4.1  The "Format" Verb</H3>
+<p>
+There is a built-in verb <TT>":</TT> 
+ (doublequote colon, called "Format"). 
+Monadic Format converts a number into a string  
+ representing the number with the print-precision 
+currently in effect. In the following example, 
+note that <TT>a</TT> is a scalar,  
+while the formatted representation of <TT>a</TT> is a list of characters. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a =: 1 % 3</TT></TD> 
+<TD><TT>": a</TT></TD> 
+<TD><TT>$ ": a</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.33333333</TD> 
+<TD><PRE>0.33333333</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<p>
+The argument can be a list of numbers and the result is 
+a single string. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>b =: 1 % 3 4 </TT></TD> 
+<TD><TT>": b</TT></TD> 
+<TD><TT>$ b</TT></TD> 
+<TD><TT>$ ": b</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.33333333 0.25</TD> 
+<TD><PRE>0.33333333 0.25</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE>15</TD> 
+</PRE></TABLE> 
+<p>
+Dyadic Format allows more control over the 
+representation.  
+The left argument is complex: a value of  
+say, <TT>8j4</TT> will format the numbers in a width of  
+<TT>8</TT> characters and with <TT>4</TT> decimal places. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>c =: % 1 + i. 2 2</TT></TD> 
+<TD><TT>w =: 8j4 ": c</TT></TD> 
+<TD><TT>$ w</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>         1  0.5 
+0.33333333 0.25</TD> 
+<TD><PRE>  1.0000  0.5000 
+  0.3333  0.2500</TD> 
+<TD><PRE>2 16</TD> 
+</PRE></TABLE> 
+<p>
+If the width is specified as zero (as in say <TT>0j3</TT>) 
+then sufficient width is allowed. If the number of decimal places 
+is negative (as in <TT>10j_3</TT>) then numbers are shown in "scientific notation" 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>c </TT></TD> 
+<TD><TT>0j3 ": c</TT></TD> 
+<TD><TT>10j_3 ": c</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>         1  0.5 
+0.33333333 0.25</TD> 
+<TD><PRE>1.000 0.500 
+0.333 0.250</TD> 
+<TD><PRE>  1.000e0   5.000e_1 
+  3.333e_1  2.500e_1</TD> 
+</PRE></TABLE> 
+<p>
+This brings us to the end of Chapter 19. 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="20.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 11Jan01</p>
+</BODY>
+</HTML>
+

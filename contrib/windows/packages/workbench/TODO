@@ -1,0 +1,32 @@
+Big Features List:
+	explicit definitions (use "edit" for now).
+	maintain comments
+	select one locale
+	read/write one TV scriptfile.
+	read/write/merge foreign scriptfile.
+	deal with
+		multiple script files,
+		multiple locales, and
+		definitions across scripts and locales
+	integrate debugger and jump to offending source.
+
+ana
+	store definitions (use fields.ijs)
+	write defs to script
+	read defs from script
+		what about lf's in the long term?
+		what about a=.+ [. b=.- ?
+	isolated comment stretches?
+
+xref
+	sort foo_event_handlers intelligently
+
+13!: interface
+
+tv
+	explicit defs (just into script window?)
+	def history
+	adverb/conjunction definition with u and v children
+
+# secure gtc
+# shrink

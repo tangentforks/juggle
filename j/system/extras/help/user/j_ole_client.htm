@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>J OLE/OCX Client</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="ole_examples.htm">&gt&gt;</a>&nbsp;
+<a href="j_ole_auto_server.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>J OLE/OCX Client</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+J interacts with OLE and OCX controls using the Window Driver. You need a parent window to display the control, and you then create and use a OLE/OCX control in much the same way as for any other child control. You can use both standard and OLE/OCX controls on the same form.
+
+<pre>wd 'cc tree ocx:comctl.treectrl.1'
+wd 'cc xl oleautomation:excel.application'</pre>
+
+<P>
+OCX and OLE controls are not distributed with J. Some OCX and OLE controls are included with Windows, and with software such as Visual Basic. In some cases, these are subsets or earlier versions of the full systems obtainable from the original manufacturer. For serious use, we recommend you purchase the most recent versions of the controls, which will then include full documentation and support.
+
+<P>
+To see which OCX controls are available, create a new form using the Form Editor, then click New for new control, and select class OCX. 
+
+<P>
+OLE controls are not supported by the Form Editor and should be added directly in the <code>form_run</code> verb. The names of the OLE controls that are available are not visible from J.
+
+<P>
+An OCX or OLE control is a child on a form that contains an object named <I>base</I>. This base object can contain other objects. For example the base object could contain a font object. An object is identified by the child id and the name of the object. The name <I>temp</I> refers to a contained object that has been returned by a method or property. The temp object is automatically released and reset whenever a new object is returned. The <code>oleid</code> command gives the temp object a name and makes it permanent. 
+
+<P>
+Each control has a specific list of <I>methods,</I> <I>properties</I> and <I>events</I> (for OCX controls). The properties define the way the control is set up. The events are the events that the OCX control can generate. When you create a control, you typically set various properties, and register various events that you want to be notified of. When the control is in use, you retrieve information from the control by either reading the value of its properties, or by receiving event notifications.
+
+<P>
+<B>wd commands for OLE/OCX controls</B><br><br>
+
+<code>oledlg id</code><br>
+Run the OCX property dialog. The state can be saved with the <code>olesave</code> command.
+<p>
+<code>oleenable id eventname [bool]</code><br>
+Enable/disable OCX event. You must enable an event in order to trigger an event in J.
+<p>
+<code>oleget id objectname property</code><br>
+Return value of a property. Objectname is <I>base</I>, <I>temp</I>, or a name set with <code>oleid</code>. If the result is an object, it is set as the temp object. This allows a series of <code>wd</code> commands that use the temp object to get the next object.
+<p>
+<code>oleinfo id</code><br>
+Return information about events, methods, properties, and constants.
+<p>
+<code>oleload id filename</code><br>
+Initialize properties from a file created by <code>olesave</code>. An <code>oleload</code> should only be done once before it is shown.
+<p>
+<code>olemethod id objectname method parameters....</code><br>
+Run a method.
+
+<P>
+, is an elided parameter. A <code>wd</code> parameter of , is the same as &quot;&quot;, except it is treated as an elided parameter where appropriate.
+
+<P>
+Some methods distinguish between a numeric parameter and a string. A simple (not delimited) string that is an integer is treated as an integer. If you want <code>23</code> to be treated as a string, use <code>&quot;23&quot</code>;. 
+
+  <P>
+If the result is an object, it is set as the temp object.
+
+<P>
+An object parameter is indicated by a simple parameter of the form:<br>
+<code>object:formid.childid.objectname</code>
+<p>
+A picture object parameter is indicated by a simple parameter of the form:<br>
+<code>picture:filename</code>
+
+<p>
+<code>olesave id filename</code><br>
+Save properties in a file that can be used to initialize a control after it is created.
+<p>
+<code>oleset id objectname property value</code><br>
+Set property value.
+
+<P>
+<B>Objectnames</B><br>
+An OLE or OCX base object can contain other objects.
+
+<P>
+For example, many OCX controls contain a Font object that is returned by the font property.
+<p>
+<code>wd 'oleget ocx base font'</code> get font object as <I>temp</I>
+<p>
+<code>wd 'oleget ocx temp fontsize'</code>  get font size<br>
+<code>8.5</code>
+<p>
+<code>wd 'oleget ocx temp fontname'</code>  get font name<br>
+<code>Times New Roman</code>
+<p>
+<code>wd 'oleset ocx temp Times New Roman;oleset ocx temp fontsize 20'</code>  set  font
+
+<P>
+<B>OCX Events</B><br>
+An OCX event is signalled as a button event. For example, form <code>abc</code>, OCX id <code>spin</code>, signals sysevent <code>abc_spin_button</code>. The name <code>sysocx</code> is assigned the OCX event name.
+
+<P>
+<B>Example: Spinbutton Control</B><br>
+To illustrate these commands, we use the Outrider Systems SPIN32.OCX, a simple control that is ideal for experimentation. We assume you have this control installed on your system.
+
+<P>
+First try reading the OCX information (if this fails, you do not have the SpinButton installed). This returns a text description of properties, methods and events:
+<p>
+<code>
+   load 'packages\ocx\ocxutil.js'</code>         load OCX utilities<br>
+<code>
+   ocxinfo 'spin.spinbutton'<br>
+NB. event: SpinDown<br>
+NB. prototype: void SpinDown ()<br>
+NB. help: Occurs when the user clicks one of the arrows...<br><br>
+NB. event: SpinUp<br>
+...</code>
+
+<P>
+Next, load the spinbutton demo, as follows:
+
+<pre>   load 'examples\ocx\misc\spin.js'</pre>
+
+<P>
+Click on the spinbutton to change the text field. Click on the About button to display the about box from Outrider, and the Dialog button to view and change the OCX properties.
+
+<P>
+Note that to see events from the spinbutton, you use the <code>oleenable</code> command when initializing the form, i.e.
+
+<pre>
+spin_run=: 3 : 0
+wd SPIN
+showpay''
+wd 'oleenable sx spindown'
+wd 'oleenable sx spinup'
+wd 'pshow;'
+)
+</pre>
+
+<P>
+The About button invokes the OCX's <code>aboutbox</code> method:
+
+<pre>
+spin_about_button=: 3 : 0
+wd 'olemethod sx base aboutbox'
+)
+</pre>
+
+<P>
+The Dialog button invokes the <code>oledlg</code> command:
+
+<pre>
+spin_dialog_button=: 3 : 0
+wd 'oledlg sx'
+)
+</pre>
+
+<P>
+A press of the spinbutton, invokes the spinbutton handler:
+
+<pre>spin_sx_button=: 3 : 0
+if. sysocx-:'spinup' do.
+  PAYNDX=: 4|&gt;:PAYNDX
+else.
+  PAYNDX=: 4|&lt;:PAYNDX
+end.
+showpay''
+)</pre>
+
+<P>
+This handler checks the value of <code>sysocx</code> and adjusts the text field accordingly.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="ole_examples.htm">&gt&gt;</a>&nbsp;
+<a href="j_ole_auto_server.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

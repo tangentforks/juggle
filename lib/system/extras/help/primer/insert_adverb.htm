@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>Insert adverb </title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="table_adverb.htm">&gt&gt;</a>&nbsp;
+<a href="adverb.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Insert adverb</h1><TR><TD>
+
+<P>A <TT>/</TT> is referred to as insert if it is applied to a verb and the derived verb is then used monadically. The derived verb applies itself monadically by inserting the original verb between the items of the argument.</P>
+
+<PRE>   sumover =. +/
+</PRE>
+<P>The adverb <TT>/</TT> takes the verb argument on its left, which is <TT>+</TT>,  and creates a new verb named <TT>sumover</TT>.</P>
+
+<PRE>   sumover 7 5 10
+22</PRE>
+
+<P>The items of the argument <TT>7 5 10</TT> are the three atoms <TT>7</TT>, <TT>5</TT>, and <TT>10 </TT>and the definition of <TT>sumover </TT>is that it inserts its original verb between the items of the argument.</P>
+
+<PRE>   7 + 5 + 10
+22
+
+   sumover i. 8
+28</PRE>
+
+<P>What if you do this to a table?
+</P>
+<PRE>   a =. i. 2 3
+ 
+   a
+0 1 2
+3 4 5
+
+   sumover a
+3 5 7</PRE>
+
+<P>Interesting, but let's take a closer look. The items of a are the two lists <TT>0 1 2</TT> and <TT>3 4 5</TT>. The verb <TT>sumover </TT>is defined to put the <TT>+</TT> (the original argument of <TT>/</TT>) between the items of its argument.</P>
+
+<PRE>   0 1 2 + 3 4 5
+3 5 7
+</PRE>
+<P>What if there were more rows?
+</P>
+<PRE>   a=. i. 3 4
+   a
+0 1  2  3
+4 5  6  7
+8 9 10 11
+
+   sumover a
+12 15 18 21
+</PRE>
+<P>The items of a are the three lists and with the <TT>+</TT> inserted between them you have:</P>
+
+<PRE>   0 1 2 3 + 4 5 6 7 + 8 9 10 11
+12 15 18 21
+</PRE>
+<P>The verb <TT>sumover </TT>applied to a table gives the sum over the columns. What if you wanted the sum over the rows?</P>
+
+<PRE>   sumover"1 a
+6 22 38
+</PRE>
+<P>The above is worth thinking about. First give your new verb a name to make it easier to talk about.</P>
+
+<PRE>   sumrows =. sumover"1
+   sumrows a
+6 22 38
+</PRE>
+ 
+<P>Look up <TT>/</TT> in the J Dictionary and note that the rank information is<TT> _ _ _ </TT>. The rank information for an adverb gives the rank of the derived verb. So, sumover has monadic rank <TT>_</TT> (unbounded). The verb sumover applies to its entire argument and so inserts its original verb of <TT>+</TT> between the items of the argument.</P>
+
+<P>The verb <TT>sumrows </TT>has monadic rank 1 and applies to the 1-cells of its argument. It is applied to each of the 1-cells of the argument, giving a partial result, and these partial results are then assembled into the result frame. Instead of the entire argument being fed to the verb <TT>sumrows</TT>, 1-cells are fed in, so sumrows inserts<TT> +</TT> between the items of the 1-cells. The 1-cells of the table argument are the rows of the table, so the <TT>+</TT> is inserted between the items of the rows. Visually:</P>
+
+<PRE>sumrows   0 1 2 3	(first 1-cell)	gives  6
+sumrows   4 5 6 7	(next 1-cell)	gives  22
+sumrows   8 9 10 11	(next 1-cell)	gives  38
+</PRE>
+<P>The partial results of <TT>6</TT>, <TT>22</TT>, and <TT>38 </TT>are then assembled into the list result.</P>
+
+<P>What about a rank 3 argument?
+</P>
+<PRE>   a =. i. 2 3 4
+   a
+ 0  1  2  3
+ 4  5  6  7
+ 8  9 10 11
+
+12 13 14 15
+16 17 18 19
+20 21 22 23
+
+   sumover a
+12 14 16 18
+20 22 24 26
+28 30 32 34</PRE>
+
+<P>The items are the two tables and putting the + between them gives the result. Because this is the sum over the items, and in this case is the sum over the tables of a rank 3 array,  it can be described as the sum over the planes of the array.</P>
+
+<P>The name sumover was used because it made it clearer in the beginning what was being done. In practice it is probably better to just use the primitives directly.</P>
+
+<PRE>   a =. i. 2 3 4
+   +/ a	NB. sum over planes
+12 14 16 18
+20 22 24 26
+28 30 32 34
+
+   +/"2 a	NB. sum over tables
+12 15 18 21
+48 51 54 57
+
+   +/"1 a	NB. sum over rows
+ 6 22 38
+54 70 86</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="table_adverb.htm">&gt&gt;</a>&nbsp;
+<a href="adverb.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,529 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 8: Composing Verbs</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 8: Composing Verbs</H1>
+<p>
+This chapter is concerned with operators which combine two verbs to produce  
+new composite verbs. 
+<H2>8.1  Composition of Monad and Monad</H2>
+<p>
+Recall the composition operator <TT>@:</TT> from  <A HREF="03.htm">Chapter 03</A>. Given verbs <TT>sum</TT> and <TT>square</TT> 
+we can define a composite verb, sum-of-the-squares.  
+<PRE>
+   sum    =: +/
+   square =: *:
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>sumsq =: sum @: square</TT></TD> 
+<TD><TT>sumsq 3 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>sum@:square</TD> 
+<TD><PRE>25</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that if <TT>f</TT> and <TT>g</TT> are monads then 
+<PRE>
+        (f @: g) y    means   f (g y) 
+</PRE>
+<p>
+Note in particular that <TT>f</TT> is applied to the whole result <TT>(g y)</TT>. To illustrate, 
+suppose <TT>g</TT> applies separately to each row of a table, so we have: 
+<PRE>
+   g =: sum " 1 
+   f =: &lt;
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 2 2 $ 1 2 3 4</TT></TD> 
+<TD><TT>g y</TT></TD> 
+<TD><TT>f g y</TT></TD> 
+<TD><TT>(f @: g) y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 2 
+3 4</TD> 
+<TD><PRE>3 7</TD> 
+<TD><PRE>+---+ 
+|3 7| 
++---+</TD> 
+<TD><PRE>+---+ 
+|3 7| 
++---+</TD> 
+</PRE></TABLE> 
+<p>
+We have just seen the most basic of kind of composition. Now we look at 
+some variations. 
+<H2>8.2  Composition:  Monad And Dyad</H2>
+<p>
+If <TT>f</TT> is a monad and <TT>g</TT> is a dyad, then <TT>(f @: g)</TT> is a dyadic verb such that 
+<PRE>
+    x (f @: g) y    means    f (x g y) 
+</PRE>
+<p>
+For example, the sum of the product of two vectors <TT>x</TT> and <TT>y</TT> is called the "scalar product". 
+<PRE>
+   sp =: +/ @: *
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 1 2</TT></TD> 
+<TD><TT>y =: 2 3</TT></TD> 
+<TD><TT>x * y</TT></TD> 
+<TD><TT>+/(x * y) </TT></TD> 
+<TD><TT>x sp y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 2</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>2 6</TD> 
+<TD><PRE>8</TD> 
+<TD><PRE>8</TD> 
+</PRE></TABLE> 
+<p>
+The last example showed that, in the expression <TT>(x (f @: g) y)</TT> 
+ the verb <TT>f</TT> is applied once to the whole of <TT>(x g y)</TT> 
+<H2>8.3  Composition:  Dyad And Monad</H2>
+<p>
+The conjunction <TT>&:</TT> (ampersand colon, called "Appose") 
+ will compose dyad <TT>f</TT> and monad <TT>g</TT>. The scheme is: 
+<PRE>
+        x (f &: g) y   means   (g x) f (g y) 
+</PRE>
+<p>
+For example, we can test whether two lists are equal in length, with 
+the verb <TT>(= &: #)</TT> 
+<PRE>
+   eqlen =: = &: #
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> x </TT></TD> 
+<TD><TT> y </TT></TD> 
+<TD><TT>#x</TT></TD> 
+<TD><TT>#y</TT></TD> 
+<TD><TT>(#x) = (#y)</TT></TD> 
+<TD><TT>x eqlen y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 2</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+Here <TT>f</TT> is applied once to the whole of <TT>(g x)</TT> and <TT>(g y)</TT>. 
+<H2>8.4  Ambivalent Compositions</H2>
+<p>
+To review, we have seen three  different schemes for 
+ composition. These are: 
+<PRE>
+          (f @: g) y    =    f (g y)
+        x (f @: g) y    =    f (x g y)
+        x (f &: g) y    =    (g x) f (g y)
+</PRE>
+<p>
+There is a fourth scheme,  
+<PRE>
+          (f &: g) y    =    f (g y) 
+</PRE>
+<p>
+which is, evidently, the same as the first.  
+This apparent duplication is useful for the following reason. 
+Suppose verb <TT>g</TT> is ambivalent, that is, has both a monadic and dyadic case.  
+It follows from the first two schemes that the composition <TT>(f @: g)</TT> is  
+also ambivalent.   
+Similarly, if verb <TT>f</TT> is ambivalent, 
+it follows from the third and fourth schemes  
+that <TT>(f &: g)</TT> is ambivalent.  
+<p>
+To illustrate, let <TT>g</TT> be the ambivalent built-in verb <TT>(|.)</TT> with <TT>(|. y)</TT> being  
+the reverse of <TT>y</TT> and <TT>x |. y</TT> being  
+the rotation of <TT>y</TT> by <TT>x</TT> places. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> y =: 'abcdef' </TT></TD> 
+<TD><TT> (&lt; @: |.) y </TT></TD> 
+<TD><TT>  1 (&lt; @: |.) y </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>abcdef</TD> 
+<TD><PRE>+------+ 
+|fedcba| 
++------+</TD> 
+<TD><PRE>+------+ 
+|bcdefa| 
++------+</TD> 
+</PRE></TABLE> 
+<p>
+For an example of ambivalent <TT>(f &: g)</TT>,  
+let <TT>f</TT> be the verb <TT>%</TT> - reciprocal or divide. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>% *: 2</TT></TD> 
+<TD><TT>% &: *: 2</TT></TD> 
+<TD><TT>(*: 3)%(*: 2)</TT></TD> 
+<TD><TT>3 % &: *: 2 </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.25</TD> 
+<TD><PRE>0.25</TD> 
+<TD><PRE>2.25</TD> 
+<TD><PRE>2.25</TD> 
+</PRE></TABLE> 
+<H2>8.5  More on Composition:  Monad Tracking Monad</H2>
+<p>
+The conjunction <TT>@</TT> is a variation of the <TT>@:</TT> conjunction.  
+Here is an example to show the difference between <TT>(f @: g)</TT> and <TT>(f @ g)</TT>. 
+<PRE>
+   y =: 2 2 $ 0 1 2 3
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> y </TT></TD> 
+<TD><TT> f </TT></TD> 
+<TD><TT> g </TT></TD> 
+<TD><TT>(f @: g) y</TT></TD> 
+<TD><TT>(f @ g) y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1 
+2 3</TD> 
+<TD><PRE>&lt;</TD> 
+<TD><PRE>sum"1</TD> 
+<TD><PRE>+---+ 
+|1 5| 
++---+</TD> 
+<TD><PRE>+-+-+ 
+|1|5| 
++-+-+</TD> 
+</PRE></TABLE> 
+<p>
+We see that with <TT>(f @: g)</TT> verb <TT>f</TT> is applied once. However, with <TT>(f@g)</TT>, for each separate application 
+of <TT>g</TT> there is a corresponding application of <TT>f</TT>. We could say that  
+applications of <TT>f</TT> track the applications of <TT>g</TT>. 
+<p>
+Suppose that the monadic rank of <TT>g</TT> is <TT>G</TT>. 
+Then <TT>(f @ g)</TT> means 
+<TT>(f @: g)</TT> applied separately to each  
+<TT>G</TT>-cell, that is, <TT>(f @: g)"G</TT>. 
+<PRE>
+   RANKS =: 1 : 'x. b. 0'
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>G =: 0 { g RANKS</TT></TD> 
+<TD><TT>(f @ g) y</TT></TD> 
+<TD><TT>(f @: g)"G y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1</TD> 
+<TD><PRE>+-+-+ 
+|1|5| 
++-+-+</TD> 
+<TD><PRE>+-+-+ 
+|1|5| 
++-+-+</TD> 
+</PRE></TABLE> 
+<p>
+and so the general scheme is: 
+<PRE>
+      (f @ g) y    means     (f @: g) " G   y 
+</PRE>
+<p>
+There is also the <TT>&</TT> operator.  
+For reasons of symmetry,  
+as with the ambivalent functions 
+mentioned above, <TT>(f&g) y</TT> means the same as <TT>(f@g) y</TT>. 
+<H2>8.6  Composition:  Monad Tracking Dyad</H2>
+<p>
+Next we look at the composition <TT>(f @ g)</TT> for a dyadic <TT>g</TT>. 
+Suppose <TT>f</TT> and <TT>g</TT> are defined by: 
+<PRE>
+   f =: &lt;
+   g =: |. " 0 1  NB. dyadic
+</PRE>
+<p>
+Here <TT>x g y</TT> means: rotate vectors in <TT>y</TT> by corresponding scalars in <TT>x</TT>. For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x=: 1 2</TT></TD> 
+<TD><TT>y=: 2 3 $ 'abcdef'</TT></TD> 
+<TD><TT>x g y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 2</TD> 
+<TD><PRE>abc 
+def</TD> 
+<TD><PRE>bca 
+fde</TD> 
+</PRE></TABLE> 
+<p>
+Here now is an example to show the difference between <TT>f @: g</TT> and <TT>f @ g</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f (x g y)</TT></TD> 
+<TD><TT>x (f @: g) y </TT></TD> 
+<TD><TT>x (f @ g) y </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+---+ 
+|bca| 
+|fde| 
++---+</TD> 
+<TD><PRE>+---+ 
+|bca| 
+|fde| 
++---+</TD> 
+<TD><PRE>+---+---+ 
+|bca|fde| 
++---+---+</TD> 
+</PRE></TABLE> 
+<p>
+We see that with <TT>(f @: g)</TT> verb <TT>f</TT> is applied once. With <TT>(f@g)</TT>, for each separate application 
+of <TT>g</TT> there is a corresponding application of <TT>f</TT>. 
+<p>
+Suppose that the left and right ranks of dyad <TT>g</TT> are <TT>L</TT> and <TT>R</TT>. 
+Then <TT>(f @ g)</TT> means 
+<TT>(f @: g)</TT> applied separately to each pair of an <TT>L</TT>-cell from <TT>x</TT> and corresponding <TT>R</TT>-cell from  
+<TT>y</TT>. That is, <TT>(f@g)</TT> means <TT>(f @: g)"G</TT> where <TT>G = L,R</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>G =: 1 2 { g RANKS</TT></TD> 
+<TD><TT>x (f @:g)" G y</TT></TD> 
+<TD><TT>x (f @ g) y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1</TD> 
+<TD><PRE>+---+---+ 
+|bca|fde| 
++---+---+</TD> 
+<TD><PRE>+---+---+ 
+|bca|fde| 
++---+---+</TD> 
+</PRE></TABLE> 
+<p>
+The scheme is: 
+<PRE>
+      x (f@g) y =  x (f@:g) " G y 
+</PRE>
+<H2>8.7  Composition:  Dyad Tracking Monad </H2>
+<p>
+here we look at the composition <TT>(f & g)</TT> 
+for dyadic <TT>f</TT>. 
+<p>
+Suppose <TT>g</TT> is the "Square" function,  
+and <TT>f</TT> is the "comma" function 
+which joins two lists. 
+<PRE>
+   f =: ,
+   g =: *: 
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 1 2</TT></TD> 
+<TD><TT>y =: 3 4</TT></TD> 
+<TD><TT>g x</TT></TD> 
+<TD><TT>g y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 2</TD> 
+<TD><PRE>3 4</TD> 
+<TD><PRE>1 4</TD> 
+<TD><PRE>9 16</TD> 
+</PRE></TABLE> 
+<p>
+Here now is an example to show the difference 
+between <TT>(f &: g)</TT> and <TT>(f & g)</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(g x) f (g y)</TT></TD> 
+<TD><TT>x (f &: g) y</TT></TD> 
+<TD><TT>x (f & g) y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 4 9 16</TD> 
+<TD><PRE>1 4 9 16</TD> 
+<TD><PRE>1  9 
+4 16</TD> 
+</PRE></TABLE> 
+<p>
+We see that in <TT>(f &: g)</TT> the verb <TT>f</TT> is applied just once, 
+to join the two lists of squares. By contrast, 
+in <TT>(f & g)</TT> each separate pair of squares 
+is combined with a separate application of <TT>f</TT> 
+<p>
+The scheme is that 
+<PRE>
+      x (f & g) y  means  (g x) (f " G,G) (g y) 
+</PRE>
+<p>
+where <TT>G</TT> is the  monadic rank of <TT>g</TT>. 
+Here <TT>f</TT> is applied separately to each 
+combination of a <TT>G</TT>-cell from <TT>x</TT> and a corresponding <TT>G</TT>-cell from <TT>y</TT>. 
+To illustrate: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>G =: 0 { g RANKS</TT></TD> 
+<TD><TT>(g x)(f " (G,G))(g y) </TT></TD> 
+<TD><TT> x (f & g) y </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0</TD> 
+<TD><PRE>1  9 
+4 16</TD> 
+<TD><PRE>1  9 
+4 16</TD> 
+</PRE></TABLE> 
+<H2>8.8  Summary</H2>
+<p>
+Here is a summary of the 8 cases we have looked at so far.   
+<PRE>
+     @:       (f @: g) y  =  f (g y)
+     @:     x (f @: g) y  =  f (x g y)
+     
+     &:       (f &: g) y  =  f (g y) 
+     &:     x (f &: g) y  =  (g x) f (g y)
+   
+     @        (f @ g)  y  =  (f @: g) " G  y
+     @      x (f @ g)  y  =  x (f @: g) " LR y
+   
+     &        (f & g)  y  =  (f @: g) " G  y
+     &      x (f & g)  y  =  (g x) (f " (G,G)) (g y)
+</PRE>
+<p>
+where <TT>G</TT> is the monadic rank of <TT>g</TT> and <TT>LR</TT> is the vector of left and right ranks of <TT>g</TT>. 
+<H2>8.9  Inverses</H2>
+<p>
+The "Square" verb, <TT>(*:)</TT>,  is said to be the inverse of the "Square-root" 
+verb <TT>(%:)</TT>. The reciprocal verb is its own inverse. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>*: 2 </TT></TD> 
+<TD><TT>%: 4</TT></TD> 
+<TD><TT>% 4</TT></TD> 
+<TD><TT>% 0.25</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>4</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE>0.25</TD> 
+<TD><PRE>4</TD> 
+</PRE></TABLE> 
+<p>
+Many verbs in J have inverses.  
+The adverb <TT>(^: _1)</TT> produces the inverse verb of its argument verb. 
+Let us call this adverb <TT>INV</TT>.  <TT>INV</TT> produces "Square-root" from "Square": 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>INV =: ^: _1</TT></TD> 
+<TD><TT>%: 16</TT></TD> 
+<TD><TT>*: INV 16</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>^:_1</TD> 
+<TD><PRE>4</TD> 
+<TD><PRE>4</TD> 
+</PRE></TABLE> 
+<p>
+<TT>INV</TT> can automatically find inverses, not only of 
+built-in verbs, but of user-defined verbs such as compositions. 
+For example, the inverse of  
+(1 + the square-root) of <TT>y</TT> is (the square of  
+1 minus)<TT>y</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>foo =: (1&+) @: %:</TT></TD> 
+<TD><TT>foo 16</TT></TD> 
+<TD><TT>foo INV 5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>(1&+)@:%:</TD> 
+<TD><PRE>5</TD> 
+<TD><PRE>16</TD> 
+</PRE></TABLE> 
+<H2>8.10  Composition: Verb Under Verb</H2>
+<p>
+We now look at composition with the conjunction 
+ <TT>&.</TT> (ampersand dot, called "Under"). 
+The idea is that the composition "<TT>f</TT> Under <TT>g</TT>" 
+means: apply <TT>g</TT>, then <TT>f</TT>, then  
+the inverse of <TT>g</TT>. 
+<p>
+For an example, suppose first that <TT>f</TT> is the verb 
+which rounds a number to the nearest integer: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f =: &lt;. @ (0.5 & +)</TT></TD> 
+<TD><TT>f 1.2 1.8</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>&lt;.@((0.5)&+)</TD> 
+<TD><PRE>1 2</TD> 
+</PRE></TABLE> 
+<p>
+A number can be rounded to the nearest 10, say, 
+by dividing by 10, rounding to nearest integer, 
+then multiplying by 10 again. 
+<p>
+Let <TT>g</TT> be division by 10, and then <TT>(g INV)</TT> 
+will be the inverse, multiplication by 10. 
+<PRE>
+   g =: % & 10
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>g 28</TT></TD> 
+<TD><TT>f g 28</TT></TD> 
+<TD><TT>(g INV) f g 28</TT></TD> 
+<TD><TT>f &. g 28</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2.8</TD> 
+<TD><PRE>3</TD> 
+<TD><PRE>30</TD> 
+<TD><PRE>30</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that 
+<PRE>
+         (f &. g) y   means  (g INV) f g y
+</PRE>
+<p>
+This is the end of Chapter 8. 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="09.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 10 March 00</p>
+</BODY>
+</HTML>
+

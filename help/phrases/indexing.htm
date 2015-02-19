@@ -1,0 +1,183 @@
+<html>
+<head>
+<title>Indexing</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="merge_amend.htm">&gt&gt;</a>&nbsp;
+<a href="gerunds.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Indexing </h1>
+<TR><TD colspan="2">
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P><TT>{</TT> encompasses everything performed by bracket indexing in other languages. The ranks are <TT>0 _</TT> , that is, <TT>x{y</TT> can be considered individually for each scalar in <TT>x</TT> and for <TT>y</TT> <I>in toto</I>, with the overall result constructed from the individual results in the same way as for all other functions.  For scalar <TT>x</TT> then:</P>
+
+<P><TT>&gt;x</TT> is a scalar or a list, and <TT>r=:&gt;j{,&gt;x</TT> are the indices for axis <TT>j</TT>.  <TT>r</TT> may be integers in the range <TT>i.&.(+&n)n=:j{$y</TT>, which selects cells <TT>n|r</TT>, or <TT>r</TT> may be boxed integers in that range, in which case the selected cells are all except those in <TT>n|r</TT>. Thus:</P></TD></TR></TABLE>
+
+<PRE>   z=: 0{y=: 3 3 3$'ABCDEFGHIJKLMNOPQRSTUVWXYZ]'
+   ibbb=: &lt;ibb=: &lt;ib=: &lt;i=: 1 _1
+   jbbb=: &lt;jbb=: &lt;jb=: &lt;j=: 2 1
+   ijbbb=: &lt;ijbb=: &lt;ijb=: &lt;ij=: 2 2$i,j
+   (] ; i&{ ; ib&{ ; ibb&{ ; ibbb&{) z
++-----------------+
+¦ABC¦DEF¦F¦DEF¦ABC¦
+¦DEF¦GHI¦ ¦GHI¦   ¦
+¦GHI¦   ¦ ¦   ¦   ¦
++-----------------+
+
+   ijb{y
+¦rank error
+¦   ijb    {y
+
+   (] ; i&{ ; ijbb&{ ; ijbbb&{) z
++---------------+
+¦ABC¦DEF¦DEF¦ABC¦
+¦DEF¦GHI¦GHI¦   ¦
+¦GHI¦   ¦   ¦   ¦
+¦   ¦   ¦GHI¦   ¦
+¦   ¦   ¦DEF¦   ¦
++---------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The <I>amend </I>adverb <TT></TT>} applied to an index produces a function that replaces the selected part of the right argument by the left argument. For example:</P></TD></TR></TABLE>
+ 
+<PRE>   '*' ib} z
+ABC
+DE*
+GHI
+
+   ('def',:'ghi') i} z
+ABC
+def
+ghi
+
+      (] ; i&{ ; ib&{ ; ibb&{ ; ibbb&{)"2 y
++-----------------+
+¦ABC¦DEF¦F¦DEF¦ABC¦
+¦DEF¦GHI¦ ¦GHI¦   ¦
+¦GHI¦   ¦ ¦   ¦   ¦
++---+---+-+---+---¦
+¦JKL¦MNO¦O¦MNO¦JKL¦
+¦MNO¦PQR¦ ¦PQR¦   ¦
+¦PQR¦   ¦ ¦   ¦   ¦
++---+---+-+---+---¦
+¦STU¦VWX¦X¦VWX¦STU¦
+¦VWX¦YZ]¦ ¦YZ]¦   ¦
+¦YZ]¦   ¦ ¦   ¦   ¦
++-----------------+
+
+   $(&lt;&lt;'') { z
+0 3
+
+   $(&lt;a:) { z
+0 3</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Indexing on higher-rank arrays may be illustrated by the argument <TT>y</TT>:</P></TD></TR></TABLE>
+
+<PRE>   ]k=: &lt;1 2;a:;0 2
++------------+
+¦+----------+¦
+¦¦1 2¦++¦0 2¦¦
+¦¦   ¦¦¦¦   ¦¦
+¦¦   ¦++¦   ¦¦
+¦+----------+¦
++------------+
+
+ 
+   y ; k{y
++------+
+¦ABC¦JL¦
+¦DEF¦MO¦
+¦GHI¦PR¦
+¦   ¦  ¦
+¦JKL¦SU¦
+¦MNO¦VX¦
+¦PQR¦Y]¦
+¦   ¦  ¦
+¦STU¦  ¦
+¦VWX¦  ¦
+¦YZ]¦  ¦
++------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The following examples further illustrate the use of the indexing function.  For each example, it may be instructive to plug the values into the expression <TT>r=:&gt;j{,&gt;x</TT> and work out the result.</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD>n0=: y=: i.4 5 6 7</TD>	<TD>Array used in examples</TD>
+  </TR><TR><TD>n1=: (&lt;,&lt;3){y</TD>	<TD>Item 3 of y</TD>
+  </TR><TR><TD>n2=: (&lt;,3){y</TD>	<TD>Item 3 of y</TD>
+  </TR><TR><TD>n3=: (&lt;3){y</TD>	<TD>Item 3 of y</TD>
+  </TR>
+  <TR><TD>n4=: 3{y</TD>	<TD>Item 3 of y</TD>
+  </TR><TR><TD>n5=: (&lt;,&lt;_1){y</TD>	<TD>The last item of y (item _1 of y)</TD>
+  </TR><TR><TD>n6=: (&lt;,_1){y</TD>	<TD>The last item of y (shape 5 6 7)</TD>
+  </TR><TR><TD>n7=: (&lt;_1){y</TD>	<TD>The last item of y</TD>
+  </TR><TR><TD>n8=: _1{y</TD>	<TD>The last item of y</TD>
+  </TR><TR><TD>n9=: (_1+#y){y</TD>	<TD>The last item of y</TD>
+  </TR><TR><TD>n10=: 0{y</TD>	<TD>The first item of y</TD>
+  </TR><TR><TD>n11=: (-#y){y</TD>	<TD>The first item of y</TD>
+  </TR><TR><TD>n12=: 3 0 _2 0{y</TD>	<TD>Items 3 0 _2 0 of y</TD>
+  </TR><TR><TD>n13=: i=: ?2 3$0{$y</TD> 	<TD>Indices used in examples</TD>
+  </TR><TR><TD>n14=: j=: ?    1{$y</TD>	<TD>Indices used in examples</TD>
+  </TR><TR><TD>n15=: k=: ?7  $2{$y</TD>	<TD>Indices used in examples</TD>
+  </TR><TR><TD>n16=: (&lt;I;J;K){Y</TD>	<TD>y[i;j;k;]in APL notation</TD>
+  </TR><TR><TD>n17=: (&lt;1;2;3){y</TD>	<TD>y[1;2;3;]</TD>
+  </TR><TR><TD>n18=: (&lt;1,2,3){y</TD>	<TD>y[1;2;3;]</TD>
+  </TR><TR><TD>n19=: (&lt;1 2 3){y</TD>	<TD>y[1;2;3;]</TD>
+  </TR><TR><TD>n20=: (&lt;&lt;i){y</TD>	<TD>y[i;;;;]</TD>
+  </TR><TR><TD>n21=: (&lt;&lt;,i){y</TD>	<TD>y[,i;;...;]</TD>
+  </TR><TR><TD>n22=: (,i){y</TD>	<TD>y[,i;;...;]</TD>
+  </TR><TR><TD>n23=: (&lt;&lt;1 4 2){y</TD>	<TD>Items 1 4 2</TD>
+  </TR><TR><TD>n24=: (&lt;&lt;&lt;1 4 2){y</TD>	<TD>All but items 1 4 2</TD>
+  </TR><TR><TD>n25=: (&lt;&lt;&lt;1 4){y</TD>	<TD>All but items 1 4</TD>
+  </TR><TR><TD>n26=: (&lt;&lt;&lt;1){y</TD>	<TD>All but items 1</TD>
+  </TR><TR><TD>n27=: (&lt;&lt;&lt;$0){y</TD>	<TD>All but items ... none; i.e. all items</TD>
+  </TR><TR><TD>n28=: (&lt;&lt;a:){y</TD>	<TD>All items</TD>
+  </TR><TR><TD>n29=: (&lt;1 3 2;3){y</TD>	<TD>y[1 3 2;3;;...;]in APL (0-origin)</TD>
+  </TR><TR><TD>n30=: (&lt;(&lt;1 3 2);3){y</TD>	<TD>y[(i.#y)-.1 3 2;3;;...;]</TD>
+  </TR><TR><TD>n31=: (&lt;(&lt;1 3);3){y</TD>	<TD>y[(i.#y)-.1 3;3;;...;]</TD>
+  </TR><TR><TD>n32=: (&lt;(&lt;1);3){y</TD>	<TD>y[(i.#y)-.1;3;;...;]</TD>
+  </TR><TR><TD>n33=: (&lt;(&lt;$0);3){y</TD>	<TD>y[(i.#y)-.$0;3;;...;]</TD>
+  </TR><TR><TD>n34=: (&lt;(&lt;$0);3){y</TD>	<TD>y[;3;;...;]</TD>
+  </TR><TR><TD>n35=: (&lt;A:;3){Y</TD>	<TD>y[;3;;...;]</TD>
+  </TR><TR><TD>n36=: 4{"_1 y</TD>	<TD>y[;4;;...;]</TD>
+  </TR><TR><TD>n37=: (<A:;A:;5){Y</TD>	<TD>y[;;5;...;]</TD>
+  </TR><TR><TD>n38=: 5{"_2 y</TD>	<TD>y[;;5;...;]</TD>
+  </TR><TR><TD>n39=: (<1 2){y</TD>	<TD>Abbreviated (fewer indices than axes)</TD>
+  </TR><TR><TD>n40=: _2{y</TD>	<TD>Negative</TD>
+  </TR><TR><TD>n41=: (&lt;&lt;&lt;3){y</TD>	<TD>Complementary</TD>
+  </TR><TR><TD>n42=: (1 2;3 2;0 _2){y</TD>	<TD>Scattered (non-scalar left argument)</TD>
+  </TR>
+</TABLE></TD></TR></TABLE>
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="merge_amend.htm">&gt&gt;</a>&nbsp;
+<a href="gerunds.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

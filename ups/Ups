@@ -1,0 +1,31 @@
+ 
+! The App-defaults file for ups.
+ 
+! Here are some suggested resources if you are using a color workstation.
+! These items are strictly to make it look `nice'.
+
+*WantMenuColors: yes
+*MenuForeground: black
+*MenuBackground: cornsilk1
+*DisabledTextColor: peachpuff3
+*LastButtonTextColor: white
+
+*WantExtendedTextColors: yes
+*SignalTextColor: navyblue
+*EnvironmentTextColor: navyblue
+*SourceFileTextColor: navyblue
+*FunctionTextColor: navyblue
+*BreakpointTextColor: blue
+
+*Add breakpointForeground: blue
+*Execute to hereForeground: forestgreen
+*Jump to hereForeground: red
+
+*StartForeground: blue
+*AttachForeground: blue
+*StopForeground: red
+*StopBackground: white
+*KillForeground: red
+
+*Foreground: black
+*Background: ivory

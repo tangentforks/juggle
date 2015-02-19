@@ -1,0 +1,17 @@
+directory:  packages\stats
+
+This directory contains statistics scripts.
+
+For details, print out each file.
+
+stats.ijs
+========
+statistics project file
+
+statdist.ijs
+===========
+various distribution functions
+
+statfns.ijs
+==========
+basic statistical functions

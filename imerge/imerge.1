@@ -1,0 +1,85 @@
+.TH IMERGE 1L
+.SH NAME
+imerge \- merge two files interactively
+.SH SYNOPSIS
+.B imerge file1 file2 [mergedfile]
+.SH DESCRIPTION
+.I Imerge
+will read the two files given as first and second parameter,
+which will presumably two similar but different versions of a text.
+The program will allow you to create a third, merged version
+containing "the best" parts of both files.
+.PP
+The merged version will be written to
+.I mergedfile.
+It defaults to "imerge.out".
+It will (unconditionally) contain all common text.  Differences are
+included as described below.
+.PP
+With a little help from
+.IR diff (1),
+it will present you the differences in individual
+.I hunks.
+In the
+.I diff
+output, text contained in
+.I file1
+will be marked with a leading '<', while text from
+.I file2
+is preceeded by a '>'.
+One hunk may typically look like this:
+.sp
+.nf
+.B
+	3,5c8,9
+	<This is some text
+	<in file1 and it got
+	<somewhat changed.
+	\-\-\-
+	>This is some corresponding text
+	>in the other file.
+.fi
+.sp
+According to the order of the two file arguments, one can think
+of "the file on the left" resp. "right".
+In the case of additions and deletions,
+only one file will be displayed.
+.PP
+After a single hunk has been presented,
+.I imerge
+prompts for the action to be taken.
+You can either select the passage from
+.I file1
+or from
+.I file2
+by answering with a '<' or '>' respectively.
+The third possiblity is to invoke an editor on the hunk and merge the
+passage by hand.
+.I Imerge
+looks in the environment variables
+.B VISUAL
+and
+.B EDITOR
+in this order to determine the editor for its use,
+and will lastly resort to
+.IR vi (1).
+.PP
+Finally, you can execute any shell command by escaping it with a '!'.
+.SH "SEE ALSO"
+.I Imerge
+is nothing else than the program
+.I idiff
+("interactive diff") from Kernighan & Pike's book
+.I "The Unix Programming Environment."
+The main goal of the program is to allow merges of concurrently
+developed versions.
+Other three-way merges can be achieved by Walter F. Tichy's
+.I merge
+resp.
+.I rcsmerge
+and of course with Larry Walls famous
+.I patch.
+You should both of them check out to see if they are better suited to your
+specific purposes.
+.SH RESTRICTIONS
+The output file name must be different from the input files.

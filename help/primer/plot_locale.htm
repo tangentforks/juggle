@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Plot locale</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="print_precision.htm">&gt&gt;</a>&nbsp;
+<a href="plot.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Plot locale</h1><TR><TD>
+
+<P>Plot also illustrates a common technique in the use of locales. Close J and restart it to get a clean slate. The <TT>names </TT>in the base locale is empty and there are just the two standard locales that are populated by the profile.ijs script.</P>
+
+<PRE>   names 3	NB. verbs
+
+ 
+   names 6	NB. locales
+base j    jcfg z</PRE>
+
+<P>The load verb (defined in the <TT>z</TT> locale) loads the plot.ijs script into the <TT>plot </TT>locale.</P>
+ 
+<PRE>   load 'plot'
+   plot ? 5 $ 100	
+   names 3
+
+   names 6
+base  j     jcfg  jplot z
+   plot
++----------+
+¦plot_plot_¦
++----------+</PRE>
+
+<P>The verb <TT>plot </TT>is not defined in the base locale, but is defined in the <TT>z</TT> locale. When it is executed in the base locale the definition from the <TT>z</TT> locale is executed as if it were in the base locale. Entering the name <TT>plot </TT>displays its definition. The interesting thing about the definition of <TT>plot </TT>is that it executes the <TT>plot </TT>verb in the <TT>plot </TT>locale. So the <TT>plot </TT>in the <TT>z</TT> locale is a cover that works in all locales and has the result of executing <TT>plot </TT>in the <TT>plot </TT>locale.</P>
+
+<P>This technique of loading a facility like the plot package into its own locale, and then defining cover verbs in the <TT>z</TT> locale so that plain name references invoke the desired verb in the facility locale is common. The definitions in the plot locale can be viewed as the private implementation of the facility and the names that are exposed by being defined in the <TT>z</TT> locale are the public or published interface.</P>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="print_precision.htm">&gt&gt;</a>&nbsp;
+<a href="plot.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,47 @@
+.TH MAILWATCH 8 "Jan 2000" GDS
+.SH NAME
+mailwatch \- check for orphaned or monstrous mail drops
+.SH SYNOPSIS
+.B mailwatch
+.RI [ options ...]
+.SH DESCRIPTION
+.I mailwatch
+scans the mail spool directory for apparently orphaned or unusually
+large mail drops.  If any of these unusual conditions are detected,
+a report is sent to the BOFH in charge.
+.P
+The program needs the appropriate priviledges to scan the mail files.
+It is typically run from root's crontab once a week.  The report
+does not contain confidential information.
+.SH OPTIONS
+The following options can be used to tweak paramters:
+.TP
+-n \fIemail-address\fP
+set the email address notifications are sent to.  If nothing is noteworthy,
+no email will be generated.  (Default:  $USER)
+.TP
+-d \fIspool-dir\fP
+the directory where mailboxes are to be found.  (Default: /var/spool/mail)
+.TP
+-t \fIdays\fP
+the tolerance how long we will keep the oldest mail without considering
+the mailbox as "orphaned".  (Default: 30)
+.TP
+-s \fIsize\fP
+the size (bytes) limit to identify "giant" mailboxes.  (Default: 4000000)
+.LP
+There is also some code you could activate to redirect
+orphaned emails to another mail drop (e.g., a secretary as a fallback).
+To be really useful, the code should consult a mapping table, though.
+.SH SEE ALSO
+.IR popd (8),
+.IR popper (8)
+.SH BUGS
+Requires a GNU
+.IR date (1)
+version 1.15 or higher with the "+%s" format.
+Alternatively,
+.IR getdate (1CN)
+would do the job.
+.SH AUTHOR
+Martin Neitzel, Gaertner Datensysteme

@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>fontspec</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="isigraph_events.htm">&gt&gt;</a>&nbsp;
+<a href="g12_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>fontspec</h1>
+<TR><TD colspan="2"> 
+
+
+
+
+
+  <P>
+A fontspec is several parameters that specify a font. A fontspec is used in some wd, gl2 and gl3 commands.
+
+  <P>
+A fontspec is a font name, size, and and optional styles:<br>
+name size [italic] [bold] [underline] [oem] [angle]
+
+  <P>
+For example:  &quot;lucida console&quot; 15 italic
+
+  <P>
+A positive size gives cell height and negative gives character height. In both cases a font defined interline spacing is used. It is recommended to use cell height (positive) as this maps more directly and accurately to physical fonts. This is particularly true for printers.
+
+  <P>
+The size is in logical units. For wd commands this is generally point size. In gl2, size is in mapping mode units. In gl3, size is in pixels.
+
+  <P>
+Fonts can have different character sets. The standard Windows character set is ANSI and does not include boxes. The old PC character set is OEM and does contain boxes. Fonts such as Courier New and MS Linedraw contain a single DEFAULT character set. The oem parameter selects an OEM font. The default parameter selects the DEFAULT font. If neither oem nor default is supplied, an ANSI font is selected. If there is not an exact match, you get an arbitrary font. There are differences in distributed fonts and in the way fonts are selected in different hosts.
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>isij 12 default</pre>
+<TD VALIGN="TOP" WIDTH=525>
+isij with boxes
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>&quot;ms linedraw&quot; 12 default</pre>
+<TD VALIGN="TOP" WIDTH=525>
+linedraw with boxes
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>&quot;lucida console&quot; 12 oem</pre>
+<TD VALIGN="TOP" WIDTH=525>
+console with boxes (if the font has oem)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>&quot;courier new&quot; 12 oem</pre>
+<TD VALIGN="TOP" WIDTH=525>
+courier with boxes (if the font has oem)
+</tr></table>
+
+  <P>
+You may have to experiment to find the best font for J boxes with your particular host, fonts, screen, and printer.
+
+  <P>
+Fonts such as WINGDINGS, do not have an ANSI character set, and you need to specify default to get the default character set for the font.
+<pre>glfont 'wingdings 100 default'</pre>
+
+  <P>
+The angle style gives an angle in 10ths of degrees clockwise from the baseline. For example: <pre>glfont 'arial 240 angle900'</pre>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="isigraph_events.htm">&gt&gt;</a>&nbsp;
+<a href="g12_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

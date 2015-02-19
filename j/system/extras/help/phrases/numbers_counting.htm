@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>Numbers &amp; Counting</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="grids.htm">&gt&gt;</a>&nbsp;
+<a href="parity_symmetry.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Numbers And Counting</h1>
+<TR><TD colspan="2">
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Constants such as &pi; (<TT>1p1</TT>), half-&pi; (<TT>1r2p1</TT>), integers expressed in base sixteen (<TT>16b2a</TT> for <TT>42</TT>), complex numbers in terms of real and imaginary parts (<TT>2j3</TT>), and complex numbers in terms of magnitude and angle in degrees or radians (<TT>3ad90 </TT>and <TT>3ar1</TT>) are commonly needed in programming.</P>
+
+<P>Constant <I>functions </I>are also needed, as in <TT>odd=: 1:+2:*i.</TT>. The phrase <TT>c"r</TT> produces a constant function of rank <TT>r</TT> for any constant <TT>c</TT> (numeric, or other such as characters or boxed).</P>
+
+<P>Many other constants, such as the reciprocal of &pi; (<TT>1p_1</TT>), the multipliers used in converting from radians to degrees (<TT>180p_1</TT>) and from degrees to radians (<TT>1r180p1</TT>), the kth prime(<TT>p: k</TT>), and the list of prime factors of an integer (<TT>q: i</TT>) are commonly used.</P>
+
+<P>The following phrases illustrate the production of various numbers, including such lists and tables as the binomial coefficients, various grids, Stirling numbers, primes and prime factors:</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>n0  =: pi=: 1p1</TT></TD>	<TD>&pi;</TD>
+  </TR><TR><TD><TT>v1 =: PI=: 1p1"_</TT></TD>	<TD>Other ranks are possible</TD>
+  </TR><TR><TD><TT>n2 =: 2p1 1r2p1 1r6p1</TT></TD>	<TD>List of multiples of &pi;</TD>
+  </TR><TR><TD><TT>n3 =: 2p_1 1r2p_1 1r6p_1</TT></TD>	<TD>Multiples of reciprocal &pi;</TD>
+  </TR><TR><TD><TT>n4 =: 1x1</TT></TD>	<TD>Euler's number (2.71828 ...)</TD>
+  </TR><TR><TD><TT>v5 =: 1x1 1x_1 _1x_1"0</TT></TD>	<TD>List function of rank zero</TD>
+  </TR><TR><TD><TT>m6 =: pitimes=: 1p1&amp;*</TT></TD>	<TD>Like <TT>o.</TT> but infinite rank</TD>
+  </TR><TR><TD><TT>m7 =: ln=: 1x1&amp;^.</TT></TD>	<TD>Like <TT>^.</TT> (natural log)</TD>
+  </TR><TR><TD><TT>m8 =: ln=: 1x1"_ ^. ]</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m9 =: [:^ 0j2p1&amp;% * i.</TT></TD>	<TD>Roots of unity; e.g. <TT>m9 5</TT></TD>
+  </TR><TR><TD><TT>m10=: 1:=1:^m9</TT></TD>	<TD>Roots of unity; e.g. <TT>m10 5</TT></TD>
+  </TR><TR><TD><TT>m11=: sbase=: %:@(2p1&amp;%)* %&amp;1x1 ^]</TT></TD>	<TD>Stirling's approximation, base term</TD></TR>
+  <TR><TD NOWRAP><TT>m12=: scorr=: 1 1r12 1r288<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_139r51840 _571r2488320&amp;p.@%</TT></TD>	<TD>Stirling's approximation, correction</TD></TR>
+  <TR><TD><TT>m13=: stirg =: sbase * scorr</TT></TD>	<TD>Stirling's approx for &#915;(y) [AS[1]  6.1.37]</TD></TR>
+  <TR><TD><TT>n14=: |1-(!10)%stirg 1+10</TT></TD>	<TD>Relative error for !10</TD>
+  </TR><TR><TD NOWRAP><TT>m15=: stirf =: ^@(1r12&amp;%)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*%:@(2p1&amp;*) * %&amp;1x1 ^ ]	</TT></TD><TD>Stirling's approx to !y [AS[1]  6.1.38]</TD></TR>
+  <TR><TD><TT>n16=: |1-(!10)%stirf 10</TT></TD>	<TD>Relative error for !10</TD>
+  </TR><TR><TD><TT>m17=: even=: 2:*i.</TT></TD>	<TD>Even integers</TD>
+  </TR><TR><TD><TT>m18=: odd=: &gt;:@even</TT></TD><TD>	Odd integers</TD>
+  </TR><TR><TD><TT>m19=: odd=: 1:+2:*i.</TT></TD>	<TD>Odd integers</TD>
+  </TR><TR><TD><TT>m20=: grid=: +`(*i.)/</TT></TD>	<TD><TT>grid b,s,n</TT>   is From b step s for n</TD>
+  </TR><TR><TD><TT>m21=: Ai=: &gt;:@i.</TT></TD>	<TD>Augmented integers (1 to y)</TD>
+  </TR><TR><TD><TT>m22=: +/\@($&amp;1)</TT></TD>	<TD>	" (but not negint arg)</TD>
+  </TR><TR><TD><TT>m23=: Ei=: i.@&gt;:</TT></TD>	<TD>Extended integers (0 to y)</TD>
+  </TR><TR><TD><TT>m24=: Si=: Ei@+: - ]</TT></TD>	<TD>Symmetric integers (-y to y)</TD>
+  </TR><TR><TD><TT>m25=: bc=: Ei ! ]</TT></TD>	<TD>Binomial coefficients</TD>
+  </TR><TR><TD><TT>m26=: (0&amp;,+,&amp;0)^:([`1:)	</TT></TD>	<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m27=: bct=: Ei !/ Ei</TT></TD>	<TD>Pascal's triangle (bc table)</TD>
+  </TR><TR><TD><TT>m28=: !/~@Ei</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m29=: !~/~@Ei</TT></TD>	<TD>Pascal's triangle</TD>
+  </TR><TR><TD><TT>m30=: (0&amp;,+,&amp;0)^:(i.`1:)</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m31=: 1 1&amp;([: +//. */)^:(i.`1:)</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m32=: +/\@(|.!.0)^:(i.`($&amp;1))</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m33=: odometer=: #: i.@(*/)</TT></TD>	<TD>All #s in radix y (odometer)</TD>
+  </TR><TR><TD><TT>m34=: &gt;@,@{@(i.&amp;.&gt;"_)	</TT></TD>	<TD>"              Try <TT>m34 10 10</TT></TD></TR>
+  <TR><TD NOWRAP><TT>m35=: ,:@i.@0:`([: ,/ i.@{. ,."0<br>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2$:@}.)@.(*@#)</TT></TD>		<TD>"              Try <TT>m35 2 2 2</TT></TD></TR>
+  <TR><TD><TT>m36=: tt=: #:@i.@(2&amp;^)</TT></TD>	<TD>Truth table of order y</TD>
+  </TR><TR><TD><TT>m37=: odometer@($&amp;2)</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m38=: &gt;@,@{@($&amp;(&lt;0 1))</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m39=: ,:@i.`([: ,/ i.@2: ,."0 2<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$:@&lt;:)@.*</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m40=: [:|:2&amp;^($ #&amp;0 1)"(0)2&amp;^@i.@-</TT></TD>	 	<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m41=: (i.@# = i.~) # ]</TT></TD>	<TD>Nub (all distinct items of)    <TT>~.</TT></TD>
+  </TR><TR><TD><TT>m42=: ~: # ]</TT></TD>	 <TD>" Try <TT>m42 2 7 1 8 2 8</TT></TD>
+  </TR><TR><TD><TT>m43=: +./@(&lt;/\"1"_)@= # ]</TT></TD>	 <TD>" Try <TT>m43 ;:'all in all'</TT></TD>
+  </TR><TR><TD><TT>m44=: ~.@(i.~) { ]</TT></TD>	 	<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m45=: {./.~</TT></TD>	 	<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m46=: ({.;#)/</TT>.~</TD>	<TD>Nub and count</TD>
+  </TR><TR><TD><TT>m47=: #/.~</TT></TD>	<TD>" Try <TT>m47 2 7 1 8 2</TT></TD>
+  </TR><TR><TD><TT>m48=: +/"1@=</TT></TD>	<TD>" Try <TT>m48 ;: 'all in all'</TT></TD>
+  </TR><TR><TD><TT>m49=: 1: #. =</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m50=: ifb=: # i.@#</TT></TD>	<TD>Index from boolean</TD>
+  </TR><TR><TD><TT>d51=: bfi=: i.@[ e. ]</TT></TD>	<TD>Boolean from index; e.g. <TT>0 d51 5 7</TT></TD>
+  </TR><TR><TD><TT>d52=: 1:`]`($&amp;0@[)}</TT></TD>	<TD>Boolean from index</TD>
+  </TR><TR><TD><TT>m53=: cfpv=: #;.1</TT></TD>	<TD>Count from partition vector</TD>
+  </TR><TR><TD><TT>m54=: pvfc=: [: ; {.&amp;1&amp;.&gt;</TT></TD>	<TD>Partition vector from count</TD></TR>
+  <TR><TD><TT>m55=: i.@(+/) e. 0&amp;,@(+/\)</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>n56=: 2147483647=p: 105097564</TT></TD>	<TD>The 105,097,564-th prime (0 origin)</TD></TR>
+  <TR><TD><TT>m57=: lp=: p:@i.</TT></TD>	<TD>List first y primes</TD>
+  </TR><TR><TD><TT>m58=: fotp=: (2&amp;(_2:=-/\)#}:)@lp</TT></TD>	<TD>First of twin primes among first y</TD></TR>
+  <TR><TD><TT>m59=: p:^:_1</TT></TD>	<TD>Number of primes less than y</TD>
+  </TR><TR><TD><TT>n60=: 2 2 2 3 5 -: q: 120</TT></TD>	<TD>Prime factorization of 120</TD>
+  </TR><TR><TD><TT>m61=: taut=: -: */@q:</TT></TD>	<TD>y = product of factors. Try <TT>m61 12345</TT></TD></TR>
+  <TR><TD><TT>m62=: dpe=: (~. ,: 1: #. =)@q:</TT></TD>	<TD>Distinct primes with exponents</TD></TR>
+  <TR><TD><TT>m63=: |:@(({.,#)/.~)@q:</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m64=: taut=: = */@(^/)@dpe</TT></TD>	<TD>y = product over powers. Try <TT>m64 120</TT></TD></TR>
+  <TR><TD><TT>m65=: = */ .^/@dpe</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD NOWRAP><TT>m66=: divisors=: /:~@(~. */ .^"1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;odometer@:&gt;:@(#/.~))@q:</TT></TD>	<TD>Divisors of y. Try <TT>m66 900</TT></TD></TR>
+  <TR><TD><TT>m67=: /:~@~.@(*/ .^"1 tt@#)@q:</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD NOWRAP><TT>m68=: /:~@,@&gt;@(*/&amp;.&gt;/)@ (&lt;@(1&amp;,)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@(*/\)/.~) @ q:</TT></TD><TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m69=: &gt;:@i. ([ #~ 0: = |) ]</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m70=: perfect=: +: = +/@divisors</TT></TD>	<TD>Perfect number test</TD>
+  </TR><TR><TD><TT>m71=: 1: = #@q:</TT></TD>	<TD>Prime test</TD>
+  </TR><TR><TD><TT>d72=: q:@[ -: -.&amp;q:</TT></TD>	<TD>Relatively prime test</TD>
+  </TR><TR><TD><TT>d73=: 1: = +.</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m74=: totient=:* -.@%@~.&amp;.q:</TT></TD>	<TD>Totient [GKP[3] 4.53]</TD></TR>
+  <TR><TD><tt>m75=: */@(^/-(^&lt;:)/)@dpe</tt></TD><TD ALIGN="center">"</TD></TR>
+<TR><TD><TT>m76=: 1: #. 1: = (+.i.)</TT></TD>		<TD ALIGN="center">"</TD></TR>
+<TR><TD><TT>m77=: [:/:~[:~.]|[:*:[:m50]m73[:i.]</TT></TD>	<TD>Quadratic residues</TD>
+</TR><TR><TD><TT>d78=: L=: [:{&amp;_1 1|~e.(|*:@}.@i.)@]</TT></TD>	<TD>Legendre symbol</TD></TR>
+<TR><TD><TT>d79=: L * L~</TT></TD>	<TD>Quadratic reciprocity</TD>
+</TR><TR><TD><TT>d80=: cfe=:&lt;.@(([:%1:|])^:(i.@[`]))</TT></TD>	<TD>x terms of continued fraction expan of y</TD></TR>
+<TR><TD><TT>m81=: rapprox=: (, % +.)&amp;1"0</TT></TD>	<TD>Rational approximation to y</TD></TR>
+<TR><TD><TT>m82=: [:&gt;:[:m50]m72"0[:&gt;:[:i.[:&lt;:]</TT></TD>	<TD>Numbers prime to y</TD></TR>
+<TR><TD><TT>m83=: 3 : '&lt;.@o.&amp;.((10^y.)&amp;*) 1'</TT></TD>	<TD>y digits of pi</TD></TR>
+<TR><TD><TT>m84=: [: +/ %@!@i.</TT></TD>	<TD>y digits of e</TD>
+</TR><TR><TD NOWRAP><TT>d85=: 4 : '-:@(+y.&amp;%)^:(&gt;.2^.1&gt;.x.-16)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x:%:y.'</TT></TD>	<TD>x digits of the square root of integer y</TD></TR>
+
+</TABLE>
+
+
+<P>The last three phrases illustrate operations on extended precision arguments. (<TT>0j_40 ": y</TT> formats <TT>y</TT> in exponential notation using 40 digits.)</P></TD></TR></TABLE>
+
+<PRE>	0j_40 ": m83 40x
+3.1415926535897932384626433832795028841971e0
+	0j_40 ": m84 40x
+2.7182818284590452353602874713526624977572e0
+	0j_40 ": 40 d85 2
+1.4142135623730950488016887242096980785697e0</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P><TT>m83 </TT>exploits the fact that <TT>&lt;.@o.</TT> produces extended integer results on extended integer arguments, and uses scaling to effect the desired computation.</P>
+
+<P><TT>m84 </TT>uses the reciprocal factorial power series to compute <TT>e</TT>, and produces extended precision results if given extended precision arguments.</P>
+
+<P><TT>d85 </TT>uses Newton's iteration to compute a rational approximation of the square root of integer <TT>y</TT>, accurate to x digits. The initial estimate is <TT>x:%:y</TT>, a rational approximation of the finite-precision square root of <TT>y</TT>. The number of iterations is the base-2 log of <TT>x-16</TT>, based on that the number of accurate digits doubles on every iteration and that the initial estimate has 16-digits of accuracy.</P></TD></TR></TABLE>
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="grids.htm">&gt&gt;</a>&nbsp;
+<a href="parity_symmetry.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

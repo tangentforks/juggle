@@ -1,0 +1,692 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 7: Ranks</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 7: Ranks</H1>
+<p>
+Recall that the rank of an array is its number of dimensions. A scalar is of rank 0, a list  
+of numbers is of rank 1, a table of rank 2, and so on. 
+<p>
+The subject of this chapter is how the ranks of arguments are taken into account when  
+verbs are applied.  
+<H2>7.1  The Rank Conjunction</H2>
+<p>
+First, some terminology. An array can be regarded as being divided into "cells" in several different ways. 
+Thus, a table such as  
+<PRE>
+   M =: 2 3 $ 'abcdef'
+   M
+abc
+def
+</PRE>
+<p>
+may be regarded as being divided into 6 cells each of rank 0, or divided into 2 cells each of rank 1, 
+or as being a single cell of rank 2.  A cell of rank <TT>k</TT> will be called a <TT>k</TT>-cell. 
+<H3>7.1.1  Monadic Verbs</H3>
+<p>
+The box verb (monadic <TT>&lt;</TT>) applies just once to the whole of the argument, to yield a single box, 
+whatever the rank of the argument. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>L =: 2 3 4 </TT></TD> 
+<TD><TT>&lt; L </TT></TD> 
+<TD><TT>M </TT></TD> 
+<TD><TT> &lt; M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3 4</TD> 
+<TD><PRE>+-----+ 
+|2 3 4| 
++-----+</TD> 
+<TD><PRE>abc 
+def</TD> 
+<TD><PRE>+---+ 
+|abc| 
+|def| 
++---+</TD> 
+</PRE></TABLE> 
+<p>
+However, we may choose to box each cell separately.  Using the rank-conjunction <TT>"</TT> (double-quote), 
+we write <TT>(&lt; " 0)</TT> to box each scalar, that is, each 0-cell. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M </TT></TD> 
+<TD><TT>&lt; " 0 M </TT></TD> 
+<TD><TT>&lt; " 1 M </TT></TD> 
+<TD><TT>&lt; " 2 M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>abc 
+def</TD> 
+<TD><PRE>+-+-+-+ 
+|a|b|c| 
++-+-+-+ 
+|d|e|f| 
++-+-+-+</TD> 
+<TD><PRE>+---+---+ 
+|abc|def| 
++---+---+</TD> 
+<TD><PRE>+---+ 
+|abc| 
+|def| 
++---+</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that in the expression <TT>(u " k y)</TT>, the monadic verb <TT>u</TT> is applied 
+separately to each <TT>k</TT>-cell of <TT>y</TT>. 
+<p>
+We can define a verb to exhibit the k-cells of an array, each cell in its own box:: 
+<PRE>
+   cells  =: 4 : '&lt; " x. y.'
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M   </TT></TD> 
+<TD><TT>0 cells M</TT></TD> 
+<TD><TT>1 cells M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>abc 
+def</TD> 
+<TD><PRE>+-+-+-+ 
+|a|b|c| 
++-+-+-+ 
+|d|e|f| 
++-+-+-+</TD> 
+<TD><PRE>+---+---+ 
+|abc|def| 
++---+---+</TD> 
+</PRE></TABLE> 
+<H3>7.1.2  Dyadic Verbs</H3>
+<p>
+Given a table, how do we multiply each row by a separate number? 
+We multiply with the verb <TT>(* " 1 0)</TT> which can be understood as "multiply 1-cells by 0-cells", 
+For example, 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 2 2 $ 0 1 2 3</TT></TD> 
+<TD><TT>y =: 2 3</TT></TD> 
+<TD><TT> x (* " 1 0) y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1 
+2 3</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>0 2 
+6 9</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that the expression  
+<p>
+<TT>x (u " (L,R)) y</TT>  
+<p>
+means: apply dyad <TT>u</TT> separately to each pair consisting of an L-cell from <TT>x</TT> and the corresponding 
+R-cell from <TT>y</TT>. 
+<p>
+To multiply each column by its own number, we combine each 1-cell of <TT>x</TT> with the solitary 1-cell of <TT>y</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x</TT></TD> 
+<TD><TT>y</TT></TD> 
+<TD><TT>x (* " 1 1) y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1 
+2 3</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>0 3 
+4 9</TD> 
+</PRE></TABLE> 
+<H2>7.2  Intrinsic Ranks</H2>
+<p>
+In J, every verb has what might be called a natural, or intrinsic, rank for its argument(s).  
+Here are some examples to illustrate. For the first example, consider: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>  *: 2 </TT></TD> 
+<TD><TT>  *: 2 3 4 </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>4</TD> 
+<TD><PRE>4 9 16</TD> 
+</PRE></TABLE> 
+<p>
+Here, the arithmetic function "square" naturally applies to a single number(a 0-cell). 
+When a rank-1 array (a list) is supplied as argument, the function is applied separately 
+to each 0-cell of the argument. In other words, the natural rank of (monadic) <TT>*:</TT> is 0. 
+<p>
+For the second example, the verb defined by:  
+<PRE>
+      rowsum =: +/ " 1
+</PRE>
+<p>
+will sum the 1-cells (the rows) of a matrix or higher-rank argument. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x </TT></TD> 
+<TD><TT>rowsum x</TT></TD> 
+<TD><TT>h =: i. 2 2 3</TT></TD> 
+<TD><TT>rowsum h</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1 
+2 3</TD> 
+<TD><PRE>1 5</TD> 
+<TD><PRE>0  1  2 
+3  4  5 
+ 
+6  7  8 
+9 10 11</TD> 
+<TD><PRE> 3 12 
+21 30</TD> 
+</PRE></TABLE> 
+<p>
+For a third example, as we have already seen, the monadic case of <TT>&lt;</TT> applies just once to the whole of its argument, whatever the rank 
+of its argument.  The natural rank of <TT>&lt;</TT> is thus an indefinitely large number, that is, infinity,  
+denoted by _  .  
+<p>
+These examples showed monadic verbs. In the same way every dyadic verb will have 
+two natural ranks, one for each argument. For example, the natural ranks of dyadic <TT>+</TT> are <TT>0 0</TT> 
+since <TT>+</TT> takes a number (rank-0) on left and right.  
+<p>
+In general, a verb has both a monadic and a dyadic case, and hence altogther 3 ranks, 
+called its "intrinsic ranks". For any verb, its intrinsic ranks 
+can be seen by applying the utility adverb <TT>RANKS</TT> (defined below), which gives the ranks in the order: 
+ monadic, left, right.  
+<PRE>
+   RANKS =: 1 : 'x. b. 0'
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> *: RANKS</TT></TD> 
+<TD><TT>rowsum RANKS</TT></TD> 
+<TD><TT> &lt; RANKS</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 0 0</TD> 
+<TD><PRE>1 1 1</TD> 
+<TD><PRE>_ 0 0</TD> 
+</PRE></TABLE> 
+<p>
+The rank conjunction can accept a right argument consisting of 1, 2 or 3 ranks. 
+One rank or two are expanded to three as shown by: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(&lt;"1) RANKS</TT></TD> 
+<TD><TT>(&lt;"1 2) RANKS</TT></TD> 
+<TD><TT>(&lt;"1 2 3) RANKS</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 1 1</TD> 
+<TD><PRE>2 1 2</TD> 
+<TD><PRE>1 2 3</TD> 
+</PRE></TABLE> 
+<H2>7.3  Frames</H2>
+<p>
+Suppose <TT>u</TT> is a verb which sums all the numbers in a table. Evidently <TT>u</TT> has monadic rank 2. 
+<PRE>
+   u =: (+/) @: (+/) " 2
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>w =: 4 5 $ 1</TT></TD> 
+<TD><TT>u w</TT></TD> 
+<TD><TT>u RANKS</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 1 1 1 1 
+1 1 1 1 1 
+1 1 1 1 1 
+1 1 1 1 1</TD> 
+<TD><PRE>20</TD> 
+<TD><PRE>2 2 2</TD> 
+</PRE></TABLE> 
+<p>
+Suppose a four-dimensional array <TT>A</TT> has shape <TT>2 3 4 5</TT>.   
+<PRE>
+   A =: 2 3 4 5 $ i. 7 
+</PRE>
+<p>
+We can regard <TT>A</TT> as a 2-by-3 array of 2-cells,  
+each cell being 4-by-5. Now consider computing <TT>(u A)</TT>. The verb <TT>u</TT>, being of rank 2, applies separately 
+to each 2-cell, giving us a 2-by-3 array of results. 
+<p>
+Each result is a scalar (because <TT>u</TT> produces scalars), and hence the overall result will  
+be 2 by 3 scalars. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>u A</TT></TD> 
+<TD><TT>$ u A</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>57 58 59 
+60 61 62</TD> 
+<TD><PRE>2 3</TD> 
+</PRE></TABLE> 
+<p>
+The shape <TT>2 3</TT> is called the "frame" of <TT>A</TT> with respect to its 2-cells,  
+or its 2-frame for short.  
+The k-frame of <TT>A</TT> is given by dropping the last <TT>k</TT> dimensions from the shape of <TT>A</TT>,  
+or equivalently, as the shape of the array of k-cells of <TT>A</TT>. 
+<PRE>
+   frame =: 4 : '$ x. cells y.'
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> $ A</TT></TD> 
+<TD><TT> 2 frame A</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3 4 5</TD> 
+<TD><PRE>2 3</TD> 
+</PRE></TABLE> 
+<p>
+In general, suppose that verb <TT>u</TT> has rank <TT>k</TT>, and from each k-cell it computes a cell 
+of shape <TT>s</TT>. (The same <TT>s</TT>, we are supposing, for each cell).  
+Then the shape of the overall result is:  the k-frame of <TT>A</TT> followed by the shape <TT>s</TT>. 
+To demonstrate that this is the case, we can  
+find <TT>k</TT> from <TT>u</TT>, as the first (monadic) rank of <TT>u</TT>: 
+<PRE>
+   k =: 0 { u RANKS
+</PRE>
+<p>
+We can find <TT>s</TT> by applying <TT>u</TT> to a typical k-cell of <TT>A</TT>, say the first. 
+<PRE>
+   s =: $ u  0 { > (, k cells A)
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>k</TT></TD> 
+<TD><TT>s</TT></TD> 
+<TD><TT>kfr =: k frame A</TT></TD> 
+<TD><TT>kfr, s</TT></TD> 
+<TD><TT> $ u A</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE></TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>2 3</TD> 
+</PRE></TABLE> 
+<p>
+Here we supposed that verb <TT>u</TT> gives the same-shaped result for each cell 
+in its argument.   
+This is not necessarily the case -  
+see the section on "Reassembly of Results" below. 
+<H3>7.3.1  Agreement</H3>
+<p>
+A dyad has two intrinsic ranks, one for the left argument, one for the right.  
+Suppose these ranks are <TT>L</TT> and <TT>R</TT> for a verb <TT>u</TT>. 
+<p>
+When <TT>u</TT> is applied to arguments <TT>x</TT> and <TT>y</TT>,  
+<TT>u</TT> is applied separately to each pair consisting of an L-cell from <TT>x</TT> and the corresponding 
+R-cell from <TT>y</TT>. 
+For example, suppose dyad <TT>u</TT> has ranks <TT>(0 1)</TT>. It combines a 0-cell from <TT>x</TT> and a  
+1-cell from <TT>y</TT>.  
+<PRE>
+   u =: &lt; @ ,  " 0 1
+   x =: 2  $ 'ab'
+   y =: 2 3 $ 'ABCDEF'
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> x </TT></TD> 
+<TD><TT>y</TT></TD> 
+<TD><TT>x u y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>ab</TD> 
+<TD><PRE>ABC 
+DEF</TD> 
+<TD><PRE>+----+----+ 
+|aABC|bDEF| 
++----+----+</TD> 
+</PRE></TABLE> 
+<p>
+Notice that here the 0-frame of <TT>x</TT> is the same as the 1-frame of <TT>y</TT>.  
+These two frames are said to agree. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x</TT></TD> 
+<TD><TT>y</TT></TD> 
+<TD><TT>$x</TT></TD> 
+<TD><TT>$y</TT></TD> 
+<TD><TT>0 frame x</TT></TD> 
+<TD><TT>1 frame y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>ab</TD> 
+<TD><PRE>ABC 
+DEF</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE>2</TD> 
+</PRE></TABLE> 
+<p>
+What if these two frames are not the same? They can still agree if one is  
+a prefix of the other. That is, if one frame is the vector <TT>f</TT>,  
+and the other frame can be written as <TT>(f,g)</TT> for some vector <TT>g</TT>. 
+Here is an example. With 
+<PRE>
+   x =: 2 3 2 $ i. 12
+   y =: 2     $ 0 1
+</PRE>
+<p>
+and a dyad such as <TT>+</TT>, with ranks <TT>(0 0)</TT>,  we are interested in the 0-frame of <TT>x</TT> 
+and the 0-frame of <TT>y</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x</TT></TD> 
+<TD><TT>y</TT></TD> 
+<TD><TT>0 frame x</TT></TD> 
+<TD><TT>0 frame y</TT></TD> 
+<TD><TT>x+y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE> 0  1 
+ 2  3 
+ 4  5 
+ 
+ 6  7 
+ 8  9 
+10 11</TD> 
+<TD><PRE>0 1</TD> 
+<TD><PRE>2 3 2</TD> 
+<TD><PRE>2</TD> 
+<TD><PRE> 0  1 
+ 2  3 
+ 4  5 
+ 
+ 7  8 
+ 9 10 
+11 12</TD> 
+</PRE></TABLE> 
+<p>
+We see that the two frames are <TT>2</TT> and <TT>2 3 2</TT> and their difference <TT>g</TT> is therefore <TT>3 2</TT>. 
+<p>
+Here <TT>y</TT> has the shorter frame.  Then each cell of <TT>y</TT> corresponds to,  
+not just a single cell of <TT>x</TT>, but rather a <TT>3 2</TT>-shaped array of cells. 
+  
+In such a case, a cell of <TT>y</TT> is automatically replicated to form a <TT>3 2</TT>-shaped array of identical  
+cells. In effect the shorter frame is made up to length,  so as to agree with the longer.  
+Here is an example.  
+The expression <TT>(3 2 & $) " 0 y</TT> means " a 3 by 2 replication of each 0-cell of <TT>y</TT>".  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x</TT></TD> 
+<TD><TT>y</TT></TD> 
+<TD><TT>yyy =: (3 2&$)"0 y</TT></TD> 
+<TD><TT>x + yyy </TT></TD> 
+<TD><TT>x + y </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE> 0  1 
+ 2  3 
+ 4  5 
+ 
+ 6  7 
+ 8  9 
+10 11</TD> 
+<TD><PRE>0 1</TD> 
+<TD><PRE>0 0 
+0 0 
+0 0 
+ 
+1 1 
+1 1 
+1 1</TD> 
+<TD><PRE> 0  1 
+ 2  3 
+ 4  5 
+ 
+ 7  8 
+ 9 10 
+11 12</TD> 
+<TD><PRE> 0  1 
+ 2  3 
+ 4  5 
+ 
+ 7  8 
+ 9 10 
+11 12</TD> 
+</PRE></TABLE> 
+<p>
+What we have seen is the way in which a low-rank argument is automatically 
+replicated to agree with a high-rank argument, which is possible 
+provided one frame is a prefix of the other. Otherwise 
+there will be a length error.  
+The frames in question are determined by the intrinsic dyadic ranks of the verb. 
+<p>
+The general scheme for automatically replicating one argument is: for arguments <TT>x</TT> and <TT>y</TT>,   
+if <TT>u</TT> is a dyad with ranks <TT>L</TT> and <TT>R</TT>, and  
+the L-frame of x is <TT>f,g</TT> and the R-frame of <TT>y</TT> is <TT>f</TT> (supposing <TT>y</TT> to have the shorter frame) 
+<p>
+then <TT>(x u y)</TT> is computed as <TT>(x u (g& $)"R y)</TT> 
+<H2>7.4  Reassembly of Results</H2>
+<p>
+We now look briefly at how the results of the computations on the separate cells are reassembled into  
+the overall result.  
+  
+Suppose that the frame of application of a verb to its argument(s) is <TT>f</TT>, say.  
+Then we can visualise each individual result as being stuffed into its place in  
+the <TT>f</TT>-shaped framework 
+ of results.  
+If each individual result-cell has the same shape, <TT>s</TT> say, then the shape of the  
+overall result will be <TT>(f,s)</TT>.  
+However, it is not necessarily the case that all the individual results are the same shape. For example, 
+consider the following verb <TT>R</TT>, which takes a scalar <TT>y</TT> and produces a rank-<TT>y</TT> result. 
+<PRE>
+   R =: (3 : '(y. $ y.) $ y.') " 0
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> R 1 </TT></TD> 
+<TD><TT> R 2 </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1</TD> 
+<TD><PRE>2 2 
+2 2</TD> 
+</PRE></TABLE> 
+<p>
+When <TT>R</TT> is applied to an array, the overall result may be explained by envisaging each separate result 
+ being stufffed into  
+its appropriate box in an <TT>f</TT>-shaped array of boxes.  Then everything is unboxed all together. 
+Note that it is the unboxing which supplies padding and extra dimensions if necessary to bring 
+all cells to the same shape. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> (R 1); (R 2)</TT></TD> 
+<TD><TT> > (R 1) ; (R 2) </TT></TD> 
+<TD><TT> R 1 2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+---+ 
+|1|2 2| 
+| |2 2| 
++-+---+</TD> 
+<TD><PRE>1 0 
+0 0 
+ 
+2 2 
+2 2</TD> 
+<TD><PRE>1 0 
+0 0 
+ 
+2 2 
+2 2</TD> 
+</PRE></TABLE> 
+<p>
+Consequently the shape of the overall result is given by <TT>(f, m</TT>) where <TT>m</TT> is the shape of the largest 
+of the individual results. 
+<H2>7.5  More on the Rank Conjunction</H2>
+<H3>7.5.1  Relative Cell Rank</H3>
+<p>
+The rank conjunction will accept a negative number for a rank.  Thus the expression <TT>(u " _1 y)</TT> means that 
+u is to be applied to cells of rank 1 less than the rank of <TT>y</TT>, that is, to the items of <TT>y</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> x </TT></TD> 
+<TD><TT> $x</TT></TD> 
+<TD><TT> &lt; " _1 x</TT></TD> 
+<TD><TT> &lt; " _2 x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE> 0  1 
+ 2  3 
+ 4  5 
+ 
+ 6  7 
+ 8  9 
+10 11</TD> 
+<TD><PRE>2 3 2</TD> 
+<TD><PRE>+---+-----+ 
+|0 1| 6  7| 
+|2 3| 8  9| 
+|4 5|10 11| 
++---+-----+</TD> 
+<TD><PRE>+---+---+-----+ 
+|0 1|2 3|4 5  | 
++---+---+-----+ 
+|6 7|8 9|10 11| 
++---+---+-----+</TD> 
+</PRE></TABLE> 
+<H3>7.5.2  User-Defined Verbs</H3>
+<p>
+The rank conjunction has a special significance for user-defined verbs.  The significance is that  
+it allows us to define a verb considering only its "natural" rank: we ignore the possibility that 
+it may be applied to higher-rank arguments. In other words, we can write a definition assuming the verb 
+will be applied only to arguments of the natural rank. Afterwards, we can then put the finishing touch to  
+our definition with the rank conjunction.  Here are two examples. 
+<p>
+The factorial of a number <TT>n</TT> is the product of the numbers from <TT>1</TT> to <TT>n</TT>. Hence (disregarding for the 
+ moment J's built-in verb <TT>!</TT>) we could define factorial straightforwardly as 
+<PRE>
+      f =: */ @: >: @: i.
+</PRE>
+<p>
+because <TT>i. n</TT> gives the numbers <TT>0 1 ... (n-1)</TT>, and <TT>>: i. n</TT> gives <TT>1 2 ... n</TT>. We see: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f 2 </TT></TD> 
+<TD><TT>f 3 </TT></TD> 
+<TD><TT>f 4</TT></TD> 
+<TD><TT>f 5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>6</TD> 
+<TD><PRE>24</TD> 
+<TD><PRE>120</TD> 
+</PRE></TABLE> 
+<p>
+Will <TT>f</TT> work as expected with a vector argument?  
+<PRE>
+   f 2 3
+4 10 18
+</PRE>
+<p>
+Evidently not. The reason is that <TT>(f 2 3)</TT> begins by computing <TT>(i. 2 3)</TT>, and <TT>(i. 2 3)</TT> does  
+NOT mean <TT>(i. 2)</TT> followed by <TT>(i. 3)</TT>.  
+The remedy is to specify that <TT>f</TT> applies separately to each scalar (rank-0 cell) in its argument:  
+<PRE>
+   f  =: (*/ @: (>: @: i.)) " 0
+   
+   f 2 3 4 5
+2 6 24 120
+</PRE>
+<p>
+For a second example of the significance of the rank-conjunction we look at explicitly defined verbs. 
+The point being made here is, to repeat,  that it is useful to be able to write a definition on the  
+assumption that the argument is a certain rank say, a scalar, and only later deal with extending to arguments of any 
+rank. 
+<p>
+Two features of explicitly defined verbs are relevant.  
+First, for any explicit verb, its intrinsic ranks are always assumed to be infinite.  (This is because the  
+J system does not look at the definition until the verb is executed.)   
+Second, since the rank is infinite, the whole argument of an explicit verb is always treated as a single 
+cell (or pair of cells for a dyad) and there is no automatic extension to deal with multiple cells. 
+<p>
+For example, the absolute value of a number can be computed by the verb: 
+<PRE>
+   abs =: 3 : 'if. y. &lt; 0 do. - y. else. y. end.'
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>abs 3</TT></TD> 
+<TD><TT>abs _3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+We see that <TT>abs</TT>, being explicitly defined, has infinite rank: 
+<PRE>
+   abs RANKS
+_ _ _
+</PRE>
+<p>
+This means that if <TT>abs</TT> is applied to an array <TT>y</TT>, of any rank, it will be applied just once, and we can see 
+from the definition that the result will be <TT>y</TT> or <TT>-y</TT>.  There are no other possibilities.   
+It is indeed the case that if <TT>y</TT> is a vector then  <TT>(y. &lt; 0)</TT> yields a vector result,  
+but the expression <TT>(if. y. &lt; 0)</TT> makes ONE decision.  
+(This decision will in fact be based, not on the whole of <TT>y > 0</TT> but only on its leading item. 
+See Ch X for more details). Hence if the argument contains both positives and negatives,  
+this decision must be wrong for some parts of the argument. 
+<PRE>
+   abs 3 _3
+3 _3
+   
+</PRE>
+<p>
+Hence with <TT>abs</TT> defined as above, it is important to limit its  application to scalars.  Thus a 
+ better definition for <TT>abs</TT> would be: 
+<PRE>
+   abs =:(3 : 'if. y. &lt; 0 do. -y. else. y. end.')"0
+   
+   abs 3 _3
+3 3
+   
+</PRE>
+<p>
+This brings us to the end of Chapter 7. 
+  </tr> </table>
+
+<HR> 
+
+<p ALIGN=LEFT>
+<A HREF="08.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p><FONT SIZE=-2>Copyright &copy; Roger Stokes 1999. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 10 September 1999</p>
+</BODY>
+</HTML>

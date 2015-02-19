@@ -1,0 +1,67 @@
+.TH JTAGS 1
+.SH NAME
+jtags \- create an editor tag file for J scripts
+.SH SYNOPSIS
+.B jtags
+[
+.I directory
+]
+.SH DESCRIPTION
+The
+.I jtags
+command creates a standard
+.BR vi (1)
+"tags" file for J scripts.
+A tags file pinpoints where global functions and variables are
+defined in the files.  Unix editors such as
+.BR vi (1)
+which understand the tags file format have a command
+such as
+.B :ta
+or
+.B Ctrl-]
+to jump to the symbol defintions directly.
+.LP
+You need to adhere to the following stylistic convention to allow
+the proper globals to be found.
+The program will index all identifies starting in the first column
+and followed by the "=:" global assignment token.  Bodies of explicit
+definitions should be indented by some whitespace to exempt internal
+updates of globals.
+For example:
+.LP
+.RS
+.nf
+foo =: verb define
+  LAST_Y =: y.
+  stdout 'The average is '
+  avg =. (+/ % #) y.
+  stdout LF ,~ ": avg
+  avg
+)
+.fi
+.RE
+.SH OPTIONS
+An argument is taken as the directory hierarchy to scan for
+script files with an
+.B .ijs
+suffix.  The tags file will be created in the given top-level directory.
+If no argument is given, the current directory is used.
+.SH FILES
+.IB directory/ tags
+.SH SEE ALSO
+.BR tags (1),
+.BR etags (1),
+.BR vi (1),
+.BR jconsole(1)
+.SH RESTRICTIONS
+Should have an option
+.I not
+to descend into subdirectories.
+.br
+Should support
+.BR emacs (1)/ etags (1)/ TAGS
+format, too.
+.SH AUTHOR
+Martin Neitzel,
+Gaertner Datensysteme

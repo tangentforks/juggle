@@ -1,0 +1,426 @@
+./rfc -k news
+
+
+0470	Change in socket for TIP news facility. R. Thomas. 
+	Mar-13-1973. (Not online) 
+	(Status: UNKNOWN) 
+
+0977	Network News Transfer Protocol. B. Kantor, P. Lapsley. 
+	Feb-01-1986. 
+	(Format: TXT=55062 bytes) 
+	(Status: PROPOSED STANDARD) 
+
+./rfc -k News
+
+
+0470	Change in socket for TIP news facility. R. Thomas. 
+	Mar-13-1973. (Not online) 
+	(Status: UNKNOWN) 
+
+0977	Network News Transfer Protocol. B. Kantor, P. Lapsley. 
+	Feb-01-1986. 
+	(Format: TXT=55062 bytes) 
+	(Status: PROPOSED STANDARD) 
+
+./rfc -k "nEtwork  	news trAnsfer		proTOCol"
+
+
+0977	Network News Transfer Protocol. B. Kantor, P. Lapsley. 
+	Feb-01-1986. 
+	(Format: TXT=55062 bytes) 
+	(Status: PROPOSED STANDARD) 
+
+./rfc -k "network communication"
+
+
+0611	Two changes to the IMP/Host Protocol to improve user/network 
+	communications. D.C. Walden. Feb-14-1974. (Not online) 
+	(Status: UNKNOWN) 
+
+./rfc -k "furunkel"
+
+
+./rfc -k "netbios"
+
+
+1001	Protocol standard for a NetBIOS service on a TCP/UDP 
+	transport: Concepts and methods. NetBIOS Working Group in the Defense 
+	Advanced Research Projects Agency, Internet Activities Board, 
+	End-to-End Services Task Force. Mar-01-1987. 
+	(Format: TXT=158437 bytes) 
+	(Also STD0019) 
+	(Status: STANDARD) 
+
+1002	Protocol standard for a NetBIOS service on a TCP/UDP 
+	transport: Detailed specifications. NetBIOS Working Group in the 
+	Defense Advanced Research Projects Agency, Internet Activities 
+	Board, End-to-End Services Task Force. Mar-01-1987. 
+	(Format: TXT=170262 bytes) 
+	(Also STD0019) 
+	(Status: STANDARD) 
+
+1088	Standard for the transmission of IP datagrams over NetBIOS 
+	networks. L.J. McLaughlin. Feb-01-1989. 
+	(Format: TXT=5749 bytes) 
+	(Status: STANDARD) 
+
+2097	The PPP NetBIOS Frames Control Protocol (NBFCP). G. Pall. 
+	January 1997. 
+	(Format: TXT=27104 bytes) 
+	(Status: PROPOSED STANDARD) 
+
+./rfc -i bcp
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                             BCP INDEX
+                           -------------
+
+This file contains citations for all BCPs in numeric order.
+
+BCP citations appear in this format:
+
+####  Title of BCP.  Author 1, Author 2, Author 3.  Issue date.
+      (Format: ASCII) (Obsoletes xxx) (Obsoleted by xxx) (Updates xxx)
+      (Updated by xxx) (Also RFC ####)
+
+Key to citations:
+
+#### is the BCP number.
+
+Following the number are the title (terminated with a period), the
+author, or list of authors (terminated with a period), and the date
+(terminated with a period).
+
+The format and byte information follows in parenthesis.  The format,
+either ASCII text (TXT) or PostScript (PS) or both, is noted, followed
+by an equals sign and the number of bytes for that version.  For
+example (Format: TXT=aaaaa, PS=bbbbbb bytes) shows that the ASCII text
+version is aaaaa bytes, and the PostScript version of the BCP is
+bbbbbb bytes.  The (Also RFC ##) phrase gives the equivalent RFC.
+
+
+  For example:
+
+   0006 User Datagram Protocol. J. Postel. August 1980. (Format: TXT=5896
+        bytes) (Also RFC0768)
+
+
+Details on obtaining BCPs via FTP or EMAIL may be obtained by sending
+an EMAIL message to: rfc-info@ISI.EDU 
+with the message body help: ways_to_get_BCPs.
+
+For example:
+
+	To: rfc-info@ISI.EDU
+	Subject: getting BCP's
+
+	help: ways_to_get_BCPs
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                                BCP INDEX
+                                ---------
+   
+
+
+0001 Best Current Practices. J. Postel, T. Li & Y. Rekhter. August
+     1995. (Format: TXT=4114 bytes) (Also RFC1818)
+
+0002 Addendum to RFC 1602 -- Variance Procedure. J. Postel. November
+     1995. (Format: TXT=7747 bytes) (Updates RFC1602, RFC1603) (Also
+     RFC1871)
+
+0003 Variance for The PPP Connection Control Protocol and The PPP
+     Encryption Control Protocol. F. Kastenholz. February 1996. (Format:
+     TXT=14347 bytes) (Also RFC1915)
+
+0004 An Appeal to the Internet Community to Return Unused IP Networks
+     (Prefixes) to the IANA. P. Nesser II. February 1996. (Format:
+     TXT=23623 bytes) (Also RFC1917)
+
+0005 Address Allocation for Private Internets. Y. Rekhter, B.
+     Moskowitz, D. Karrenberg, G. J. de Groot & E. Lear. February 1996.
+     (Format: TXT=22270 bytes) (Obsoletes RFC1627, RFC1597) (Also RFC1918)
+
+0006 Guidelines for creation, selection, and registration of an
+     Autonomous System (AS). J. Hawkinson, T. Bates. March 1996. (Format:
+     TXT=22073 bytes) (Also RFC1930)
+
+0007 Implications of Various Address Allocation Policies for Internet
+     Routing. Y. Rekhter, T. Li. October 1996. (Format: TXT=34717 bytes)
+     (Also RFC2008)
+
+0008 IRTF Research Group Guidelines and Procedures. A. Weinrib, J.
+     Postel. October 1996. (Format: TXT=27507 bytes) (Also RFC2014)
+
+0009 The Internet Standards Process -- Revision 3. S. Bradner. October
+     1996. (Format: TXT=86731 bytes) (Obsoletes RFC1602) (Also RFC2026)
+
+0010 IAB and IESG Selection, Confirmation, and Recall Process:
+     Operation of the Nominating and Recall Committees. J. Galvin.
+     February 1998. (Format: TXT=229852 bytes) (Obsoletes RFC2027) (Also
+     RFC2282)
+
+0011 The Organizations Involved in the IETF Standards Process. R.
+     Hovey, S. Bradner. October 1996. (Format: TXT=13865 bytes) (Also
+     RFC2028)
+
+0012 INTERNET REGISTRY IP ALLOCATION GUIDELINES. K. Hubbard, M.
+     Kosters, D. Conrad, D. Karrenberg, J. Postel. November 1996. (Format:
+     TXT=28975 bytes) (Also RFC2050)
+
+0013 Multipurpose Internet Mail Extension (MIME) Part Four:
+     Registration Procedures. N. Freed, J. Klensin & J. Postel. November
+     1996. (Format: TXT=45033 bytes) (Obsoletes RFC1521, RFC1522, RFC1590)
+     (Also RFC2048)
+
+0014 S. Bradner. Key words for use in RFCs to Indicate Requirement
+     Levels. March 1997. (Format: TXT=4723 bytes) (Also RFC2119)
+
+0015 Deployment of the Internet White Pages Service. H. Alvestrand, P.
+     Jurg. September 1997. (Format: TXT=31539 bytes) (Also RFC2148)
+
+0016 Selection and Operation of Secondary DNS Servers. R. Elz, R.
+     Bush, S. Bradner, M. Patton. July 1997. (Format: TXT=27456 bytes)
+     (Also RFC2182)
+
+0017 Use of DNS Aliases for Network Services. M. Hamilton, R. Wright.
+     October 1997. (Format: TXT=17858 bytes) (Also RFC2219)
+
+0018 IETF Policy on Character Sets and Languages. H. Alvestrand.
+     January 1998. (Format: TXT=16622 bytes) (Also RFC2277)
+
+0019 IANA Charset Registration Procedures. N. Freed, J. Postel.
+     January 1998. (Format: TXT=18881 bytes) (Also RFC2278)
+
+0020 Classless IN-ADDR.ARPA delegation. H. Eidnes, G. de Groot, P.
+     Vixie. March 1998. (Format: TXT=17744 bytes) (Also RFC2317)
+
+0021 Expectations for Computer Security Incident Response. N.
+     Brownlee, E. Guttman. June 1998. (Format: TXT=86545 bytes) (Also
+     RFC2350)
+
+0022 Guide for Internet Standards Writers. G. Scott. June 1998.
+     (Format: TXT=47280 bytes) (Also RFC2360)
+
+0023 Administratively Scoped IP Multicast. D. Meyer. July 1998.
+     (Format: TXT=17770 bytes) (Also RFC2365)
+
+0024 RSVP over ATM Implementation Guidelines. L. Berger. August 1998.
+     (Format: TXT=15174 bytes) (Also RFC2379)
+
+0025 IETF Working Group Guidelines and Procedures. S. Bradner.
+     September 1998. (Format: TXT=62857 bytes) (Obsoletes RFC1603) (Also
+     RFC2418)
+
+0026 Guidelines for Writing an IANA Considerations Section in RFCs. T.
+     Narten, H. Alvestrand. October 1998. (Format: TXT=25092 bytes) (Also
+     RFC2434)
+
+0027 Advancement of MIB specifications on the IETF Standards Track. M.
+     O'Dell, H. Alvestrand, B. Wijnen, S. Bradner. October 1998. (Format:
+     TXT=13633 bytes) (Also RFC2438)
+
+0028 Enhancing TCP Over Satellite Channels using Standard Mechanisms.
+     M. Allman, D. Glover, L. Sanchez. January 1999. (Format: TXT=47857
+     bytes) (Also RFC2488)
+
+0028 Enhancing TCP Over Satellite Channels using Standard Mechanisms.
+     M. Allman, D. Glover, L. Sanchez. January 1999. (Format: BBN=47857
+     TechnologiesASCII= bytes) (Also RFC2488)
+
+0029 Procedure for Defining New DHCP Options. R. Droms. January 1999.
+     (Format: TXT=10484 bytes) (Also RFC2489)
+
+0030 Anti-Spam Recommendations for SMTP MTAs. G. Lindberg. February
+     1999. (Format: TXT=53597 bytes) (Also RFC2505)
+
+0031 Media Feature Tag Registration Procedure. K. Holtman, A. Mutz, T.
+     Hardie. March 1999. (Format: TXT=24892 bytes) (Also RFC2506)
+
+
+./rfc -i fyi
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                             FYI INDEX
+                           -------------
+
+This file contains citations for all FYIs in numeric order.
+
+FYI citations appear in this format:
+
+####  Title of FYI.  Author 1, Author 2, Author 3.  Issue date.
+      (Format: ASCII) (Obsoletes xxx) (Obsoleted by xxx) (Updates xxx)
+      (Updated by xxx) (Also RFC ####)
+
+Key to citations:
+
+#### is the FYI number.
+
+Following the number are the title (terminated with a period), the
+author, or list of authors (terminated with a period), and the date
+(terminated with a period).
+
+The format and byte information follows in parenthesis.  The format,
+either ASCII text (TXT) or PostScript (PS) or both, is noted, followed
+by an equals sign and the number of bytes for that version.  For
+example (Format: TXT=aaaaa, PS=bbbbbb bytes) shows that the ASCII text
+version is aaaaa bytes, and the PostScript version of the FYI is
+bbbbbb bytes.  The (Also RFC ##) phrase gives the equivalent RFC.
+
+
+    For example:
+
+    0004    FYI on Questions and Answers: Answers to Commonly asked
+            New Internet User Questions. G. Malkin, A. Marine.
+            May 1992. (Format: TXT 91884 bytes) (Also RFC1325)
+
+Details on obtaining FYIs via FTP or EMAIL may be obtained by sending
+an EMAIL message to:  rfc-info@ISI.EDU 
+with the message body help: ways_to_get_fyis.  
+
+For example:
+
+	To: rfc-info@ISI.EDU
+	Subject: getting fyi's
+
+	help: ways_to_get_fyis
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                                FYI INDEX
+                                ---------
+   
+
+
+0001 FYI on FYI: Introduction to the FYI Notes. G.S. Malkin, J.K.
+     Reynolds. Mar-01-1990. (Format: TXT=7867 bytes) (Updates FYI0001)
+     (Updated by FYI0001) (Also RFC1150)
+
+0002 FYI on a network management tool catalog: Tools for monitoring
+     and debugging TCP/IP internets and interconnected devices. R. Enger &
+     J. Reynolds. June 1993. (Format: TXT=308528 bytes) (Updates RFC1147)
+     (Also RFC1470)
+
+0003 FYI on where to start: A bibliography of internetworking
+     information. K.L. Bowers, T.L. LaQuey, J.K. Reynolds, K. Roubicek,
+     M.K. Stahl, A. Yuan. Aug-01-1991. (Format: TXT=67330 bytes) (Updates
+     FYI0003) (Updated by FYI0003) (Also RFC1175)
+
+0004 FYI on Questions and Answers - Answers to commonly asked "New
+     Internet User" Questions. A. Marine, J. Reynolds, & G. Malkin. March
+     1994. (Format: TXT=98753 bytes) (Obsoletes RFC1177, RFC1206, RFC1325)
+     (Also RFC1594)
+
+0005 Choosing a name for your computer. D. Libes. Aug-01-1991.
+     (Format: TXT=18472 bytes) (Updates FYI0005) (Updated by FYI0005)
+     (Also RFC1178)
+
+0006 FYI on the X window system. R.W. Scheifler. Jan-01-1991. (Format:
+     TXT=3629 bytes) (Also RFC1198)
+
+0007 FYI on Questions and Answers: Answers to commonly asked
+     "experienced Internet user" questions. G.S. Malkin, A.N. Marine, J.K.
+     Reynolds. Feb-01-1991. (Format: TXT=33385 bytes) (Also RFC1207)
+
+0008 Site Security Handbook. B. Fraser. September 1997. (Format:
+     TXT=191772 bytes) (Obsoletes RFC1244) (Also RFC2196)
+
+0009 Who's Who in the Internet: Biographies of IAB, IESG and IRSG
+     Members. G. Malkin. May 1992. (Format: TXT=92119 bytes) (Obsoletes
+     RFC1251) (Also RFC1336)
+
+0010 There's Gold in them thar Networks! or Searching for Treasure in
+     all the Wrong Places. J. Martin. January 1993. (Format: TXT=71176
+     bytes) (Obsoletes RFC1290) (Also RFC1402)
+
+0011 X.500 Implementations Catalog-96. C. Apple, K. Rossen. April
+     1997. (Format: TXT=243994 bytes) (Obsoletes RFC1632, RFC1292) (Also
+     RFC2116)
+
+0012 Building a Network Information Services Infrastructure. D.
+     Sitzler, P. Smith, A Marine. February 1992. (Format: TXT=29135 bytes)
+     (Also RFC1302)
+
+0013 Executive Introduction to Directory Services Using the X.500
+     Protocol. C. Weider, J. Reynolds. March 1992. (Format: TXT=9392
+     bytes) (Also RFC1308)
+
+0014 Technical Overview of Directory Services Using the X.500
+     Protocol. C. Weider, J. Reynolds, S. Heker. March 1992. (Format:
+     TXT=35694 bytes) (Also RFC1309)
+
+0015 Privacy and Accuracy Issues in Network Information Center
+     Databases. J. Curran, A. Marine. August 1992. (Format: TXT=8858
+     bytes) (Also RFC1355)
+
+0016 Connecting to the Internet - What Connecting Institutions Should
+     Anticipate. ACM SIGUCCS. August 1992. (Format: TXT=53449 bytes) (Also
+     RFC1359)
+
+0017 The Tao of IETF - A Guide for New Attendees of the Internet
+     Engineering Task Force. The IETF Secretariat & G. Malkin. November
+     1994. (Format: TXT=50477 bytes) (Obsoletes RFC1539, RFC1391) (Also
+     RFC1718)
+
+0018 Internet Users' Glossary. G. Malkin. August 1996. (Format:
+     TXT=123008 bytes) (Obsoletes RFC1392) (Also RFC1983)
+
+0019 FYI on Introducing the Internet-- A Short Bibliography of
+     Introductory Internetworking Readings. E. Hoffman & L. Jackson. May
+     1993. (Format: TXT=7116 bytes) (Also RFC1463)
+
+0020 FYI on "What is the Internet?". E. Krol & E. Hoffman. May 1993.
+     (Format: TXT=27811 bytes) (Also RFC1462)
+
+0021 A Survey of Advanced Usages of X.500. C. Weider & R. Wright. July
+     1993. (Format: TXT=34883 bytes) (Also RFC1491)
+
+0022 Frequently Asked Questions for Schools. J. Sellers & J.
+     Robichaux. May 1996. (Format: TXT=150980 bytes) (Obsoletes RFC1578)
+     (Also RFC1941)
+
+0023 Guide to Network Resource Tool. EARN Staff. March 1994. (Format:
+     TXT=235112 bytes) (Also RFC1580)
+
+0024 How to Use Anonymous FTP. P. Deutsch, A. Emtage & A. Marine. May
+     1994. (Format: TXT=27258 bytes) (Also RFC1635)
+
+0025 A Status Report on Networked Information Retrieval: Tools and
+     Groups. J. Foster. August 1994. (Format: TXT=375469 bytes) (Also
+     RFC1689, RTR0013)
+
+0026 K-12 Internetworking Guidelines. J. Gargano, D. Wasley. November
+     1994. (Format: TXT=66659, PS=662030 bytes) (Also RFC1709)
+
+0027 Tools for DNS debugging. A. Romao. November 1994. (Format:
+     TXT=33500 bytes) (Also RFC1713)
+
+0028 Netiquette Guidelines. S. Hambridge. October 1995. (Format:
+     TXT=46185 bytes) (Also RFC1855)
+
+0029 Catalogue of Network Training Materials. J. Foster, M. Isaacs &
+     M. Prior. October 1996. (Format: TXT=78941 bytes) (Also RFC2007)
+
+0030 A Primer On Internet and TCP/IP Tools and Utilities. G. Kessler,
+     S. Shepard. June 1997. (Format: TXT=114130 bytes) (Obsoletes RFC1739)
+     (Also RFC2151)
+
+0031 Humanities and Arts: Sharing Center Stage on the Internet. J.
+     Max, W. Stickle. October 1997. (Format: TXT=154037 bytes) (Also
+     RFC2150)
+
+0032 Hobbes' Internet Timeline. R. Zakon. November 1997. (Format:
+     TXT=43060 bytes) (Also RFC2235)
+
+0033 Some Testing Tools for TCP Implementors. S. Parker, C. Schmechel.
+     August 1998. (Format: TXT=24107 bytes) (Also RFC2398)
+
+0034 Users' Security Handbook. E. Guttman, L. Leong, G. Malkin.
+     February 1999. (Format: TXT=74036 bytes) (Also RFC2504)
+
+

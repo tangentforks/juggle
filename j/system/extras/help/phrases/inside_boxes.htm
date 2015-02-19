@@ -1,0 +1,197 @@
+<html>
+<head>
+<title>Inside Boxes</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="character.htm">&gt&gt;</a>&nbsp;
+<a href="finance.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Inside Boxes</h1>
+<TR><TD colspan="2"> 
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>a0=: each=: &amp;.&gt;</TT></TD>	<TD>Apply  verb to each box</TD></TR>
+  <TR><TD><TT>m1=: open=: -:&gt; :: 1:</TT></TD>	<TD>Test if open (not boxed)</TD></TR>
+  <TR><TD><TT>v2=: fmt=: ":</TT></TD>	<TD>Format</TD></TR>
+  <TR><TD><TT>m3=: just=: 3 : 0<BR>
+  9!:3 (2) NB. Boxed display<BR>
+  9!:17 y. NB. Box justification<BR>
+  )</TT></TD>	<TD valign="top">Set function display to boxed form, and set justification within boxes to y</TD></TR>
+  <TR><TD><TT>m4=: L. = 0:</TT></TD>           	<TD>Test if open</TD></TR>
+  <TR><TD><TT>m5=: &lt; -: {:@;~ </TT></TD>    	<TD>Test if open</TD></TR>
+  <TR><TD><TT>m6=: 32&amp;&gt;@(3!:0)</TT></TD>	<TD>Test if open</TD></TR>
+  <TR><TD><TT>m7=: &lt;^:(L. = 0:)</TT></TD>   	<TD>Box if open
+  </TD></TR>
+  
+</TABLE>
+
+
+<P>The adverb each applies its verb argument to the "inside" of each box of the argument of the resulting function, as illustrated below:</P></TD></TR></TABLE>
+
+<PRE>   ]c=: &lt;"1 &lt;"2 i.3 3 3 2
++---------------------------------------------------------+
+&brvbar;+---------------+&brvbar;+-----------------+&brvbar;+-----------------+&brvbar;
+&brvbar;&brvbar;0 1&brvbar; 6  7&brvbar;12 13&brvbar;&brvbar;&brvbar;18 19&brvbar;24 25&brvbar;30 31&brvbar;&brvbar;&brvbar;36 37&brvbar;42 43&brvbar;48 49&brvbar;&brvbar;
+&brvbar;&brvbar;2 3&brvbar; 8  9&brvbar;14 15&brvbar;&brvbar;&brvbar;20 21&brvbar;26 27&brvbar;32 33&brvbar;&brvbar;&brvbar;38 39&brvbar;44 45&brvbar;50 51&brvbar;&brvbar;
+&brvbar;&brvbar;4 5&brvbar;10 11&brvbar;16 17&brvbar;&brvbar;&brvbar;22 23&brvbar;28 29&brvbar;34 35&brvbar;&brvbar;&brvbar;40 41&brvbar;46 47&brvbar;52 53&brvbar;&brvbar;
+&brvbar;+---------------+&brvbar;+-----------------+&brvbar;+-----------------+&brvbar;
++---------------------------------------------------------+
+
+   |. each c
++---------------------------------------------------------+
+&brvbar;+---------------+&brvbar;+-----------------+&brvbar;+-----------------+&brvbar;
+&brvbar;&brvbar;12 13&brvbar; 6  7&brvbar;0 1&brvbar;&brvbar;&brvbar;30 31&brvbar;24 25&brvbar;18 19&brvbar;&brvbar;&brvbar;48 49&brvbar;42 43&brvbar;36 37&brvbar;&brvbar;
+&brvbar;&brvbar;14 15&brvbar; 8  9&brvbar;2 3&brvbar;&brvbar;&brvbar;32 33&brvbar;26 27&brvbar;20 21&brvbar;&brvbar;&brvbar;50 51&brvbar;44 45&brvbar;38 39&brvbar;&brvbar;
+&brvbar;&brvbar;16 17&brvbar;10 11&brvbar;4 5&brvbar;&brvbar;&brvbar;34 35&brvbar;28 29&brvbar;22 23&brvbar;&brvbar;&brvbar;52 53&brvbar;46 47&brvbar;40 41&brvbar;&brvbar;
+&brvbar;+---------------+&brvbar;+-----------------+&brvbar;+-----------------+&brvbar;
++---------------------------------------------------------+
+
+ 
+   |. each each c
++---------------------------------------------------------+
+&brvbar;+---------------+&brvbar;+-----------------+&brvbar;+-----------------+&brvbar;
+&brvbar;&brvbar;4 5&brvbar;10 11&brvbar;16 17&brvbar;&brvbar;&brvbar;22 23&brvbar;28 29&brvbar;34 35&brvbar;&brvbar;&brvbar;40 41&brvbar;46 47&brvbar;52 53&brvbar;&brvbar;
+&brvbar;&brvbar;2 3&brvbar; 8  9&brvbar;14 15&brvbar;&brvbar;&brvbar;20 21&brvbar;26 27&brvbar;32 33&brvbar;&brvbar;&brvbar;38 39&brvbar;44 45&brvbar;50 51&brvbar;&brvbar;
+&brvbar;&brvbar;0 1&brvbar; 6  7&brvbar;12 13&brvbar;&brvbar;&brvbar;18 19&brvbar;24 25&brvbar;30 31&brvbar;&brvbar;&brvbar;36 37&brvbar;42 43&brvbar;48 49&brvbar;&brvbar;
+&brvbar;+---------------+&brvbar;+-----------------+&brvbar;+-----------------+&brvbar;
++---------------------------------------------------------+
+
+    |. each each each c
++---------------------------------------------------------------------------+
+&brvbar;+---------------------+&brvbar;+-----------------------+&brvbar;+-----------------------+&brvbar;
+&brvbar;&brvbar;+---+&brvbar;+-----+&brvbar;+-----+&brvbar;&brvbar;&brvbar;+-----+&brvbar;+-----+&brvbar;+-----+&brvbar;&brvbar;&brvbar;+-----+&brvbar;+-----+&brvbar;+-----+&brvbar;&brvbar;
+&brvbar;&brvbar;&brvbar;0&brvbar;1&brvbar;&brvbar;&brvbar;6 &brvbar;7 &brvbar;&brvbar;&brvbar;12&brvbar;13&brvbar;&brvbar;&brvbar;&brvbar;&brvbar;18&brvbar;19&brvbar;&brvbar;&brvbar;24&brvbar;25&brvbar;&brvbar;&brvbar;30&brvbar;31&brvbar;&brvbar;&brvbar;&brvbar;&brvbar;36&brvbar;37&brvbar;&brvbar;&brvbar;42&brvbar;43&brvbar;&brvbar;&brvbar;48&brvbar;49&brvbar;&brvbar;&brvbar;
+&brvbar;&brvbar;+-+-&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;&brvbar;
+&brvbar;&brvbar;&brvbar;2&brvbar;3&brvbar;&brvbar;&brvbar;8 &brvbar;9 &brvbar;&brvbar;&brvbar;14&brvbar;15&brvbar;&brvbar;&brvbar;&brvbar;&brvbar;20&brvbar;21&brvbar;&brvbar;&brvbar;26&brvbar;27&brvbar;&brvbar;&brvbar;32&brvbar;33&brvbar;&brvbar;&brvbar;&brvbar;&brvbar;38&brvbar;39&brvbar;&brvbar;&brvbar;44&brvbar;45&brvbar;&brvbar;&brvbar;50&brvbar;51&brvbar;&brvbar;&brvbar;
+&brvbar;&brvbar;+-+-&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;+--+--&brvbar;&brvbar;&brvbar;
+&brvbar;&brvbar;&brvbar;4&brvbar;5&brvbar;&brvbar;&brvbar;10&brvbar;11&brvbar;&brvbar;&brvbar;16&brvbar;17&brvbar;&brvbar;&brvbar;&brvbar;&brvbar;22&brvbar;23&brvbar;&brvbar;&brvbar;28&brvbar;29&brvbar;&brvbar;&brvbar;34&brvbar;35&brvbar;&brvbar;&brvbar;&brvbar;&brvbar;40&brvbar;41&brvbar;&brvbar;&brvbar;46&brvbar;47&brvbar;&brvbar;&brvbar;52&brvbar;53&brvbar;&brvbar;&brvbar;
+&brvbar;&brvbar;+---+&brvbar;+-----+&brvbar;+-----+&brvbar;&brvbar;&brvbar;+-----+&brvbar;+-----+&brvbar;+-----+&brvbar;&brvbar;&brvbar;+-----+&brvbar;+-----+&brvbar;+-----+&brvbar;&brvbar;
+&brvbar;+---------------------+&brvbar;+-----------------------+&brvbar;+-----------------------+&brvbar;
++---------------------------------------------------------------------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The display of a non-uniform boxed array illustrates the fact that boxed elements are normally justified to the top left. For example:</P></TD></TR></TABLE>
+
+<PRE>   ]a=: 2 2$'Baker';'John';('Apt 316','Temple St',:'York, Pa');617 204 4567
++----------------------+
+&brvbar;Baker    &brvbar;John        &brvbar;
++---------+------------&brvbar;
+&brvbar;Apt 316  &brvbar;617 204 4567&brvbar;
+&brvbar;Temple St&brvbar;            &brvbar;
+&brvbar;York, Pa &brvbar;            &brvbar;
++----------------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>When applied to a boxed right argument, the left argument of the format function specifies the justification within a display, using 0, 1, and 2 for top, centre, bottom, and for left, centre, right:</P></TD></TR></TABLE>
+
+<PRE>   fmt=: ":
+   1 1 fmt a	Centred rows and columns
++----------------------+
+&brvbar;  Baker  &brvbar;    John    &brvbar;
++---------+------------&brvbar;
+&brvbar;Apt 316  &brvbar;            &brvbar;
+&brvbar;Temple St&brvbar;617 204 4567&brvbar;
+&brvbar;York, Pa &brvbar;            &brvbar;
++----------------------+
+   ;/all=: 3 3 #: i. 3 3
++-----------+
+&brvbar;0 0&brvbar;1 0&brvbar;2 0&brvbar;
+&brvbar;0 1&brvbar;1 1&brvbar;2 1&brvbar;
+&brvbar;0 2&brvbar;1 2&brvbar;2 2&brvbar;
++-----------+
+
+   $ all fmt a
+3 3 7 25
+
+   &lt;"2 all fmt a
++--------------------------------------------------------------------------+
+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;
+&brvbar;&brvbar;Baker    &brvbar;John        &brvbar;&brvbar;&brvbar;  Baker  &brvbar;    John    &brvbar;&brvbar;&brvbar;    Baker&brvbar;        John&brvbar;&brvbar;
+&brvbar;+---------+------------&brvbar;&brvbar;+---------+------------&brvbar;&brvbar;+---------+------------&brvbar;&brvbar;
+&brvbar;&brvbar;Apt 316  &brvbar;617 204 4567&brvbar;&brvbar;&brvbar;Apt 316  &brvbar;617 204 4567&brvbar;&brvbar;&brvbar;Apt 316  &brvbar;617 204 4567&brvbar;&brvbar;
+&brvbar;&brvbar;Temple St&brvbar;            &brvbar;&brvbar;&brvbar;Temple St&brvbar;            &brvbar;&brvbar;&brvbar;Temple St&brvbar;            &brvbar;&brvbar;
+&brvbar;&brvbar;York, Pa &brvbar;            &brvbar;&brvbar;&brvbar;York, Pa &brvbar;            &brvbar;&brvbar;&brvbar;York, Pa &brvbar;            &brvbar;&brvbar;
+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;
++------------------------+------------------------+------------------------&brvbar;
+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;
+&brvbar;&brvbar;Baker    &brvbar;John        &brvbar;&brvbar;&brvbar;  Baker  &brvbar;    John    &brvbar;&brvbar;&brvbar;    Baker&brvbar;        John&brvbar;&brvbar;
+&brvbar;+---------+------------&brvbar;&brvbar;+---------+------------&brvbar;&brvbar;+---------+------------&brvbar;&brvbar;
+&brvbar;&brvbar;Apt 316  &brvbar;            &brvbar;&brvbar;&brvbar;Apt 316  &brvbar;            &brvbar;&brvbar;&brvbar;Apt 316  &brvbar;            &brvbar;&brvbar;
+&brvbar;&brvbar;Temple St&brvbar;617 204 4567&brvbar;&brvbar;&brvbar;Temple St&brvbar;617 204 4567&brvbar;&brvbar;&brvbar;Temple St&brvbar;617 204 4567&brvbar;&brvbar;
+&brvbar;&brvbar;York, Pa &brvbar;            &brvbar;&brvbar;&brvbar;York, Pa &brvbar;            &brvbar;&brvbar;&brvbar;York, Pa &brvbar;            &brvbar;&brvbar;
+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;
++------------------------+------------------------+------------------------&brvbar;
+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;
+&brvbar;&brvbar;Baker    &brvbar;John        &brvbar;&brvbar;&brvbar;  Baker  &brvbar;    John    &brvbar;&brvbar;&brvbar;    Baker&brvbar;        John&brvbar;&brvbar;
+&brvbar;+---------+------------&brvbar;&brvbar;+---------+------------&brvbar;&brvbar;+---------+------------&brvbar;&brvbar;
+&brvbar;&brvbar;Apt 316  &brvbar;            &brvbar;&brvbar;&brvbar;Apt 316  &brvbar;            &brvbar;&brvbar;&brvbar;Apt 316  &brvbar;            &brvbar;&brvbar;
+&brvbar;&brvbar;Temple St&brvbar;            &brvbar;&brvbar;&brvbar;Temple St&brvbar;            &brvbar;&brvbar;&brvbar;Temple St&brvbar;            &brvbar;&brvbar;
+&brvbar;&brvbar;York, Pa &brvbar;617 204 4567&brvbar;&brvbar;&brvbar;York, Pa &brvbar;617 204 4567&brvbar;&brvbar;&brvbar;York, Pa &brvbar;617 204 4567&brvbar;&brvbar;
+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;+----------------------+&brvbar;
++--------------------------------------------------------------------------+
+</PRE>
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The diagonal elements of this display are also given by the scalar left arguments <TT>0, 1, </TT>and <TT>2</TT>. Moreover, <TT>9!:16</TT> can be used to set the default justification of boxed displays, as it is in the function <TT>just</TT>, which first sets the function display to the boxed form. For example:</P></TD></TR></TABLE>
+
+<PRE>   totient=: * -.@%@~.&amp;.q:
+   just 1 
+
+ 
+   totient
++-------------------------+
+&brvbar; &brvbar;+---------------------+&brvbar;
+&brvbar; &brvbar;&brvbar;+-------------+&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;&brvbar;+------+&brvbar; &brvbar;  &brvbar;&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar;*&brvbar;&brvbar;&brvbar;&brvbar;-.&brvbar;@&brvbar;%&brvbar;&brvbar;@&brvbar;~.&brvbar;&brvbar;&amp;.&brvbar;q:&brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;&brvbar;+------+&brvbar; &brvbar;  &brvbar;&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;+-------------+&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;+---------------------+&brvbar;
++-------------------------+
+
+   just 2
+
+   totient
++-------------------------+
+&brvbar; &brvbar;+---------------------+&brvbar;
+&brvbar; &brvbar;&brvbar;+-------------+&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;&brvbar;+------+&brvbar; &brvbar;  &brvbar;&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;&brvbar;&brvbar;-.&brvbar;@&brvbar;%&brvbar;&brvbar; &brvbar;  &brvbar;&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;&brvbar;+------+&brvbar;@&brvbar;~.&brvbar;&brvbar;  &brvbar;  &brvbar;&brvbar;
+&brvbar; &brvbar;&brvbar;+-------------+&brvbar;&amp;.&brvbar;q:&brvbar;&brvbar;
+&brvbar;*&brvbar;+---------------------+&brvbar;
++-------------------------+
+</PRE>
+
+
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="character.htm">&gt&gt;</a>&nbsp;
+<a href="finance.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

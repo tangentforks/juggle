@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>Script load</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="checkpoint_b.htm">&gt&gt;</a>&nbsp;
+<a href="z_locale.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Script load</h1><TR><TD>
+
+
+<P>In addition to the utilities loaded with the standard profile, there are several additional scripts of standard utilities provided with the system. These standard utilities are documented in the J Online Documentation available from the J help menu. You could run these scripts directly, but you would need to remember the path to the script, as well as which locale to run them in. The standard profile provides utilities to make this easier for you. The scripts verb lists scripts that can be loaded with the load verb.</P>
+
+<PRE>   scripts ''
+. . .
+parts    plot     profile  scripts  stdlib   strings  
+trig     validate winlib   winutil                    
+. . .</PRE>
+
+<P>The scripts verb with an argument of <TT>'v'</TT> lists the scripts with their full path and locale.</P>
+
+<PRE>   scripts 'v'
+. . .
+compare  c:\j3\main\compare.ijs               z
+convert  c:\j3\main\convert.ijs               z
+ . . </PRE>
+
+<P>The convert script contains several conversion utilities.
+</P>
+<PRE>   load 'convert'
+   toupper 'testing 1 2 3'
+TESTING 1 2 3
+
+   tolower 'Sir Richard'
+sir richard
+
+</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="checkpoint_b.htm">&gt&gt;</a>&nbsp;
+<a href="z_locale.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

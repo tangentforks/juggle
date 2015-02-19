@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>scriptdoc utility</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="script_bmp.htm">&gt&gt;</a>&nbsp;
+<a href="sys_scripts.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+<TR valign="baseline"><TD><H1>Script Documentation</H1>
+<TR><TD colspan="2"> 
+
+<P>
+System scripts are documented in comments in the scripts themselves. 
+The scriptdoc utility can be used to view the documentation. To load enter:</P>
+
+<pre>   load 'scriptdoc'
+</pre>
+
+<P>
+To view script documentation, e.g. for dates and data driver, enter:</P>
+
+<pre>   scriptdoc 'dates dd'
+</pre>
+
+<P>
+Documentation Conventions<br>
+The following conventions are used to document J system scripts, and are recognized by the 
+scriptdoc utility.</P>
+
+<P>
+Scripts are documented in comment lines (i.e. lines beginning with <code>NB</code>.). 
+Multi-line comments are consecutive lines beginning with <code>NB.</code> with no break. The first line of a multi-line comment is used for summary documentation.</P>
+
+<P>
+The script itself is documented at the beginning. The first line describes the script, i.e</P>
+
+<pre>NB. script description...
+</pre>
+
+<P>
+Definitions produced by the script are documented in comments where the first comment line begins NB.* and has the form:</P>
+
+<pre>NB.*name type description
+</pre>
+
+<P>
+where type is a single letter:</P>
+<p>
+<TABLE>
+<tr>
+<TD VALIGN="top" WIDTH=27>a</TD>
+<TD VALIGN="top" WIDTH=147>adverb</TD><tr>
+<TD VALIGN="top" WIDTH=27>c</TD>
+<TD VALIGN="top" WIDTH=147>conjunction</TD><tr>
+<TD VALIGN="top" WIDTH=27>n</TD>
+<TD VALIGN="top" WIDTH=147>noun</TD><tr>
+<TD VALIGN="top" WIDTH=27>v</TD>
+<TD VALIGN="top" WIDTH=147>verb</TD>
+
+</tr></TABLE>
+<p>
+The rest of a multi-line comment for a definition is free form, however, conventionally it may include lines beginning:</p>
+<TABLE>
+<tr>
+<TD VALIGN="top" WIDTH=87><P>
+form:</P>
+
+<TD VALIGN="top" WIDTH=469><P>
+describes the usage of the definition, e.g
+<pre>NB. form:  calendar year [,months]</pre></TD><tr>
+<TD VALIGN="top" WIDTH=87><P>
+example:</P>
+
+<TD VALIGN="top" WIDTH=469>
+      <P>example, e.g. </P>
+      <pre>NB. example:<BR>NB. todate 72460<BR>NB. 1998 5 23</pre></TD>
+</tr></TABLE>
+
+Other <CODE>NB.</CODE> comment lines in the script are ignored 
+for documentation purposes.
+<P></P>
+
+</TD>
+  </TR>
+<TR><TD><!--bottom jump start--><hr><a href="script_bmp.htm">&gt&gt;</a>&nbsp;
+<a href="sys_scripts.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></TD></TR></TABLE></body>
+</html>

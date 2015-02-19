@@ -1,0 +1,77 @@
+x findbestroutes y
+
+where
+
+x is a boxed list, with one box for each station, that box
+          containing a list; each list element to contain
+          a record for each bus ENTERING the station:
+          (arrival time),(departure time),(station number from
+            which the bus comes),(other stuff at the caller's
+            option - this module will ignore it)
+     the times are positive integers, representing the number
+       of minutes before the desired arrival time that the
+       bus departs or arrives.  I am doing it in this strange way
+       because the schedule depends on the day of the week,
+       so I am making it the caller's responsibility to create
+       a schedule based on the day.  This also pushes the problem
+       of midnight wraparound back on the caller.
+     the station number is an index into this very array x .
+
+y is destination_station;departing_station;number_of_routes_desired
+  stations are indexes into x; number_of_routes_desired is 5
+  in this problem spec
+
+Result will be a boxed list with up to number_of_routes_desired
+  elements (fewer if there are fewer solutions).  Each box will
+  contain a list of (departing_station,arriving_station,index)
+  such that for segment i the departing station is (<i;0){result,
+  the arriving station is (<i;1){result, and the bus used is
+  ((<i;2){result) { ((<i;1){result) {:: x  (the caller is
+  expected to hold enough information, or to tuck the information
+  into elements 3 and above of x, to be able to reconstruct
+  the line from this index).
+
+
+
+Algorithm:
+
+Create an array T; each element contains an entry for each
+station in the station list S; the array initially has one
+element and therefore has shape (1 , #S).  Its initial value
+is 100000 in all elements except the destination station
+D, which is initialized to the desired arrival time.  Each value
+in T represents the latest time the corresponding station
+can be arrived at still leaving a path to D in time.
+
+Then,
+
+For selected elements of {:T that is not 100000, figure out the
+latest time each bus connecting with that element can leave
+each station.  For each station, record the latest value
+contributed by any element.  The result is a new vector
+with #S items; this is appended as a new element at the
+end of T.  The selection of elements has a big effect on
+performance: only elements that are 'close' to the best
+time are evaluated.
+
+Continue until the desired origination station O has a value
+assigned.  At that point, a path has been established from
+O to D.
+
+Continue processing must continue until there is a cycle
+in which no station is added with a time less than the
+time assigned to O (this is necessary in case there is
+a fast path with more stops than the first path found).
+
+Now, reconstruct the path that leads from O to D.  (It would
+be possible to save the line number along with the
+latest-departure time in each node of T, but that would
+double the space.  Figuring out the path will not take
+long, as follows)  Look at all schedules to find a bus
+leaving O and arriving at some other station with the
+latest-time value of the station.  That represents a
+valid first move from O; save it.  Repeat for the station
+just moved to, and continue until D is reached.
+
+To find other solutions, delete the segment that leaves the origination station, and
+rerun the algorithm.

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+noweave -html -filter autodefs.ijs -index  litprog.nw > litprog.html
+noweave -html -filter autodefs.ijs litprog.nw > litprog-vector.html
+notangle -t8 -Rstatistics -filter emptydefn  litprog.nw > stat.ijs
+notangle -t8 -Rloader -filter emptydefn  litprog.nw > jnoweb.ijs

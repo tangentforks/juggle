@@ -1,0 +1,14 @@
+jtags
+
+A "tags" file is an index for global symbols.  Many Unix editors
+allow you to jump around from symbol to symbol if such a file
+is present.  You don't have remember yourself what hides where.
+This file creates "vi"-flavoured tag files.  Emacs-style "TAGS"
+files have a different format (currently not supported).
+
+Use "jtags" to index your projects or the entire standard script library.
+
+If you have a vintage UNIX which is not yet posixly correct, make sure
+that the script refers to some "new awk" variation (nawk, gawk, mawk).
+
+							Martin Neitzel

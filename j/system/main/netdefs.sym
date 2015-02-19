@@ -1,0 +1,156 @@
+; Networking-related definitions.
+; (Keep "strongly-POSIX-related" definitions in unixsyms.sym, though.)
+;
+<sys/types.h>
+<sys/socket.h>
+#ifdef sun
+<inet/tcp.h>
+<sys/sockio.h>
+#endif
+<netdb.h>
+<netinet/in.h>
+<arpa/inet.h>
+
+st struct sockaddr
+f	sa_family
+f	sa_data
+
+st struct sockaddr_in
+f	sin_family
+f	sin_port
+f	sin_addr
+
+st struct in_addr
+f	s_addr
+
+st struct hostent
+f	h_name
+f	h_aliases
+f	h_addrtype
+f	h_length
+f	h_addr_list
+
+; Provide just a tiny tiny subset of socket ioctls:
+
+i SIOCATMARK
+
+; The following are all "classic" Well Known Numbers as delivered
+; with BSD4.3.  The official reference today would be a look at
+; the IANA lists, most notably RFC 1700.
+; All the constants should probably better _not_ be used.
+; getprotobyname etc. are they way to go.
+;
+; Having said that:
+; We will restrict ourselves only to those constants listed with
+; every netinet/in.h on any platform.
+
+i IPPROTO_IP IPPROTO_ICMP IPPROTO_IGMP IPPROTO_TCP IPPROTO_EGP
+i IPPROTO_PUP IPPROTO_UDP IPPROTO_IDP
+i IPPROTO_RAW IPPROTO_MAX
+
+i IPPORT_ECHO IPPORT_DISCARD IPPORT_SYSTAT IPPORT_DAYTIME IPPORT_NETSTAT
+i IPPORT_FTP IPPORT_TELNET IPPORT_SMTP IPPORT_TIMESERVER IPPORT_NAMESERVER
+i IPPORT_WHOIS IPPORT_MTP
+
+i IPPORT_TFTP IPPORT_RJE IPPORT_FINGER IPPORT_TTYLINK
+i IPPORT_SUPDUP IPPORT_EXECSERVER IPPORT_LOGINSERVER IPPORT_CMDSERVER
+i IPPORT_CMDSERVER IPPORT_EFSSERVER IPPORT_BIFFUDP IPPORT_WHOSERVER
+i IPPORT_ROUTESERVER
+; This appears to be a JSoftware addition beyond the original BSD4.3 set:
+J IPPORT_HTTP=: 80
+
+i IPPORT_RESERVED IPPORT_USERRESERVED
+
+; IMP link numbers?  whoa, they lost their relevance in the late 70s...
+; I doubt there's still _any_ of the  (four?) IMP nodes is still running.
+; Solaris has them, Linux not.  Trash these entries.
+; i IMPLINK_IP IMPLINK_LOWEXPER IMPLINK_HIGHEXPER
+
+i INADDR_ANY INADDR_LOOPBACK INADDR_BROADCAST
+; INADDR_NONE is referring to the (deprecated) return value of
+; the deprecated function inet_addr.  The value is usually -1
+; (even though Solaris' inet_addr() return an unsigned long...) and
+; actually clashes with the valid address INADDR_BROADCAST.  Sigh...
+#ifdef INADDR_NONE
+i INADDR_NONE
+#else
+J INADDR_NONE=: _1
+#endif
+i INADDR_UNSPEC_GROUP INADDR_ALLHOSTS_GROUP INADDR_MAX_LOCAL_GROUP
+i IN_LOOPBACKNET
+
+i SOCK_STREAM SOCK_DGRAM SOCK_RAW SOCK_RDM SOCK_SEQPACKET
+
+i SOL_SOCKET
+i SO_DEBUG SO_REUSEADDR SO_KEEPALIVE SO_DONTROUTE
+i SO_BROADCAST SO_LINGER SO_OOBINLINE
+
+i SO_SNDBUF SO_RCVBUF SO_SNDLOWAT SO_RCVLOWAT SO_SNDTIMEO SO_RCVTIMEO
+i SO_ERROR SO_TYPE
+
+st struct linger
+f	l_onoff
+f	l_linger
+
+; Again, only the common subset:
+i AF_UNSPEC AF_UNIX AF_INET AF_SNA AF_DECnet AF_APPLETALK AF_X25 AF_IPX AF_MAX
+i PF_UNSPEC PF_UNIX PF_INET PF_SNA PF_DECnet PF_APPLETALK PF_X25 PF_IPX PF_MAX
+
+i SOMAXCONN
+i MSG_OOB MSG_PEEK MSG_DONTROUTE
+#ifdef sun
+i MSG_MAXIOVLEN
+#elif defined (linux)
+i MSG_CTRUNC MSG_PROXY MSG_TRUNC MSG_DONTWAIT MSG_EOR MSG_WAITALL
+i MSG_FIN MSG_SYN MSG_URG MSG_RST MSG_ERRQUEUE MSG_NOSIGNAL
+#endif
+
+st struct msghdr
+f	msg_name
+f	msg_namelen
+f	msg_iov
+f	msg_iovlen
+#ifdef linux
+f	msg_control
+f	msg_controllen
+f	msg_flags
+#else
+f	msg_accrights
+f	msg_accrightslen
+#endif
+
+; For now, don't care about protocol option support and extension protocols
+; as provided by Solaris.
+
+; XXX what were these?:
+; FD_READ=: 1
+; FD_WRITE=: 2
+; FD_OOB=: 4
+; FD_ACCEPT=: 8
+; FD_CONNECT=: 16
+; FD_CLOSE=: 32
+
+; <netdb.h> has the following symbols for gethostbyname/addr().
+; Since J doesn't alllow access to the external h_errno variable anyway,
+; their definition is a bit dubious.
+
+i HOST_NOT_FOUND TRY_AGAIN NO_RECOVERY NO_DATA NO_ADDRESS
+#ifdef NETDB_SUCCESS
+i NETDB_INTERNAL NETDB_SUCCESS
+#endif
+#ifdef MAXHOSTNAMELEN
+i MAXHOSTNAMELEN
+#endif
+#ifdef MAXALIASES
+i MAXALIASES MAXADDRS
+#endif
+
+; Some more unknown definitions:
+
+; SOCK_ERROR=: _1
+; SOCKET_ERROR=: _1
+; WM_USER=: 1024
+; CLIENT_MSG=: 1025
+; INCOMING_MSG=: 1026
+; VER_REQUIRED=: 257
+; BUFFER_SIZE=: 1024

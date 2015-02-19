@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>Special Matrices &amp; Lists</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="sorting.htm">&gt&gt;</a>&nbsp;
+<a href="partition.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Special Matrices And Lists</h1>
+<TR><TD colspan="2">
+
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Although these phrases are intended primarily for numeric matrices, many apply as well to arrays of characters, and to arrays of rank other than 2.  For example:</P></TD></TR></TABLE>
+
+<PRE>   m3=: 1: j. # ;. _1
+   u=: 1 0 0 0 1 1 0 1 
+   m3 u
+1j3 1 1j1 1
+
+   d4=: m3@[ # ]
+   u d4 'abcd'
+a   bc d
+
+   u d4 i.4 5
+ 0  1  2  3  4
+ 0  0  0  0  0
+ 0  0  0  0  0
+ 0  0  0  0  0
+ 5  6  7  8  9
+10 11 12 13 14
+ 0  0  0  0  0
+15 16 17 18 19
+
+   ]cm=: 3 3$'ABCDEFGHI'
+ABC
+DEF
+GHI
+   &lt;"2 d5 cm
++--------+
+¦EF¦DF¦DE¦
+¦HI¦GI¦GH¦
++--+--+--¦
+¦BC¦AC¦AB¦
+¦HI¦GI¦GH¦
++--+--+--¦
+¦BC¦AC¦AB¦
+¦EF¦DF¦DE¦
++--------+
+
+   m42 cm
++-----------+
+¦ADG¦BEH¦CFI¦
++-----------+
+
+   (&gt;@m42 ; |:) cm	Open of boxed columns is the transpose
++-------+
+¦ADG¦ADG¦
+¦BEH¦BEH¦
+¦CFI¦CFI¦
++-------+
+
+   (] ; 0&d12 ; _1 0 1&d12) m=: i. 4 4	Band matrices
++-------------------------------+
+¦ 0  1  2  3¦0 0  0  0¦0 1  0  0¦
+¦ 4  5  6  7¦0 5  0  0¦4 5  6  0¦
+¦ 8  9 10 11¦0 0 10  0¦0 9 10 11¦
+¦12 13 14 15¦0 0  0 15¦0 0 14 15¦
++-------------------------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Several equivalent phrases are provided for a number of cases to illustrate various approaches to the same problem. For example, <TT>m13 </TT>uses self-classification to produce an identity matrix, and <TT>m14 </TT>uses an equals table. No one solution should be considered to be the "best". If space or time required in execution is of prime concern, then the tools provided in Section 14A (Execution Time and Space) should be used to evaluate the different methods.</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>d0 =: $,</TT></TD>	<TD>Reshape as in APL</TD>
+  </TR><TR><TD><TT>d1 =: $,:</TT></TD>	<TD><TT>x</TT> copies of <TT>y</TT></TD>
+  </TR><TR><TD><TT>d2 =: -@[ [\ ]</TT></TD>	<TD><TT>x</TT>-column matrix of the items of <TT>y</TT></TD>
+  </TR><TR><TD><TT>m3 =: 1: j. # ;. _1</TT></TD>	<TD>Real 1; Imaginary # of 0's between 1's</TD></TR>
+  <TR><TD><TT>d4 =: m3@[ # ]</TT></TD>	<TD>Expand</TD>
+  </TR><TR><TD><TT>d5 =: 1&amp;(|:\.)"2^:2</TT></TD>	<TD>Minors [5, s.v. 'Outfix'] (e.g. &lt;"2 d5 i. 3 3)</TD></TR>
+  <TR><TD><TT>d6 =: &lt;&amp;.&gt;&amp;.&gt;@{@(i.&amp;.&gt;"_)@$ { ]</TT></TD>	<TD>Minors [4, sect. 3.3]</TD>
+  </TR><TR><TD><TT>m7 =: (&lt;0 1)&amp;|:</TT></TD><TD>Diagonal</TD>
+  </TR><TR><TD><TT>m8 =: i.@# {"_1 ]</TT></TD>	<TD>Diagonal</TD>
+  </TR><TR><TD><TT>m9 =: =@i.@# #&amp;, ]</TT></TD>	<TD>Diagonal (tables only)</TD>
+  </TR><TR><TD><TT>m10=: &lt;"1@(,"0~)@i.@# { ]</TT></TD>	<TD>Diagonal</TD>
+  </TR><TR><TD><TT>d11=: ir=: i.@#@]</TT></TD>	<TD>Indices of items of right argument</TD>
+  </TR><TR><TD><TT>d12=: [(]*+./@((,@[+"0 1 ir)=/ir))]</TT></TD>	<TD>Band matrix  (<TT>1 0 _1 d12 i. 5 5</TT>)</TD></TR>
+  <TR><TD><TT>m13=: m14@#</TT></TD>	<TD>Identity matrix of order of # of items of <TT>y</TT></TD>
+  </TR><TR><TD><TT>m14=: id=: =@i.</TT></TD>	<TD>Identity matrix of order <TT></TT>y</TD>
+  </TR><TR><TD><TT>m15=: =/~@i.</TT></TD>	<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m16=: ,~ $ {.&amp;1@&gt;:</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m17=: -@&gt;:@i. {."0 1:</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m18=: -@i. |."0 1 {.&amp;1</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m19=: ,&amp;1@($&amp;0)"0@i.</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m20=: 0&amp;,^:(i.`1:)</TT></TD>	<TD>" (but not for y=0)</TD>
+  </TR><TR><TD><TT>m21=: #:@(2&amp;^)@i.@-</TT></TD>	<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m22=: [ D.1@i.</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m23=:  slt=: &gt;/~@i.</TT></TD>	<TD>Strict lower triangle</TD>
+  </TR><TR><TD><TT>m24=: lt=: &gt;:/~@i.</TT></TD>	<TD>Lower triangle</TD>
+  </TR><TR><TD><TT>m25=: [\@($&amp;1)</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m26=: +./\@=@i.</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m27=: &gt;:@i. $"0 1:</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m28=: &gt;:@i. {."0 1 $&amp;1</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m29=: i.@-  }."0 1 $&amp;1</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m30=: 1&amp;,^:(i.`1:)</TT></TD>		<TD>" (but not for y=0)</TD>
+  </TR><TR><TD><TT>m31=: i.@- |.!.0"0 1 $&amp;1</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m32=: #:@(+/\)@(2&amp;^)@i.@-</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m33=: ut=: -.@slt</TT></TD>	<TD>Upper triangle</TD>
+  </TR><TR><TD><TT>m34=: +./\"1@=@i.</TT></TD>		<TD>" but not for y=0</TD>
+  </TR><TR><TD><TT>m35=: |.!.0^:(i.`($&amp;1))</TT></TD>		<TD>" but not for y=0</TD>
+  </TR><TR><TD><TT>m36=: -@i. |.!.0"0 1 $&amp;1</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m37=: #:@(+/\.)@(2&amp;^)@i.@-</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m38=: [:%. ,~ $ {.&amp;1 _1@&gt;:</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>m39=: ]\ %@(i.&amp;.&lt;:@+:)</TT></TD>	<TD>Hilbert matrix but not for y=0</TD></TR>
+  <TR><TD><TT>a40=: lor=: [^:</TT></TD>	<TD><TT>1 lor</TT> gives left; <TT>0 lor</TT> gives right</TD></TR>
+  <TR><TD><TT>m41=: -.@('  '&amp;E.) # ]</TT></TD>	<TD>Remove multiple blanks</TD>
+  </TR><TR><TD><TT>m42=: &lt;"1@|:</TT></TD>	<TD>Box each column of a matrix</TD>
+  </TR><TR><TD><TT>m43=: i.@{:@$ &lt;@:({"1)"0 _ ]</TT></TD><TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m44=: [:, (i.@2: ,: #,1:)&lt;@,;.3]</TT></TD>		<TD ALIGN="center">"</TD></TR>
+  <TR><TD><TT>d45=: &lt;@|:;.1 |:</TT></TD>	<TD>Box columns</TD>
+  </TR><TR><TD><TT>n46=: 1 0 1 0 0 1 d45 i.3 6</TT></TD>	<TD>Box columns 0 1, 2 3 4, and 5</TD>
+  </TR><TR><TD><TT>v47=: {.;}.</TT></TD>	<TD>Split first from rest; split <TT>y</TT> at <TT>x</TT></TD>
+  </TR><TR><TD><TT>d48=: i.~ ({.;}.@}.) ]</TT></TD>	<TD>Split <TT>y</TT> at first <TT>x</TT>, eliding first <TT>x</TT></TD>
+  </TR><TR><TD><TT>m49=: }:;{:</TT></TD>	<TD>Split rest from last</TD>
+  </TR><TR><TD><TT>c50=: ([.@{.) , (].@}.)</TT></TD>	<TD><TT>f c50 g</TT>  applies f to first item; g to others</TD></TR>
+  <TR><TD><TT>m51=: */~@i.</TT></TD>	<TD>Multiplication table of order <TT>y</TT></TD>
+  </TR><TR><TD><TT>m52=: &gt;./~@i.</TT></TD>	<TD>Maximum table of order <TT>y</TT></TD>
+  </TR><TR><TD><TT>m53=: ] ]\ ([: &lt;: +:) {. (- {. 1:)</TT></TD>	<TD>Counterdiagonal matrix of order <TT>y</TT></TD></TR>
+  <TR><TD><TT>m54=: [: *./@, lt@# &gt;: lnz</TT></TD>	<TD>Is <TT>y</TT> lower triangular?</TD>
+  </TR><TR><TD><TT>m55=: [: -. 0: e. [: , ]</TT></TD>	<TD>Is <TT>y</TT> zero-free?</TD>
+  </TR><TR><TD><TT>m56=: lnz=: ] ~: 0:</TT></TD>	<TD>Locate nonzeros in <TT>y</TT></TD>
+  </TR><TR><TD><TT>m57=: [: *./@, ut@# &gt;: lnz</TT></TD>	<TD>Is <TT>y</TT> upper triangular?</TD>
+  </TR><TR><TD><TT>m58=: ~:/~@i.</TT></TD>	<TD>Nondiagonal matrix of order <TT>y</TT></TD>
+  </TR><TR><TD><TT>d59=: ;@([ +&amp;.&gt; &lt;@i."0@])</TT></TD>	<TD>i{x + i. i{y</TD>
+  </TR><TR><TD><TT>m60=: -/\@i.</TT></TD>	<TD>Alternating series length <TT>y</TT></TD>
+  </TR><TR><TD><TT>m61=: +/\@i.</TT></TD>	<TD>First <TT>y</TT> triangular numbers</TD>
+  </TR> 
+</TABLE></TD></TR></TABLE>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="sorting.htm">&gt&gt;</a>&nbsp;
+<a href="partition.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,247 @@
+<html>
+<head><title>F. Trains</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dictg.htm">&gt&gt;</a>&nbsp;
+<a href="dicte.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br><font size=+2><b>F. Trains</b></font><br><br>
+
+An isolated sequence, such as<tt> (+ */)</tt>,<tt> </tt>
+which the &quot;normal&quot; parsing rules (other than the 
+three labelled <i>trident</i> and <i>bident</i>) do not resolve 
+to a single part of speech is called a <i>train</i>, 
+and may be further resolved as described below. <br><br>
+
+Meanings are assigned to certain trains of two or three 
+elements and, by implication, to trains of any length by 
+repeated resolution.  For example, the trains<tt> +-*% </tt>
+and<tt> +-*%^ </tt>are equivalent to<tt> +(-*%) </tt>
+and<tt> +-(*%^)</tt>.<br><br>
+
+
+A <i>verb</i> is produced by trains of three or two verbs, 
+as defined by the following diagrams:<br>
+
+<pre>
+         HOOK                FORK             CAPPED FORK
+
+      g       g           g        g            g     g
+     / \     / \         / \      / \           |     |
+    y   h   x   h       f   h    f   h          h     h
+        |       |       |   |   / \ / \         |    / \
+        y       y       y   y   x y x y         y   x   y
+</pre>
+
+For example,<tt> 5(+*-)3 </tt>is<tt> (5+3)*(5-3).</tt>  
+If<tt> f </tt>is a cap<tt> </tt>(<tt>[:</tt>)<tt> </tt>
+the capped branch simplifies the forks to<tt> g h y </tt>
+and<tt> g x h y</tt>. <br><br>
+
+The ranks of the hook and fork are infinite.<br><br>
+
+Trains may also produce adverbs and conjunctions, 
+and trains of two and three elements are called <i>bidents</i>, 
+and <i>tridents,</i> respectively; hooks and forks are special cases.  
+Tree displays illustrate the choice of the names fork and trident:<br>
+
+<pre>
+   mean=: +/ % #
+   conj=: ]. , [.
+   tree=: 5!:4@<
+    
+   tree 'mean'
+  +- / --- +
+--+- %      
+  +- #
+
+  tree 'conj'
+  +- ].
+--+- , 
+  +- [.
+</pre>
+
+The following tables define all possible tridents and bidents, 
+using italics to denote the optional left arguments of 
+(ambivalent) verbs:<br><br>
+
+<table>
+
+<tr><td><tt>N0 V1 N2 &nbsp; &nbsp; </tt></td> 
+<td>noun &nbsp; &nbsp; &nbsp;</td> 
+<td><tt>x V1 y</tt></td></tr>
+
+<tr><td><tt>V0 V1 V2</tt></td> 
+<td>verb</td> 
+<td><tt>(<i>x</i> V0 y) V1 (<i>x</i> V2 y)</tt></td></tr>
+
+<tr><td><tt>V0 V1 C2</tt></td> 
+<td>conj</td> 
+<td><tt>V0 V1 (x C2 y)</tt></td></tr>
+
+<tr><td><tt>A0 V1 V2</tt></td> 
+<td>adv</td> 
+<td><tt>(x A0) V1 V2</tt></td></tr>
+
+<tr><td><tt>C0 V1 V2</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) V1 V2</tt></td></tr>
+
+<tr><td><tt>C0 V1 C2</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) V1 (x C2 y)</tt></td></tr>
+
+<tr><td><tt>A0 A1 V2</tt></td> 
+<td>conj</td> 
+<td><tt>(x A0) (y A1) V2</tt></td></tr>
+
+<tr><td><tt>A0 A1 A2</tt></td> 
+<td>adv</td> 
+<td><tt>((x A0) A1) A2</tt></td></tr>
+
+<tr><td><tt>C0 A1 A2</tt></td> 
+<td>conj</td> 
+<td><tt>((x C0 y) A1) A2</tt></td></tr>
+
+<tr><td><tt>N0 C1 N2</tt></td> 
+<td>verb</td> 
+<td><tt><i> x</i> (N0 C1 N2) y</tt></td></tr>
+
+<tr><td><tt>N0 C1 V2</tt></td> 
+<td>verb</td> 
+<td><tt><i> x</i> (N0 C1 V2) y</tt></td></tr>
+
+<tr><td><tt>N0 C1 A2</tt></td> 
+<td>adv</td> 
+<td><tt>N0 C1 (x A2)</tt></td></tr>
+
+<tr><td><tt>N0 C1 C2</tt></td> 
+<td>conj</td> 
+<td><tt>N0 C1 (x C2 y)</tt></td></tr>
+
+<tr><td><tt>V0 C1 N2</tt></td> 
+<td>verb</td> 
+<td><tt><i> x </i>(V0 C1 N2) y</tt></td></tr>
+
+<tr><td><tt>V0 C1 V2</tt></td> 
+<td>verb</td> 
+<td><tt><i> x</i> (V0 C1 V2) y</tt></td></tr>
+
+<tr><td><tt>V0 C1 A2</tt></td> 
+<td>adv</td> 
+<td><tt>V0 C1 (x A2)</tt></td></tr>
+
+<tr><td><tt>V0 C1 C2</tt></td> 
+<td>conj</td> 
+<td><tt>V0 C1 (x C2 y)</tt></td></tr>
+
+<tr><td><tt>A0 C1 N2</tt></td> 
+<td>adv</td> 
+<td><tt>(x A0) C1 N2</tt></td></tr>
+
+<tr><td><tt>A0 C1 V2</tt></td> 
+<td>adv</td> 
+<td><tt>(x A0) C1 V2</tt></td></tr>
+
+<tr><td><tt>A0 C1 A2</tt></td> 
+<td>conj</td> 
+<td><tt>(x A0) C1 (y A2)</tt></td></tr>
+
+<tr><td><tt>A0 C1 C2</tt></td> 
+<td>conj</td> 
+<td><tt>(x A0) C1 (x C2 y)</tt></td></tr>
+
+<tr><td><tt>C0 C1 N2</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) C1 N2</tt></td></tr>
+
+<tr><td><tt>C0 C1 V2</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) C1 V2</tt></td></tr>
+
+<tr><td><tt>C0 C1 A2</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) C1 (y A2)</tt></td></tr>
+
+<tr><td><tt>C0 C1 C2</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) C1 (x C2 y)</tt></td></tr>
+
+<tr><td><tt>N0 A1</tt></td> 
+<td>verb</td> 
+<td><tt><i> x</i> (N0 A1) y</tt></td></tr>
+
+<tr><td><tt>N0 C1</tt></td> 
+<td>adv</td> 
+<td><tt>N0 C1 x</tt></td></tr>
+
+<tr><td><tt>V0 N1</tt></td> 
+<td>noun</td> 
+<td><tt>V0 y</tt></td></tr>
+
+<tr><td><tt>V0 V1</tt></td> 
+<td>verb</td> 
+<td><tt><i> x</i> (<font face=Times size=+1>or</font> <i>y</i>) V0 V1 y</tt></td></tr>
+
+<tr><td><tt>V0 A1</tt></td> 
+<td>verb</td> 
+<td><tt><i> x</i> (V0 A1) y</tt></td></tr>
+
+<tr><td><tt>V0 C1</tt></td> 
+<td>adv</td> 
+<td><tt>V0 C1 x</tt></td></tr>
+
+<tr><td><tt>A0 V1</tt></td> 
+<td>adv</td> 
+<td><tt>(x A0) V1</tt></td></tr>
+
+<tr><td><tt>A0 A1</tt></td> 
+<td>adv</td> 
+<td><tt>(x A0) A1</tt></td></tr>
+
+<tr><td><tt>A0 C1</tt></td> 
+<td>adv</td> 
+<td><tt>(x A0) C1 x</tt></td></tr>
+
+<tr><td><tt>C0 N1</tt></td> 
+<td>adv</td> 
+<td><tt>x C0 N1</tt></td></tr>
+
+<tr><td><tt>C0 V1</tt></td> 
+<td>adv</td> 
+<td><tt>x C0 V1</tt></td></tr>
+
+<tr><td><tt>C0 A1</tt></td> 
+<td>conj</td> 
+<td><tt>(x C0 y) A1</tt></td></tr>
+
+</table>
+<br>
+  
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dictg.htm">&gt&gt;</a>&nbsp;
+<a href="dicte.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

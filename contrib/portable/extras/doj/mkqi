@@ -1,0 +1,43 @@
+#!/bin/sh
+
+infile=$1
+outfile=$2
+
+: ${infile:=symbol-index}
+: ${outfile:=qi}
+
+awk '
+BEGIN	{ FS=OFS="\t" }
+
+# un-HTMLify:
+{
+	gsub (/&gt;/, ">")
+	gsub (/&lt;/, "<")
+	gsub (/&amp;/, "\\&")
+	gsub (/&nbsp;/, " ")
+}
+
+{
+	# nuke argument specifiers
+	# this also destroys keywords and headings -- those will be skipped
+	# anyway.
+	# We also happen to nuke the entries for u. v. m. n. x. u.
+	# So what...
+	gsub (/[()]/, " ")
+	gsub (/[mnuvxy]/, "")
+
+	#remove duplicates within a line:
+	sub (/^ */, "", $1); sub (/ .*/, "", $1)
+}
+
+# remove lines from the index we are not interested in:
+/^[^a-zA-Z0-9][.:]/	{ next }  # inflected primitives other the letter[.:]
+/^[a-zA-Z][a-zA-Z]+/	{ next }  # control structures and headings
+/[0-9]!:[0-9]/		{ next }  # specific foreigns (beyond group hdrs)
+/^\[\]/			{ next }  # and a line resulting from an opt [x] therein
+
+{
+	if (! seen[$1]++)
+		print
+}
+' $infile > $outfile

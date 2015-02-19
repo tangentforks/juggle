@@ -1,0 +1,191 @@
+<html>
+<head>
+<title>Patterns</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="verbs.htm">&gt&gt;</a>&nbsp;
+<a href="reg_expressions.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Regular Expression Patterns</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+A regular expression pattern is a sequence of elements which matches successive portions of a character string. For example, simple letters are elements which match the same characters in the string. The asterisk indicates that the previous element should be matched <code>0</code> or more times. So, a pattern of <code>abcd</code> must match in the string exactly; a pattern of <code>ab*cd</code> matches the letter <code>a</code> followed by <code>0</code> or more occurrences of the letter <code>b</code> , followed by the letters <code>cd</code> . The particular elements of a pattern are described below.
+
+<P>
+<B>Characters</B><br>
+Non-special characters match exactly. Non-special characters are anything other than:
+
+<pre>   [ ] ( ) { } $ ^ . * + ? | \</pre>
+
+<P>
+A special character is included as simple text by preceding it with a backslash.
+
+<P>
+<B>Character sets</B><br>
+The special character <code>.</code> matches any character (except the null character, <code>0{a. )</code>
+
+<P>
+The special characters <code>^</code> and <code>$</code> match the start and end of lines.
+
+<P>
+Sets of characters are defined by enclosing the list of characters in brackets:<br>
+   <code>[aeiou]</code> matches a single vowel character
+
+<P>
+Ranges can also be included within the brackets:<br>
+   <code>[a-z]</code> matches any lower case letter
+
+<P>
+Combinations of the above are acceptable:<br>
+   <code>[a-zA-Z13579]</code> matches any lower case, upper case, or odd digit
+
+<P>
+Fixed sets (classes) of characters can be included in the list, as a name within bracket-colon pairs:<br>
+   <code>[#[:digit:]abc]</code> matches the character <code>#</code> , a digit, or any of the letters <code>a , b ,</code> or <code>c</code>
+
+<P>
+The character classes defined are:
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=57>&#160;
+<TD VALIGN="TOP" WIDTH=70><P>
+alnum
+<TD VALIGN="TOP" WIDTH=133><P>
+alphanumeric
+<TD VALIGN="TOP" WIDTH=59><P>
+alpha
+<TD VALIGN="TOP" WIDTH=173><P>
+alphabetic
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=57>&#160;
+<TD VALIGN="TOP" WIDTH=70><P>
+blank
+<TD VALIGN="TOP" WIDTH=133><P>
+tab and space
+<TD VALIGN="TOP" WIDTH=59><P>
+cntrl
+<TD VALIGN="TOP" WIDTH=173><P>
+control chars
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=57>&#160;
+<TD VALIGN="TOP" WIDTH=70><P>
+digit
+<TD VALIGN="TOP" WIDTH=133><P>
+digits
+<TD VALIGN="TOP" WIDTH=59><P>
+graph
+<TD VALIGN="TOP" WIDTH=173><P>
+printable (except space)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=57>&#160;
+<TD VALIGN="TOP" WIDTH=70><P>
+lower
+<TD VALIGN="TOP" WIDTH=133><P>
+lowercase
+<TD VALIGN="TOP" WIDTH=59><P>
+print
+<TD VALIGN="TOP" WIDTH=173><P>
+printable
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=57>&#160;
+<TD VALIGN="TOP" WIDTH=70><P>
+punct
+<TD VALIGN="TOP" WIDTH=133><P>
+punctuation
+<TD VALIGN="TOP" WIDTH=59><P>
+space
+<TD VALIGN="TOP" WIDTH=173><P>
+whitespace
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=57>&#160;
+<TD VALIGN="TOP" WIDTH=70><P>
+upper
+<TD VALIGN="TOP" WIDTH=133><P>
+uppercase
+<TD VALIGN="TOP" WIDTH=59><P>
+xdigit
+<TD VALIGN="TOP" WIDTH=173><P>
+hex digits
+</TR></TABLE>
+
+<P>
+If a set begins with <code>^</code> , then the pattern will match with any character <I>not</I> in the set.
+
+<P>
+<B>Subexpressions</B><br>
+A series of elements may be combined by enclosing them in parenthesis. Subexpression are affected by closures such as <code>*</code> just as simple characters are:<br>
+   <code>([a-z][0-9])*</code> matches any number of occurrences of a letter followed by a digit
+
+<P>
+The result of searches for a pattern return a match for the overall pattern, and a separate match for each subexpression
+
+<P>
+A <code>\</code> followed by a digit, N, matches the same substring which occurred in the Nth subexpression:<br>
+   <code>([[:digit:]]+)#\1</code> matches one or more digits, followed by a <code>#</code> , followed by the same string of digits
+
+<P>
+<B>Closures</B><br>
+A <code>*</code> following an element matches <code>0</code> or more occurrences of that element:<br>
+   <code>[aeiou]*</code> matches <code>0</code> or more vowels
+
+<P>
+A <code>+</code> following an element matches 1 or more occurrences of that element:<br>
+   <code>[[:alpha:]]+</code> matches <code>1</code> or more alphabetic characters
+
+<P>
+A <code>?</code> following an element matches 0 or 1 occurrences of that element:<br>
+   <code>-?[[:digit:]]+</code> matches an optional hyphen, followed by <code>1</code> or more digits
+
+<P>
+An interval expression, <code>{m,n}</code> , follows an element to allow it to match at least m, and no more than n, occurrences of the element:<br>
+  <code>[[:digit:]]{3,5}</code> matches <code>3, 4</code>, or <code>5</code> digits
+
+<P>
+<B>Alternation</B><br>
+Multiple regular expressions can be separated with a vertical bar <code>|</code> to match any of them:<br>
+   <code>print|list|exit</code> matches any of the strings <code>print</code> , <code>list</code> , and <code>exit</code>
+
+<P>
+<B>Matches</B><br>
+When searching for a pattern in a string, it is possible to find multiple substrings which match the pattern.  The one that is returned is the one which starts earliest in the string.  If more than one match starts at the same place, the longest one is returned.
+
+<P>
+Even once a particular match is located, it is possible for there to be multiple combinations of the contents of the subexpressions which make it up.  As a rule, whenever possible the subexpressions which begin earlier in the string will be as long as possible.
+
+<P>
+The result of a match is a table which describes the match.  The first row covers the whole match, and subsequent rows describe where the subexpressions in the pattern match in the string.  Each row has two elements: index of the first character of the start of the match, and the length of the match.  Any row which doesn't participate in the match is filled with <code>_1 0</code>.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="verbs.htm">&gt&gt;</a>&nbsp;
+<a href="reg_expressions.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

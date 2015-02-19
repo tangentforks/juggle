@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>isigraph events</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="mapping_mode.htm">&gt&gt;</a>&nbsp;
+<a href="fontspec.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>isigraph events</h1>
+<TR><TD colspan="2"> 
+
+
+
+  <P>
+An isigraph control supports character and mouse events. The Code Dialog in the form editor lists all events for an isigraph control.
+
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300>
+char
+<TD VALIGN="TOP" WIDTH=525>
+isij with boxes
+<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+size
+<TD VALIGN="TOP" WIDTH=525>
+resize event (OpenGL, gl2 must request with glwantresize)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+paint
+<p>
+<TD VALIGN="TOP" WIDTH=525>
+paint event (OpenGL only)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mmove
+<TD VALIGN="TOP" WIDTH=525>
+mouse move event
+<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mbldbl
+<TD VALIGN="TOP" WIDTH=525>
+mouse button left double-click
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mbldown
+<TD VALIGN="TOP" WIDTH=525>
+mouse button left down
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mblup
+<TD VALIGN="TOP" WIDTH=525>
+mouse button left up
+<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mbrdbl
+<TD VALIGN="TOP" WIDTH=525>
+mouse button right double-click
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mbrdown
+<TD VALIGN="TOP" WIDTH=525>
+mouse button right down
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+mbrup
+<TD VALIGN="TOP" WIDTH=525>
+mouse button right up
+</tr></table>
+
+<P>
+For mouse events the wdhandler variable sysdata contains:<br>
+x  y  width  height  leftbutton  rightbutton  ctrl  shift
+
+  <P>
+The x y width and height are in pixels and the other values are 1 if the corresponding button or key was down when the event occurred.
+
+  <P>
+For a char event sysdata contains the value of the character. Characters, such as HOME, END, or the arrow keys are returned as 128+VK_name (virtual key) as defined in packages\graphics\vkeys.js. 
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="mapping_mode.htm">&gt&gt;</a>&nbsp;
+<a href="fontspec.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

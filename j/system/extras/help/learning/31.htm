@@ -1,0 +1,2772 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 31: Evaluating Expressions</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 31: Evaluating Expressions</H1>
+<H2>31.1  Introduction</H2>
+<p>
+In this chapter we look at the process of evaluating a J expression. 
+Evaluating a complete expression proceeds by a sequence of basic steps,  
+such as obtaining the value assigned to a name, 
+or applying a function to its argument(s). For example, given  
+<PRE>
+   x =: 3
+</PRE>
+<p>
+then the expression 
+<PRE>
+   4+5*x
+19
+</PRE>
+<p>
+is (in outline) evaluated by the steps: 
+<OL> 
+<LI> obtain the value assigned to <TT>x</TT> giving <TT>3</TT> 
+<LI> compute <TT>5 * 3</TT> giving <TT>15</TT> 
+<LI> compute <TT>4 + 15</TT> giving <TT>19</TT> 
+</OL> 
+<p>
+The sequence in which the steps take place is governed by the 
+grammatical (or "parsing") rules of the J language.   
+The parsing rules have various consequences, or effects, 
+which can be stated informally, for example:  
+<UL> 
+<LI> verbs have long right scope (this is the "rightmost-first" rule we saw above) 
+<LI> verbs have short left scope 
+<LI> adverbs and conjunctions get applied before verbs  
+<LI> adverbs and conjunctions have long left scope and short right scope 
+<LI> names denoting nouns are evaluated as soon as encountered 
+<LI> names denoting functions are not evaluated until the function is applied 
+<LI> names with no assigned values are assumed to denote verbs 
+<LI> long trains of verbs are resolved into trains of length 2 or 3 
+</UL> 
+and we will look at how the parsing rules give rise to these effects.  
+To illustrate the process, we can use a function which models,  
+or simulates, the evaluation process step by step,  
+showing it at work in slow motion.   
+<p>
+This function, an adverb called <TT>EVM</TT>,is based on the description of the parsing 
+algorithm given in the J Dictionary, section IIE. It is defined in a script 
+which can be <A HREF="31a.htm"> viewed as a web page </A> 
+and is also available as a <A HREF="31a.ijs">downloadable J script</A>. 
+<p>
+I should say here that the <TT>EVM</TT> adverb is only my interpretation 
+of the Dictionary (as indeed is the whole of this book).  
+For the examples below, 
+<TT>EVM</TT> appears to compute the same results as J itself, but it has not been 
+exhaustively tested. 
+<H2>31.2  First Example</H2>
+<p>
+Evaluation of an expression such as <TT>2+3</TT> can be modelled by offering the  
+argument <TT>'2+3'</TT> (a string, notice) to the modelling adverb <TT>EVM</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2+3</TT></TD> 
+<TD><TT>'2+3' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>5</TD> 
+<TD><PRE>5</TD> 
+</PRE></TABLE> 
+<p>
+We see that <TT>'2+3' EVM</TT> computes the same value as <TT>2+3</TT>, but <TT>EVM</TT> also produces a trace, or history, 
+of the evaluation process.  
+The history of <TT>2+3</TT> looks like this: 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; 2 + 3 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; 2 +  
+<TD> 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; 2   
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167;    
+<TD> 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;5 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+We see successive stages of the process.  
+Each stage is defined by the values of two 
+variables.  
+Firstly there is a "queue", initially containing the expression being evaluated,  
+divided into words and preceded by a symbol to mark the beginning.  
+Secondly, there is a "stack", 
+initially empty.  Stage 0 shows queue and stack at the outset. 
+<p>
+At each stage the stack is inspected to see if anything can be done, that is, whether 
+the first few words in the stack form a pattern to which a rule applies.  There are 10 of these rules, 
+and each one is tried in turn.  
+If no rule applies, then a word is transferred from the tail of the queue to the head of the stack, 
+and we go to the next stage and try again. This process takes us from stage 0 to stage 4. 
+<p>
+At stage 4, we find that a rule is applicable. This rule is identified 
+as <TT>dyad</TT> in the rightmost column. Informally, the <TT>dyad</TT> 
+rule is:   
+<p>
+if the first four items in the stack 
+are something, noun, verb, noun,  
+then apply verb to noun and noun to get new-noun,  
+and replace the first four items in the stack by two, namely original-something followed by new-noun.   
+<p>
+Stage 5 shows the results of applying the "dyad".   
+in stage 4.  
+The rules are tried again, with no result, and there are no more words in the queue,  
+so we have finished.  The final result is the second item of the stack. 
+<p>
+The history is represented by 3 global variables, <TT>Qh</TT> <TT>Sh</TT> and <TT>Rh</TT>. 
+The history can be displayed directly in the execution window  
+by entering the expression <TT>Qh,.Sh,.Rh</TT>. 
+<PRE>
+   Qh ,. Sh ,. Rh
++----+-+-+-+----+-+-+-+----+
+|mark|2|+|3|    | | | |    |
++----+-+-+-+----+-+-+-+----+
+|mark|2|+| |3   | | | |    |
++----+-+-+-+----+-+-+-+----+
+|mark|2| | |+   |3| | |    |
++----+-+-+-+----+-+-+-+----+
+|mark| | | |2   |+|3| |    |
++----+-+-+-+----+-+-+-+----+
+|    | | | |mark|2|+|3|dyad|
++----+-+-+-+----+-+-+-+----+
+|    | | | |mark|5| | |    |
++----+-+-+-+----+-+-+-+----+
+</PRE>
+<p>
+However, a more readable display is produced by the <TT>show</TT> function which computes, 
+from <TT>Qh</TT> <TT>Sh</TT> and <TT>Rh</TT>, a fragment of HTML. This HTML is not for viewing 
+in the execution window but rather for pasting into a web page such as this one. Corresponding to 
+<TT>Qh</TT> <TT>Sh</TT> and <TT>Rh</TT> as above we would see: 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; 2 + 3 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; 2 +  
+<TD> 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; 2   
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167;    
+<TD> 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;5 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H2>31.3  Parsing Rules</H2>
+<p>
+In this section an example is shown of  
+ each of  
+the 10 parsing rules. 
+Each rule looks for a pattern of items at the front of the stack,  
+such as something verb noun verb. 
+  
+Each item of the stack is classified as one of the following:  
+verb, noun, adjective, conjunction, name,  
+left-parenthesis, right-parenthesis, assignment-symbol (<TT>=.</TT> or <TT>=:</TT>) or 
+beginning-mark. 
+<p>
+To aid in a compact statement of the  
+rules, larger classes of items 
+can be formed.  
+For example, an item is classified as an "EDGE" if it is a beginning-mark, an assignment-symbol or 
+a left-parenthesis.  
+<H3>31.3.1  Monad Rule</H3>
+<p>
+If the first 3 items of the stack are an "EDGE" 
+followed by a verb followed by a noun, then the verb is 
+applied (monadically) to the noun to give a result-value 
+symbolized by <TT>Z</TT> say, and the value <TT>Z</TT> replaces the verb and noun in the stack. 
+The scheme for transforming the items of the stack is:  
+<PRE>
+      monad rule: EDGE VERB NOUN etc  =>   EDGE Z etc
+</PRE>
+<p>
+where <TT>Z</TT> is the result computed by applying <TT>VERB</TT> to <TT>NOUN</TT>.  For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>*: 4</TT></TD> 
+<TD><TT>'*: 4' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>16</TD> 
+<TD><PRE>16</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=3> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; *: 4 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; *:  
+<TD> 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167;   
+<TD> 
+<TD><TT>&nbsp;*: 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;   
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;*: 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;   
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;16 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.2  Second Monad Rule</H3>
+<p>
+If the  
+An item in the stack is classified as "EAVN" if it 
+is an EDGE or an adverb or verb or noun. The scheme is: 
+<PRE>
+      monad2 rule: EAVN VERB1 VERB2 NOUN etc => EAVN VERB1 Z etc
+</PRE>
+<p>
+where <TT>Z</TT> is <TT>VERB2</TT> monadically applied to NOUN.  For example:  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> - *: 4</TT></TD> 
+<TD><TT>'- *: 4' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>_16</TD> 
+<TD><PRE>_16</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; - *: 4 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; - *:  
+<TD> 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; -   
+<TD> 
+<TD><TT>&nbsp;*: 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167;    
+<TD> 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;*: 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;*: 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp; 
+monad2             
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;16 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;_16 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.3  Dyad Rule</H3>
+<p>
+The scheme is  
+<PRE>
+      dyad rule:  EAVN NOUN1 VERB NOUN2 etc => EAVN Z etc
+</PRE>
+<p>
+where <TT>Z</TT> is <TT>VERB</TT> applied dyadically to <TT>NOUN1</TT> and <TT>NOUN2</TT>. 
+For example. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> 3 * 4</TT></TD> 
+<TD><TT>'3 * 4' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>12</TD> 
+<TD><PRE>12</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; 3 * 4 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; 3 *  
+<TD> 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; 3   
+<TD> 
+<TD><TT>&nbsp;* 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167;    
+<TD> 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp;* 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp;* 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;12 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.4  Adverb Rule</H3>
+<p>
+An item which is a verb or a noun is classified as a "VN" 
+The scheme is: 
+<PRE>
+      adverb rule: EAVN VN ADVERB etc => EAVN Z etc
+</PRE>
+<p>
+where <TT>Z</TT> is the result of applying <TT>ADVERB</TT> to <TT>VN</TT>. 
+For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+ / 1 2 3</TT></TD> 
+<TD><TT>'+ / 1 2 3' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>6</TD> 
+<TD><PRE>6</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; + / 1 2 3 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; + /  
+<TD> 
+<TD><TT>&nbsp;1 2 3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; +   
+<TD> 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp;1 2 3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167;    
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp;1 2 3 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp;1 2 3 
+<TD><TD><TT>&nbsp; 
+adv                
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;+/ 
+<TD><TT>&nbsp;1 2 3 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.5  Conjunction Rule</H3>
+<p>
+The scheme is: 
+<PRE>
+      conjunction  EAVN VN1 CONJ VN1 etc => EAVN Z etc
+</PRE>
+<p>
+where Z is the result of applying conjunction CONJ to 
+arguments VN1 and VN2.  For example: 
+<PRE>
+   f =: 'f' & ,
+   g =: 'g' & ,
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1 & + 2</TT></TD> 
+<TD><TT>'1 & + 2' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=5> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; 1 & + 2 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; 1 & +  
+<TD> 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; 1 &   
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; 1    
+<TD> 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167;     
+<TD> 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;1&+ 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.6  Fork Rule</H3>
+<p>
+The scheme is: 
+<PRE>
+      fork rule: EAVN VERB1 VERB2 VERB3 etc => EAVN Z etc
+</PRE>
+<p>
+where Z is a single verb defined as the fork (VERB1  
+VERB2 VERB3).  For example: 
+<PRE>
+   f=: +/
+   g=: %
+   h=: #
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(f g h) 1 2</TT></TD> 
+<TD><TT>'(f g h) 1 2' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1.5</TD> 
+<TD><PRE>1.5</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=6> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; ( f g h ) 1 2 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; ( f g h )  
+<TD> 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; ( f g h   
+<TD> 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; ( f g    
+<TD> 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; ( f     
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; (      
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167;       
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;1 2 
+<TD><TD><TT>&nbsp; 
+fork               
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;&#167;       
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;f g h 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+paren              
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;&#167;       
+<TD> 
+<TD><TT>&nbsp;f g h 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;9 
+<TD><TD><TT>&nbsp;       
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f g h 
+<TD><TT>&nbsp;1 2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;10 
+<TD><TD><TT>&nbsp;       
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;1.5 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.7  Trident Rule</H3>
+<p>
+We can write "CAVN" to denote an item which is  
+a conjunction or adverb or verb or noun.   
+The scheme is: 
+<PRE>
+      trident rule: EDGE CAVN1 CAVN2 CAVN3 etc => EDGE Z etc
+</PRE>
+<p>
+where <TT>Z</TT> is a single item (itself a <TT>CAVN</TT>) defined by one 
+of the schemes for tridents in  <A HREF="13.htm">Chapter 13</A>. In the following example 
+we have the trident VVC. 
+<PRE>
+   f =: 'f' & ,
+   g =: 'g' & ,
+   h =: 'h' & ,
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f (g,@) h</TT></TD> 
+<TD><TT>'f (g,@) h' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>g , (f@h)</TD> 
+<TD><PRE>g , (f@h)</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=6> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; f ( g , @ ) h 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; f ( g , @ )  
+<TD> 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; f ( g , @   
+<TD> 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; f ( g ,    
+<TD> 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; f ( g     
+<TD> 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; f (      
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167; f       
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;h 
+<TD><TD><TT>&nbsp; 
+trident            
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;&#167; f       
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;g , @ 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+paren              
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;&#167; f       
+<TD> 
+<TD><TT>&nbsp;g , @ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;9 
+<TD><TD><TT>&nbsp;&#167;        
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g , @ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;10 
+<TD><TD><TT>&nbsp;        
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g , @ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;11 
+<TD><TD><TT>&nbsp;        
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;g , (f@h) 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.8  Bident Rule</H3>
+<p>
+The scheme is: 
+<PRE>
+      bident rule: EDGE CAVN1 CAVN2 etc => EDGE Z etc
+</PRE>
+<p>
+where Z is a single item (itself a CAVN) defined by one 
+of the schemes for bidents in  <A HREF="13.htm">Chapter 13</A>. In the following example 
+we have the bident NC. 
+<PRE>
+   f =: 'f' & ,
+   g =: 'g' & ,
+   h =: 'h' & ,
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> + (1 &) 2</TT></TD> 
+<TD><TT>'+ (1 &) 2' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=5> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; + ( 1 & ) 2 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; + ( 1 & )  
+<TD> 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; + ( 1 &   
+<TD> 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; + ( 1    
+<TD> 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; + (     
+<TD> 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; +      
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp; 
+bident             
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167; +      
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;1& 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+paren              
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;&#167; +      
+<TD> 
+<TD><TT>&nbsp;1& 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;&#167;       
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;1& 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;9 
+<TD><TD><TT>&nbsp;       
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;1& 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+adv                
+<TR> 
+<TD><TT>&nbsp;10 
+<TD><TD><TT>&nbsp;       
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;1&+ 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;11 
+<TD><TD><TT>&nbsp;       
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.9  Assignment Rule</H3>
+<p>
+We write NN to denote a noun or a name.  
+and Asgn for the assignment symbol <TT>=:</TT> or <TT>=.</TT>. 
+The scheme is: 
+<PRE>
+      assign rule: NN Asgn CAVN etc => Z etc
+</PRE>
+<p>
+where Z is the value of CAVN. 
+<PRE>
+   f =: 'f' & ,
+   g =: 'g' & ,
+   h =: 'h' & ,
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1 + x =: 6</TT></TD> 
+<TD><TT>'1 + x =: 6' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>7</TD> 
+<TD><PRE>7</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; 1 + x =: 6 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; 1 + x =:  
+<TD> 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; 1 + x   
+<TD> 
+<TD><TT>&nbsp;=: 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; 1 +    
+<TD> 
+<TD><TT>&nbsp;x 
+<TD><TT>&nbsp;=: 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+assign             
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; 1 +    
+<TD> 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; 1     
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167;      
+<TD> 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.10  Examples of Transfer</H3>
+<p>
+The following example shows that when a name is transferred from queue to stack, if the name 
+denotes a value which is a noun, then the value, not the name, moves to the queue. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a =: 6</TT></TD> 
+<TD><TT>(a=:7) , a</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>6</TD> 
+<TD><PRE>7 6</TD> 
+</PRE></TABLE> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a=: 6</TT></TD> 
+<TD><TT> '(a =: 7) , a' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>6</TD> 
+<TD><PRE>7 6</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=6> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; ( a =: 7 ) , a 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; ( a =: 7 ) ,  
+<TD> 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; ( a =: 7 )   
+<TD> 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; ( a =: 7    
+<TD> 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; ( a =:     
+<TD> 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; ( a      
+<TD> 
+<TD><TT>&nbsp;=: 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167; (       
+<TD> 
+<TD><TT>&nbsp;a 
+<TD><TT>&nbsp;=: 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp; 
+assign             
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;&#167; (       
+<TD> 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;&#167;        
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+paren              
+<TR> 
+<TD><TT>&nbsp;9 
+<TD><TD><TT>&nbsp;&#167;        
+<TD> 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;10 
+<TD><TD><TT>&nbsp;        
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;7 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;11 
+<TD><TD><TT>&nbsp;        
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;7 6 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+By contrast, if the name is that of a verb, then the name is transferred into the  
+stack without evaluating it.  Hence a subsequent assignment 
+changes the verb applied. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f=: +</TT></TD> 
+<TD><TT>((f=:-) , f) 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+</TD> 
+<TD><PRE>_4 _4</TD> 
+</PRE></TABLE> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f =: +</TT></TD> 
+<TD><TT>'((f =: -),f) 4' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+</TD> 
+<TD><PRE>_4 _4</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=8> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; ( ( f =: - ) , f ) 4 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; ( ( f =: - ) , f )  
+<TD> 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; ( ( f =: - ) , f   
+<TD> 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; ( ( f =: - ) ,    
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; ( ( f =: - )     
+<TD> 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; ( ( f =: -      
+<TD> 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167; ( ( f =:       
+<TD> 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;&#167; ( ( f        
+<TD> 
+<TD><TT>&nbsp;=: 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;&#167; ( (         
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;=: 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp; 
+assign             
+<TR> 
+<TD><TT>&nbsp;9 
+<TD><TD><TT>&nbsp;&#167; ( (         
+<TD> 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;10 
+<TD><TD><TT>&nbsp;&#167; (          
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+paren              
+<TR> 
+<TD><TT>&nbsp;11 
+<TD><TD><TT>&nbsp;&#167; (          
+<TD> 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;12 
+<TD><TD><TT>&nbsp;&#167;           
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;, 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+fork               
+<TR> 
+<TD><TT>&nbsp;13 
+<TD><TD><TT>&nbsp;&#167;           
+<TD> 
+<TD><TT>&nbsp;( 
+<TD><TT>&nbsp;- , f 
+<TD><TT>&nbsp;) 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+paren              
+<TR> 
+<TD><TT>&nbsp;14 
+<TD><TD><TT>&nbsp;&#167;           
+<TD> 
+<TD><TT>&nbsp;- , f 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;15 
+<TD><TD><TT>&nbsp;           
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;- , f 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;16 
+<TD><TD><TT>&nbsp;           
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;_4 _4 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.3.11  Review of Parsing Rules</H3>
+<p>
+<TABLE BORDER=1 CELLPADDING=2> 
+<TR> <TD> rule   <TD COLSPAN=4> stack before             <TD COLSPAN=3> stack after  <TD> where Z is ... 
+<TR> <TD> monad  <TD> EDGE <TD>Verb <TD> Noun  <TD>etc   <TD> EDGE <TD>Z    <TD> etc <TD> Verb applied to Noun 
+<TR> <TD> monad2 <TD> EAVN <TD>Verb1<TD> Verb2 <TD> Noun <TD> EAVN <TD>Verb1<TD> Z   <TD> Verb2 applied to Noun 
+<TR> <TD> dyad   <TD> EAVN <TD>Noun1<TD> Verb  <TD>Noun2 <TD> EAVN <TD>Z    <TD>etc  <TD> Verb applied to Noun1 and Noun2 
+<TR> <TD> adverb <TD> EAVN <TD>VN   <TD> Adv   <TD>etc   <TD> EAVN <TD>Z    <TD>etc  <TD> Adv applied to VN 
+<TR> <TD> conj   <TD> EAVN <TD>VN1  <TD> Conj  <TD>VN2   <TD> EAVN <TD>Z    <TD>etc  <TD> Conj applied to VN1 and VN2 
+<TR> <TD> fork   <TD> EAVN <TD>Verb1<TD> Verb2 <TD> Verb3<TD> EAVN <TD>Z    <TD>etc  <TD> fork (Verb1 Verb2 Verb3) 
+<TR> <TD> trident<TD> EDGE <TD>CAVN1<TD> CAVN2 <TD>CAVN3 <TD> EDGE <TD>Z    <TD>etc  <TD> trident (CAVN1 CAVN2 CAVN3) 
+<TR> <TD> bident <TD> EDGE <TD>CAVN1<TD> CAVN2 <TD>etc   <TD> EDGE <TD>Z    <TD>etc  <TD> bident (CAVN1 CAVN2) 
+<TR> <TD> assign <TD> NN   <TD>Asgn <TD> CAVN  <TD> etc  <TD> Z    <TD>etc  <TD>etc  <TD> CAVN 
+<TR> <TD> paren  <TD> (    <TD>CAVN <TD> )     <TD>etc   <TD> Z    <TD>etc  <TD>etc  <TD> CAVN 
+</TABLE> 
+<H2>31.4  Effects of Parsing Rules</H2>
+<p>
+Now we look at some of the effects, 
+ of the parsing rules. 
+In what follows, notice   
+how the parsing rules in effect  
+give rise to implicit parentheses. 
+<H3>31.4.1  Dyad Has Long Right Scope</H3>
+<p>
+Consider the expression <TT>4+3-2</TT>, which means <TT>4+(3-2)</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>4 + 3 - 2</TT></TD> 
+<TD><TT>4 + (3-2)</TT></TD> 
+<TD><TT> '4+3-2' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>5</TD> 
+<TD><PRE>5</TD> 
+<TD><PRE>5</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; 4 + 3 - 2 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; 4 + 3 -  
+<TD> 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; 4 + 3   
+<TD> 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; 4 +    
+<TD> 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; 4     
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;3 
+<TD><TT>&nbsp;- 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; 4     
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167;      
+<TD> 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;4 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp; 
+dyad               
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;5 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+Here we have an example of a general rule: a dyadic verb takes as its right argument 
+as much as possible, so in this example <TT>+</TT> is applied to <TT>3-2</TT>, not just <TT>3</TT>. 
+<p>
+Further, a dyadic verb takes as left argument as little as possible. In this example 
+the left argument of <TT>-</TT> is just <TT>3</TT>, not <TT>4+3</TT>.  Hence a dyadic verb is said to have a  
+"long right scope" and a "short left scope". 
+<H3>31.4.2  Operators Before Verbs</H3>
+<p>
+Adverbs and conjunctions get applied first, and then the resulting verbs: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>* & 1 % 2</TT></TD> 
+<TD><TT>* & (1 % 2)</TT></TD> 
+<TD><TT>(*&1) % 2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.5</TD> 
+<TD><PRE>*&(0.5)</TD> 
+<TD><PRE>0.5</TD> 
+</PRE></TABLE> 
+<PRE>
+   '* &  1 % 2' EVM
+0.5
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=6> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; * & 1 % 2 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; * & 1 %  
+<TD> 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; * & 1   
+<TD> 
+<TD><TT>&nbsp;% 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; * &    
+<TD> 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;% 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; *     
+<TD> 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;% 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167;      
+<TD> 
+<TD><TT>&nbsp;* 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;% 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;* 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;1 
+<TD><TT>&nbsp;% 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;*&1 
+<TD><TT>&nbsp;% 
+<TD><TT>&nbsp;2 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad2             
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;*&1 
+<TD><TT>&nbsp;0.5 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+monad              
+<TR> 
+<TD><TT>&nbsp;9 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;0.5 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.4.3  Operators Have Long Left Scope</H3>
+<p>
+An adverb or a conjunction takes as its left argument as much as possible. 
+In the following, look at the structure of the resulting verbs:  
+evidently 
+the <TT>/</TT> adverb and the <TT>@</TT> conjunction take everything to their left: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f @ g /</TT></TD> 
+<TD><TT>(f@ g) /</TT></TD> 
+<TD><TT>f & g @ h</TT></TD> 
+<TD><TT>(f&g) @ h</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>(f@g)/</TD> 
+<TD><PRE>(f@g)/</TD> 
+<TD><PRE>(f&g)@h</TD> 
+<TD><PRE>(f&g)@h</TD> 
+</PRE></TABLE> 
+<PRE>
+   'f&g@h' EVM
+(f&g)@h
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=6> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; f & g @ h 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; f & g @  
+<TD> 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; f & g   
+<TD> 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; f &    
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; f     
+<TD> 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167;      
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;& 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;h 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f&g 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;(f&g)@h 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+Thus operators are said to have a "long left scope".  In the example of 
+<TT>f&g@h</TT> we see that the right argument of <TT>&</TT> is just <TT>g</TT>, not <TT>g@h</TT> . 
+Thus conjunctions have "short right scope". 
+<H3>31.4.4  Train on the Left</H3>
+<p>
+The long left scope of an adverb does 
+not extend through a train: parentheses 
+may be needed to get the desired effect. 
+Suppose <TT>f g h</TT> is intended as a train, then compare the following: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f g h /</TT></TD> 
+<TD><TT>(f g h) /</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>f g (h/)</TD> 
+<TD><PRE>(f g h)/</TD> 
+</PRE></TABLE> 
+<PRE>
+   'f g h / ' EVM
+f g (h/)
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; f g h / 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; f g h  
+<TD> 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; f g   
+<TD> 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; f    
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+adv                
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; f    
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167;     
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h/ 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h/ 
+<TD><TD><TT>&nbsp; 
+fork               
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f g (h/) 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+Similarly for a conjunction (with a right argument) 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f g h @ +</TT></TD> 
+<TD><TT>'f g h @ +' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>f g (h@+)</TD> 
+<TD><PRE>f g (h@+)</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; f g h @ + 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; f g h @  
+<TD> 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; f g h   
+<TD> 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; f g    
+<TD> 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;+ 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167; f     
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;+ 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;&#167; f     
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h@+ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;&#167;      
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h@+ 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h@+ 
+<TD><TD><TT>&nbsp; 
+fork               
+<TR> 
+<TD><TT>&nbsp;8 
+<TD><TD><TT>&nbsp;      
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f g (h@+) 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+However, for a conjunction with no right 
+argument, the left scope does extend through a train: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f g h @</TT></TD> 
+<TD><TT>'f g h @' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>(f g h)@</TD> 
+<TD><PRE>(f g h)@</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=5> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; f g h @ 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; f g h  
+<TD> 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; f g   
+<TD> 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; f    
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167;     
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;h 
+<TD><TT>&nbsp;@ 
+<TD><TD><TT>&nbsp; 
+fork               
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f g h 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+bident             
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;(f g h)@ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+By contrast, in the case of 
+of <TT>f @ g /</TT>, notice how the "conj" rule is applied  
+before there is a chance to apply the "adverb" rule" 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f @ g /</TT></TD> 
+<TD><TT>(f @ g) /</TT></TD> 
+<TD><TT>'f @ g / ' EVM</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>(f@g)/</TD> 
+<TD><PRE>(f@g)/</TD> 
+<TD><PRE>(f@g)/</TD> 
+</PRE></TABLE> 
+<PRE>
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=5> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; f @ g / 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; f @ g  
+<TD> 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; f @   
+<TD> 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167; f    
+<TD> 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;&#167;     
+<TD> 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f 
+<TD><TT>&nbsp;@ 
+<TD><TT>&nbsp;g 
+<TD><TT>&nbsp;/ 
+<TD><TD><TT>&nbsp; 
+conj               
+<TR> 
+<TD><TT>&nbsp;6 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;f@g 
+<TD><TT>&nbsp;/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+adv                
+<TR> 
+<TD><TT>&nbsp;7 
+<TD><TD><TT>&nbsp;     
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;(f@g)/ 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<H3>31.4.5  Presumption of Verb</H3>
+<p>
+A name with no value assigned is 
+presumed to be a verb. For example,  
+in the following the three names 
+make a fork: 
+<PRE>
+   Maple Leaf Rag
+Maple Leaf Rag
+   
+   'Maple Leaf Rag' EVM
+Maple Leaf Rag
+   show ''
+</PRE>
+<p>
+<TABLE BORDER=1 CELLPADDING=4> 
+<TR><TD> &nbsp; <TD> <TD> queue <TD> <TD COLSPAN=4> stack <TD><TD> rule 
+<TR> 
+<TD><TT>&nbsp;0 
+<TD><TD><TT>&nbsp;&#167; Maple Leaf Rag 
+<TD> 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;1 
+<TD><TD><TT>&nbsp;&#167; Maple Leaf  
+<TD> 
+<TD><TT>&nbsp;Rag 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;2 
+<TD><TD><TT>&nbsp;&#167; Maple   
+<TD> 
+<TD><TT>&nbsp;Leaf 
+<TD><TT>&nbsp;Rag 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;3 
+<TD><TD><TT>&nbsp;&#167;    
+<TD> 
+<TD><TT>&nbsp;Maple 
+<TD><TT>&nbsp;Leaf 
+<TD><TT>&nbsp;Rag 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+<TR> 
+<TD><TT>&nbsp;4 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;Maple 
+<TD><TT>&nbsp;Leaf 
+<TD><TT>&nbsp;Rag 
+<TD><TD><TT>&nbsp; 
+fork               
+<TR> 
+<TD><TT>&nbsp;5 
+<TD><TD><TT>&nbsp;    
+<TD> 
+<TD><TT>&nbsp;&#167; 
+<TD><TT>&nbsp;Maple Leaf Rag 
+<TD><TT>&nbsp; 
+<TD><TT>&nbsp; 
+<TD><TD><TT>&nbsp; 
+                   
+</TABLE> <BR> 
+<p>
+This is the end of Chapter 31 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 16 Mar 00</p>
+</BODY>
+</HTML>
+

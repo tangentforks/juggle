@@ -1,0 +1,76 @@
+<html>
+<head><title>x. y. Explicit Arguments</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dxco.htm">&gt&gt;</a>&nbsp;
+<a href="duco.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Explicit Arguments</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>x. &nbsp;y.</font></td>
+<td align=right  width=33%>&nbsp;</td>
+</tr></table>
+<br>
+
+<table width=100%>
+<tr><td valign=top bgcolor=#eeeeee>
+The names<tt> x. </tt>and<tt> y. </tt>denote the left and right arguments 
+in an explicit definition.  See the names<tt> m. n. u. v. </tt>and 
+Explicit Definition<tt> </tt>(<tt>:</tt>).
+<br>&nbsp;</tt></td>
+</tr></table><br>
+
+For example:<br>
+
+<pre>
+info=: 3 : 0
+ (3!:0 y.);(#$y.);($y.);5!:5 <'y.'
+  :
+ (info x.) ,&< (info y.)
+)
+
+   info i.12
++-+-+--+----+
+|4|1|12|i.12|
++-+-+--+----+
+
+   info o.i.3 4
++-+-+---+------------------------+
+|8|2|3 4|3.1415926535897931*i.3 4|
++-+-+---+------------------------+
+
+   'x' info ;:'Cogito, ergo sum.'
++----------+------------------------------------+
+|+-+-++---+|+--+-+-+---------------------------+|
+||2|0||'x'|||32|1|4|<;._1 ' Cogito , ergo sum.'||
+|+-+-++---+|+--+-+-+---------------------------+|
++----------+------------------------------------+
+</pre>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dxco.htm">&gt&gt;</a>&nbsp;
+<a href="duco.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

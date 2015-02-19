@@ -1,0 +1,307 @@
+<HTML>
+<HEAD>
+<TITLE>parser.ijs.html</TITLE>
+</HEAD>
+<BODY BGcolor=#ffffff TEXT=#000000>
+<PRE>
+<FONT color=#000080>coclass</FONT> <FONT color=#008080>'base'</FONT>
+<FONT color=#000080>require</FONT> <FONT color=#008080>'strings'</FONT>
+<FONT color=#000080>testdata</FONT> <FONT color=#000000>=:</FONT> _<FONT color=#a020f0>2</FONT> <FONT color=#008080>]</FONT><FONT color=#ffa500>\</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>1</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>3</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'/x'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>2</FONT><FONT color=#008080>;</FONT>(<FONT color=#008080>,</FONT><FONT color=#008080>'x'</FONT>)
+<FONT color=#000080>testdata2</FONT> <FONT color=#000000>=:</FONT> _<FONT color=#a020f0>2</FONT> <FONT color=#008080>]</FONT><FONT color=#ffa500>\</FONT> <FONT color=#a020f0>6</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>3</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'/x'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>3</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'/y'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>2</FONT><FONT color=#008080>;</FONT>(<FONT color=#008080>,</FONT><FONT color=#008080>'x'</FONT>) <FONT color=#008080>;</FONT> <FONT color=#a020f0>2</FONT><FONT color=#008080>;</FONT>(<FONT color=#008080>,</FONT><FONT color=#008080>'y'</FONT>) <FONT color=#008080>;</FONT> <FONT color=#a020f0>7</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>3</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'/swap'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>5</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>10</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>2</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'swap'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>2</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'apply'</FONT>
+<FONT color=#000080>testdata3</FONT> <FONT color=#000000>=:</FONT> _<FONT color=#a020f0>2</FONT> <FONT color=#008080>]</FONT><FONT color=#ffa500>\</FONT> <FONT color=#a020f0>4</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>0</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>1</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'abc'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>5</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT>
+<FONT color=#000080>testdata4</FONT> <FONT color=#000000>=:</FONT> _<FONT color=#a020f0>2</FONT> <FONT color=#008080>]</FONT><FONT color=#ffa500>\</FONT> <FONT color=#a020f0>4</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>0</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>1</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'abc'</FONT> <FONT color=#008080>;</FONT> <FONT color=#a020f0>6</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT>
+<FONT color=#008000>NB. parser for the ICFP 2000</FONT>
+
+<FONT color=#008000>NB. Stack type codes</FONT>
+<FONT color=#000080>STACK_TYPE_INTEGER</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>STACK_TYPE_FLOAT</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>1</FONT>
+<FONT color=#000080>STACK_TYPE_STRING</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>2</FONT>
+<FONT color=#000080>STACK_TYPE_BOOLEAN</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT>
+<FONT color=#000080>STACK_TYPE_FUNCTION</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>4</FONT>
+<FONT color=#000080>STACK_TYPE_ARRAY</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>5</FONT>
+<FONT color=#000080>STACK_TYPE_OBJECT</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>6</FONT>
+<FONT color=#000080>STACK_TYPE_LIGHT</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>7</FONT>
+
+<FONT color=#008000>NB. Input y. is a list of pairs type;value</FONT>
+<FONT color=#008000>NB. where</FONT>
+<FONT color=#008000>NB. type  value</FONT>
+<FONT color=#008000>NB. 0     integer number</FONT>
+<FONT color=#008000>NB. 1     string</FONT>
+<FONT color=#008000>NB. 2     identifier</FONT>
+<FONT color=#008000>NB. 3     /identifier</FONT>
+<FONT color=#008000>NB. 4     [ character</FONT>
+<FONT color=#008000>NB. 5     ] character</FONT>
+<FONT color=#008000>NB. 6     { character</FONT>
+<FONT color=#008000>NB. 7     } character</FONT>
+<FONT color=#008000>NB. 8     boolean (0 for true, 1 for false)</FONT>
+<FONT color=#008000>NB. 9     float number</FONT>
+
+<FONT color=#008000>NB. This routine parses the file, producing the verb</FONT>
+<FONT color=#008000>NB. 'mainverb'.  Then it executes mainverb.  Errors</FONT>
+<FONT color=#008000>NB. are signaled by 13!:8 (x)</FONT>
+
+<FONT color=#000080>parser</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>currindex</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>tokens</FONT> <FONT color=#000000>=:</FONT> <FONT color=#c0c0c0>y.</FONT>
+<FONT color=#000080>stack</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>0</FONT> <FONT color=#a020f0>2</FONT><FONT color=#008080>$</FONT><FONT color=#000080>a</FONT><FONT color=#ff0000>:</FONT>
+
+<FONT color=#008000>NB. The whole file is a function without the { }, so we</FONT>
+<FONT color=#008000>NB. treat it as such</FONT>
+<FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> (<FONT color=#000080>readfn</FONT> <FONT color=#008080>''</FONT>) <FONT color=#008080>''</FONT>  <FONT color=#008000>NB. stack the function definition</FONT>
+<FONT color=#008000>NB. Verify we hit end of file on input</FONT>
+<B><FONT color=#804040>if.</FONT></B> <FONT color=#000080>currindex</FONT> <FONT color=#008080>&lt;:</FONT> <FONT color=#008080>#</FONT><FONT color=#000080>tokens</FONT> <B><FONT color=#804040>do.</FONT></B> <FONT color=#a020f0>13</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>8</FONT> (<FONT color=#a020f0>3</FONT>) <B><FONT color=#804040>end.</FONT></B>
+<FONT color=#000080>apply</FONT> <FONT color=#a020f0>0</FONT>  <FONT color=#008000>NB. run the verb</FONT>
+<FONT color=#008080>''</FONT>
+)
+
+<FONT color=#008000>NB. Read a token and process it.  Nilad (currindex points</FONT>
+<FONT color=#008000>NB. to the next token).  </FONT>
+<FONT color=#008000>NB. Processing a token returns a list of executable lines</FONT>
+<FONT color=#008000>NB. (usually just 1, but more if the token is a function</FONT>
+<FONT color=#008000>NB. or an array)</FONT>
+<FONT color=#000080>readtok</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#008000>NB. Get next token.  Insert exactly one } at end-of-file</FONT>
+<FONT color=#008000>NB. to match the { we assumed at the beginning.</FONT>
+<B><FONT color=#804040>if.</FONT></B> <FONT color=#000080>currindex</FONT> <FONT color=#008080>=</FONT> <FONT color=#008080>#</FONT><FONT color=#000080>tokens</FONT> <B><FONT color=#804040>do.</FONT></B> <FONT color=#008080>'type value'</FONT> <FONT color=#000000>=.</FONT> <FONT color=#a020f0>7</FONT><FONT color=#008080>;</FONT><FONT color=#008080>''</FONT>
+<B><FONT color=#804040>else.</FONT></B> <FONT color=#008080>'type value'</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>currindex</FONT> <FONT color=#008080>{</FONT> <FONT color=#000080>tokens</FONT>
+<B><FONT color=#804040>end.</FONT></B>
+<FONT color=#000080>currindex</FONT> <FONT color=#000000>=:</FONT> <FONT color=#008080>&gt;:</FONT> <FONT color=#000080>currindex</FONT>
+<FONT color=#008000>NB. debug 0: display 'readtok: type=' , (5!:5 &lt;'type') , ' value=' , 5!:5 &lt;'value'</FONT>
+<FONT color=#008000>NB. Dispatch the handler for the token-type read</FONT>
+<B><FONT color=#804040>select.</FONT></B> <FONT color=#000080>type</FONT>
+  <FONT color=#008000>NB. Constant: push onto the stack</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>0</FONT> <B><FONT color=#804040>do.</FONT></B>
+<FONT color=#008000>NB. debug 0: display 'readtok: type 0 returning ' , 'push &lt;' , 5!:5&lt;'value'</FONT>
+    <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'STACK_TYPE_INTEGER push &lt;'</FONT> <FONT color=#008080>,</FONT> <FONT color=#a020f0>5</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT><FONT color=#008080>&lt;</FONT><FONT color=#008080>'value'</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>9</FONT> <B><FONT color=#804040>do.</FONT></B>
+<FONT color=#008000>NB. debug 0: display 'readtok: type 0 returning ' , 'push &lt;' , 5!:5&lt;'value'</FONT>
+    <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'STACK_TYPE_FLOAT push &lt;'</FONT> <FONT color=#008080>,</FONT> <FONT color=#a020f0>5</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT><FONT color=#008080>&lt;</FONT><FONT color=#008080>'value'</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>1</FONT> <B><FONT color=#804040>do.</FONT></B>
+<FONT color=#008000>NB. debug 0: display 'readtok: type 0 returning ' , 'push &lt;' , 5!:5&lt;'value'</FONT>
+    <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'STACK_TYPE_STRING push &lt;'</FONT> <FONT color=#008080>,</FONT> <FONT color=#a020f0>5</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT><FONT color=#008080>&lt;</FONT><FONT color=#008080>'value'</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>8</FONT> <B><FONT color=#804040>do.</FONT></B>
+<FONT color=#008000>NB. debug 0: display 'readtok: type 0 returning ' , 'push &lt;' , 5!:5&lt;'value'</FONT>
+    <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'STACK_TYPE_BOOLEAN push &lt;'</FONT> <FONT color=#008080>,</FONT> <FONT color=#a020f0>5</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT><FONT color=#008080>&lt;</FONT><FONT color=#008080>'value'</FONT>
+  <FONT color=#008000>NB. Identifier: if operator, emit 'operator 0'; else</FONT>
+  <FONT color=#008000>NB. emit the special string '+identifier' which will be</FONT>
+  <FONT color=#008000>NB. replaced with a global or local reference as appropriate</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>2</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <B><FONT color=#804040>if.</FONT></B> (<FONT color=#008080>#</FONT><FONT color=#000080>operatorlist</FONT>) <FONT color=#008080>&gt;</FONT> <FONT color=#000080>ox</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>operatorlist</FONT> <FONT color=#008080>i.</FONT> (<FONT color=#008080>&lt;</FONT><FONT color=#000080>value</FONT>) <B><FONT color=#804040>do.</FONT></B>
+      <FONT color=#008080>,</FONT><FONT color=#000080>ox</FONT> <FONT color=#008080>{</FONT> <FONT color=#000080>operatorstrings</FONT>
+    <B><FONT color=#804040>else.</FONT></B> <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'+'</FONT><FONT color=#008080>,</FONT><FONT color=#000080>value</FONT>
+    <B><FONT color=#804040>end.</FONT></B>
+  <FONT color=#008000>NB. /identifier: error if name is special; otherwise return</FONT>
+  <FONT color=#008000>NB. '-name' which will be replaced with a pop (if legal)</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>3</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <B><FONT color=#804040>if.</FONT></B> (<FONT color=#008080>&lt;</FONT><FONT color=#000080>value</FONT>) <FONT color=#008080>e.</FONT> <FONT color=#000080>operatorlist</FONT> <B><FONT color=#804040>do.</FONT></B> <FONT color=#a020f0>13</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>8</FONT> (<FONT color=#a020f0>3</FONT>) <B><FONT color=#804040>else.</FONT></B> <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'-'</FONT><FONT color=#008080>,}.</FONT><FONT color=#000080>value</FONT> <B><FONT color=#804040>end.</FONT></B>
+  <FONT color=#008000>NB. [, start of array: go read the array, and return what it</FONT>
+  <FONT color=#008000>NB. returns</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>4</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <FONT color=#000080>readarray</FONT> <FONT color=#008080>''</FONT>
+  <FONT color=#008000>NB. ], end of array.  Return '13!:8 (2)' which is a signal</FONT>
+  <FONT color=#008000>NB. for end-of-array; if the ] is unexpected this will crash</FONT>
+  <FONT color=#008000>NB. when executed</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>5</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'13!:8 (2)'</FONT>
+  <FONT color=#008000>NB. {, start of function.  Go look for end-of-function</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>6</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <FONT color=#000080>readfn</FONT> <FONT color=#008080>''</FONT>
+  <FONT color=#008000>NB. }, end of function.  Return the special tag '13!:8 (4)'</FONT>
+  <B><FONT color=#804040>case.</FONT></B> <FONT color=#a020f0>7</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'13!:8 (4)'</FONT>
+<B><FONT color=#804040>end.</FONT></B>
+)
+
+<FONT color=#008000>NB. Routine to read a function.  We read lines and accumulate them</FONT>
+<FONT color=#008000>NB. until we hit the end-of-function marker '13!:8 (4)'.  We have</FONT>
+<FONT color=#008000>NB. to take some care to handle the local/global variables properly.</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. A function definition is EXECUTABLE, at the time the {} is</FONT>
+<FONT color=#008000>NB. encountered.  In particular, nested definitions do not know</FONT>
+<FONT color=#008000>NB. their globals until the outer definition is executed.  So,</FONT>
+<FONT color=#008000>NB. the return from readfn is a string which, when executed,</FONT>
+<FONT color=#008000>NB. returns a string that defines the desired verb.</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. To get this string right, we keep track of the names of</FONT>
+<FONT color=#008000>NB. variables that are bound during the definition of this</FONT>
+<FONT color=#008000>NB. function.  If a name has been bound, we just emit a</FONT>
+<FONT color=#008000>NB. 'push name' to push it.  If not bound, we emit '''push''' , &quot;:name'</FONT>
+<FONT color=#008000>NB. which will cause the name to be replaced by its value.</FONT>
+<FONT color=#008000>NB. The stored variable is a list of type;data so we take the</FONT>
+<FONT color=#008000>NB. type as the type argument to push</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. In any case, the overall result is that after the function</FONT>
+<FONT color=#008000>NB. definition has been EXECUTED, a character string defining</FONT>
+<FONT color=#008000>NB. the function will have been put onto the stack.</FONT>
+<FONT color=#000080>readfn</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>result</FONT> <FONT color=#000000>=.</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>$</FONT><FONT color=#000080>a</FONT><FONT color=#ff0000>:</FONT>  <FONT color=#008000>NB. Init null result</FONT>
+<FONT color=#000080>localvbls</FONT> <FONT color=#000000>=.</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>$</FONT><FONT color=#000080>a</FONT><FONT color=#ff0000>:</FONT>  <FONT color=#008000>NB. Init the list of local variables encountered</FONT>
+<FONT color=#008000>NB. verbs used below</FONT>
+  <FONT color=#000080>localstg</FONT> <FONT color=#000000>=.</FONT> <FONT color=#008080>'(push~ &gt;)~/'</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>,</FONT> <FONT color=#ff0000>@:</FONT> <FONT color=#008080>}.</FONT> <FONT color=#ff0000>L:</FONT><FONT color=#a020f0>0</FONT> <FONT color=#ff0000>@:</FONT> <FONT color=#008080>]</FONT>
+  <FONT color=#000080>gblstg</FONT> <FONT color=#000000>=.</FONT> <FONT color=#008080>'''(push~ &gt;)~/'' , &quot;:'</FONT> <FONT color=#ff0000>&amp;</FONT><FONT color=#008080>,</FONT> <FONT color=#ff0000>@:</FONT> <FONT color=#008080>}.</FONT> <FONT color=#ff0000>L:</FONT><FONT color=#a020f0>0</FONT> <FONT color=#ff0000>@:</FONT> <FONT color=#008080>]</FONT>
+  <FONT color=#000080>isvblname</FONT> <FONT color=#000000>=.</FONT> (<FONT color=#008080>]</FONT> <FONT color=#008080>'+'</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>=</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>{.</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>&gt;</FONT>)
+  <FONT color=#000080>selectvblstg</FONT> <FONT color=#000000>=.</FONT> (<FONT color=#008080>]</FONT><FONT color=#ff0000>`</FONT>((<FONT color=#000080>gblstg</FONT><FONT color=#ff0000>`</FONT><FONT color=#000080>localstg</FONT>)<FONT color=#ff0000>@.</FONT>(<FONT color=#008080>e.</FONT><FONT color=#ffa500>~</FONT> <FONT color=#008080>}.</FONT><FONT color=#ff0000>L:</FONT><FONT color=#a020f0>0</FONT>)))<FONT color=#ff0000>@.</FONT><FONT color=#000080>isvblname</FONT>
+<B><FONT color=#804040>while.</FONT></B> <FONT color=#a020f0>1</FONT> <B><FONT color=#804040>do.</FONT></B>
+  <FONT color=#000080>token</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>readtok</FONT> <FONT color=#008080>''</FONT>
+<FONT color=#008000>NB. debug 0: display 'readtok: token=' , 5!:5 &lt;'token'</FONT>
+  <FONT color=#008000>NB. stop when we hit the end</FONT>
+  <B><FONT color=#804040>if.</FONT></B> <FONT color=#000080>token</FONT> <FONT color=#008080>-:</FONT> <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'13!:8 (4)'</FONT> <B><FONT color=#804040>do.</FONT></B> <B><FONT color=#804040>break.</FONT></B> <B><FONT color=#804040>end.</FONT></B>
+  <FONT color=#008000>NB. If we are encountering a binding of a local variable (it can occur</FONT>
+  <FONT color=#008000>NB. only singly, not in a list), remember the name being bound, and</FONT>
+  <FONT color=#008000>NB. replace it with an assignment</FONT>
+  <B><FONT color=#804040>if.</FONT></B> <FONT color=#008080>'-'</FONT> <FONT color=#008080>=</FONT> <FONT color=#000080>ch0</FONT> <FONT color=#000000>=.</FONT> (<FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>0</FONT>) <FONT color=#008080>{:</FONT><FONT color=#ff0000>:</FONT> <FONT color=#000080>token</FONT> <B><FONT color=#804040>do.</FONT></B>
+    <FONT color=#000080>localvbls</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>localvbls</FONT> <FONT color=#008080>,</FONT> <FONT color=#008080>}.</FONT><FONT color=#ff0000>L:</FONT><FONT color=#a020f0>0</FONT> <FONT color=#008080>{.</FONT> <FONT color=#000080>token</FONT>
+    <FONT color=#000080>token</FONT> <FONT color=#000000>=.</FONT> (<FONT color=#008080>,</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>' =: ,/ pop &lt;i.8'</FONT>)<FONT color=#ff0000>@</FONT><FONT color=#008080>}.</FONT> <FONT color=#ff0000>L:</FONT><FONT color=#a020f0>0</FONT> <FONT color=#000080>token</FONT>
+  <B><FONT color=#804040>end.</FONT></B>
+  <FONT color=#008000>NB. Convert variable references ('+name') to the</FONT>
+  <FONT color=#008000>NB. correct form: 'push name' for locals, '''push''' , &quot;:name'</FONT>
+  <FONT color=#008000>NB. for (presumed) globals</FONT>
+<FONT color=#008000>NB. debug 0: display 'readtok: localvbls=' , 5!:5 &lt;'localvbls'</FONT>
+  <FONT color=#000080>token</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>localvbls</FONT> <FONT color=#000080>selectvblstg</FONT><FONT color=#ff0000>&quot;</FONT>_ <FONT color=#a020f0>0</FONT> <FONT color=#000080>token</FONT>
+  <FONT color=#000080>result</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>result</FONT> <FONT color=#008080>,</FONT> <FONT color=#000080>token</FONT>
+<B><FONT color=#804040>end.</FONT></B>
+<FONT color=#008000>NB. We now have a list of boxes holding the lines.  Make that</FONT>
+<FONT color=#008000>NB. the executable return string</FONT>
+<FONT color=#008000>NB. debug 0: display 'result of readfn is ' , 'push &lt;definefunc ' , 5!:5 &lt;'result'</FONT>
+<FONT color=#008080>,&lt;</FONT><FONT color=#008080>'STACK_TYPE_FUNCTION push &lt;definefunc '</FONT> <FONT color=#008080>,</FONT> <FONT color=#a020f0>5</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT> <FONT color=#008080>&lt;</FONT><FONT color=#008080>'result'</FONT>
+)
+
+<FONT color=#008000>NB. The routine that is executed to resolve the variable in a function</FONT>
+<FONT color=#008000>NB. Returns a boxed list which is the actual executable verb</FONT>
+<FONT color=#000080>definefunc</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#008000>NB. Replace the strings starting with '''' with their executed equivalents.</FONT>
+<FONT color=#008000>NB. This resolves the globals.</FONT>
+(<FONT color=#008080>]</FONT><FONT color=#ff0000>`</FONT>(<FONT color=#ff0000>&quot;.</FONT> <FONT color=#ff0000>L:</FONT><FONT color=#a020f0>0</FONT>)) <FONT color=#ff0000>@.</FONT> (<FONT color=#008080>]</FONT> <FONT color=#008080>''''</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>=</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>{.</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>&gt;</FONT>) <FONT color=#ff0000>&quot;</FONT><FONT color=#a020f0>0</FONT> <FONT color=#c0c0c0>y.</FONT>
+)
+
+<FONT color=#008000>NB. Routine to read an array.  We just read tokens till we hit</FONT>
+<FONT color=#008000>NB. the '13!:8 (2)' end marker.  We return all the elements, followed</FONT>
+<FONT color=#008000>NB. by a request to group them on the stack by taking them off</FONT>
+<FONT color=#008000>NB. and putting them back as a boxed list (which is how we</FONT>
+<FONT color=#008000>NB. represent arrays).</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. /identifiers are not allowed in arrays.  {} are ok.</FONT>
+<FONT color=#000080>readarray</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>result</FONT> <FONT color=#000000>=.</FONT> <FONT color=#a020f0>0</FONT><FONT color=#008080>$</FONT><FONT color=#000080>a</FONT><FONT color=#ff0000>:</FONT>
+<B><FONT color=#804040>while.</FONT></B> <FONT color=#a020f0>1</FONT> <B><FONT color=#804040>do.</FONT></B>
+  <FONT color=#000080>token</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>readtok</FONT> <FONT color=#008080>''</FONT>
+  <FONT color=#008000>NB. stop when we hit the end</FONT>
+  <B><FONT color=#804040>if.</FONT></B> <FONT color=#000080>token</FONT> <FONT color=#008080>-:</FONT> <FONT color=#008080>,&lt;</FONT><FONT color=#008080>'13!:8 (2)'</FONT> <B><FONT color=#804040>do.</FONT></B> <B><FONT color=#804040>break.</FONT></B> <B><FONT color=#804040>end.</FONT></B>
+  <FONT color=#008000>NB. If we are encountering a binding of a local variable,</FONT>
+  <FONT color=#008000>NB. that's an error</FONT>
+  <B><FONT color=#804040>if.</FONT></B> <FONT color=#008080>'-'</FONT> <FONT color=#008080>=</FONT> <FONT color=#000080>ch0</FONT> <FONT color=#000000>=.</FONT> (<FONT color=#a020f0>0</FONT><FONT color=#008080>;</FONT><FONT color=#a020f0>0</FONT>) <FONT color=#008080>{:</FONT><FONT color=#ff0000>:</FONT> <FONT color=#000080>token</FONT> <B><FONT color=#804040>do.</FONT></B> <FONT color=#a020f0>13</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>8</FONT> (<FONT color=#a020f0>3</FONT>) <B><FONT color=#804040>end.</FONT></B>
+  <FONT color=#000080>result</FONT> <FONT color=#000000>=.</FONT> <FONT color=#000080>result</FONT> <FONT color=#008080>,</FONT> <FONT color=#000080>token</FONT>
+<B><FONT color=#804040>end.</FONT></B>
+<FONT color=#008000>NB. We now have a list of boxes holding the items. Return it,</FONT>
+<FONT color=#008000>NB. followed by the stack fixup.  When we pop items from the stack, any type</FONT>
+<FONT color=#008000>NB. is allowed</FONT>
+<FONT color=#000080>result</FONT> <FONT color=#008080>,</FONT> <FONT color=#008080>&lt;</FONT><FONT color=#008080>'STACK_TYPE_ARRAY push &lt; pop '</FONT> <FONT color=#008080>,</FONT> (<FONT color=#ff0000>&quot;:</FONT> <FONT color=#008080>#</FONT> <FONT color=#000080>result</FONT>) <FONT color=#008080>,</FONT> <FONT color=#008080>'$&lt;i.8'</FONT>
+)
+
+<FONT color=#008000>NB. Stack management</FONT>
+
+<FONT color=#008000>NB. pop stack.  y. is list of allowed types (may be boxed, to allow multiple</FONT>
+<FONT color=#008000>NB. valid types.  #y. elements are popped,</FONT>
+<FONT color=#008000>NB. and their types are checked.  Result is list of type;value</FONT>
+<FONT color=#008000>NB. list</FONT>
+<FONT color=#000080>pop</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>result</FONT> <FONT color=#000000>=.</FONT> (<FONT color=#008080>-#</FONT><FONT color=#c0c0c0>y.</FONT>) <FONT color=#008080>{.</FONT> <FONT color=#000080>stack_base_</FONT>
+<FONT color=#000080>stack_base_</FONT> <FONT color=#000000>=:</FONT> (<FONT color=#008080>-#</FONT><FONT color=#c0c0c0>y.</FONT>) <FONT color=#008080>}.</FONT> <FONT color=#000080>stack_base_</FONT>
+<FONT color=#008000>NB. debug 0: display 'pop: result=' , 5!:5 &lt;'result'</FONT>
+<B><FONT color=#804040>if.</FONT></B> <FONT color=#008080>-.</FONT> <FONT color=#008080>*.</FONT><FONT color=#ffa500>/</FONT> (<FONT color=#008080>{.</FONT><FONT color=#ff0000>&quot;</FONT><FONT color=#a020f0>1</FONT> <FONT color=#000080>result</FONT>) <FONT color=#008080>e.</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>&gt;</FONT> <FONT color=#008080>,</FONT><FONT color=#c0c0c0>y.</FONT> <B><FONT color=#804040>do.</FONT></B> <FONT color=#a020f0>13</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>8</FONT> (<FONT color=#a020f0>5</FONT>) <B><FONT color=#804040>end.</FONT></B>
+<FONT color=#000080>result</FONT>
+)
+
+<FONT color=#008000>NB. push stack.  x. is list of type to push,</FONT>
+<FONT color=#008000>NB. y. is the list of elements to push (boxed)</FONT>
+<FONT color=#000080>push</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>4</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#008000>NB. debug 0: display 'push: newitems=' , 5!:5 &lt;'newitems' [ newitems =. x. ;&quot;_1&amp;, y.</FONT>
+<FONT color=#000080>stack_base_</FONT> <FONT color=#000000>=:</FONT> <FONT color=#000080>stack_base_</FONT> <FONT color=#008080>,</FONT> <FONT color=#c0c0c0>x.</FONT> <FONT color=#008080>;</FONT><FONT color=#ff0000>&quot;</FONT>_<FONT color=#a020f0>1</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>,</FONT> <FONT color=#c0c0c0>y.</FONT>
+<FONT color=#008080>''</FONT>
+)
+
+<FONT color=#008000>NB. 'apply' function</FONT>
+<FONT color=#008000>NB. The top of the stack must be a function definition.  We</FONT>
+<FONT color=#008000>NB. pop it and run it.  There is no result.</FONT>
+<FONT color=#000080>apply</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#008000>NB. Save current locale</FONT>
+<FONT color=#000080>currlc</FONT> <FONT color=#000000>=.</FONT> <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT> <FONT color=#008080>''</FONT>
+<FONT color=#008000>NB. create new locale, move to it, and make its path go through the current</FONT>
+((<FONT color=#008080>,</FONT> <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>2</FONT>) <FONT color=#000080>currlc</FONT>) (<FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>2</FONT> <FONT color=#008080>[</FONT> <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>4</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>]</FONT>) <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>3</FONT> <FONT color=#008080>''</FONT>
+<FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> ((<FONT color=#008080>&lt;</FONT><FONT color=#a020f0>0</FONT> <FONT color=#a020f0>1</FONT>) <FONT color=#008080>{:</FONT><FONT color=#ff0000>:</FONT> <FONT color=#000080>pop</FONT> <FONT color=#000080>STACK_TYPE_FUNCTION</FONT>) <FONT color=#008080>''</FONT>
+<FONT color=#008000>NB. restore original locale</FONT>
+<FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>4</FONT> <FONT color=#000080>currlc</FONT>
+<FONT color=#008080>''</FONT>
+)
+
+<FONT color=#008000>NB. 'if' function</FONT>
+<FONT color=#008000>NB. The top of the stack must be a boolean and 2 function</FONT>
+<FONT color=#008000>NB. definitions.  We pick one and execute it (stack: bool T F)</FONT>
+<FONT color=#000080>if</FONT> <FONT color=#000000>=:</FONT> <FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#008000>NB. Save current locale</FONT>
+<FONT color=#000080>currlc</FONT> <FONT color=#000000>=.</FONT> <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>5</FONT> <FONT color=#008080>''</FONT>
+<FONT color=#008000>NB. create new locale, move to it, and make its path go through the current</FONT>
+((<FONT color=#008080>,</FONT> <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>2</FONT>) <FONT color=#000080>currlc</FONT>) (<FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>2</FONT> <FONT color=#008080>[</FONT> <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>4</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>]</FONT>) <FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>3</FONT> <FONT color=#008080>''</FONT>
+<FONT color=#a020f0>3</FONT> <FONT color=#ff0000>:</FONT> ((<FONT color=#008080>{:</FONT><FONT color=#ff0000>:</FONT><FONT color=#ffa500>~</FONT> <FONT color=#008080>&gt;:</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>-.</FONT><FONT color=#ff0000>@</FONT>(<FONT color=#a020f0>0</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#008080>{:</FONT><FONT color=#ff0000>:</FONT>)) <FONT color=#008080>{:</FONT><FONT color=#ff0000>&quot;</FONT><FONT color=#a020f0>1</FONT> <FONT color=#000080>pop</FONT> <FONT color=#000080>STACK_TYPE_BOOLEAN</FONT><FONT color=#008080>,</FONT><FONT color=#a020f0>2</FONT><FONT color=#008080>#</FONT><FONT color=#000080>STACK_TYPE_FUNCTION</FONT>) <FONT color=#008080>''</FONT>
+<FONT color=#008000>NB. restore original locale</FONT>
+<FONT color=#a020f0>18</FONT><FONT color=#ff0000>!:</FONT><FONT color=#a020f0>4</FONT> <FONT color=#000080>currlc</FONT>
+<FONT color=#008080>''</FONT>
+)
+
+<FONT color=#000080>operatorlist</FONT> <FONT color=#000000>=:</FONT> <FONT color=#008080>' '</FONT><FONT color=#ff0000>&amp;</FONT><FONT color=#000080>taketo</FONT><FONT color=#ff0000>&amp;.</FONT><FONT color=#008080>&gt;</FONT> <FONT color=#000080>operatorstrings</FONT> <FONT color=#000000>=:</FONT> <FONT color=#008080>&lt;</FONT><FONT color=#ff0000>;.</FONT>_<FONT color=#a020f0>2</FONT> (<FONT color=#a020f0>0</FONT> <FONT color=#ff0000>:</FONT> <FONT color=#a020f0>0</FONT>)
+<FONT color=#000080>acos</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>addi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>addf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>apply</FONT> <FONT color=#a020f0>0</FONT>
+<FONT color=#000080>asin</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>clampf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>cone</FONT>
+<FONT color=#000080>cos</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>cube</FONT>
+<FONT color=#000080>cylinder</FONT>
+<FONT color=#000080>difference</FONT>
+<FONT color=#000080>divi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>divf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>eqi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>eqf</FONT>  <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>false</FONT>
+<FONT color=#000080>floor</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>frac</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>get</FONT> <FONT color=#000080>STACK_TYPE_ARRAY</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>getx</FONT> <FONT color=#000080>STACK_TYPE_LIGHT</FONT>
+<FONT color=#000080>gety</FONT> <FONT color=#000080>STACK_TYPE_LIGHT</FONT>
+<FONT color=#000080>getz</FONT> <FONT color=#000080>STACK_TYPE_LIGHT</FONT>
+<FONT color=#000080>if</FONT>
+<FONT color=#000080>intersect</FONT>
+<FONT color=#000080>length</FONT> <FONT color=#000080>STACK_TYPE_ARRAY</FONT>
+<FONT color=#000080>lessi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>lessf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>light</FONT>
+<FONT color=#000080>modi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>muli</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>mulf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>negi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>negf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>plane</FONT>
+<FONT color=#000080>point</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>pointlight</FONT>
+<FONT color=#000080>real</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>render</FONT>
+<FONT color=#000080>rotatex</FONT>
+<FONT color=#000080>rotatey</FONT>
+<FONT color=#000080>rotatez</FONT>
+<FONT color=#000080>scale</FONT>
+<FONT color=#000080>sin</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>sphere</FONT>
+<FONT color=#000080>spotlight</FONT>
+<FONT color=#000080>sqrt</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>subi</FONT> <FONT color=#000080>STACK_TYPE_INTEGER</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_INTEGER</FONT>
+<FONT color=#000080>subf</FONT> <FONT color=#000080>STACK_TYPE_FLOAT</FONT><FONT color=#008080>,</FONT><FONT color=#000080>STACK_TYPE_FLOAT</FONT>
+<FONT color=#000080>translate</FONT>
+<FONT color=#000080>true</FONT>
+<FONT color=#000080>union</FONT>
+<FONT color=#000080>uscale</FONT>
+)
+</PRE>
+</BODY>
+</HTML>

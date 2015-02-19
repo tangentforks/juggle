@@ -1,0 +1,5 @@
+HOSTS = (spog cretuer coyn)
+
+mailwatch:
+	( /usr/local/{sbin/mailwatch,man/man8/mailwatch.8} ) -> ${HOSTS}
+	install -oyounger ;

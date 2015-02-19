@@ -1,0 +1,238 @@
+.TH sym2ijs 1
+.SH NAME
+sym2ijs \- translate C type and constant declarations into J definitions
+.SH SYNOPSIS
+.B sym2ijs
+[
+.BR -k
+|
+.B -c
+|
+.B -cc
+|
+.BI -C " compiler-command"
+]
+\&...
+.RI [ filename.sym ]
+.SH DESCRIPTION
+.I Sym2ijs
+converts header definitions given in C (and the C preprocessor) into
+equivalent J definitions.  It expects a compact input format listing
+the symbols of interest and generates the corresponding J script
+defining the same (or closely related) symbols.
+.P
+Input is expected either in a file with a
+.B .sym
+suffix, in which case the output is written to a corresponding
+.IB filename .ijs
+file, or on
+.IR stdin,
+generating the J definitions to
+.IR stdout .
+.P
+A short example for the expected input format which is detailled
+further below is this:
+.LP
+.nf
+.RS
+<sys/types.h>
+<sys/stat.h>
+
+i S_IFIFO S_IFCHR S_IFDIR S_IFBLK S_IFREG
+i S_IROTH S_IWOTH S_IXOTH
+t struct stat
+f	st_mode
+f	st_uid
+.RE
+.fi
+.LP
+Filtered through
+.IR sym2ijs ,
+this will generate the following J script on a Sun system:
+.LP
+.nf
+.RS
+NB. do not edit -- created by sym2ijs from -
+S_IFIFO =: 4096
+S_IFCHR =: 8192
+S_IFDIR =: 16384
+S_IFBLK =: 24576
+S_IFREG =: 32768
+S_IROTH =: 4
+S_IWOTH =: 2
+S_IXOTH =: 1
+stat_sz =: 136
+st_mode_off =: 20
+st_mode_sz =: 4
+st_uid_off =: 28
+st_uid_sz =: 4
+.RE
+.fi
+.LP
+The above compiles \fBi\fPnteger constants and some information about
+the
+.I stat
+structure type and two of its fields.  Equipped with all these values,
+a J programmer can access stat structures with
+.I memr
+and
+.IR memw .
+There is no need to figure out C header values
+or offsets manually or to hardwire those (usually system-dependent)
+values anywhere.
+.LP
+The purpose of this tool is portable J code sticking to C APIs
+as published in library manual pages.
+.I Sym2ijs
+creates an intermediate C language program and runs the system's C compiler
+on that.  This intermediate program in turn will be run once and print
+all the J assignments.  Something like
+.BR make (1)
+is perfect to re-create the J definitions whenever necessary.
+.SH OPTIONS
+Options must be listed separately, i.e., they may not be aggregated
+under a common hyphen.
+.TP
+.BI -C " compiler-call"
+.I Sym2ijs
+will search automatically for some standard compiler names:
+cc, gcc, c89, acc, lcc, xlc.  If that should not fit the bill, you
+can set the compiler name explicitly.  You can also add some flags
+if you take care of the proper quoting.  For example,
+
+.nf
+   sym2ijs -C "gcc -I../inc -DFOO='has some blanks'"  foo.sym
+.fi
+.TP
+.B -k
+keep any intermediate files.
+If the file
+.I foo.ijs
+is processed, there will be the intermediate files
+.I foo.c
+and
+.I foo
+in order to create the final output file
+.IR foo.ijs .
+If
+.I stdin
+is processed, the files will be named
+.BI sym2ijs PID .c
+and
+.BI sym2ijs PID
+in the
+.I /tmp
+directory, with .I PID being a unique process id.
+.TP
+.B -c
+Stop after generation of the C input file (implies
+.BR -k ).
+.TP
+.B -cc
+Stop after compilation of the C input file (implies
+.BR -k ).
+.SH INPUT FORMAT
+Input will most likely start with the listing of some prerequiste
+.B #include
+files.
+The first empty line in the input marks the transition from the
+header section to the section with various directives to translate
+symbols.
+.LP
+Every input line is analyzed according to the character or word
+at the very beginning of the line.  No line may be indented.
+The rest of the line may employ arbitrary forms of white space.
+The following input line formats are recognized and processed:
+.TP
+.BI < filename >
+Include the specified system header file.
+.TP
+\fB"\fIfilename\fB"\fR
+Include the specified "local" header file.
+.TP
+.I first emtpy line
+Switch from global section in the intermediary C program to the
+main() function issuing all the print statements for the values.
+No further header files may be listed after this line.
+.TP
+.I other empty lines
+\&... will be simply preserved in the J script output.
+.TP
+.BI c " symbol ..."
+.TP
+.BI i " symbol ..."
+.TP
+.BI s " symbol ..."
+Typed symbols (of type \fBc\fRhar, \fBi\fRnteger, or "\fBs\fRtring" resp.)
+defined as C header constants or C variables.  Corresponding
+assignments to J symbols will be generated.
+.TP
+.BI "t " typename
+Define the (J) symbol
+.I typename_sz
+to have the value of (C)
+.IR sizeof(typename) .
+.TP
+.BI "st " typename
+.TP
+.BI "st struct " structtag
+A structure type is introduced, leading to a
+.I typename_sz
+or
+.I structtag_sz
+definition as above.  In addition, any following
+.B f
+lines for fields will refer to this structure.
+The optional
+.B struct
+keyword has to be used where only this type of defintion is used
+in the header file (and the man pages).
+.TP
+.BI "f " fieldname
+Define 
+.I fieldname_sz
+and the offset
+.I fieldname_off
+for a member of the structure type mentioned last.
+.TP
+.BI ; " comment words ..."
+A comment line which will be completely ignored.
+.TP
+.BI C " literal C code"
+.TP
+.BI J " literal J code"
+The lines will be passed as-is to the intermediate C or final J
+program.  The initial
+.B C
+or
+.B J
+along with the first (optional) white space character will be removed,
+the rest is passed literally.
+.TP
+.BI # " C preprocessor directive"
+These, too, will be passed to the intermediate C program.  They
+allow for easy conditional code as in this example:
+
+.in +3
+.nf
+i MAP_SHARED MAP_PRIVATE MAP_FIXED
+#ifdef sun
+i MAP_NOPRESERVE
+#endif
+.fi
+.in
+.SH SEE ALSO
+.BR cc (1),
+.BR j (1),
+.BR make (1).
+.SH DIAGNOSTICS
+Error messages can be a bit puzzling.  They might be from any stage
+of the entire translation process:
+failures to read the input, failures to compile
+the intermediate C program, failures to run it.
+.SH RESTRICTIONS
+Perhaps there should be more support for different types.
+Unsigned integers should get their own code; perhaps they
+should better be translated into J extended integers.
+.SH AUTHOR
+Martin Neitzel, Gärtner Datensysteme, neitzel@gaertner.de

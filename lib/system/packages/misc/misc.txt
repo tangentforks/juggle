@@ -1,0 +1,3 @@
+directory: system/packages/misc
+
+This directory contains miscellaneous scripts.

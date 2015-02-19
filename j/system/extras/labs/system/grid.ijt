@@ -1,0 +1,485 @@
+LABTITLE=: 'Grid Control'
+LABERRORS=: 1
+LABWINDOWED=: 0
+
+NB. =========================================================
+Lab Section Overview
+This lab shows how to add a grid to a form.
+
+A grid is a display of data in cells on a form.
+
+The grid is painted on an isigraph control.
+
+The code to do the painting is in a grid object.
+
+Lab 'Grid Examples' should be done first.
+)
+PREPARE
+coerase<'ptest'
+PREPARE
+
+NB. =========================================================
+Lab Section ptest class
+The next step opens a script with a form class.
+
+Position the script so you can work with it and the IJX window.
+)
+
+NB. =========================================================
+Lab Section
+)
+SCRIPT
+coclass 'ptest'
+
+PTEST=: 0 : 0
+pc ptest;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+pas 6 6;
+rem form end;
+)
+
+create=: 3 : 0
+wd PTEST
+formhwnd=: wd'qhwndp'
+NB. initialize form here
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+codestroy''
+)
+
+ptest_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/ptest.ijs'
+PREPARE
+open'temp/ptest.ijs'
+load'temp/ptest.ijs'
+
+NB. =========================================================
+Lab Section isigraph control
+The script defines a form with an isigraph control called grid. The script will be loaded into locale ptest.
+)
+
+NB. =========================================================
+Lab Section ptest object
+The next step builds a ptest object.
+
+The object has a form. Position the form so that you can see the IJX window.
+
+Ctrl+a won't advance if the form has focus.
+)
+
+NB. =========================================================
+Lab Section
+)
+w=:'' conew 'ptest'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+The form has a single isigraph control. The control resizes itself as the form size changes.
+
+There is no code to paint the control.
+)
+
+NB. =========================================================
+Lab Section
+Destroy the form.
+)
+formselect__w ''
+destroy__w ''
+
+NB. =========================================================
+Lab Section grid object
+This step adds lines to create and destroy a grid object.
+
+The object is created in create and destroyed in destroy.
+
+The object is a jwgrid. It manages painting a global variable as a grid on an isigraph control.
+
+The new script lines are indented.
+
+The jwgrid class is required, so a corequire is added.
+
+Study the new (indented) script lines.
+)
+SCRIPT
+coclass 'ptest'
+   corequire'jwgrid'
+
+PTEST=: 0 : 0
+pc ptest;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+pas 6 6;
+rem form end;
+)
+
+create=: 3 : 0
+wd PTEST
+formhwnd=: wd'qhwndp'
+NB. initialize form here
+
+   grid=: ''conew'jwgrid'
+
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+
+   destroy__grid ''
+
+codestroy''
+)
+
+ptest_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/ptest.ijs'
+wd'smsel *temp/ptest.ijs'
+wd'smwrite *',toHOST SCRIPT_jlab_
+PREPARE
+open'temp/ptest.ijs'
+
+NB. =========================================================
+Lab Section
+This step adds lines to display variable d1 in the grid.
+
+The init method arguments are:
+ the name of the variable to display
+ the isigraph id used by the grid
+ the horizontal scrollbar id (empty)
+ the vertical scrollbar id (empty)
+
+The name is used in the object, so must explicitly reference the base locale.
+
+Study the new (indented) script lines.
+)
+SCRIPT
+coclass 'ptest'
+corequire'jwgrid'
+
+PTEST=: 0 : 0
+pc ptest;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+pas 6 6;
+rem form end;
+)
+
+create=: 3 : 0
+wd PTEST
+formhwnd=: wd'qhwndp'
+NB. initialize form here
+
+grid=: ''conew'jwgrid'
+   init__grid 'd1_base_';'grid';'';''
+
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+destroy__grid ''
+codestroy''
+)
+
+ptest_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/ptest.ijs'
+wd'smsel *temp/ptest.ijs'
+wd'smwrite *',toHOST SCRIPT_jlab_
+PREPARE
+open'temp/ptest.ijs'
+load'temp/ptest.ijs'
+
+NB. =========================================================
+Lab Section
+Set d1 and create a ptest form.
+)
+d1=: i.20 20
+w=: '' conew 'ptest'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+d1 is displayed in the grid.
+
+Events on the grid are ignored. You can't mark a cell or scroll with the Ctrl+arrow keys.
+)
+
+NB. =========================================================
+Lab Section events
+ptest_grid_char is called, if it exists, when you type a character on the grid.
+
+This step defines it to pass the event to the grid object.
+
+Study the new line at the end of the script.
+)
+SCRIPT
+coclass 'ptest'
+corequire'jwgrid'
+
+PTEST=: 0 : 0
+pc ptest;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+pas 6 6;
+rem form end;
+)
+
+create=: 3 : 0
+wd PTEST
+formhwnd=: wd'qhwndp'
+NB. initialize form here
+
+grid=: ''conew'jwgrid'
+init__grid 'd1_base_';'grid';'';''
+
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+destroy__grid ''
+codestroy''
+)
+
+ptest_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+   ptest_grid_char=: 3 : 'char__grid sysdata'
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/ptest.ijs'
+wd'smsel *temp/ptest.ijs'
+wd'smwrite *',toHOST SCRIPT_jlab_
+PREPARE
+open'temp/ptest.ijs'
+load'temp/ptest.ijs'
+
+NB. =========================================================
+Lab Section
+Now the Ctrl+arrows scroll the data.
+)
+
+NB. =========================================================
+Lab Section
+This step adds handlers for isigraph events that need to be passed to the grid object.
+
+Study the new lines at the end of the script.
+)
+SCRIPT
+coclass 'ptest'
+corequire'jwgrid'
+
+PTEST=: 0 : 0
+pc ptest;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+pas 6 6;
+rem form end;
+)
+
+create=: 3 : 0
+wd PTEST
+formhwnd=: wd'qhwndp'
+NB. initialize form here
+
+grid=: ''conew'jwgrid'
+init__grid 'd1_base_';'grid';'';''
+
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+destroy__grid ''
+codestroy''
+)
+
+ptest_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+ptest_grid_char=:    3 : 'char__grid sysdata'
+
+   ptest_grid_mbldown=: 3 : 'mbldown__grid sysdata'
+   ptest_grid_size=:    3 : 'size__grid 0'
+   ptest_grid_mmove=:   3 : 'mmove__grid sysdata'
+   ptest_grid_mblup=:   3 : 'mblup__grid sysdata'
+   ptest_grid_mbldbl=:  3 : 'mbldbl__grid sysdata'
+   ptest_grid_copy=:    3 : 'copy__grid 0'
+   ptest_grid_paste=:   3 : 'paste__grid 0'
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/ptest.ijs'
+wd'smsel *temp/ptest.ijs'
+wd'smwrite *',toHOST SCRIPT_jlab_
+PREPARE
+open'temp/ptest.ijs'
+load'temp/ptest.ijs'
+
+NB. =========================================================
+Lab Section
+Now you can mark a cell with the mouse and use the arrow keys to move the mark around.
+)
+
+NB. =========================================================
+Lab Section
+Destroy the form.
+)
+formselect__w''
+destroy__w''
+
+NB. =========================================================
+Lab Section scrollbars
+Often a grid has scrollbars.
+
+The scrollbars are created as normal scrollbars on the form and scrollbar events are passed to the grid object.
+)
+
+NB. =========================================================
+Lab Section
+This step adds scrollbars for the grid.
+)
+SCRIPT
+coclass 'ptest'
+corequire'jwgrid'
+
+PTEST=: 0 : 0
+pc ptest;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+   xywh 6 126 128 11;cc sb scrollbar topmove rightmove bottommove;
+   xywh 134 6 11 120;cc sbv scrollbarv leftmove rightmove bottommove;
+pas 6 6;
+rem form end;
+)
+
+create=: 3 : 0
+wd PTEST
+formhwnd=: wd'qhwndp'
+NB. initialize form here
+
+grid=: ''conew'jwgrid'
+   init__grid 'd1_base_';'grid';'sb';'sbv'
+
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+destroy__grid ''
+codestroy''
+)
+
+ptest_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+ptest_grid_mbldown=: 3 : 'mbldown__grid sysdata'
+ptest_grid_size=:    3 : 'size__grid 0'
+ptest_grid_mbldown=: 3 : 'mbldown__grid sysdata'
+ptest_grid_mmove=:   3 : 'mmove__grid sysdata'
+ptest_grid_mblup=:   3 : 'mblup__grid sysdata'
+ptest_grid_mbldbl=:  3 : 'mbldbl__grid sysdata'
+ptest_grid_char=:    3 : 'char__grid sysdata'
+ptest_grid_copy=:    3 : 'copy__grid 0'
+ptest_grid_paste=:   3 : 'paste__grid 0'
+
+   ptest_sb_button=: 3 : 0
+scrollbar__grid sb
+wd'setfocus grid'
+)
+
+   ptest_sbv_button=: 3 : 0
+scrollbarv__grid sbv
+wd'setfocus grid'
+)
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/ptest.ijs'
+wd'smsel *temp/ptest.ijs'
+wd'smwrite *',toHOST SCRIPT_jlab_
+PREPARE
+open'temp/ptest.ijs'
+load'temp/ptest.ijs'
+
+NB. =========================================================
+Lab Section
+Scrollbars are at the bottom and side of the grid.
+
+The sb and sbv controls are in the PTEST form definition.
+)
+
+NB. =========================================================
+Lab Section
+The grid needs to know it has associated scrollbars.
+
+For example, scrollbars must reflect scrolling done with Ctrl+arrow keys.
+
+The scrollbar ids are arguments to the grid init method.
+)
+
+NB. =========================================================
+Lab Section
+The scrollbar events must be passed to the grid.
+
+ptest_sb_button and ptest_sbv_button event handlers are at the end of the script.
+)
+
+NB. =========================================================
+Lab Section
+Create a ptest object with scrollbars.
+)
+w=: '' conew 'ptest'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+Scroll the data with the scroll bars.
+
+Scroll the data with Ctrl+arrow keys.
+)
+
+NB. =========================================================
+Lab Section editenable
+By default a jwgrid can't be edited.
+
+Trying to type a new value in the marked cell is ignored.
+)
+
+NB. =========================================================
+Lab Section
+Grid field editenable is 0 or 1 for editing disable/enable.
+
+The ptest form object reference was set in w.
+
+The ptest grid object reference was set in grid.
+
+Check the value of field editenable in the grid in the form.
+)
+editenable__grid__w
+
+NB. =========================================================
+Lab Section
+Enable editing and try editing cells in the grid.
+)
+editenable__grid__w=: 1
+
+NB. =========================================================
+Lab Section summary
+You should now be able to use jwgrid objects for displaying grids on your forms.
+
+The jwgrid has fairly standard grid behaviour. If it doesn't do what you want, you need to create a new class. Your new class could extend jwgrid if you want minor changes, or it could extend the jzgrid base class if you want something quite different.
+)

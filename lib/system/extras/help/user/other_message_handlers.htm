@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Other Message Handlers</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="wait.htm">&gt&gt;</a>&nbsp;
+<a href="form_locales.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Other Message Handlers</h1>
+<TR><TD colspan="2"> 
+
+
+
+
+<P>
+<code>wdhandler</code> is the main message handler, but other handlers may be used if appropriate. There are essentially three alternatives:
+<p>
+<li>You can replace <code>wdhandler</code> with your own definition. This gives you complete control over the way you respond to events.
+<p>
+<li>You can define a specific handler function for a given form, using the <code>wd</code> command <code>phandler</code>. For example, when the following form is run, any event specific to it will invoke the sentence: <code>abc_event 0</code> :
+
+<pre>
+wd 'pc abc;pshow;ptop'
+wd 'phandler &quot;abc_event 0&quot;'
+abc_event=: wdinfo bind 'abc form handler'
+</pre>
+
+<li>You can bypass the handler mechanism entirely by issuing the <code>wd</code> command <code>wait</code>, described below.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="wait.htm">&gt&gt;</a>&nbsp;
+<a href="form_locales.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

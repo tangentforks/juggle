@@ -1,0 +1,16 @@
+.TH URLDECODE 1 "Sep 2000" "GDS"
+.SH NAME
+urldecode \- do standard URL decoding
+.SH SYNOPSIS
+.B urldecode
+.SH DESCRIPTION
+.B Urldecode
+converts data on
+.I stdin
+to url-decoded data on
+.IR stdout .
+This is the "url-form-encoding" as per RFC 1866, keeping
+alphnumerics as is, turning spaces into "+", and everthing else
+into %HH hexencoding.
+.SH SEE ALSO
+.BR urlencode (1).

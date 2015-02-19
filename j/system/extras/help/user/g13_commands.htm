@@ -1,0 +1,193 @@
+<html>
+<head>
+<title>gl3 commands</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="opengl_printing.htm">&gt&gt;</a>&nbsp;
+<a href="mapping_mode.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>gl3 commands 11!:3000+n</H1>
+<TR><TD colspan="2"> 
+
+
+  <P>
+gl3 commands are for 3D (OpenGL) drawing in an isigraph control. Script system\main\gl3.ijs defines gl3 verbs.
+
+<pre>
+load 'gl3' NB. defines verbs such as: glAccum=:11!:3001
+</pre>
+
+  <P>
+The syntax of most OpenGL verbs should be clear from standard OpenGL API documentation, even though that documentation is oriented towards C programmers. 
+
+  <P>
+You are encouraged to start learning OpenGL programming with the <B>OpenGL Introduction</B> lab from the <B>Studio|Labsl</B> menu command.
+
+  <P>
+This section documents the gla... commands that are not part of the OpenGL specification or where the syntax needs clarification. The gla... commands are concerned with how OpenGL fits into J or with Windows extensions.
+
+  <P>
+Most 2D commands do not work in a 3D isigraph control. The following are the commands that do work: glshow, glshowx, glpaint, glpaintx, glqwh, glcapture.
+
+  <P>
+<A href="opengl_printing.htm">OpenGL Printing</a> shows how to print 3D images.
+
+  <P>
+<B>gl3 commands</B>
+
+  <P>
+glaFont <A href="fontspec.htm">fontspec</a> -  font for glaUseFontBitmaps and glaUseFontOutlines
+
+  <P>
+glaGetErrors '' - return recent errors reported by 
+Quadric, Nurbs, and Tess error callbacks. The error callbacks must be enabled 
+with the appropriate gluQuadricCallback, gluNurbsCallback, or gluTessCallback. 
+<P>glaRC '' - create OpenGL render context for drawing on an isigraph window. 
+This must be run before pcenter, pmove, or any other posiitioning is done.</P>
+<P>
+                Fails if:<br>
+control is in use by 2D graphics<br>
+unable to initialize the OpenGL dlls (opengl32.dll and glu32.dll)<br>
+control missing ws_clipchildren and 
+ws_clipsiblings styles </P>
+     
+
+  <P>
+glaRC  type  w  h  -  create OpenGL render context for drawing on a bitmap: type must be 1. w h give width and height of a 24bit color bitmap.
+
+  <P>
+A bitmap RC is associated with an isigraph window but doesn't display anything in the window so normally this window should be hidden.
+
+  <P>
+If the window is hidden, the <code>form_isigraph_size</code> and <code>form_isigraph_paint</code> handlers are not automatically called and they must be called explicitly.
+
+  <P>
+The size handler for a bitmap RC should not use the window size (<code>glqwh''</code>) for setting the viewport. It should use the width and height used to create the bitmap in <code>glaRC</code> .
+
+  <P>
+glaSaveBMP  filename  -  save bitmap of an isigraph control with a bitmap RC. If the filename is '' , the bitmap is saved to the clipboard.
+
+  <P>
+glaSwapBuffers  ''  -  the front-buffer is the one displayed on the screen. Drawing is done into the back-buffer. A glaSwapBuffers makes the back-buffer the front-buffer.
+
+  <P>
+glaUseFontBitmaps  0  first  count  listbase  -  create display lists based on glaFont. A display list is created for count characters starting at first. The display list numbers start at listbase.
+
+  <P>
+glaUseFontOutlines  0  first  count  listbase  deviation  extrusion  format  -  create display lists for drawing 3D characters based on glaFont.
+
+<P>
+first - first of the set of characters<br>
+count - number of characters used to create display lists<br>
+listbase - starting display list<br>
+deviation - maximum chordal deviation from the original outlines. When deviation is zero, the chordal deviation is equivalent to one design unit of the original font. The value must be equal to or greater than 0.<br>
+extrusion - how much a font is extruded in the negative <I>z</I> direction. The value must be equal to or greater than 0.<br>
+format - WGL_FONT_LINES or WGL_FONT_POLYGONS
+
+ <P>
+Returns a matrix with a row for each character. The row contains:<br>
+BlackBoxX - black box (smallest rectangle that contains the glyph) width<br>
+BlackBoxY - black box height<br>
+OriginX - black box upper-left x coordinate<br>
+OriginY - black box upper-left y coordinate<br>
+IncX - horizontal distance from current cell origin to the next cell<br>
+IncY - vertical distance from current cell origin to the next cell
+
+<P>
+glBitmap  - argument is boxed list where the last argument is the data argument
+
+  <P>
+glDrawPixels  - argument is boxed list where the last argument is the data argument
+
+  <P>
+glCallLists  integer_data
+
+  <P>
+glCallLists  character_data
+
+  <P>
+glClearColor  R  G  B  [A]  -  sets clear color red, green, blue, alpha. If A is elided, it is set to 1.
+
+  <P>
+glColor   R  G  B  [ A ]  -  sets color red, green, blue, alpha. If A is elided it is set to 1.
+
+  <P>
+glFeedbackBuffer  integer  type  -  feedback buffer size in floating values. This command is only allowed once. This avoids potential crashes with the buffer being changed at the wrong time.
+
+  <P>
+glGetError  ''  -  return OpenGL error flags (there may be more than one). gluErrorString returns a string for an error number.
+
+  <P>
+glPixelStore  -  GL_UNPACK_ALIGNMENT and GL_PACK_ALIGNMENT are the only pname arguments supported.
+
+  <P>
+glSelectBuffer  size  -  select buffer size in integers. This command is only allowed once. This avoids potential crashes with the buffer being changed at the wrong time.
+
+  <P>
+The result data from the select buffer is recorded for commands done after a glRenderMode GL_SELECT. The result buffer is returned as the result of a glRenderMode any_other_mode. OpenGL defines the select buffer as returning minimum and maximum z values as unsigned integers.
+
+  <P>
+unsigned int value - J signed int value<br>
+0 - smallest negative int<br>
+max 32 bit unsigned int - largest positive int
+
+  <P>
+To convert the J signed integer range to a float range from 0 and up, add 2^32 to the negative integers.
+
+  <P>
+glTexImage1d  - argument is boxed list where the last argument is the data argument
+
+  <P>
+glTexImage2d  - argument is boxed list where the last argument is the data argument
+
+  <P>
+glVertex  X  Y  [  Z  [  W  ]  ]  -  sets vertex coordinates. If W (rarely used scaling value) is elided it is set to 1. If Z is elided it set to 0.
+
+  <P>
+gluBuild1dMipmaps  - argument is boxed list where the last argument is the data argument
+
+  <P>
+gluBuild2dMipmaps  - argument is boxed list where the last argument is the data argument
+
+  <P>
+gluPwlCurve  nurb  type  data  -  count and stride parameters are fixed based on type and length of data.
+
+  <P>
+gluNurbsCurve  nurb  uknots  udata  ustride  uorder  type  data
+
+  <P>
+gluNurbsCurve nurb  uk  ud  vk  vd  ustride  vstride  uorder  type  data
+
+  <P>
+gluScaleImage  -  argument is boxed list where the last argument is the data argument
+
+
+</TD>
+  </TR>
+<TR><TD><!--bottom jump start--><hr><a href="opengl_printing.htm">&gt&gt;</a>&nbsp;
+<a href="mapping_mode.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></TD></TR></TABLE></body>
+</html>

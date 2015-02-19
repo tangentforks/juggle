@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>Project Manager Tabs</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="build_apps.htm">&gt&gt;</a>&nbsp;
+<a href="project_man.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+<TR valign="baseline"><TD><H1>Project Manager Tabs</H1>
+<TR><TD colspan="2"> 
+
+<P>
+<B>Source</B><br>
+The Source tab lists the files in the project. These are the scripts in the project other than library scripts. 
+<P>
+Files in the same directory as the project file are shown without any directory path. Other files have their directory paths.
+
+<P>
+Use the menu Options|Mark as Dev Only to mark a script as being for development only; its name is then shown followed by (d).
+
+<P>
+<B><I>Required Files</I></B><br>
+If a source script depends on other scripts, for example, if it contains a line of the form 
+
+<pre>
+   load 'source\util\myutil'
+</pre>
+
+<P>
+then the required file will also be shown, with a name followed by (r) or (dr).
+
+<P>
+This feature is primarily intended for library files. Typically, project source files need not require other files, since it would be simpler to add them explicitly to the source file list.
+
+<P>
+<B>Library</B><br>
+The Library tab shows the library files in the project, as well as the library files that are available. Files are shown with their short name only. 
+
+<P>
+As with Source files, use the menu Options|Mark as Dev Only to mark files that are for development only.
+
+<P>
+Required files have names followed by (r) or (dr). 
+Unlike Source files, some library files are expected to require other files. 
+
+<P><b>Project</b><br>
+
+Here you can include any of the following four scripts; use the Add 
+button to add or modify one:<p>
+
+<table cellspacing="2" cellpadding="2" border="0">
+<tr>
+    <td>&nbsp;&nbsp;</td>
+    <td>Target</td>
+    <td>the target file used when Project Manager builds the application</td>
+</tr>
+<tr>
+    <td>&nbsp;&nbsp;</td>
+	<td>Pre-Build</td>
+    <td>a script file that is run before Project Manager builds the target file</td>
+</tr>
+<tr>
+    <td>&nbsp;&nbsp;</td>
+	<td>Post-Build</td>
+    <td>a script file that is run after Project Manager builds the target file</td>
+</tr>
+<tr>
+    <td>&nbsp;&nbsp;</td>
+	<td>Test</td>
+    <td>a script file that is run when you press the Test button</td>
+</tr>
+</table>
+
+<p>
+Include a Target file whenever you want Project Manager to 
+build the application for you. 
+
+<p>The Pre-Build and Post-Build scripts allow you to customize the behavior
+of Project Manager's build routine. Also, if you do not want 
+Project Manager to build your application, you can nevertheless define
+one or both "build" scripts with your own custom build routines.
+
+<p>Include a Test file so that you can test your application 
+by pressing the "Test" button. 
+
+<P>
+<B>Other</B><br>
+The Other tab shows any other files you may want to include in 
+the project, for example, this is a good place to put additional
+test scripts, that may be loaded by the project's Test script.
+
+
+
+</TD>
+  </TR>
+<TR><TD><!--bottom jump start--><hr><a href="build_apps.htm">&gt&gt;</a>&nbsp;
+<a href="project_man.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></TD></TR></TABLE></body>
+</html>

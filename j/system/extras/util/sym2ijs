@@ -1,0 +1,126 @@
+#!/bin/sh
+
+## sym2ijs: transform C language constants and type information into
+## equivalent J definitions.
+
+# set defaults:
+cc=cc
+for name in cc gcc c89 acc lcc xlc ; do
+	case "`type $name 2>&1`" in
+	""|*\ not\ found)	;;
+	*)	cc=$name; break ;;
+	esac
+done
+
+# process options:
+while [ -n "$1" ] ; do
+	case "$1" in
+	-k)	keep_intermediates=yes; shift;;
+	-c)	c_only=yes; keep_intermediates=yes; shift;;
+	-cc)	cc_only=yes; keep_intermediates=yes; shift;;
+	-C)	cc="$2"; shift 2;;
+	--)	# be posixly nice
+		shift; break;;
+	-*)	echo "usage: $0 [-k] [-c] [-cc] [input-file]" 1>&2
+		exit 1
+		;;
+	*)	break;;
+	esac
+done
+
+if [ -n "$1" ] ; then
+	fn=`basename "$1" .sym`
+else
+	# for stdin/stdout work, we move to /tmp to be usable in places
+	# where we don't have write access:
+	cd ${TMP:-/tmp}
+	fn=sym2ijs$$
+fi
+
+if [ -z "$keep_intermediates" ] ; then
+	trap "rm -f $fn.c $fn; exit 0" 0 1 2 3 15
+fi
+
+awk '
+/^[<"]/	{ print "#include", $0 }
+
+/^$/	{
+	if (did_main_hdr++) {
+		# preserve any empty line for readability of the
+		# J script:
+		printf ("\tputs(\"\");\n")
+		next
+	}
+	print "#define offset(r,f)  (((char*)&((r*)0)->f)-((char*)((r*)0)))"
+	print "main(){"
+	if (FILENAME=="-")
+		FILENAME="stdin"
+	fmt="\tprintf (\"NB. do not edit -- created by %s from %s\\n\");\n"
+	printf (fmt, "sym2ijs", FILENAME);
+}
+
+/^;/	{ next }			# ignore comments
+/^#/	{ print; next }			# pass preprocessor statements
+/^C/	{ sub (/^C[ \t]?/, ""); print; next }	# pass literal C
+/^J/	{				# pass literal J
+	sub (/^J[ \t]?/, "")
+	gsub (/"/, "\\\"")		# quote quotes for the puts string arg
+	printf ("\tputs (\"%s\");\n", $0)
+	next
+}
+
+/^c/	{
+	for (i=2; i<=NF; i++)
+		printf ("\tprintf (\"%s =: %%d{a.\\n\",  %s);\n", $i, $i);
+	next
+}
+/^i/	{
+	for (i=2; i<=NF; i++)
+		printf ("\tprintf (\"%s =: %%d\\n\",  %s);\n", $i, $i);
+	next
+}
+/^s[^t]/ {
+	for (i=2; i<=NF; i++)
+		printf ("\tprintf (\"%s =: \047%%s\047\\n\",  %s);\n", $i, $i);
+	next
+}
+
+/^s?t/	{
+	# Input line has format:     t|st [struct] tag_or_type_name
+	# Use "st" to remember the structure type for any following fields.
+	# It will include the "struct" keyword if there is no explicit
+	# typedef for the structure type.
+	if ($2 == "struct")
+		st = "struct " $3
+	else
+		st=$2
+	fmt="\tprintf (\"%s_sz =: %%d\\n\", sizeof (%s));\n"
+	printf (fmt, $NF, st);
+	next
+}
+/^f/	{
+	fn=$2
+	printf("\tprintf(\"%s_off =: %%d\\n\", offset(%s,%s));\n", fn,st,fn)
+	printf("\tprintf(\"%s_sz =: %%d\\n\",sizeof(((%s*)0)->%s));\n",fn,st,fn)
+	next
+}
+
+END	{  print "\texit (0);\n}" }
+' $1 > $fn.c		# $1 may be unset in which case stdin is processed.
+
+[ -n "$c_only" ] && exit 0
+
+# Compile the C file.
+# Bail out if things don't run smoothly in order to avoid
+# a fresh looking but empty output file.
+
+$cc $fn.c -o $fn || exit 1
+[ -n "$cc_only" ] && exit 0
+
+if [ -n "$1" ] ; then
+	./$fn > $fn.ijs
+else
+	./$fn
+fi
+
+# Removal of the generated files implied by the 0 trap.

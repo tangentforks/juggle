@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Each</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="hook.htm">&gt&gt;</a>&nbsp;
+<a href="cut.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Each</h1>	<TR><TD>
+
+<P>Frequently with boxed data it is useful to be able to do something to the contents of each of the boxes. This is so useful that the standard profile defines an adverb called each that does exactly this. The definition of each involves a little more than you have covered so far, but don't worry about the details, just use it.</P>
+
+<P>The adverb each takes a verb as its left argument. The derived verb is applied to the contents of the boxes of its arguments.</P>
+
+<PRE>   a =. 10 12 13 ; 2 3 ; 4 5 6 8 3
+   a
++----------------------+
+¦10 12 13¦2 3¦4 5 6 8 3¦
++----------------------+
+
+   +/ each a	NB. sum over each
++-------+
+¦35¦5¦26¦
++-------+
+
+   */ each a	NB. times over each
++-----------+
+¦1560¦6¦2880¦
++-----------+
+
+   |. each a	NB. reverse each
++----------------------+
+¦13 12 10¦3 2¦3 8 6 5 4¦
++----------------------+
+
+   >./ each a	NB. max over each
++------+
+¦13¦3¦8¦
++------+</PRE>
+
+<P>The previous examples all used the derived verb monadically. The following use the derived verb dyadically. </P>
+<PRE>
+   23 , each a		NB. append each
++-------------------------------+
+¦23 10 12 13¦23 2 3¦23 4 5 6 8 3¦
++-------------------------------+
+
+   5 < each a
++-------------------+
+¦1 1 1¦0 0¦0 0 1 1 0¦
++-------------------+
+
+   1 |. each a
++----------------------+
+¦12 13 10¦3 2¦5 6 8 3 4¦
++----------------------+</Pre>
+
+<P>Did you catch the new verb <TT>|.</TT> (reverse or rotate) that slipped in above? Did you look it up in the J Dictionary?</P>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="hook.htm">&gt&gt;</a>&nbsp;
+<a href="cut.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

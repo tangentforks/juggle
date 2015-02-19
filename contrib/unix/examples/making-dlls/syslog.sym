@@ -1,0 +1,31 @@
+<syslog.h>
+
+J coclass 'z'
+J require 'dll'
+
+; option flags for openlog:
+i LOG_CONS LOG_NDELAY LOG_PERROR LOG_PID
+
+; facilities:
+i LOG_AUTH LOG_AUTHPRIV LOG_CRON LOG_DAEMON LOG_KERN
+i LOG_LOCAL0 LOG_LOCAL1 LOG_LOCAL2 LOG_LOCAL3
+i LOG_LOCAL4 LOG_LOCAL5 LOG_LOCAL6 LOG_LOCAL7
+i LOG_LPR  LOG_MAIL LOG_NEWS LOG_SYSLOG
+i LOG_USER LOG_UUCP
+
+; priority levels:
+i LOG_EMERG LOG_ALERT LOG_CRIT LOG_ERR LOG_WARNING
+i LOG_NOTICE  LOG_INFO LOG_DEBUG
+
+J (find_dll 'c') mkapi noun define
+J openlog n  *c i i
+J syslog  n  i *c *c
+J closelog n
+J )
+
+J NB. The C syslog() is really a printf-style variadic
+J NB. function.  15!:0 cannot do varargs.  We therefor
+J NB. just provide a cover function which takes just
+J NB. the loglevel and a preformatted string:
+J
+J jsyslog =. 4 : 'syslog x. ; ''%s'' ; y.'

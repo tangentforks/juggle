@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Grading</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="permutations.htm">&gt&gt;</a>&nbsp;
+<a href="rank_class.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Grading</h1>
+<TR><TD colspan="2">
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P>Grading is the assignment of an ordinal number to each item of an array, with all numbers distinct, and with the earliest of equal values being assigned a lower ordinal number. Grading can be used to produce the permutation that will put an array in order. Since sorting is a primitive operation in J, grading is more commonly used to put a companion array into an order derived from another array. For example, a table of addresses may be put into an order derived from a table of last names.</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="80%">
+  <TR><TD><TT>m0=: /:</TT></TD>	<TD>Grade y up</TD>
+  </TR><TR><TD><TT>m1=: \:</TT></TD>	<TD>Grade y down</TD>
+  </TR><TR><TD><TT>d2=: /:@i.</TT></TD>	<TD>Grade y up according to key x</TD>
+  </TR><TR><TD><TT>d3=: \:@i.</TT></TD>	<TD>Grade y down according to key x</TD>
+  </TR>
+</TABLE></TD></TR></TABLE>
+
+<PRE>   y=:'leap','note',:'file'
+   (] ; m0 ; (m0 { ]) ; m1 ; (m1 { ])) y
++--------------------------+
+¦leap¦2 0 1¦file¦1 0 2¦note¦
+¦note¦     ¦leap¦     ¦leap¦
+¦file¦     ¦note¦     ¦file¦
++--------------------------+
+
+   x=: ' abcdefghijklmnopqrstuvwxyz' [ y=: 'senator' 
+   x (d2 ; (d2{]) ; d3 ; (d3{])) y
++-------------------------------------------+
+¦3 1 2 5 6 0 4¦aenorst¦4 0 6 5 2 1 3¦tsronea¦
++-------------------------------------------+</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="permutations.htm">&gt&gt;</a>&nbsp;
+<a href="rank_class.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

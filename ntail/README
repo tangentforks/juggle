@@ -1,0 +1,20 @@
+
+	ntail/README					Feb 1996
+
+
+Monitor multiple files in the manner of ``tail -f''. 
+Please look at the manpage for more about.
+
+
+It compiles at least on linux v1.2.9 and v1.3.59,
+and on SunOS 4.1.x
+
+
+Have a look at the Makefile, run  make  and  make install .
+
+
+[XXX: add more]
+
+
+--
+(schoenfr@gaertner.de)

@@ -1,0 +1,293 @@
+<html>
+<head><title>: Explicit /</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="d310v.htm">&gt&gt;</a>&nbsp;
+<a href="d301.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=40%><b><font size=+2>Explicit Definition</font></b></td>
+<td align=center width=40%><font face="Courier New" size=+3>m : n &nbsp;_ _ _</font></td>
+<td align=right  width=20%><b><font size=+2>&nbsp;</font></b>
+</tr></table>
+<br>
+
+As defined and illustrated in
+<a href="dicth.htm">Section II H</a>, 
+the phrase<tt> s=: 0 : 0 </tt>
+may be used to define<tt> s </tt>as a script, and the explicit definition 
+conjunction can be further used to produce a dyadic-only 
+verb<tt> </tt>(<tt>4 : s</tt>),<tt> </tt>
+verb<tt> </tt>(<tt>3 : s</tt>),<tt> </tt>
+conjunction<tt> </tt>(<tt>2 : s</tt>),<tt> </tt>
+adverb<tt> </tt>(<tt>1 : s</tt>),<tt> </tt>or 
+noun<tt> </tt>(<tt>0 : s</tt>).  
+The left arguments<tt> 13 </tt>to<tt> 10 </tt>may be 
+used instead of<tt> 3 </tt>to<tt> 0 </tt>to produce equivalent 
+results in tacit form if possible.  
+The right argument<tt> 0 </tt>may be used in each case 
+to make the corresponding definitions directly from 
+the keyboard:<tt> k : 0 </tt>is equivalent to<tt> k :(0 : 0)</tt>.  
+Furthermore, the boxed representation<tt> b=: &lt;;._2 s </tt>or 
+the table representation<tt> t=: &gt;b </tt>(or<tt> t=:[;._2 s</tt>)<tt> </tt>
+may be used in lieu of the script<tt> s </tt>in every case.  Thus:<br>
+
+<pre>
+   f=: 3 : 0
+a=: 2+b=. y. ^ 2
+a+a*b
+:
+x.*x.+y.
+)
+
+   a=: b=: 19
+   f 3
+110
+
+   a,b                        <font face=Times size=+1>Only the globally assigned name is changed.</font>
+11 19
+</pre>
+
+As illustrated by the foregoing:<br><br>
+
+<table>
+<tr><td valign=top><b>1</b>. &nbsp;&nbsp;</td>
+<td>The definitions of the monadic and dyadic cases 
+produced by<tt> 3 : 0 </tt>are separated by a colon 
+on a line by itself; if none occurs, the domain of 
+the dyadic case is empty.</td><tr>
+
+<tr><td valign=top><b>2</b>.</td>
+<td>The explicit result is the result of the last 
+non-test block sentence executed.  See <i>Control Structures</i> 
+for the definition of a test block.</td></tr>
+
+<tr><td valign=top><b>3</b>.</td>
+<td>A name assigned by the copula<tt> <b>=.</b> </tt>is 
+made <i>local</i>; values assigned to it have no effect on the 
+use of the same name <i>without</i> the entity defined or 
+<i>within</i> other entities invoked by it.  
+A name assigned by<tt> <b>=:</b> </tt>is global.</td></tr>
+
+<tr><td valign=top><b>4</b>.</td>
+<td>A locative cannot be localized.</td></tr>
+
+<tr><td valign=top><b>5</b>.</td>
+<td>The names<tt> x. </tt>and<tt> y. </tt>denote the left 
+and right arguments.  In defining a conjunction it may 
+be necessary to refer to <i>its</i> left and right arguments 
+(using<tt> u. </tt>and<tt> v.) </tt>as well as to the arguments 
+of the resulting function<tt> </tt>(<tt>x. </tt>and<tt> y.</tt>).<tt> </tt>  
+The use of<tt> m. </tt>instead of<tt> u. </tt>restricts the 
+corresponding argument to being a noun, as does the use of<tt> n. </tt>
+instead of<tt> v.</tt> .<tt> </tt>For example:</td></tr>
+</table>
+
+<pre>
+   conj=: 2 : '(u. y.)+ (v. y.)'
+   mc=: 2 : 0
+(u.y.)+(v.y.)
+)
+
+   dc=: 2 : 0                 <font face=Times size=+1>Dyadic case</font>
+:
+(u.y.)+(v.x.)
+)
+
+   (!conj% 2 4 5);(!mc% 2 4 5);(1 2 3 !dc% 2 4 5)
++---------------+---------------+--------------+
+|2.5 24.25 120.2|2.5 24.25 120.2|3 24.5 120.333|
++---------------+---------------+--------------+
+</pre>
+
+<b>Control Structures.</b> The sequence of execution of an 
+explicit definition may be determined by <i>control words</i> 
+such as<tt> if. do. else. end. </tt>and<tt> while.</tt> .<tt> </tt>  
+For example, a function to find the root of a function<tt> f </tt>
+from a two-element list that brackets the root may be written 
+and executed as follows:<br>
+
+<pre>
+   root=: 3 : 0
+m=.+/%#while.~:/y.do.if.~:/*f b=.(m,{.)y.do.y.=.b else.y.=.(m,{:)y.end.end.m y.
+)
+
+   f=: 4:-%:
+   b=: 1 32
+   root b
+16
+</pre>
+
+Such a definition may also be written on successive lines 
+by breaking it before or after any control word, 
+and the foregoing definition may be made more readable as follows:<br>
+
+<pre>
+   root=: 3 : 0
+m=. +/ % #
+while. ~:/y.
+   do. if. ~:/*f b=. (m,{.) y.
+            do. y.=. b 
+          else. y.=. (m,{:) y.
+       end.
+end. m y.
+)
+</pre>
+
+As illustrated by the foregoing, the word<tt> if. </tt>
+and a matching<tt> end. </tt>mark the beginning and end of 
+a <i>control structure</i>, as do<tt> while. </tt>and a 
+matching<tt> end.</tt>;<tt> </tt>such structures may be 
+<i>nested</i> as is the<tt> if. </tt>structure within 
+the<tt> while. </tt>structure.<br><br>
+
+The control words<tt> for.</tt>,<tt> if.</tt>,<tt> select.</tt>,<tt> try.</tt>,<tt> while.</tt>,<tt> </tt>
+and<tt> whilst. </tt>mark the beginnings of control structures 
+that are each terminated by a matching<tt> end.</tt>,<tt> </tt>
+and therefore provide a form of punctuation.  
+In the foregoing example,<tt> do. </tt>and<tt> else. </tt>break 
+the<tt> if. </tt>structure into three simple blocks, 
+each comprising a sentence, whereas the<tt> do. </tt>in the<tt> while. </tt>
+structure breaks it into two blocks, the first 
+being a simple sentence, and the second being itself an<tt> if. </tt>
+control structure.<br><br>
+
+In general, a <i>block</i> comprises zero or more 
+simple sentences and control structures.  
+The role of blocks is summarized as follows:<br><br>
+
+<pre>
+for.     T do. B end.
+for_xyz. T do. B end.
+if. T do. B end.
+if. T do. B else. B1 end.
+if. T do. B elseif. T1 do. B1 elseif. T2 do. B2 end.
+select. T case. T0 do. B0 fcase. T1 do. B1 case. T2 do. B2 end.
+try. B catch. B1 end.
+while. T do. B end.
+whilst. T do. B end.          <font face=Times size=+1>Like</font> while.<font face=Times size=+1>, but <b>S</b>kips <b>T</b>est first time.</font>
+</pre>
+
+Words beginning with<tt> <b>B</b> </tt>or<tt> <b>T</b> </tt>denote blocks.  
+The last sentence executed in a<tt> <b>T</b> </tt>block is tested 
+for a non-zero value in its leading atom, and the result of the 
+test determines the block to be executed next.  
+(An empty<tt> T </tt>block result or an omitted<tt> T </tt>block tests true.)  
+If an error occurs in a<tt> try. </tt>block, execution 
+continues in the matching<tt> catch. </tt>block.  
+The final result is the result of the last sentence 
+executed that was not in a<tt> <b>T</b> </tt>block, and 
+if there is no such last executed sentence, 
+the final result is<tt> i.0 0</tt> .<br><br>
+
+The behaviour of the remaining control words may be 
+summarized as follows:<br><br>
+
+<table>
+
+<tr><td><tt>assert. T</tt></td>
+<td>signal assertion failure if<tt> T </tt>is not all 1s</td>
+</tr>
+
+<tr><td><tt>break.</tt></td>
+<td>Go to end of<tt> for.</tt>,<tt> while.</tt>,<tt> </tt>
+or<tt> whilst. </tt>control structure</td>
+</tr>
+
+<tr><td><tt>continue.</tt></td>
+<td>Go to top of<tt> for.</tt>,<tt> while.</tt>,<tt> </tt>
+or<tt> whilst. </tt>control structure</td>
+</tr>
+
+<tr><td><tt>goto_name.</tt></td>
+<td>Go to label of same name</td>
+</tr>
+
+<tr><td><tt>label_name. &nbsp;&nbsp;&nbsp;</tt></td>
+<td>Target of<tt> goto_name.</tt></td>
+</tr>
+
+<tr><td><tt>return.</tt></td>
+<td>Exit the function</td>
+</tr>
+</table>
+<br>
+
+Additional explanations and examples can be found in the 
+<a href="ctrl.htm">Control Structures</a> section.<br><br>
+
+The following example uses control words as well as<tt> u. </tt>
+and<tt> n. </tt>in modelling the Level conjunction<tt> L:</tt> :<br>
+
+<pre>
+   Level=: 2 : 0
+m=. 0{ 3&amp;$&amp;.|. n.
+ly=. L. y. if. 0&gt;m do. m=.0&gt;.m+ly end.
+if. m&gt;:ly do. u. y. else. u. Level m&amp;.&gt; y. end.
+:
+'l r'=. 1 2{ 3&amp;$&amp;.|. n.
+lx=. L. x.  if. 0&gt;l do. l=.0&gt;. l + lx end.
+ly=. L. y.  if. 0&gt;r do. r=.0&gt;. r + ly end.
+b=. (l,r)&gt;:lx,ly
+if.     b-: 0 0 do. x.    u. Level(l,r)&amp;.&gt;y.
+elseif. b-: 0 1 do. x.    u. Level(l,r)&amp;.&gt;y.
+elseif. b-: 1 0 do. (&lt;x.) u. Level(l,r)&amp;.&gt;y.
+elseif. 1       do. x. u. y.
+end.
+)
+
+   ] a=: (i.2 3);(<<2 3 4) ; 3
++-----+---------+-+
+|0 1 2|+-------+|3|
+|3 4 5||+-----+|| |
+|     |||2 3 4||| |
+|     ||+-----+|| |
+|     |+-------+| |
++-----+---------+-+
+
+   +: Level 0 a
++------+---------+-+
+|0 2  4|+-------+|6|
+|6 8 10||+-----+|| |
+|      |||4 6 8||| |
+|      ||+-----+|| |
+|      |+-------+| |
++------+---------+-+
+
+   +: L: 0 a
++------+---------+-+
+|0 2  4|+-------+|6|
+|6 8 10||+-----+|| |
+|      |||4 6 8||| |
+|      ||+-----+|| |
+|      |+-------+| |
++------+---------+-+
+</pre>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="d310v.htm">&gt&gt;</a>&nbsp;
+<a href="d301.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

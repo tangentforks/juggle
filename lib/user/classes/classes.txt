@@ -1,0 +1,8 @@
+directory:  user/classes
+
+This is an empty directory created when J is
+installed, and is intended for class files.
+
+You are encouraged to create class files in
+this directory, or in subdirectories of this
+directory.

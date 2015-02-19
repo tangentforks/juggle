@@ -1,0 +1,534 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 18: Sets and Classes</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 18: Sets and Classes</H1>
+<p>
+In this chapter we look at more of the built-in functions of J.  The connecting theme 
+is, somewhat loosely, working with sets and classes.   
+<p>
+Suppose that, for some list, for the purpose at hand,  
+the order of the items is irrelevant and the presence of duplicate items 
+ is irrelevant.  
+Then we can regard the list as (representing) a finite set.  
+In the abstract, the set <TT>3 1 2 1</TT>  is considered to be the same set as <TT>1 2 3</TT>.  
+  
+The word "class" we will use in the sense in which, for example,  each integer in a list belongs either to 
+the odd class or to the even class. 
+<H2>18.1  Sets</H2>
+<H3>18.1.1  Membership</H3>
+<p>
+There is a  built-in verb <TT>e.</TT> (lowercase e dot, called "Member"). The expresssion <TT>x e. y</TT> tests whether 
+<TT>x</TT> matches any item of <TT>y</TT>, that is, whether x is a member of the list <TT>y</TT>. 
+For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y=: 'abcde'</TT></TD> 
+<TD><TT>'a' e. y</TT></TD> 
+<TD><TT>'w' e. y</TT></TD> 
+<TD><TT>'ef' e. y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>abcde</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>0</TD> 
+<TD><PRE>1 0</TD> 
+</PRE></TABLE> 
+<p>
+Evidently the order of items in <TT>y</TT> is irrelevant and so is the presence of duplicates in <TT>y</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>z=: 'edcbad'</TT></TD> 
+<TD><TT>'a' e. y</TT></TD> 
+<TD><TT>'w' e. y</TT></TD> 
+<TD><TT>'ef' e. y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>edcbad</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>0</TD> 
+<TD><PRE>1 0</TD> 
+</PRE></TABLE> 
+<p>
+We can test whether a table contains a particular row: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>t =: 4 2 $ 'abcdef'</TT></TD> 
+<TD><TT>'cd' e. t</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>ab 
+cd 
+ef 
+ab</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<H3>18.1.2  Less</H3>
+<p>
+There is a built-in verb <TT>-.</TT> (minus dot, called "Less"). The expression <TT>x -. y</TT> produces a list of the items of 
+<TT>x</TT> except those which are members of <TT>y</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 'consonant'</TT></TD> 
+<TD><TT>y =: 'aeiou'</TT></TD> 
+<TD><TT>x -. y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>consonant</TD> 
+<TD><PRE>aeiou</TD> 
+<TD><PRE>cnsnnt</TD> 
+</PRE></TABLE> 
+<p>
+Evidently the order of items in <TT>y</TT> is irrelevant and so is the presence of duplicates in <TT>y</TT>. 
+<H3>18.1.3  Nub</H3>
+<p>
+There is a  built-in verb <TT>~.</TT> (tilde dot, called "Nub"). The expression <TT>~. y</TT> produces 
+a list of the items of <TT>y</TT> without duplicates.   
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>nub =: ~.</TT></TD> 
+<TD><TT>y =: 'hook'</TT></TD> 
+<TD><TT>nub y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>~.</TD> 
+<TD><PRE>hook</TD> 
+<TD><PRE>hok</TD> 
+</PRE></TABLE> 
+<p>
+We can apply <TT>nub</TT> to the rows of a table: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>t</TT></TD> 
+<TD><TT>nub t</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>ab 
+cd 
+ef 
+ab</TD> 
+<TD><PRE>ab 
+cd 
+ef</TD> 
+</PRE></TABLE> 
+<H3>18.1.4  Nub Sieve</H3>
+<p>
+The verb "nub sieve" <TT>(~:)</TT> gives a  
+boolean vector which is true only at  
+the nub. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> y </TT></TD> 
+<TD><TT>b =: ~: y</TT></TD> 
+<TD><TT>b # y</TT></TD> 
+<TD><TT>nub y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>hook</TD> 
+<TD><PRE>1 1 0 1</TD> 
+<TD><PRE>hok</TD> 
+<TD><PRE>hok</TD> 
+</PRE></TABLE> 
+<H3>18.1.5  Functions for Sets</H3>
+<p>
+The customary functions on sets, such as set-union,  
+set-intersection or set-equality, are easily defined  
+using the built-in functions available.  For example 
+two sets are equal 
+if all members of one are members of the other,  
+and vice versa.   
+<PRE>
+   seteq =: *./ @: (e. , e.~)
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1 2 3 seteq 3 1 2 1</TT></TD> 
+<TD><TT>1 2 3 seteq 1 2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1</TD> 
+<TD><PRE>0</TD> 
+</PRE></TABLE> 
+<H2>18.2  The Table Adverb</H2>
+<p>
+Recall that the adverb <TT>/</TT> generates a verb; for example <TT>+/</TT> is a verb which sums lists.  
+More precisely, it is the monadic case of <TT>+/</TT> which sums lists.  
+The dyadic case of <TT>+/</TT> generates a table: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 0 1 2</TT></TD> 
+<TD><TT>y =: 3 4 5 6</TT></TD> 
+<TD><TT>z =: x +/ y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1 2</TD> 
+<TD><PRE>3 4 5 6</TD> 
+<TD><PRE>3 4 5 6 
+4 5 6 7 
+5 6 7 8</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme is that if we have 
+<PRE>
+         z =:  x f/ y
+</PRE>
+<p>
+then <TT>z</TT> is a table such that the value at row <TT>i</TT> column <TT>j</TT> 
+is given by applying <TT>f</TT> dyadically 
+to the pair of arguments <TT>i{x</TT> 
+ and <TT>j{y</TT>. That is, 
+<TT>z</TT> contains all possible pairings  
+of an item of <TT>x</TT> with an item of <TT>y</TT>. 
+Here is another example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 'abc'</TT></TD> 
+<TD><TT>y =: 'face'</TT></TD> 
+<TD><TT>x =/ y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>abc</TD> 
+<TD><PRE>face</TD> 
+<TD><PRE>0 1 0 0 
+0 0 0 0 
+0 0 1 0</TD> 
+</PRE></TABLE> 
+<p>
+The result shows, in the first row, 
+the value of <TT>'a' = 'face'</TT>, in the second row 
+the value of <TT>'b' ='face'</TT> 
+and so on. 
+<H2>18.3  Classes</H2>
+<H3>18.3.1  Self-Classify</H3>
+<p>
+Consider the problem of finding the counts 
+of letters occurring in a string (the 
+frequency-distribution of letters). 
+Here is one approach. 
+<p>
+We form a table testing each letter for equality  
+with the nub. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 'hook'</TT></TD> 
+<TD><TT>nub y</TT></TD> 
+<TD><TT>(nub y)  =/  y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>hook</TD> 
+<TD><PRE>hok</TD> 
+<TD><PRE>1 0 0 0 
+0 1 1 0 
+0 0 0 1</TD> 
+</PRE></TABLE> 
+<p>
+The expression <TT>((nub y) = / y)</TT> can be abbreviated as <TT>(= y)</TT>.  
+The monadic case of the built-in verb <TT>=</TT> is called  
+"Self-classify").  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y</TT></TD> 
+<TD><TT>nub y</TT></TD> 
+<TD><TT>(nub y)  =/  y</TT></TD> 
+<TD><TT>= y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>hook</TD> 
+<TD><PRE>hok</TD> 
+<TD><PRE>1 0 0 0 
+0 1 1 0 
+0 0 0 1</TD> 
+<TD><PRE>1 0 0 0 
+0 1 1 0 
+0 0 0 1</TD> 
+</PRE></TABLE> 
+<p>
+If we sum each row of <TT>= y</TT> we obtain 
+the counts, in the order of the letters in the nub. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y</TT></TD> 
+<TD><TT>= y</TT></TD> 
+<TD><TT>+/ " 1 =y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>hook</TD> 
+<TD><PRE>1 0 0 0 
+0 1 1 0 
+0 0 0 1</TD> 
+<TD><PRE>1 2 1</TD> 
+</PRE></TABLE> 
+<p>
+The counts can be paired with the letters of the 
+nub: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y</TT></TD> 
+<TD><TT>nub y</TT></TD> 
+<TD><TT>(nub y) ;" 0  (+/ " 1 =y)</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>hook</TD> 
+<TD><PRE>hok</TD> 
+<TD><PRE>+-+-+ 
+|h|1| 
++-+-+ 
+|o|2| 
++-+-+ 
+|k|1| 
++-+-+</TD> 
+</PRE></TABLE> 
+<H3>18.3.2  Classification Schemes</H3>
+<p>
+Gardeners classify soil-types as acid, neutral or  
+alkaline, depending on the pH value. Suppose 
+that a pH less than 6 is classed as acid,   
+6 to 7 is neutral, and more than 7 as alkaline. 
+Here now is a verb to classify a pH value, 
+returning <TT>A</TT> for acid, <TT>N</TT> for neutral and <TT>L</TT> for alkaline (or limy). 
+<PRE>
+   classify =: ({ & 'ANL')  @: ((>: & 6) + (> & 7))
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>classify 6</TT></TD> 
+<TD><TT>classify 4.8 5.1 6 7 7.1 8</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>N</TD> 
+<TD><PRE>AANNLL</TD> 
+</PRE></TABLE> 
+<p>
+The <TT>classify</TT> function we can regard as defining a  
+classification scheme.  
+The letters <TT>ANL</TT>, which are in effect 
+names of classes, are called the keys of the scheme. 
+<H3>18.3.3  The Key Adverb</H3>
+<p>
+Given some data (a list, say), we can classify each item 
+to produce a list of corresponding keys.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data =: 7 5 6 4 8</TT></TD> 
+<TD><TT>k =: classify data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>7 5 6 4 8</TD> 
+<TD><PRE>NANAL</TD> 
+</PRE></TABLE> 
+<p>
+We can select and group together all the data in,  
+say, class <TT>A</TT> (all the data with key <TT>A</TT>):  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>k</TT></TD> 
+<TD><TT>k = 'A'</TT></TD> 
+<TD><TT>(k = 'A') # data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>7 5 6 4 8</TD> 
+<TD><PRE>NANAL</TD> 
+<TD><PRE>0 1 0 1 0</TD> 
+<TD><PRE>5 4</TD> 
+</PRE></TABLE> 
+<p>
+Now suppose we wish to count the items in each class.  
+That is, we aim to apply the monadic verb <TT>#</TT> separately 
+to each group of items all of the same key.  
+ To do this we can use the built-in adverb <TT>/.</TT> (slash dot, called "Key").  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>k =: classify data</TT></TD> 
+<TD><TT>k # /. data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>7 5 6 4 8</TD> 
+<TD><PRE>NANAL</TD> 
+<TD><PRE>2 2 1</TD> 
+</PRE></TABLE> 
+<p>
+For another example, instead of counting the members 
+we could exhibit the members, by applying the box verb <TT>&lt;</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>k =: classify data</TT></TD> 
+<TD><TT>k &lt; /. data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>7 5 6 4 8</TD> 
+<TD><PRE>NANAL</TD> 
+<TD><PRE>+---+---+-+ 
+|7 6|5 4|8| 
++---+---+-+</TD> 
+</PRE></TABLE> 
+<p>
+The verb we apply can discover for itself the class of  
+each separate argument,  
+by classifying the first member:  
+Here the verb <TT>u</TT> 
+produces a boxed list: the key and count: 
+<PRE>
+   u =: (classify @: {.) ; #
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>k =: classify data</TT></TD> 
+<TD><TT>k u /. data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>7 5 6 4 8</TD> 
+<TD><PRE>NANAL</TD> 
+<TD><PRE>+-+-+ 
+|N|2| 
++-+-+ 
+|A|2| 
++-+-+ 
+|L|1| 
++-+-+</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme for the "Key" adverb is as follows. 
+In the expression <TT>x u /. y</TT>, we take <TT>y</TT> to be a list, 
+and <TT>x</TT> is a list of keys of corresponding items of <TT>y</TT> according 
+to some classification scheme,  
+and <TT>u</TT> is the verb to be applied separately to each class. 
+The scheme is: 
+<PRE>
+          x u /. y    means   (= x) (u @ #) y
+</PRE>
+<p>
+To illustrate: 
+<PRE>
+   y =: 4 5 6 7 8 
+   x =: classify y
+   u =: &lt;
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y</TT></TD> 
+<TD><TT>x</TT></TD> 
+<TD><TT>= x</TT></TD> 
+<TD><TT>(= x) (u @ #)  y</TT></TD> 
+<TD><TT>x u /. y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>4 5 6 7 8</TD> 
+<TD><PRE>AANNL</TD> 
+<TD><PRE>1 1 0 0 0 
+0 0 1 1 0 
+0 0 0 0 1</TD> 
+<TD><PRE>+---+---+-+ 
+|4 5|6 7|8| 
++---+---+-+</TD> 
+<TD><PRE>+---+---+-+ 
+|4 5|6 7|8| 
++---+---+-+</TD> 
+</PRE></TABLE> 
+<p>
+We see that each row of <TT>=x</TT> selects items from <TT>y</TT>, 
+and <TT>u</TT> is applied to this selection.  
+<H3>18.3.4  Letter-Counts Revisited</H3>
+<p>
+Recall the example of finding the counts of letters in a string. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 'LETTUCE'</TT></TD> 
+<TD><TT>= y</TT></TD> 
+<TD><TT>(nub y) ; " 0  +/ "1 (= y)</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>LETTUCE</TD> 
+<TD><PRE>1 0 0 0 0 0 0 
+0 1 0 0 0 0 1 
+0 0 1 1 0 0 0 
+0 0 0 0 1 0 0 
+0 0 0 0 0 1 0</TD> 
+<TD><PRE>+-+-+ 
+|L|1| 
++-+-+ 
+|E|2| 
++-+-+ 
+|T|2| 
++-+-+ 
+|U|1| 
++-+-+ 
+|C|1| 
++-+-+</TD> 
+</PRE></TABLE> 
+<p>
+Here is a variation. We note that 
+we have in effect a classification scheme where  
+we have as many different classes as different letters: each letter 
+is (the key of) its own class. Thus we can write an 
+expression of the form <TT>y u /. y</TT>.  
+<p>
+The applied verb <TT>u</TT> will see, each time, a list of letters, all the same.  
+It counts them, with <TT>#</TT>, 
+ and takes the first, with <TT>{.</TT>,  to be a label for the class. 
+<PRE>
+   u =: {. ; #
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y</TT></TD> 
+<TD><TT>= y</TT></TD> 
+<TD><TT>y u /. y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>LETTUCE</TD> 
+<TD><PRE>1 0 0 0 0 0 0 
+0 1 0 0 0 0 1 
+0 0 1 1 0 0 0 
+0 0 0 0 1 0 0 
+0 0 0 0 0 1 0</TD> 
+<TD><PRE>+-+-+ 
+|L|1| 
++-+-+ 
+|E|2| 
++-+-+ 
+|T|2| 
++-+-+ 
+|U|1| 
++-+-+ 
+|C|1| 
++-+-+</TD> 
+</PRE></TABLE> 
+<p>
+This is the end of Chapter 18 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="19.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 17 Mar 00</p>
+</BODY>
+</HTML>
+

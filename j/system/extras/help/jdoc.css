@@ -1,0 +1,5 @@
+body {background-color: #ffffff; color: #000000}
+a:link    {color: #0066cc; text-decoration: none}
+a:visited {color: #0066cc; text-decoration: none}
+a:hover   {color: #ff0000; text-decoration: underline}
+h1 {font-size: medium}

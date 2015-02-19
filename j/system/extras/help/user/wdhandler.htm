@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>wdhandler</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="enter_info.htm">&gt&gt;</a>&nbsp;
+<a href="event_handlers.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>wdhandler</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+This is the verb that provides the mechanism described above. When a Windows event occurs, the system typically invokes the following sentence (but does not show it in the session):
+
+<pre>
+   wdhandler ''
+</pre>
+
+<P>
+To demonstrate this, try defining a new <code>wdhandler</code> as follows:
+
+<pre>
+   wdhandler=: wdinfo bind 'my new handler'
+</pre>
+
+<P>
+Now any action you take on the form will invoke this new definition. Typically, you would not want to redefine <code>wdhandler</code>, but the fact that you can do so gives you complete control over the way events are handled. To erase your definition and recover the old definition (which is in locale <code>z</code>), enter:
+
+<pre>
+   erase 'wdhandler'
+</pre>
+
+<P>
+How does the standard <code>wdhandler</code> work? It first queries the event that has been signaled, using <code>wd'q'</code>, and assigns the result to a global variable <code>wdq</code> :
+
+<pre>
+   wdq
++------------+---------------------------------+
+|syshandler  |mywin_handler                    |
++------------+---------------------------------+
+|sysevent    |mywin_pressme_button             |
++------------+---------------------------------+
+|sysdefault  |mywin_default                    |
++------------+---------------------------------+
+|sysparent   |mywin                            |
++------------+---------------------------------+
+|syschild    |pressme                          |
++------------+---------------------------------+
+|systype     |button                           |
++------------+---------------------------------+
+|syslocale   |                                 |
++------------+---------------------------------+
+|syshwndp    |1388                             |
++------------+---------------------------------+
+|sysfocus    |pressme                          |
++------------+---------------------------------+
+|syslastfocus|pressme                          |
++------------+---------------------------------+
+|sysinfo     |1 552 146 200 200 192 173 800 600|
++------------+---------------------------------+
+</pre>
+
+<P>
+Note that <code>wd'q'</code> only returns information about the last event that occurred. Re-running it will provide new information only if another event has occurred, otherwise it will give a domain error. 
+
+<P>
+The result <code>wdq</code> is a boxed array describing the event and the current state of the form. The first column contain various identifiers, and the second column corresponding values. Note that the first three rows correspond to the three levels of event handler discussed above. <code>wdhandler</code> checks whether any of these event handlers exist, then
+<p>
+<li>defines each name in the first column with the corresponding value in the second column, for example a global variable <code>sysfocus</code> will be defined with the value <code>pressme</code><br>
+<li>executes the first event handler it has found.
+
+<P>
+As another example, click on the form to give it focus, then press the Esc key. Click on the J session window, and look at the variable <code>wdq</code>:
+
+<pre>
+   wdq
++------------+---------------------------------+
+|syshandler  |mywin_handler                    |
++------------+---------------------------------+
+|sysevent    |mywin_cancel                     |
++------------+---------------------------------+
+|sysdefault  |mywin_default                    |
++------------+---------------------------------+
+...
+</pre>
+
+<P>
+This shows that the second-level event handler for the Esc key is named <code>mywin_cancel</code>. Define a verb of this name to close the form:
+
+<pre>
+   mywin_cancel=: wd bind 'pclose'
+</pre>
+
+<P>
+Now click on the form to give it focus, press the Esc key, and the form will close.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="enter_info.htm">&gt&gt;</a>&nbsp;
+<a href="event_handlers.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

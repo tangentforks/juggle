@@ -1,0 +1,52 @@
+directory:  packages\color
+
+This directory contains scripts to assist with RGB color
+definitions.
+
+cfmt.ijs
+========
+This define cfmt to format numeric data in color.
+
+ntcolor.ijs
+===========
+The ntcolor (name that color) form shows colors
+and color names. Syntax:
+
+   ntcolor ''      NB. shows COLORTABLE
+   ntcolor table   NB. shows given table
+
+Verb showcolor shows a color matrix.
+
+rgb.ijs
+=======
+This script defines the verb RGB to convert between color
+triples and RGB values. 
+
+--------------------------------------------------------
+
+The following color tables are defined. Except for
+NS216, these are character matrices of name followed
+by RGB definition. Execute them to define global names.
+
+Plot and OpenGL use colortab.ijs, with uppercase names.
+
+color16.ijs
+===========
+This script defines COLOR16, the 16 primary
+colors. Names are those supported by HTML.
+
+colortab.ijs
+============
+This script defines COLORTABLE, the color
+table supported by MS Internet Explorer.
+
+ns216.ijs
+=========
+This script defines COLORNS216, the color
+table of the Netscape 6x6x6 color cube, and
+COLORNS40, the balance of the 256 colors.
+
+xwin.ijs
+========
+This script defines COLORXWIN, the X Windows
+color table.

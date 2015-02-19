@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Event Handlers</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="wdhandler.htm">&gt&gt;</a>&nbsp;
+<a href="window_forms.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Event Handlers</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+An event handler is a verb that is invoked when a Windows event occurs, for example, when a button is pressed. The standard event handling mechanism in J supports three levels of event handler for a given form. If the form name is <I> abc</I>, these are:
+<p>
+<table>
+<TR><TD VALIGN="TOP" WIDTH=300>
+<li><pre>abc_handler</pre>
+<TD VALIGN="top" WIDTH=650>
+(the <I>parent</I> handler)<br><br>
+<TR><TD VALIGN="TOP" WIDTH=300>
+<li><code>abc_<I>id_class</code></I>
+<TD VALIGN="top" WIDTH=650>
+(e.g. <code>abc_pressme_button</code>)<br>
+<TR><TD VALIGN="TOP" WIDTH=300>
+<li><code>abc_<I>formevent</code></I>
+<TD VALIGN="top" WIDTH=650>
+(e.g. <code>abc_close</code>)<br><br>
+<TR><TD VALIGN="TOP" WIDTH=300><li><pre>abc_default </pre>
+<TD VALIGN="top" WIDTH=650>
+(the <I>default</I> handler)
+</tr></table>
+
+When an event occurs, the system searches for an event handler in the order given, and executes the first one it finds. Therefore, for a form <code>abc</code>:
+<p>
+<li>if  a verb <code>abc_handler</code> is defined, it is executed for every event associated with that form <br>
+<li>if no such verb is defined, and the event is for a specific control, such as button <code>pressme</code>, then if a verb for that control such as <code>abc_pressme_button</code> is defined, it is executed;<br>
+or if the event is a form event and a verb for that event is defined, such as <code>abc_close</code>, then it is executed
+<li>if no such verb is defined, then if <code>abc_default</code> is defined, it is executed<br>
+<li>if no event handler verb is found, the event is ignored
+
+<P>
+Typically, most forms will be written using only the second level of event handler. The other two levels allow the programmer to deal easily with special cases.
+
+<P>
+We can try this out on the form defined above. First define a default handler:
+
+<pre>
+   mywin_default=: wdinfo bind 'this is the default'
+</pre>
+
+<P>
+Click on the form to give it focus, then try pressing a function key. Each time, this new default event handler will be executed. However, when you press on the button, its own event handler is executed.
+
+<P>
+Now try defining a parent handler:
+
+<pre>
+   mywin_handler=: wdinfo bind 'this handles all events'
+</pre>
+
+<P>
+Once this is defined, it handles all events from the form. 
+
+<P>
+Note that these event handlers are ordinary verbs and can be defined and modified as required. The search for an appropriate event handler takes place at the time the event occurs. For example, delete the parent handler:
+
+<pre>
+   erase 'mywin_handler'
+1
+</pre>
+
+<P>
+Now the other event handlers will again be used to respond to the form's events.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="wdhandler.htm">&gt&gt;</a>&nbsp;
+<a href="window_forms.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,87 @@
+N References
+T
+ [1]
+ Falkoff, A.D., and K.E. Iverson,
+ _(The Design of APL)_,
+ IBM Journal of Research and Development,
+ July, 1973
+ 
+ [2]
+ Falkoff, A.D., and K.E. Iverson,
+ _(The Evolution of APL)_,
+ ACM Sigplan Notices,
+ August 1978
+ 
+ [3]
+ Iverson, K.E.,
+ _(A Dictionary of APL)_,
+ ACM APL Quote-Quad,
+ September, 1987
+ 
+ [4]
+ McIntyre, D.B.,
+ _(Language as an Intellectual Tool: From Hieroglyphics to APL)_,
+ IBM Systems Journal,
+ December, 1991
+ 
+ [5]
+ Iverson, K.E.,
+ _(A Personal View of APL)_,
+ IBM Systems Journal,
+ December, 1991
+ 
+ [6]
+ Hui, R.K.W.,
+ _(An Implementation of J)_,
+ ISI, 1992
+ 
+ [7]
+ Reiter, C.A.,
+ _(Fractals, Visualization, and J)_,
+ ISI, 1995
+ 
+ [8]
+ Iverson, K.E.,
+ _(Exploring Math)_,
+ ISI, 1996
+ 
+ [9]
+ Burke, C., et al.,
+ _(J Phrases)_,
+ ISI, 1998
+ 
+ [10]
+ McDonnell, E.E.,
+ _(Complex Floor)_,
+ APL Congress 73,
+ North-Holland/American Elsevier
+ 
+ [11]
+ McDonnell, E.E.,
+ _(Zero Divided by Zero)_,
+ APL76, ACM
+ 
+ [12]
+ Bernecky, Robert, and R.K. W. Hui,
+ _(Gerunds and Representations)_,
+ APL91, ACM
+ 
+ [13]
+ Abramowitz, M. and I.A. Stegun,
+ _(Handbook of Mathematical Functions)_,
+ National Bureau of Standards Applied Mathematics
+ Series #55,
+ U. S. Government Printing Office, 1964
+ 
+ [14]
+ Iverson, K.E.,
+ _(Concrete Math Companion)_,
+ ISI, 1995
+
+N Acknowledgments
+T
+ We are indebted for Eric Iverson for the design and
+ implementation of locatives, control structures, and
+ the Windows interface.
+
+# vim:tw=55:ai:ic:inf

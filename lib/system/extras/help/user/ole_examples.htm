@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Examples</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="tutorial_ole_server_excel.htm">&gt&gt;</a>&nbsp;
+<a href="j_ole_client.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Examples</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+<B>Example: Graph control </B>
+
+<P>
+File: examples\ocx\misc\graph.js has a simple example using Pinnacle's GRAPH32.OCX control.
+
+<P>
+For a fuller example:
+
+<pre>load 'examples\ocx\graph\grafdemo.js'</pre>
+
+<B>Example: TreeView </B><br>
+This example assumes you have the TreeView OCX installed and assorted bitmaps.
+
+<P>
+Run the script examples\ocx\misc\tree.js to create a treeview control. An imagelist control is loaded with various bitmaps which are then used by the treeview control. 
+
+<P>
+<B>Example: Controlling Microsoft Word</B><br>
+It is possible to automate the word.basic object. This could be a useful way of solving some printing problems. The following loads Word, and reads in the J readme.wri file:
+
+<pre>load 'examples\ocx\misc\word.js'</pre>
+
+<B>Example: Excel OLE Automation</B><br>
+<p>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'pc excel'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+parent to hold ole child
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'cc x oleautomation:excel.application'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+create excel.application object
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'oleset x base visible 1'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+set base visible property to 1
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'oleget x workbooks'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+get workbooks object as temp
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'oleid x workbooks'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+temp to permanent as workbooks
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'olemethod x workbooks open foo.xls'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+open workbook foo.xls
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'olemethod x workbooks add'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+run workbooks add method add method returns temp as the new workbook object
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'oleget x temp name'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+get workbook name
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+<pre>wd 'olemethod x base quit'</pre>
+<TD VALIGN="TOP" WIDTH=402><P>
+quit
+</tr></table>
+
+The excel.application object is defined in the system registry to create a new instance (private copy) of excel. The excel.sheet object creates a new worksheet in a shared excel.
+
+<P>
+Run the script and then run excel''. It is possible to access properties and methods directly, as well as run macros. The getobject verb shows how to support some of the simpler syntax of VB. Run excelquit'' to close excel.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="tutorial_ole_server_excel.htm">&gt&gt;</a>&nbsp;
+<a href="j_ole_client.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

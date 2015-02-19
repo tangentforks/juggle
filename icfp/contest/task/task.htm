@@ -1,0 +1,2590 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD><TITLE>The Third Annual ICFP Programming Contest</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="Microsoft FrontPage 4.0">
+</HEAD>
+<BODY BGCOLOR=white>
+<!--HEVEA command line is: hevea -o task.htm -fix -noiso -I /home/jhr/papers/lib hdefs.hva task.tex -->
+<!--HTMLHEAD-->
+<!--ENDHTML-->
+<!--CUT DEF section 1 -->
+<BR>
+<BR>
+
+<H1 ALIGN=center>The Third Annual ICFP Programming Contest</H1>
+
+
+<H1 ALIGN=center>Task Description</H1>
+
+
+If you are viewing this document using Netscape, you may need to configure
+your browser to see the symbols properly.
+See <A HREF="http://para.inria.fr/~maranget/hevea/doc/browser.html"><TT>http://para.inria.fr/~maranget/hevea/doc/browser.html</TT></A>
+for details.
+This document is also available in <A HREF="task.pdf">pdf</A>
+and <A HREF="task.ps">postscript</A> formats.
+<BR>
+<BR>
+<!--TOC section The problem-->
+
+<H2>1&nbsp;&nbsp; The problem</H2><!--SEC END -->
+This year's ICFP programming challenge is to implement a
+ray tracer.
+The input to the ray tracer is a scene description written in a
+simple functional language, called GML.
+Execution of a GML program produces zero, or more, <EM>image files</EM>,
+which are in <A HREF="#sec:ppm-format">PPM format</A>.
+A web page of <a href="http://www.cs.bell-labs.com/who/jhr/icfp/examples.html"> sample images</a>, along with the GML inputs that were used
+to produce them, is linked off of the contest home page.
+The feature set of GML is organized into
+<A HREF="#link:tiers">three <EM>tiers</EM></A>.
+Submissions must implement
+the first tier of features and extra credit will be given to
+submissions that implement the second or third tiers.
+Submissions will be evaluated on three scales: correctness of the
+produced images, run-time performance, and the
+tier of implemented GML features.<BR>
+<BR>
+GML has primitives for defining
+<A HREF="#sec:prim-objects">simple geometric objects</A> (<EM>e.g.</EM>, planes, spheres,
+and cubes) and <A HREF="#sec:lights">lighting sources</A>.
+The <A HREF="#sec:surfaces">surface properties</A> used to render the objects
+are specified as functions in GML itself.
+In addition to supporting scene description, GML also has a
+<A HREF="#sec:rendering"><TT>render</TT> operator</A> that renders a scene to an
+image file.
+For each pixel in the output image, the <TT>render</TT> command
+must compute a color.
+Conceptually, this color is computed by tracing the path of the
+light backwards from the eye of the viewer, to where it bounced off an
+object, and ultimately back to the light sources.<BR>
+<BR>
+This document is organized as follows.
+<A HREF="#sec:gml">Section&nbsp;</a><A HREF="#sec:gml">2</A> describes the syntax and general semantics of the
+modeling language.
+It is followed by <A HREF="#sec:tracing">Section&nbsp;</a><A HREF="#sec:tracing">3</A>, which describes those aspects of
+the language that are specific to ray tracing.
+<A HREF="#sec:requirements">Section&nbsp;</a><A HREF="#sec:requirements">4</A> specifies the submission requirements
+and <A HREF="#sec:hints">Section&nbsp;</a><A HREF="#sec:hints">5</A> provides hints about algorithms and pointers
+to online resources to get you started.
+The <A HREF="#appendix">Appendix</A> gives a summary of the operators in the
+modeling language.<BR>
+<BR>
+This document is a bit on the long side because we have tried to make it
+complete and self-contained.
+(In fact, the L<sup>A</sup>T<sub>E</sub>X source for this document is longer than our
+sample implementation!)<BR>
+<BR>
+<!--TOC section The modeling language-->
+
+<H2>2&nbsp;&nbsp; The modeling language</H2><!--SEC END -->
+
+<A NAME="sec:gml"></A>
+The input to the ray tracer is a <EM>scene description</EM> (or <EM>model</EM>)
+written in a functional modeling language called GML.
+The language has a syntax and execution model that is similar to
+PostScript (and Forth), but GML is <EM>lexically</EM> scoped and
+does not have side effects.<BR>
+<BR>
+<!--TOC subsection Syntax-->
+
+<H3>2.1&nbsp;&nbsp; Syntax</H3><!--SEC END -->
+
+A GML program is written using a subset of the printable ASCII
+character set, plus the space, tab, return, linefeed and vertical
+tab characters.
+The space, tab, return, linefeed and vertical
+tab characters are called <EM>whitespace</EM>.<BR>
+<BR>
+The characters <B><TT>%</TT></B>, <B><TT>[</TT></B>,
+<B><TT>]</TT></B>, <B><TT>{</TT></B>, <B><TT>}</TT></B> are <EM>special</EM>
+characters.<BR>
+<BR>
+Any occurrence of the character ``<B><TT>%</TT></B>'' not inside a string
+literal (see below) starts a comment, which runs to the end of the
+current line.
+Comments are treated as whitespace when tokenizing the input file.<BR>
+<BR>
+The syntax of GML is given in <A HREF="#fig:grammar">Figure&nbsp;</a><A HREF="#fig:grammar">1</A> (an <I>opt</I>
+superscript means an optional item and a <I>*</I> superscript means
+a sequence of zero or more items).
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+
+ 
+ <TABLE>
+
+
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:TokenList"></A>
+ <I>TokenList</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <A HREF="#nt:TokenGroup"><I>TokenGroup</I></A><SUP><FONT SIZE=2>*</FONT></SUP>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+
+ 
+<TR>
+ <TD>&nbsp;</TD>
+
+ </TR>
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:TokenGroup"></A>
+ <I>TokenGroup</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <A HREF="#nt:Token"><I>Token</I></A>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>{</TT></B> <A HREF="#nt:TokenList"><I>TokenList</I></A> <B><TT>}</TT></B>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>[</TT></B> <A HREF="#nt:TokenList"><I>TokenList</I></A> <B><TT>]</TT></B>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+
+ 
+<TR>
+ <TD>&nbsp;</TD>
+
+ </TR>
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:Token"></A>
+ <I>Token</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <I>Operator</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <I>Identifier</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <I>Binder</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <I>Boolean</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <A HREF="#nt:Number"><I>Number</I></A>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <I>String</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+</TABLE>
+
+<BR>
+<DIV ALIGN=center>Figure 1: GML grammar</DIV><BR>
+
+<A NAME="fig:grammar"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>A GML program is a <EM>token list</EM>, which is a sequence of
+zero or more <EM>token groups</EM>.
+A token group is either a single token, a <EM>function</EM> (a token
+list enclosed in `<B><TT>{</TT></B>' `<B><TT>}</TT></B>'), or an <EM>array</EM> (a token
+list enclosed in `<B><TT>[</TT></B>' `<B><TT>]</TT></B>').<BR>
+<BR>
+Identifiers must start with an letter and can contain letters, digits,
+dashes (`<B><TT>-</TT></B>'), and underscores (`<B><TT>_</TT></B>').
+A subset of the identifiers are used as predefined <EM>operators</EM>, which
+may not be rebound.
+A list of the operators can be found in the appendix.
+A binder is an identifier prefixed with a `<B><TT>/</TT></B>' character.<BR>
+<BR>
+Booleans are either the literal <B><TT>true</TT></B> or the literal <B><TT>false</TT></B>.<BR>
+<BR>
+Numbers are either integers or reals.
+The syntax of numbers is given by the following grammar:
+
+ 
+ <TABLE>
+
+
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:Number"></A>
+ <I>Number</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <A HREF="#nt:Integer"><I>Integer</I></A>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <A HREF="#nt:Real"><I>Real</I></A>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+
+ 
+<TR>
+ <TD>&nbsp;</TD>
+
+ </TR>
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:Integer"></A>
+ <I>Integer</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>-</TT></B><SUB><FONT SIZE=2><I>opt</I></FONT></SUB> <I>DecimalNumber</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+
+ 
+<TR>
+ <TD>&nbsp;</TD>
+
+ </TR>
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:Real"></A>
+ <I>Real</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>-</TT></B><SUB><FONT SIZE=2><I>opt</I></FONT></SUB> <I>DecimalNumber</I> <B><TT>.</TT></B> <A HREF="#nt:DecimalNumber"><I>DecimalNumber</I></A>
+ <A HREF="#nt:Exponent"><I>Exponent</I></A><SUB><FONT SIZE=2><I>opt</I></FONT></SUB>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>-</TT></B><SUB><FONT SIZE=2><I>opt</I></FONT></SUB> <I>DecimalNumber</I> <A HREF="#nt:Exponent"><I>Exponent</I></A>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+
+ 
+<TR>
+ <TD>&nbsp;</TD>
+
+ </TR>
+ 
+ 
+<TR>
+ <TD ALIGN=LEFT COLSPAN="3">
+ <A NAME="nt:Exponent"></A>
+ <I>Exponent</I>
+ </TD>
+
+ </TR>
+ 
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ ::=
+ </TD>
+
+ 
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>e</TT></B> <B><TT>-</TT></B><SUB><FONT SIZE=2><I>opt</I></FONT></SUB> <I>DecimalNumber</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+ 
+ 
+<TR>
+ 
+ 
+ <TD WIDTH="20">
+ </TD>
+
+
+ 
+ <TD ALIGN=CENTER VALIGN=TOP>
+ |
+ </TD>
+
+ 
+
+ <TD NOWRAP VALIGN=BOTTOM>
+ <B><TT>E</TT></B> <B><TT>-</TT></B><SUB><FONT SIZE=2><I>opt</I></FONT></SUB> <I>DecimalNumber</I>
+ </TD>
+
+ <TD ALIGN=RIGHT VALIGN=TOP>
+ 
+ </TD>
+
+ </TR>
+
+
+</TABLE>
+
+where a <I>DecimalNumber</I> is a sequence of one or more decimal digits.<BR>
+<BR>
+Strings are written enclosed in double quotes (`<B><TT>"</TT></B>') and may contain
+any printable character other than the double quote.
+There are no escape sequences.<BR>
+<BR>
+<!--TOC subsection Evaluation-->
+
+<H3>2.2&nbsp;&nbsp; Evaluation</H3><!--SEC END -->
+
+<A NAME="sec:evaluation"></A>
+We define the evaluation semantics of a GML program using an abstract machine.
+The state of the machine is a triple <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>, where
+<FONT FACE=symbol>G</FONT> is an environment mapping identifiers to values, <FONT FACE=symbol>a</FONT> is a stack of
+values, and <I><I>c</I></I> is a sequence of token groups.
+More formally, we use the following semantic definitions:
+<DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=right NOWRAP><I>i</I>		</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>Int</I></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><FONT FACE=symbol>i</FONT>	</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>BaseValue</I> = 			<I><I>Boolean</I></I> <FONT FACE=symbol>&Egrave;</FONT> <I>Int</I> <FONT FACE=symbol>&Egrave;</FONT> <I>Real</I> <FONT FACE=symbol>&Egrave;</FONT> <I>String</I></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I><I>v</I></I>	</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>Value</I> = <I>BaseValue</I> <FONT FACE=symbol>&Egrave;</FONT> <I>Closure</I> <FONT FACE=symbol>&Egrave;</FONT> <I>Array</I>
+			<FONT FACE=symbol>&Egrave;</FONT> <I>Point</I> <FONT FACE=symbol>&Egrave;</FONT> <I>Object</I> <FONT FACE=symbol>&Egrave;</FONT> <I>Light</I></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP>(<FONT FACE=symbol>G</FONT>, <I><I>c</I></I>)
+	 	</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>Closure</I> = <I>Env</I> &times; <I>Code</I></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I><I>a</I></I>,[<I><I>v</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;...&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2><I>n</I></FONT></SUB>]
+		</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>Array</I> = <I>Value</I><SUP><FONT SIZE=2>*</FONT></SUP></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><FONT FACE=symbol>G</FONT>	</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>Env</I> = <I>Id</I> </TD>
+<TD NOWRAP><TABLE border=0 cellspacing=0 cellpadding=0>
+<TR><TD ALIGN=center NOWRAP><FONT SIZE=2>fin</FONT></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP><FONT FACE=symbol>&reg;</FONT></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>&nbsp;</TD>
+</TR></TABLE></TD>
+<TD NOWRAP> <I>Value</I></TD>
+</TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><FONT FACE=symbol>a</FONT>,<FONT FACE=symbol>b</FONT>	</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>Stack</I> = <I>Value</I><SUP><FONT SIZE=2>*</FONT></SUP></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I><I>c</I></I>	</TD>
+<TD ALIGN=center NOWRAP><FONT FACE=symbol>&Icirc;</FONT></TD>
+<TD ALIGN=left NOWRAP><I>Code</I> = <A HREF="#nt:TokenList"><I><I>TokenList</I></I></A></TD>
+</TR></TABLE></TD>
+</TR></TABLE></DIV>
+Evaluation from one state to another is written as
+<FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>';&nbsp;<FONT FACE=symbol>a</FONT>';&nbsp;<I><I>c</I></I>'<FONT FACE=symbol>&ntilde;</FONT>
+.
+We define ==&gt;<SUP><FONT SIZE=2>*</FONT></SUP> to be the transitive closure of ==&gt;.
+<A HREF="#fig:eval-rules">Figure&nbsp;</a><A HREF="#fig:eval-rules">2</A> gives the GML evaluation rules.
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><A NAME="rule:const"></A>
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<TT><FONT FACE=symbol>i</FONT></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>&nbsp;<FONT FACE=symbol>i</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;(1)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><A NAME="rule:var-bind"></A>
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>&nbsp;<I><I>v</I></I>;&nbsp;<TT><I>/<I>x</I></I></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>&plusmn;{<I><I>x</I></I> |<FONT FACE=symbol>&reg;</FONT> <I><I>v</I></I>};&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;(2)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><A NAME="rule:var-lookup"></A>
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<TT><I><I>x</I></I></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>&nbsp;<FONT FACE=symbol>G</FONT>(<I><I>x</I></I>);&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;(3)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><A NAME="rule:closure"></A>
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<TT>{</TT><TT><I><I>c</I></I></TT><TT>'</TT><TT>}</TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>&nbsp;(<FONT FACE=symbol>G</FONT>, <I><I>c</I></I>');&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;(4)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><A NAME="rule:apply"></A>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>';&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<I><I>c</I></I>'<FONT FACE=symbol>&ntilde;</FONT> ==&gt;<SUP><FONT SIZE=2>*</FONT></SUP> <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>'';&nbsp;<FONT FACE=symbol>b</FONT>;&nbsp;&Oslash;<FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>&nbsp;(<FONT FACE=symbol>G</FONT>', <I><I>c</I></I>');&nbsp;<TT><I>apply</I></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>b</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ &nbsp;&nbsp;&nbsp;&nbsp;(5)</TD>
+</TR></TABLE></DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><A NAME="rule:array"></A>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;&Oslash;;&nbsp;<I><I>c</I></I>'<FONT FACE=symbol>&ntilde;</FONT> ==&gt;<SUP><FONT SIZE=2>*</FONT></SUP> <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>';&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;...&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2><I>n</I></FONT></SUB>;&nbsp;&Oslash;<FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;[<I><I>c</I></I>']&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;	<FONT FACE=symbol>a</FONT>&nbsp;[<I><I>v</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;...&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2><I>n</I></FONT></SUB>];&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ &nbsp;&nbsp;&nbsp;&nbsp;(6)</TD>
+</TR></TABLE></DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><A NAME="rule:if-true"></A>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+	<FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT><SUB><FONT SIZE=2>1</FONT></SUB>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<I><I>c</I></I><SUB><FONT SIZE=2>1</FONT></SUB><FONT FACE=symbol>&ntilde;</FONT> ==&gt;<SUP><FONT SIZE=2>*</FONT></SUP> <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>'';&nbsp;<FONT FACE=symbol>b</FONT>;&nbsp;&Oslash;<FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;	<FONT FACE=symbol>a</FONT>&nbsp;<B><I>true</I></B>&nbsp;(<FONT FACE=symbol>G</FONT><SUB><FONT SIZE=2>1</FONT></SUB>, <I><I>c</I></I><SUB><FONT SIZE=2>1</FONT></SUB>)&nbsp;(<FONT FACE=symbol>G</FONT><SUB><FONT SIZE=2>2</FONT></SUB>, <I><I>c</I></I><SUB><FONT SIZE=2>2</FONT></SUB>);&nbsp;	<TT><I>if</I></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>b</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ &nbsp;&nbsp;&nbsp;&nbsp;(7)</TD>
+</TR></TABLE></DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><A NAME="rule:if-false"></A>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT><SUB><FONT SIZE=2>2</FONT></SUB>;&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<I><I>c</I></I><SUB><FONT SIZE=2>2</FONT></SUB><FONT FACE=symbol>&ntilde;</FONT> ==&gt;<SUP><FONT SIZE=2>*</FONT></SUP> <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>'';&nbsp;<FONT FACE=symbol>b</FONT>;&nbsp;&Oslash;<FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT>	<FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>a</FONT>&nbsp;<B><I>false</I></B>&nbsp;(<FONT FACE=symbol>G</FONT><SUB><FONT SIZE=2>1</FONT></SUB>, <I><I>c</I></I><SUB><FONT SIZE=2>1</FONT></SUB>)&nbsp;(<FONT FACE=symbol>G</FONT><SUB><FONT SIZE=2>2</FONT></SUB>, <I><I>c</I></I><SUB><FONT SIZE=2>2</FONT></SUB>);&nbsp;	<TT><I>if</I></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>b</FONT>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ &nbsp;&nbsp;&nbsp;&nbsp;(8)</TD>
+</TR></TABLE></DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><A NAME="rule:operator"></A>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>a</FONT>&nbsp;&nbsp;<TT><I>OPERATOR</I></TT>&nbsp;&nbsp;<FONT FACE=symbol>a</FONT>'
+ &nbsp;</TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>&nbsp;
+ <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>b</FONT>&nbsp;<FONT FACE=symbol>a</FONT>;&nbsp;<TT><I>OPERATOR</I></TT>&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt; <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<FONT FACE=symbol>b</FONT>&nbsp;<FONT FACE=symbol>a</FONT>';&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT>
+
+ &nbsp;</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ &nbsp;&nbsp;&nbsp;&nbsp;(9)</TD>
+</TR></TABLE></DIV></TD>
+</TR></TABLE>
+</DIV>
+ <BR>
+<DIV ALIGN=center>Figure 2: Evaluation rules for GML</DIV><BR>
+
+ <A NAME="fig:eval-rules"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>In these rules, we write stacks with the top to the right (<EM>e.g.</EM>;
+<FONT FACE=symbol>a</FONT>&nbsp;<I>x</I> is a stack with <I>x</I> as its top element) and token
+sequences are written with the first token on the left.
+We use &Oslash; to signify the empty stack and the empty code sequence.<BR>
+<BR>
+<A HREF="#rule:const">Rule&nbsp;</a><A HREF="#rule:const">2.2</A> describes the evaluation of a literal token, which is
+pushed on the stack.
+The next two rules describe the semantics of variable binding and
+reference.
+Rules&nbsp;<A HREF="#rule:closure">2.2</A> and&nbsp;<A HREF="#rule:apply">2.2</A> describe function-closure
+creation and the <TT>apply</TT> operator.
+<A HREF="#rule:array">Rule&nbsp;</a><A HREF="#rule:array">2.2</A> describes the evaluation of an array expression; note
+that body of the array expression is evaluated on an initially empty
+stack.
+The semantics of the <TT>if</TT> operator are given by Rules&nbsp;<A HREF="#rule:if-true">2.2</A>
+and&nbsp;<A HREF="#rule:if-false">2.2</A>.
+The last evaluation rule (<A HREF="#rule:operator">Rule&nbsp;</a><A HREF="#rule:operator">2.2</A>) describes how an
+operator (other than one of the control operators) is evaluated.
+We write
+<DIV ALIGN=center>
+ <FONT FACE=symbol>a</FONT>&nbsp;&nbsp;<TT><I>OPERATOR</I></TT>&nbsp;&nbsp;<FONT FACE=symbol>a</FONT>'
+</DIV>
+to mean that the
+operator <TT><I>OPERATOR</I></TT> transforms the stack <FONT FACE=symbol>a</FONT> to the stack <FONT FACE=symbol>a</FONT>'.
+This notation is used below to specify the GML operators.<BR>
+<BR>
+We write
+<I>Eval</I>(<I><I>c</I></I>, <I><I>v</I></I><SUB><FONT SIZE=2>1</FONT></SUB>,&nbsp;...,&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2><I>n</I></FONT></SUB>) = (<I><I>v</I></I>'<SUB><FONT SIZE=2>1</FONT></SUB>,&nbsp;...,&nbsp;<I><I>v</I></I>'<SUB><FONT SIZE=2><I>n</I></FONT></SUB>)
+for when a program <I><I>c</I></I> yields (<I><I>v</I></I>'<SUB><FONT SIZE=2>1</FONT></SUB>,&nbsp;...,&nbsp;<I><I>v</I></I>'<SUB><FONT SIZE=2><I>n</I></FONT></SUB>) when applied
+to the values <I><I>v</I></I><SUB><FONT SIZE=2>1</FONT></SUB>,&nbsp;...,&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2><I>n</I></FONT></SUB>; <EM>i.e.</EM>, when
+<FONT FACE=symbol>&aacute;</FONT>{};&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&middot;&middot;&middot;&nbsp;<I><I>v</I></I><SUB><FONT SIZE=2><I>n</I></FONT></SUB>;&nbsp;<I><I>c</I></I><FONT FACE=symbol>&ntilde;</FONT> ==&gt;<SUP><FONT SIZE=2>*</FONT></SUP> <FONT FACE=symbol>&aacute;</FONT><FONT FACE=symbol>G</FONT>;&nbsp;<I><I>v</I></I>'<SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&middot;&middot;&middot;,<I><I>v</I></I>'<SUB><FONT SIZE=2><I>n</I></FONT></SUB>;&nbsp;&Oslash;<FONT FACE=symbol>&ntilde;</FONT>
+.<BR>
+<BR>
+There is no direct support for recursion in GML, but one can program
+recursive functions by explicitly passing the function as an
+extra argument to itself (see <A HREF="#sec:gml-examples">Section&nbsp;</a><A HREF="#sec:gml-examples">2.7</A> for an example).<BR>
+<BR>
+<!--TOC subsection Control operators-->
+
+<H3>2.3&nbsp;&nbsp; Control operators</H3><!--SEC END -->
+
+<A NAME="sec:control"></A>
+GML contains two <EM>control</EM> operators that can be used to
+implement control structures.
+These operators are formally defined in <A HREF="#fig:eval-rules">Figure&nbsp;</a><A HREF="#fig:eval-rules">2</A>, but we
+provide an informal description here.<BR>
+<BR>
+The <TT>apply</TT> operator takes a function closure,
+(<FONT FACE=symbol>G</FONT>, <I><I>c</I></I>), off the stack and evaluates <I><I>c</I></I> using the
+environment <FONT FACE=symbol>G</FONT> and the current stack.
+When evaluation of <I><I>c</I></I> is complete (<EM>i.e.</EM>, there are no more
+instructions left), the previous environment is restored and
+execution continues with the instruction after the <TT>apply</TT>.
+Argument and result passing is done via the stack.
+For example:
+<PRE>
+1 { /x x x } apply addi
+</PRE>
+will evaluate to 2.
+Note that functions bind their variables according to the environment where
+they are defined; not where they are applied.
+For example the following code evaluates to 3:
+<PRE>
+1 /x          % bind x to 1
+{ x } /f      % the function f pushes the value of x
+2 /x          % rebind x to 2
+f apply x addi
+</PRE>The <TT>if</TT> operator takes two closures and a boolean off the
+stack and evaluates the first closure if the boolean is <B>true</B>, and
+the second if the boolean is <B>false</B>.
+For example,
+<PRE>
+b { 1 } { 2 } if
+</PRE>
+will result in 1 on the top of the stack if <I>b</I> is <B>true</B>, and 2
+if it is <B>false</B><BR>
+<BR>
+<!--TOC subsection Numbers-->
+
+<H3>2.4&nbsp;&nbsp; Numbers</H3><!--SEC END -->
+
+<A NAME="sec:numbers"></A>
+GML supports both integer and real numbers (which are represented by
+IEEE double-precision floating-point numbers).
+Many of the numeric operators have both integer and real versions, so
+we combine their descriptions in the following:
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:addi$/$addf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>addi</TT></B><B><TT>/</TT></B><B><TT>addf</TT></B>&nbsp;&nbsp;<I>n</I><SUB><FONT SIZE=2>3</FONT></SUB></A><DD>
+ computes the sum <I>n</I><SUB><FONT SIZE=2>3</FONT></SUB> of the numbers <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB> and <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>.
+ 
+<DT><A NAME="op:acos"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>acos</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the arc cosine <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> in degrees of <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ The result is undefined if <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> &lt; -1 or 1 &lt; <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ 
+<DT><A NAME="op:asin"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>asin</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the arc sine <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> in degrees of <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ The result is undefined if <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> &lt; -1 or 1 &lt; <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ 
+<DT><A NAME="op:clampf"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>clampf</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> = {
+ <TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=left NOWRAP>	0.0</TD>
+<TD ALIGN=left NOWRAP><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> &lt; 0.0</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>	1.0</TD>
+<TD ALIGN=left NOWRAP><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> &gt; 1.0</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>	<I>r</I><SUB><FONT SIZE=2>1</FONT></SUB></TD>
+<TD ALIGN=left NOWRAP><I>otherwise</I></TD>
+</TR></TABLE>..
+ 
+<DT><A NAME="op:cos"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>cos</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the cosine <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> of <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> in degrees.
+ 
+<DT><A NAME="op:divi$/$divf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>divi</TT></B><B><TT>/</TT></B><B><TT>divf</TT></B>&nbsp;&nbsp;<I>n</I><SUB><FONT SIZE=2>3</FONT></SUB></A><DD>
+ computes the quotient <I>n</I><SUB><FONT SIZE=2>3</FONT></SUB> of dividing the number <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB> by <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ The <TT>divi</TT> operator rounds its result towards 0.
+ For the <TT>divi</TT> operator, if <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB> is zero, then the program
+ halts.
+ For <TT>divf</TT>, the effect of division by zero is undefined.
+ 
+<DT><A NAME="op:eqi$/$eqf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>eqi</TT></B><B><TT>/</TT></B><B><TT>eqf</TT></B>&nbsp;&nbsp;<I>b</I></A><DD>
+ compares the numbers <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB> and <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB> and pushes <B>true</B> if <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>
+ is equal to <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>; otherwise <B>false</B> is pushed.
+ 
+<DT><A NAME="op:floor"><I>r</I>&nbsp;&nbsp;<B><TT>floor</TT></B>&nbsp;&nbsp;<I>i</I></A><DD>
+ converts the real <I>r</I> to the greatest integer <I>i</I> that is less than or
+ equal to <I>r</I>.
+ 
+<DT><A NAME="op:frac"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>frac</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the fractional part <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> of the real number <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ 
+<DT><A NAME="op:lessi$/$lessf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>lessi</TT></B><B><TT>/</TT></B><B><TT>lessf</TT></B>&nbsp;&nbsp;<I>b</I></A><DD>
+ compares the numbers <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB> and <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB> and pushes <B>true</B> if <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>
+ is less than <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>; otherwise <B>false</B> is pushed.
+ 
+<DT><A NAME="op:modi"><I>i</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>i</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>modi</TT></B>&nbsp;&nbsp;<I>i</I><SUB><FONT SIZE=2>3</FONT></SUB></A><DD>
+ computes the remainder <I>i</I><SUB><FONT SIZE=2>3</FONT></SUB> of dividing <I>i</I><SUB><FONT SIZE=2>1</FONT></SUB> by <I>i</I><SUB><FONT SIZE=2>2</FONT></SUB>.
+ 
+<DT><A NAME="op:muli$/$mulf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>muli</TT></B><B><TT>/</TT></B><B><TT>mulf</TT></B>&nbsp;&nbsp;<I>n</I><SUB><FONT SIZE=2>3</FONT></SUB></A><DD>
+ computes the product <I>n</I><SUB><FONT SIZE=2>3</FONT></SUB> of the numbers <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB> and <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>.
+ 
+<DT><A NAME="op:negi$/$negf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>negi</TT></B><B><TT>/</TT></B><B><TT>negf</TT></B>&nbsp;&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the negation <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB> of the number <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ 
+<DT><A NAME="op:real"><I>i</I>&nbsp;&nbsp;<B><TT>real</TT></B>&nbsp;&nbsp;<I>r</I></A><DD>
+ converts the integer <I>i</I> to its real representation <I>r</I>.
+ 
+<DT><A NAME="op:sin"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>sin</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the sine <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> of <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> in degrees.
+ 
+<DT><A NAME="op:sqrt"><I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;&nbsp;<B><TT>sqrt</TT></B>&nbsp;&nbsp;<I>r</I><SUB><FONT SIZE=2>2</FONT></SUB></A><DD>
+ computes the square root <I>r</I><SUB><FONT SIZE=2>2</FONT></SUB> of <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+ If <I>r</I><SUB><FONT SIZE=2>1</FONT></SUB> is negative, then the interpreter should halt.
+ 
+<DT><A NAME="op:subi$/$subf"><I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I>n</I><SUB><FONT SIZE=2>2</FONT></SUB>&nbsp;&nbsp;<B><TT>subi</TT></B><B><TT>/</TT></B><B><TT>subf</TT></B>&nbsp;&nbsp;<I>n</I><SUB><FONT SIZE=2>3</FONT></SUB></A><DD>
+ computes the difference <I>n</I><SUB><FONT SIZE=2>3</FONT></SUB> of subtracting the number <I>n</I><SUB><FONT SIZE=2>2</FONT></SUB> from <I>n</I><SUB><FONT SIZE=2>1</FONT></SUB>.
+</DL><!--TOC subsection Points-->
+
+<H3>2.5&nbsp;&nbsp; Points</H3><!--SEC END -->
+
+<A NAME="sec:points"></A>
+A <EM>point</EM> is comprised of three real numbers.
+Points are used to represent positions, vectors, and colors (in the latter
+case, the range of the components is restricted to [0.0, 1.0]).
+There are four operations on points:
+<DL COMPACT=compact>
+<DT>
+<A NAME="op:getx"><I>p</I>&nbsp;&nbsp;<B><TT>getx</TT></B>&nbsp;&nbsp;<I>x</I></A><DD>
+ gets the first component <I>x</I> of the point <I>p</I>.
+ 
+<DT><A NAME="op:gety"><I>p</I>&nbsp;&nbsp;<B><TT>gety</TT></B>&nbsp;&nbsp;<I>y</I></A><DD>
+ gets the second component <I>y</I> of the point <I>p</I>.
+ 
+<DT><A NAME="op:getz"><I>p</I>&nbsp;&nbsp;<B><TT>getz</TT></B>&nbsp;&nbsp;<I>z</I></A><DD>
+ gets the third component <I>z</I> of the point <I>p</I>.
+
+<DT><A NAME="op:point"><I>x</I>&nbsp;<I>y</I>&nbsp;<I>z</I>&nbsp;&nbsp;<B><TT>point</TT></B>&nbsp;&nbsp;<I>p</I></A><DD>
+ creates a point <I>p</I> from the reals <I>x</I>, <I>y</I>, and <I>z</I>.
+</DL><!--TOC subsection Arrays-->
+
+<H3>2.6&nbsp;&nbsp; Arrays</H3><!--SEC END -->
+
+<A NAME="sec:arrays"></A>
+There are two operations on arrays:
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:get"><I><I>arr</I></I>&nbsp;<I>i</I>&nbsp;&nbsp;<B><TT>get</TT></B>&nbsp;&nbsp;<I>v</I><SUB><FONT SIZE=2><I>i</I></FONT></SUB></A><DD>
+ gets the <I>i</I>th element of the array <I><I>arr</I></I>.
+ Array indexing is zero based in GML.
+ If <I>i</I> is out of bounds, the GML interpreter should terminate.
+ 
+<DT><A NAME="op:length"><I><I>arr</I></I>&nbsp;&nbsp;<B><TT>length</TT></B>&nbsp;&nbsp;<I>n</I></A><DD>
+ gets the number of elements in the array <I><I>arr</I></I>.
+</DL>
+The elements of an array do not have to have the same type and
+arrays can be used to construct data structures.
+For example, we can implement lists using two-element arrays for
+cons cells and the zero-length array for nil.
+<PRE>
+[] /nil
+{ /cdr /car [ car cdr ] } /cons
+</PRE>
+We can also write a function that ``<EM>pattern matches</EM>'' on the head
+of a list.
+<PRE>
+{ /if-cons /if-nil /lst
+  lst length 0 eqi
+  if-nil
+  { lst 0 get lst 1 get if-cons apply }
+  if
+}
+</PRE><!--TOC subsection Examples-->
+
+<H3>2.7&nbsp;&nbsp; Examples</H3><!--SEC END -->
+
+<A NAME="sec:gml-examples"></A>
+Some simple function definitions written in GML:
+<PRE>
+{ } /id                            % the identity function
+{ 1 add } /inc                     % the increment function
+{ /x /y y x } /swap                % swap the top two stack locations
+{ /x x x } /dup                    % duplicate the top of the stack
+{ dup apply muli } /sq             % the squaring function
+{ /a /b a { true } { b } if } /or  % logical-or function
+{ /p                               % negate a point value
+  p getx negf
+  p gety negf
+  p getz negf point
+} /negp
+</PRE>A more substantial example is the GML version of the recursive
+factorial function:
+<PRE>
+{ /self /n
+  n 2 lessi
+  { 1 }
+  { n 1 subi self self apply n muli }
+  if
+} /fact
+</PRE>Notice that this function follows the convention of passing itself as
+the top-most argument on the stack.
+We can compute the factorial of <TT>12</TT> with the expression
+<PRE>
+fact 12 fact apply
+</PRE><!--TOC section Ray tracing-->
+
+<H2>3&nbsp;&nbsp; Ray tracing</H2><!--SEC END -->
+
+<A NAME="sec:tracing"></A>
+In this section, we describe how the GML interpreter supports ray tracing.<BR>
+<BR>
+<!--TOC subsection Coordinate systems-->
+
+<H3>3.1&nbsp;&nbsp; Coordinate systems</H3><!--SEC END -->
+
+GML models are defined in terms of two coordinate systems:
+<EM>world coordinates</EM> and <EM>object coordinates</EM>.
+World coordinates are used to specify the position of lights
+while object coordinates are used to specify primitive objects.
+There are six <EM>transformation</EM> operators (described in
+<A HREF="#sec:transformations">Section&nbsp;</a><A HREF="#sec:transformations">3.3</A>) that are used to map
+object space to world space.<BR>
+<BR>
+The world-coordinate system is <EM>left-handed</EM>.
+The <I>X</I>-axis goes to the right, the <I>Y</I>-axis goes up, and the <I>Z</I>-axis
+goes away from the viewer.<BR>
+<BR>
+<!--TOC subsection Geometric primitives-->
+
+<H3>3.2&nbsp;&nbsp; Geometric primitives</H3><!--SEC END -->
+
+<A NAME="sec:prim-objects"></A>
+There are five operations in GML for constructing primitive
+solids: <TT>sphere</TT>, <TT>cube</TT>, <TT>cylinder</TT>, <TT>cone</TT>, and
+<TT>plane</TT>.
+Each of these operations takes a single function as an argument, which defines
+the primitive's surface properties (see <A HREF="#sec:surfaces">Section&nbsp;</a><A HREF="#sec:surfaces">3.6</A>).
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:sphere"><I><I>surface</I></I>&nbsp;&nbsp;<B><TT>sphere</TT></B>&nbsp;&nbsp;<I><I>obj</I></I></A><DD>
+ creates a sphere of radius 1 centered at the origin with surface
+ properties specified by the function <I><I>surface</I></I>.
+ Formally, the sphere is defined by <I>x</I><SUP><FONT SIZE=2>2</FONT></SUP> + <I>y</I><SUP><FONT SIZE=2>2</FONT></SUP> + <I>z</I><SUP><FONT SIZE=2>2</FONT></SUP> <FONT FACE=symbol>&pound;</FONT> 1.
+ 
+<DT><A NAME="op:cube"><I><I>surface</I></I>&nbsp;&nbsp;<B><TT>cube</TT></B>&nbsp;&nbsp;<I><I>obj</I></I></A><DD>
+ creates a unit cube with opposite corners (0,0,0) and (1,1,1).
+ The function <I><I>surface</I></I> specifies the cube's surface properties.
+ Formally, the cube is defined by 0 <FONT FACE=symbol>&pound;</FONT> <I>x</I> <FONT FACE=symbol>&pound;</FONT> 1,
+ 0 <FONT FACE=symbol>&pound;</FONT> <I>y</I> <FONT FACE=symbol>&pound;</FONT> 1, and 0 <FONT FACE=symbol>&pound;</FONT> <I>z</I> <FONT FACE=symbol>&pound;</FONT> 1.
+ Cubes are a <A HREF="#link:tier2">Tier-2</A> feature.
+ 
+<DT><A NAME="op:cylinder"><I><I>surface</I></I>&nbsp;&nbsp;<B><TT>cylinder</TT></B>&nbsp;&nbsp;<I><I>obj</I></I></A><DD>
+ creates a cylinder of radius 1 and height 1 with surface properties
+ specified by the function <I><I>surface</I></I>.
+ The base of the cylinder is centered at (0, 0, 0) and the top is centered
+ at (0, 1, 0) (<EM>i.e.</EM>, the axis of the cylinder is the <I>Y</I>-axis).
+ Formally, the cylinder is defined by <I>x</I><SUP><FONT SIZE=2>2</FONT></SUP> + <I>z</I><SUP><FONT SIZE=2>2</FONT></SUP> <FONT FACE=symbol>&pound;</FONT> 1 and
+ 0 <FONT FACE=symbol>&pound;</FONT> <I>y</I> <FONT FACE=symbol>&pound;</FONT> 1.
+ Cylinders are a <A HREF="#link:tier2">Tier-2</A> feature.
+ 
+<DT><A NAME="op:cone"><I><I>surface</I></I>&nbsp;&nbsp;<B><TT>cone</TT></B>&nbsp;&nbsp;<I><I>obj</I></I></A><DD>
+ creates a cone with base radius 1 and height 1 with surface
+ properties specified by the function <I><I>surface</I></I>.
+ The apex of the cone is at (0, 0, 0) and the base of the cone
+ is centered at (0, 1, 0).
+ Formally, the cone is defined by <I>x</I><SUP><FONT SIZE=2>2</FONT></SUP> + <I>z</I><SUP><FONT SIZE=2>2</FONT></SUP> - <I>y</I><SUP><FONT SIZE=2>2</FONT></SUP> <FONT FACE=symbol>&pound;</FONT> 0 and
+ 0 <FONT FACE=symbol>&pound;</FONT> <I>y</I> <FONT FACE=symbol>&pound;</FONT> 1.
+ Cones are a <A HREF="#link:tier2">Tier-2</A> feature.
+ 
+<DT><A NAME="op:plane"><I><I>surface</I></I>&nbsp;&nbsp;<B><TT>plane</TT></B>&nbsp;&nbsp;<I><I>obj</I></I></A><DD>
+ creates a plane object with the equation <I>y</I> = 0 with surface
+ properties specified by the function <I><I>surface</I></I>.
+ Formally, the plane is the half-space <I>y</I> <FONT FACE=symbol>&pound;</FONT> 0.
+</DL>
+<!--TOC subsection Transformations-->
+
+<H3>3.3&nbsp;&nbsp; Transformations</H3><!--SEC END -->
+
+<A NAME="sec:transformations"></A>
+Fixed size objects at the origin are not very interesting, so GML provides
+<EM>transformation</EM> operations to place objects in world space.
+Each transformation operator takes an object and one or more reals as arguments
+and returns the transformed object.
+The operations are:
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:translate"><I><I>obj</I></I>&nbsp;<I>r</I><SUB><FONT SIZE=2><I><I>tx</I></I></FONT></SUB>&nbsp;<I>r</I><SUB><FONT SIZE=2><I><I>ty</I></I></FONT></SUB>&nbsp;<I>r</I><SUB><FONT SIZE=2><I><I>tz</I></I></FONT></SUB>&nbsp;&nbsp;<B><TT>translate</TT></B>&nbsp;&nbsp;<I><I>obj</I></I>'</A><DD>
+ translates <I><I>obj</I></I> by the vector
+ (<I>r</I><SUB><FONT SIZE=2><I><I>tx</I></I></FONT></SUB>, <I>r</I><SUB><FONT SIZE=2><I><I>ty</I></I></FONT></SUB>, <I>r</I><SUB><FONT SIZE=2><I><I>tz</I></I></FONT></SUB>).
+ I.e., if <I><I>obj</I></I> is at position (<I>p</I><SUB><FONT SIZE=2><I>x</I></FONT></SUB>, <I>p</I><SUB><FONT SIZE=2><I>y</I></FONT></SUB>, <I>p</I><SUB><FONT SIZE=2><I>z</I></FONT></SUB>), then
+ <I><I>obj</I>'</I> is at position
+ (<I>p</I><SUB><FONT SIZE=2><I>x</I></FONT></SUB>+<I>r</I><SUB><FONT SIZE=2><I><I>tx</I></I></FONT></SUB>, <I>p</I><SUB><FONT SIZE=2><I>y</I></FONT></SUB>+<I>r</I><SUB><FONT SIZE=2><I><I>ty</I></I></FONT></SUB>, <I>p</I><SUB><FONT SIZE=2><I>z</I></FONT></SUB>+<I>r</I><SUB><FONT SIZE=2><I><I>tz</I></I></FONT></SUB>).
+ 
+<DT><A NAME="op:scale"><I><I>obj</I></I>&nbsp;<I>r</I><SUB><FONT SIZE=2><I><I>sx</I></I></FONT></SUB>&nbsp;<I>r</I><SUB><FONT SIZE=2><I><I>sy</I></I></FONT></SUB>&nbsp;<I>r</I><SUB><FONT SIZE=2><I><I>sz</I></I></FONT></SUB>&nbsp;&nbsp;<B><TT>scale</TT></B>&nbsp;&nbsp;<I><I>obj</I></I>'</A><DD>
+ scales <I><I>obj</I></I> by <I>r</I><SUB><FONT SIZE=2><I><I>sx</I></I></FONT></SUB> in the <I>X</I>-dimension,
+ <I>r</I><SUB><FONT SIZE=2><I><I>sy</I></I></FONT></SUB> in the
+ <I>Y</I>-dimension, and <I>r</I><SUB><FONT SIZE=2><I><I>sz</I></I></FONT></SUB> in the <I>Z</I> dimension.
+ 
+<DT><A NAME="op:uscale"><I><I>obj</I></I>&nbsp;<I>r</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>&nbsp;&nbsp;<B><TT>uscale</TT></B>&nbsp;&nbsp;<I><I>obj</I></I>'</A><DD>
+ uniformly scales <I><I>obj</I></I> by <I>r</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> in each dimension.
+ This operation is called <EM>Isotropic scaling</EM>.
+ 
+<DT><A NAME="op:rotatex"><I><I>obj</I></I>&nbsp;<FONT FACE=symbol>q</FONT>&nbsp;&nbsp;<B><TT>rotatex</TT></B>&nbsp;&nbsp;<I><I>obj</I></I>'</A><DD>
+ rotates <I><I>obj</I></I> around the <I>X</I>-axis by <FONT FACE=symbol>q</FONT> degrees.
+ Rotation is measured counterclockwise when looking along the <I>X</I>-axis
+ from the origin towards +<FONT FACE=symbol>&yen;</FONT>.
+ 
+<DT><A NAME="op:rotatey"><I><I>obj</I></I>&nbsp;<FONT FACE=symbol>q</FONT>&nbsp;&nbsp;<B><TT>rotatey</TT></B>&nbsp;&nbsp;<I><I>obj</I></I>'</A><DD>
+ rotates <I><I>obj</I></I> around the <I>Y</I>-axis by <FONT FACE=symbol>q</FONT> degrees.
+ Rotation is measured counterclockwise when looking along the <I>Y</I>-axis
+ from the origin towards +<FONT FACE=symbol>&yen;</FONT>.
+ 
+<DT><A NAME="op:rotatez"><I><I>obj</I></I>&nbsp;<FONT FACE=symbol>q</FONT>&nbsp;&nbsp;<B><TT>rotatez</TT></B>&nbsp;&nbsp;<I><I>obj</I></I>'</A><DD>
+ rotates <I><I>obj</I></I> around the <I>Z</I>-axis by <FONT FACE=symbol>q</FONT> degrees.
+ Rotation is measured counterclockwise when looking along the <I>Z</I>-axis
+ from the origin towards +<FONT FACE=symbol>&yen;</FONT>.
+</DL>
+For example, if we want to put a sphere of radius 2.0 at (5.0, 5.0, 5.0),
+we can use the following GML code:
+<PRE>
+{ ... } sphere
+2.0 uscale
+5.0 5.0 5.0 translate
+</PRE>The first line creates the sphere (as described in <A HREF="#sec:prim-objects">Section&nbsp;</a><A HREF="#sec:prim-objects">3.2</A>,
+the <TT>sphere</TT> operator takes a single function argument).
+The second line uniformly scales the sphere by a factor of 2.0, and the
+third line translates the sphere to (5.0, 5.0, 5.0).<BR>
+<BR>
+These transformations are all <EM>affine</EM> transformations and they
+have the property of preserving the straightness of lines and parallelism
+between lines, but they can alter the distance between points and the
+angle between lines.
+Using <EM>homogeneous coordinates</EM>, these transformations can be
+expressed as multiplication by a 4&times;4 matrix.
+<A HREF="#fig:trans-matrix">Figure&nbsp;</a><A HREF="#fig:trans-matrix">3</A> describes the matrices that correspond to
+each of the transformation operators.
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+ <TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>[<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>1</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>r</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>tx</I></I></FONT></TD>
+</TR></TABLE></TD>
+</TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>r</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>ty</I></I></FONT></TD>
+</TR></TABLE></TD>
+</TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+<TD ALIGN=center NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>r</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>tz</I></I></FONT></TD>
+</TR></TABLE></TD>
+</TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+</TR></TABLE>]</TD>
+<TD ALIGN=center NOWRAP>[<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>r</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>sx</I></I></FONT></TD>
+</TR></TABLE></TD>
+</TR></TABLE></TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>r</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>sy</I></I></FONT></TD>
+</TR></TABLE></TD>
+</TR></TABLE></TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><I>r</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>sz</I></I></FONT></TD>
+</TR></TABLE></TD>
+</TR></TABLE></TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+</TR></TABLE>]</TD>
+<TD ALIGN=center NOWRAP>[<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP><I>r</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB></TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP><I>r</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB></TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP><I>r</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB></TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+</TR></TABLE>]</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>Translation</TD>
+<TD ALIGN=center NOWRAP>Scale matrix</TD>
+<TD ALIGN=center NOWRAP>Isotropic scale matrix</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>[<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>1</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>cos(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>-sin(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>sin(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>cos(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+</TR></TABLE>]</TD>
+<TD ALIGN=center NOWRAP>[<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>cos(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>sin(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>-sin(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>cos(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+</TR></TABLE>]</TD>
+<TD ALIGN=center NOWRAP>[<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>cos(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>-sin(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>sin(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>cos(<FONT FACE=symbol>q</FONT>)</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>0</TD>
+<TD ALIGN=center NOWRAP>1</TD>
+</TR></TABLE>]</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>Rotation (<I>X</I>-axis)</TD>
+<TD ALIGN=center NOWRAP>Rotation (<I>Y</I>-axis)</TD>
+<TD ALIGN=center NOWRAP>Rotation (<I>Z</I>-axis)</TD>
+</TR></TABLE>
+ </DIV><BR>
+<DIV ALIGN=center>Figure 3: Transformation matrices</DIV><BR>
+
+ <A NAME="fig:trans-matrix"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>
+For example, translating the point (2.6, 3.0, -5.0) by (-1.6, -2.0, 6.0) is
+expressed as the following multiplication:
+<DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><FONT FACE=symbol>
+é<BR>ê<BR>ê<BR>ê<BR>ë</FONT></TD>
+<TD NOWRAP><TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>1.0</TD>
+<TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>-1.6</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>1.0</TD>
+<TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>-2.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>1.0</TD>
+<TD ALIGN=center NOWRAP>6.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>0.0</TD>
+<TD ALIGN=center NOWRAP>1.0</TD>
+</TR></TABLE></TD>
+<TD NOWRAP><FONT FACE=symbol>
+ù<BR>ú<BR>ú<BR>ú<BR>û</FONT></TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ </TD>
+<TD NOWRAP><FONT FACE=symbol>
+é<BR>ê<BR>ê<BR>ê<BR>ë</FONT></TD>
+<TD NOWRAP><TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>2.6</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>3.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>-5.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>1.0</TD>
+</TR></TABLE></TD>
+<TD NOWRAP><FONT FACE=symbol>
+ù<BR>ú<BR>ú<BR>ú<BR>û</FONT></TD>
+<TD NOWRAP>=
+ </TD>
+<TD NOWRAP><FONT FACE=symbol>
+é<BR>ê<BR>ê<BR>ê<BR>ë</FONT></TD>
+<TD NOWRAP><TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=center NOWRAP>1.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>1.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>1.0</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>1.0</TD>
+</TR></TABLE></TD>
+<TD NOWRAP><FONT FACE=symbol>
+ù<BR>ú<BR>ú<BR>ú<BR>û</FONT></TD>
+</TR></TABLE></DIV>
+Observe that points have a fourth coordinate of 1, whereas vectors
+have a fourth coordinate of 0.
+Thus, translation has no effect on vectors.<BR>
+<BR>
+<!--TOC subsection Illumination model-->
+
+<H3>3.4&nbsp;&nbsp; Illumination model</H3><!--SEC END -->
+
+<A NAME="sec:illumination"></A>
+When the ray that shoots from the eye position through a pixel hits a surface,
+we need to apply the illumination equation to determine what color the
+pixel should have.
+<A HREF="#fig:illumination">Figure&nbsp;</a><A HREF="#fig:illumination">4</A> shows a situation where a ray from the viewer has
+hit a surface.
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+<IMG SRC="task001.gif" width="357" height="269">
+ </DIV>
+ <BR>
+<DIV ALIGN=center>Figure 4: A ray intersecting a surface</DIV><BR>
+
+ <A NAME="fig:illumination"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>The illumination at this point is given by the following equation:
+<DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP><A NAME="eqn:illumination"></A></TD>
+<TD NOWRAP>
+<I>I</I> = <I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB> <I>I</I><SUB><FONT SIZE=2><I>a</I></FONT></SUB> <I>C</I>
+ + <I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB> </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD ALIGN=center><FONT SIZE=2><I>ls</I></FONT></TD>
+</TR>
+<TR><TD ALIGN=center><FONT SIZE=7><FONT FACE=symbol>&aring;</FONT></FONT></TD>
+</TR>
+<TR><TD ALIGN=center><FONT SIZE=2><I>j</I>=1</FONT></TD>
+</TR></TABLE></TD>
+<TD NOWRAP>(<B><I>N</I></B><FONT SIZE=5>&middot;</FONT><B><I>L</I></B></TD>
+<TD NOWRAP><SUB><FONT SIZE=2><I>j</I></FONT></SUB>) <I>I</I><SUB><FONT SIZE=2><I>j</I></FONT></SUB> <I>C</I>
+ + <I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD ALIGN=center><FONT SIZE=2><I>ls</I></FONT></TD>
+</TR>
+<TR><TD ALIGN=center><FONT SIZE=7><FONT FACE=symbol>&aring;</FONT></FONT></TD>
+</TR>
+<TR><TD ALIGN=center><FONT SIZE=2><I>j</I>=1</FONT></TD>
+</TR></TABLE></TD>
+<TD NOWRAP>(<B><I>N</I></B><FONT SIZE=5>&middot;</FONT><B><I>H</I></B><SUB><FONT SIZE=2><I>j</I></FONT></SUB>)<SUP><FONT SIZE=2><I>n</I></FONT></SUP> <I>I</I><SUB><FONT SIZE=2><I>j</I></FONT></SUB> <I>C</I>
+ + <I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> <I>I</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> <I>C</I>
+&nbsp;&nbsp;&nbsp;&nbsp;(10)</TD>
+</TR></TABLE></DIV>
+where
+<DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP>
+ </TD>
+<TD NOWRAP><TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD ALIGN=right NOWRAP><I>C</I>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>surface color</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I>I</I><SUB><FONT SIZE=2><I>a</I></FONT></SUB>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>intensity of ambient lighting</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>diffuse reflection coefficient</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><B><I>N</I></B>	</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>unit surface normal</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><B><I>L</I></B><SUB><FONT SIZE=2><I>j</I></FONT></SUB>	</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>unit vector in direction of <I>j</I>th light source</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I>I</I><SUB><FONT SIZE=2><I>j</I></FONT></SUB>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>intensity of <I>j</I>th light source</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>specular reflection coefficient</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><B><I>H</I></B><SUB><FONT SIZE=2><I>j</I></FONT></SUB>	</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>unit vector in the direction halfway between the viewer
+		 and <B><I>L</I></B><SUB><FONT SIZE=2><I>j</I></FONT></SUB></TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I>n</I>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>Phong exponent</TD>
+</TR>
+<TR><TD ALIGN=right NOWRAP><I>I</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>		</TD>
+<TD ALIGN=center NOWRAP>=</TD>
+<TD ALIGN=left NOWRAP>intensity of light from direction <I>S</I></TD>
+</TR></TABLE></TD>
+</TR></TABLE></DIV>
+The values of <I>C</I>, <I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB>, <I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>, and <I>n</I> are the <EM>surface properties</EM>
+of the object at the point of reflection.
+<A HREF="#sec:surfaces">Section&nbsp;</a><A HREF="#sec:surfaces">3.6</A> describes the mechanism for specifying these values
+for an object.<BR>
+<BR>
+Computing the contribution of lights (the <I>I</I><SUB><FONT SIZE=2><I>j</I></FONT></SUB> part of the above equation)
+requires casting a <A NAME="link:shadow-ray"></A><EM>shadow ray</EM> from the
+intersection point to the light's position.
+If the ray hits an object that is closer than the light, then the light
+does not contribute to the illumination of the intersection point.<BR>
+<BR>
+Ray tracing is a recursive process.
+Computing the value of <I>I</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> requires shooting a ray in the direction of <I>S</I>
+and seeing what object (if any) it intersects.
+To avoid infinite recursion, we limit the tracing to some <EM>depth</EM>.
+The depth limit is given as an argument to the <TT>render</TT>
+operator (see <A HREF="#sec:rendering">Section&nbsp;</a><A HREF="#sec:rendering">3.8</A>).<BR>
+<BR>
+<!--TOC subsection Lights-->
+
+<H3>3.5&nbsp;&nbsp; Lights</H3><!--SEC END -->
+
+<A NAME="sec:lights"></A>
+GML supports three types of light sources: <EM>directional lights</EM>,
+<EM>point lights</EM> and <EM>spotlights</EM>.
+Directional lights are assumed to be infinitely far away and have only
+a direction.
+Point lights have a position and an intensity (specified as a color triple),
+and they emit light uniformly in all directions.
+Spotlights emit a cone of light in a given direction.
+The light cone is specified by three parameters: the light's direction,
+the light's cutoff angle, and an attenuation exponent (see <A HREF="#fig:spotlight">Figure&nbsp;</a><A HREF="#fig:spotlight">5</A>).
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+<IMG SRC="task002.gif" width="220" height="227">
+ </DIV>
+ <BR>
+<DIV ALIGN=center>Figure 5: Spotlight</DIV><BR>
+
+ <A NAME="fig:spotlight"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>Unlike geometric objects, lights are defined in terms of world
+coordinates.<BR>
+<BR>
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:light"><I><I>dir</I></I>&nbsp;<I><I>color</I></I>&nbsp;&nbsp;<B><TT>light</TT></B>&nbsp;&nbsp;<I>l</I></A><DD>
+ creates a directional light source at infinity with direction <I><I>dir</I></I>
+ and intensity <I><I>color</I></I>.
+ 
+<DT><A NAME="op:pointlight"><I><I>pos</I></I>&nbsp;<I><I>color</I></I>&nbsp;&nbsp;<B><TT>pointlight</TT></B>&nbsp;&nbsp;<I>l</I></A><DD>
+ creates a point-light source at the world coordinate position <I><I>pos</I></I>
+ with intensity <I><I>color</I></I>.
+ Pointlights are a <A HREF="#link:tier2">Tier-2</A> feature.
+ 
+<DT><A NAME="op:spotlight"><I><I>pos</I></I>&nbsp;<I><I>at</I></I>&nbsp;<I><I>color</I></I>&nbsp;<I><I>cutoff</I></I>&nbsp;<I><I>exp</I></I>&nbsp;&nbsp;<B><TT>spotlight</TT></B>&nbsp;&nbsp;<I>l</I></A><DD>
+ creates a spotlight source at the world coordinate position <I><I>pos</I></I>
+ pointing towards the position <I><I>at</I></I>.
+ The light's color is given by <I><I>color</I></I>.
+ The spotlight's cutoff angle is given in degrees by <I><I>cutoff</I></I> and
+ the attenuation exponent is given by <I><I>exp</I></I>.
+ The intensity of the light from a spotlight at a point <I>Q</I> is determined
+ by the angle between the light's direction vector (<EM>i.e.</EM>, the vector from
+ <I><I>pos</I></I> to <I><I>at</I></I>) and the vector from <I><I>pos</I></I> to <I>Q</I>.
+ If the angle is greater than the cutoff angle, then intensity is zero;
+ otherwise the intensity is given by the equation
+ <DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP>
+ <I>I</I> = </TD>
+<TD NOWRAP><FONT FACE=symbol>
+æ<BR>ç<BR>ç<BR>è</FONT></TD>
+<TD NOWRAP>
+	</TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center><I><I>at</I></I>-<I><I>pos</I></I></TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>|<I><I>at</I></I>-<I><I>pos</I></I>|</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ <FONT SIZE=5>&middot;</FONT></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center><I>Q</I>-<I><I>pos</I></I></TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>|<I>Q</I>-<I><I>pos</I></I>|</TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+ </TD>
+<TD NOWRAP><FONT FACE=symbol>
+ö<BR>÷<BR>÷<BR>ø</FONT></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD ALIGN=left NOWRAP><FONT SIZE=2><I><I>exp</I></I></FONT></TD>
+</TR>
+<TR><TD ALIGN=left><BR><BR><BR></TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP><FONT SIZE=2>&nbsp;</FONT></TD>
+</TR></TABLE></TD>
+<TD NOWRAP><I><I>color</I></I>
+ &nbsp;&nbsp;&nbsp;&nbsp;(11)</TD>
+</TR></TABLE></DIV>
+ Spotlights are a <A HREF="#link:tier2">Tier-3</A> feature.
+</DL>
+The light from point lights and spotlights is attenuated by the distance
+from the light to the surface.
+The attenuation equation is:
+<DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP>
+<I>I</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>surface</I></I></FONT></TD>
+</TR></TABLE></TD>
+<TD NOWRAP> = </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>100 <I>I</I></TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center>99 + <I>d</I><SUP><FONT SIZE=2>3</FONT></SUP></TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+&nbsp;&nbsp;&nbsp;&nbsp;(12)</TD>
+</TR></TABLE></DIV>
+where <I>d</I> is the distance from the light to the surface and <I>I</I> is the
+intensity of the light.
+Thus at a distance of 5 units the strength of the light will be about
+45% and at 10 units it will be 9%.
+Note that the light reflected from surfaces (the <I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> <I>I</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB> <I>C</I> term in
+Equation&nbsp;<A HREF="#eqn:illumination">3.4</A>) is <EM>not</EM> attenuated; nor is the light
+from directional sources.<BR>
+<BR>
+<!--TOC subsection Surface functions-->
+
+<H3>3.6&nbsp;&nbsp; Surface functions</H3><!--SEC END -->
+
+<A NAME="sec:surfaces"></A>
+GML uses <EM>procedural texturing</EM> to describe the surface properties
+of objects.
+The basic idea is that the model provides a function for each object, which maps
+positions on the object to the surface properties that determine
+how the object is illuminated (see <A HREF="#sec:illumination">Section&nbsp;</a><A HREF="#sec:illumination">3.4</A>).<BR>
+<BR>
+A surface function takes three arguments: an integer
+specifying an object's face and two texture coordinates.
+For all objects, except planes, the texture coordinates are restricted to the
+range 0 <FONT FACE=symbol>&pound;</FONT> <I>u</I>,<I>v</I> <FONT FACE=symbol>&pound;</FONT> 1.
+The <A HREF="#tbl:texture-coords">Table&nbsp;</a><A HREF="#tbl:texture-coords">1</A> specifies how these coordinates map to
+points in object-space for the various builtin graphical objects.
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <BR>
+<DIV ALIGN=center>Table 1: Texture coordinates for primitives</DIV><BR>
+
+ <A NAME="tbl:texture-coords"></A>
+ <DIV ALIGN=center>
+ <TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP COLSPAN=3>SPHERE</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(0, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(sin(360 <I>u</I>), 2 <I>v</I> - 1, cos(360 <I>u</I>))</TD>
+<TD ALIGN=right NOWRAP>&nbsp;</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP COLSPAN=3>CUBE</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(0, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, <I>v</I>, 0)</TD>
+<TD ALIGN=right NOWRAP>front</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(1, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, <I>v</I>, 1)</TD>
+<TD ALIGN=right NOWRAP>back</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(2, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(0, <I>v</I>, <I>u</I>)</TD>
+<TD ALIGN=right NOWRAP>left</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(3, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(1, <I>v</I>, <I>u</I>)</TD>
+<TD ALIGN=right NOWRAP>right</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(4, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, 1, <I>v</I>)</TD>
+<TD ALIGN=right NOWRAP>top</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(5, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, 0, <I>v</I>)</TD>
+<TD ALIGN=right NOWRAP>bottom</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP COLSPAN=3>CYLINDER</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(0, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(sin(360 <I>u</I>), <I>v</I>, cos(360 <I>u</I>))</TD>
+<TD ALIGN=right NOWRAP>side</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(1, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, 1, <I>v</I>)</TD>
+<TD ALIGN=right NOWRAP>top</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(2, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, 0, <I>v</I>)</TD>
+<TD ALIGN=right NOWRAP>bottom</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP COLSPAN=3>CONE</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(0, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>v</I> sin(360 <I>u</I>), <I>v</I>, <I>v</I> cos(360 <I>u</I>))</TD>
+<TD ALIGN=right NOWRAP>side</TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(1, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, 0, <I>v</I>)</TD>
+<TD ALIGN=right NOWRAP>base</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP COLSPAN=3>PLANE</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD ALIGN=center NOWRAP>(0, <I>u</I>, <I>v</I>)	</TD>
+<TD ALIGN=center NOWRAP>(<I>u</I>, <I>v</I>, 0)</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=3><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR></TABLE></DIV><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>
+Note that (as always in GML), the arguments to the sin and cos functions
+are in degrees.<BR>
+<BR>
+A surface function returns a point representing the
+surface color (<I>C</I>), and three real numbers: the diffuse reflection
+coefficient (<I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB>), the specular reflection
+coefficient (<I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>), and the Phong exponent (<I>n</I>).
+For example, the code in <A HREF="#fig:checked-cube">Figure&nbsp;</a><A HREF="#fig:checked-cube">6</A> defines a cube with a
+matte 3&times;3 black and white checked pattern on each face.
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+<PRE>
+0.0 0.0 0.0 point /black
+1.0 1.0 1.0 point /white
+
+[                                 % 3x3 pattern
+  [ black white black ]
+  [ white black white ]
+  [ black white black ]
+] /texture
+
+{ /v /u /face                     % bind parameters
+  {                               % toIntCoord : float -&gt; int
+    3.0 mulf floor /i               % i = floor(3.0*r)
+    i 3 eqi { 2 } { i } if           % make sure i is not 3
+  } /toIntCoord
+  texture u toIntCoord apply get  % color = texture[u][v]
+    v toIntCoord apply get
+  1.0                             % kd = 1.0
+  0.0                             % ks = 0.0
+  1.0                             % n = 1.0
+} cube
+</PRE><DIV ALIGN=center>Figure 6: A checked pattern on a cube</DIV><BR>
+
+ <A NAME="fig:checked-cube"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE><!--TOC subsection Constructive solid geometry-->
+
+<H3>3.7&nbsp;&nbsp; Constructive solid geometry</H3><!--SEC END -->
+
+<A NAME="sec:csg"></A>
+Solid objects may be combined using boolean set operations
+to form more complex solids.
+There are three composition operations:
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:union"><I><I>obj</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I><I>obj</I></I><SUB><I><FONT SIZE=2>2</FONT></I></SUB>&nbsp;&nbsp;<B><TT>union</TT></B>&nbsp;&nbsp;<I><I>obj</I></I><SUB><I><FONT SIZE=2>3</FONT></I></SUB></A><DD>
+ forms the union <I><I>obj</I></I><SUB><I><FONT SIZE=2>3</FONT></I></SUB> of the two solids <I><I>obj</I></I><SUB><FONT SIZE=2>1</FONT></SUB>
+ and <I><I>obj</I></I><SUB><FONT SIZE=2>2</FONT></SUB>.
+ 
+<DT><A NAME="op:intersect"><I><I>obj</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I><I>obj</I></I><SUB><I><FONT SIZE=2>2</FONT></I></SUB>&nbsp;&nbsp;<B><TT>intersect</TT></B>&nbsp;&nbsp;<I><I>obj</I></I><SUB><I><FONT SIZE=2>3</FONT></I></SUB></A><DD>
+ forms the intersection <I><I>obj</I></I><SUB><I><FONT SIZE=2>3</FONT></I></SUB> of the two solids <I><I>obj</I></I><SUB><FONT SIZE=2>1</FONT></SUB>
+ and <I><I>obj</I></I><SUB><FONT SIZE=2>2</FONT></SUB>.
+ The <TT>intersect</TT> operator is a <A HREF="#link:tier2">Tier-3</A> feature.
+ 
+<DT><A NAME="op:difference"><I><I>obj</I></I><SUB><FONT SIZE=2>1</FONT></SUB>&nbsp;<I><I>obj</I></I><SUB><I><FONT SIZE=2>2</FONT></I></SUB>&nbsp;&nbsp;<B><TT>difference</TT></B>&nbsp;&nbsp;<I><I>obj</I></I><SUB><I><FONT SIZE=2>3</FONT></I></SUB></A><DD>
+ forms the solid <I><I>obj</I></I><SUB><FONT SIZE=2>3</FONT></SUB> that is the solid <I><I>obj</I></I><SUB><FONT SIZE=2>1</FONT></SUB>
+ minus the solid <I><I>obj</I></I><SUB><FONT SIZE=2>2</FONT></SUB>.
+ The <TT>difference</TT> operator is a <A HREF="#link:tier2">Tier-3</A> feature.
+</DL>We can determine the intersection of a ray and a compound solid by
+recursively computing the intersections of the ray and the solid's 
+pieces (both entries and exits) and then merging the information
+according to the boolean composition operator.
+<A HREF="#fig:csg">Figure&nbsp;</a><A HREF="#fig:csg">7</A> illustrates this process for two objects (this picture is
+called a <EM>Roth diagram</EM>).
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+<IMG SRC="task003.gif" width="402" height="382">
+ </DIV>
+ <BR>
+<DIV ALIGN=center>Figure 7: Tracing a ray through a compound solid</DIV><BR>
+
+ <A NAME="fig:csg"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>When rendering a composite object, the surface properties are determined by the
+primitive that defines the surface.
+If the surfaces of two primitives coincide, then which primitive defines
+the surface properties is unspecified.<BR>
+<BR>
+<!--TOC subsection Rendering-->
+
+<H3>3.8&nbsp;&nbsp; Rendering</H3><!--SEC END -->
+
+<A NAME="sec:rendering"></A>
+The <TT>render</TT> operator causes the scene to be rendered to a file.
+<DL COMPACT=compact>
+<DT>
+ <A NAME="op:render"><I><I>amb</I></I>&nbsp;<I><I>lights</I></I>&nbsp;<I><I>obj</I></I>&nbsp;<I><I>depth</I></I>&nbsp;<I><I>fov</I></I>&nbsp;
+ <I><I>wid</I></I>&nbsp;<I><I>ht</I></I>&nbsp;<I><I>file</I></I>
+ &nbsp;&nbsp;<B><TT>render</TT></B>&nbsp;&nbsp;---</A><DD>
+</DL>
+The render operator renders a scene to a file.
+It takes eight arguments:
+<DL COMPACT=compact>
+<DT>
+ <I><I>amb</I></I><DD> the intensity of ambient light.
+ 
+<DT><I><I>lights</I></I><DD> is an array of lights used to illuminate the scene.
+ 
+<DT><I><I>obj</I></I><DD> is the scene to render.
+ 
+<DT><I><I>depth</I></I><DD> is an integer limit on the recursive depth of the
+ ray tracing.
+ 
+<DT><I><I>fov</I></I><DD> is the horizontal field of view in degrees.
+ 
+<DT><I><I>wid</I></I><DD> is the width of the rendered image in pixels.
+ 
+<DT><I><I>ht</I></I><DD> is the height of the rendered image in pixels.
+ 
+<DT><I><I>file</I></I><DD> is the output file for the rendered image.
+</DL>
+The <TT>render</TT> operator is the only GML operator with side effects
+(<EM>i.e.</EM>, it modifies the host file system).
+A GML program may contain multiple <TT>render</TT> operators (for
+animation effects), but the order in which the output files are generated
+is implementation dependent.<BR>
+<BR>
+When rendering a scene, the eye position is fixed at (0, 0, -1) looking
+down the <I>Z</I>-axis and the image plane is the <I>XY</I>-plane (see
+<A HREF="#fig:view">Figure&nbsp;</a><A HREF="#fig:view">8</A>).
+The horizontal field of view (<I><I>fov</I></I>) determines the width of the
+image in world space (<EM>i.e.</EM>, it is 2 tan(0.5 <I><I>fov</I></I>)), and the
+height is determined from the aspect ratio.
+If the upper-left corner of the image is at (<I>x</I>, <I>y</I>, 0) and the width of
+a pixel is <FONT FACE=symbol>D</FONT>, then the ray through the <I>j</I>th pixel in the <I>i</I>th row
+has a direction of (<I>x</I> + (<I>i</I>+0.5)<FONT FACE=symbol>D</FONT>, <I>y</I> - (<I>j</I>+0.5)<FONT FACE=symbol>D</FONT>, 1).
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+<IMG SRC="task004.gif" width="460" height="293">
+ </DIV>
+ <BR>
+<DIV ALIGN=center>Figure 8: View coordinate system</DIV><BR>
+
+ <A NAME="fig:view"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>When the render operation detects that a ray has intersected the surface of
+an object, it must compute the texture coordinates at the point of
+intersection and apply the surface function to them.
+Let (<I>u</I>, <I>v</I>) be the texture coordinates and <I><I>surf</I></I> be the
+surface function at the point of intersection, and let
+<DIV ALIGN=center>
+ <I>Eval</I>(<I><I>surf</I></I>&nbsp;<TT><I>apply</I></TT>, <I>u</I>, <I>v</I>) = (<I>C</I>, <I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB>, <I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>, <I>n</I>)
+</DIV>
+Then the surface properties for the illumination equation (see
+<A HREF="#sec:illumination">Section&nbsp;</a><A HREF="#sec:illumination">3.4</A>) are <I>C</I>, <I>k</I><SUB><FONT SIZE=2><I>d</I></FONT></SUB>, <I>k</I><SUB><FONT SIZE=2><I>s</I></FONT></SUB>, and <I>n</I>.<BR>
+<BR>
+<!--TOC subsection The output format-->
+
+<H3>3.9&nbsp;&nbsp; The output format</H3><!--SEC END -->
+
+<A NAME="sec:ppm-format"></A>
+The output format is the <EM>Portable Pixmap</EM> (PPM) file format.<A NAME="text1" HREF="#note1"><SUP><FONT SIZE=2>1</FONT></SUP></A>
+The format consists of a ASCII header followed by the pixel data in binary form.
+The format of the header is
+<UL>
+<LI>
+ 
+ The magic number, which are the two characters ``<TT>P6</TT>.''
+ 
+<LI>
+ A width, formatted as ASCII characters in decimal.
+ 
+<LI>
+ A height, again in ASCII decimal.
+ 
+<LI>
+ The ASCII text ``<TT>255</TT>,'' which is the maximum color-component value.
+</UL>
+These items are separated by whitespace (blanks, TABs, CRs, and LFs).
+After the maximum color value, there is a single whitespace character
+(usually a newline), which is followed by the pixel data.
+The pixel data is a sequence of three-byte pixel values (red, green, blue)
+in row-major order.<BR>
+<BR>
+In the header, characters from a ``<TT>#</TT>'' to the next end-of-line are
+ignored (comments).
+This comment mechanism should be used to include the group's name immediately
+following the line with the magic number.
+For example, the sample implementation produces the following header:
+<PRE>
+P6
+# GML Sample Implementation
+256 256
+255
+</PRE><!--TOC section Requirements-->
+
+<H2>4&nbsp;&nbsp; Requirements</H2><!--SEC END -->
+
+<A NAME="sec:requirements"></A>
+Your program should take its input from standard input (<EM>i.e.</EM>, UNIX file
+descriptor <TT>0</TT>).
+Execution of the input specification will result in zero or more images being
+rendered to files.
+If your implementation detects an error, it should return a non-zero exit
+status; otherwise it should return a zero exit status upon successful
+termination.
+Our test harness relies on this error status being set correctly, so be sure
+to get them right!<BR>
+<BR>
+Your program should detect syntactically incorrect input and run-time type
+errors (the latter may be detected statically, if you wish).
+It should also catch array accesses that are out of range.
+Other errors, such as integer overflows and division by zero,
+may be detected and reported, but it is not necessary.
+In particular, implementations are free to generate NaNs and Infs
+when doing floating-point computations.<BR>
+<BR>
+The submission requirements are described in detail
+at <A HREF="http://www.cs.cornell.edu/icfp/submission.htm"><TT>http://www.cs.cornell.edu/icfp/submission.htm</TT></A>,
+but we summarize them here.
+Your submission should include a <TT>README</TT> file
+containing a brief description of the submission, programming
+language(s) used, and anything else that you want to bring to the
+attention of the judges.<BR>
+<BR>
+Submissions will be evaluated on their correctness, speed of execution,
+and set of implemented GML features.
+For the latter metric, we have grouped the features of GML into
+three tiers as follows:<A NAME="link:tiers"></A>
+<DL COMPACT=compact>
+<DT>
+ <A NAME="link:tier1">Tier 1</A><DD>
+ The first tier consists of the operations described in <A HREF="#sec:gml">Section&nbsp;<A HREF="#sec:gml">2</A></A>, plus
+ planes, spheres, and directional lights. 
+ All GML operators <EM>except</EM> <TT>cone</TT>, <TT>cube</TT>,
+ <TT>cylinder</TT>, <TT>difference</TT>, <TT>intersect</TT>,
+ <TT>pointlight</TT>, and <TT>spotlight</TT> should be implemented.
+ 
+<DT><A NAME="link:tier2">Tier 2</A><DD>
+ This tier adds more primitive solids and additional lighting to Tier 1.
+ The additional operators are: <TT>cone</TT>, <TT>cube</TT>,
+ <TT>cylinder</TT>, and <TT>pointlight</TT>.
+ 
+<DT><A NAME="link:tier3">Tier 3</A><DD>
+ This tier adds constructive solid geometry and additional lighting to Tier 2.
+ The additional operators are:
+ <TT>difference</TT>, <TT>intersect</TT>, and <TT>spotlight</TT>.
+</DL>
+Your <TT>README</TT> file should specify which tier
+your submission implements.<BR>
+<BR>
+Judging of the contest entries will proceed in three phases.
+First, we will evaluate each submission for basic correctness
+using very simple Tier-1 test cases.
+Programs that fail to run, dump core, etc. will be disqualified
+at the end of this phase.
+The second phase tests the basic correctness of submissions (without
+regards to performance).
+We will use a selection of Tier-1 test cases and compare the output
+with that generated by our sample implementations.
+Submissions that deviate significantly from the the reference outputs
+will be disqualified.
+The third phase will compare the performance and implemented features
+of the submissions.
+When comparing submissions, a program that implements Tier-1 will have to
+be significantly faster than a Tier-2 program to beat it.
+Likewise, a Tier-2 program will have to be significantly faster than
+a Tier-3 program to beat it.
+Image quality also matters; for example, a program that has
+<A HREF="#sec:acne">surface acne</A> will be penalized.
+Consideration will be given for interesting sample images.<BR>
+<BR>
+<!--TOC section Hints-->
+
+<H2>5&nbsp;&nbsp; Hints</H2><!--SEC END -->
+
+<A NAME="sec:hints"></A><!--TOC subsection Basic facts-->
+
+<H3>5.1&nbsp;&nbsp; Basic facts</H3><!--SEC END -->
+
+The dot product of two vectors <I>v</I><SUB><FONT SIZE=2>1</FONT></SUB> = (<I>x</I><SUB><FONT SIZE=2>1</FONT></SUB>, <I>y</I><SUB><FONT SIZE=2>1</FONT></SUB>, <I>z</I><SUB><FONT SIZE=2>1</FONT></SUB>) and
+<I>v</I><SUB><FONT SIZE=2>2</FONT></SUB> = (<I>x</I><SUB><FONT SIZE=2>2</FONT></SUB>, <I>y</I><SUB><FONT SIZE=2>2</FONT></SUB>, <I>z</I><SUB><FONT SIZE=2>2</FONT></SUB>)
+is <I>v</I><SUB><FONT SIZE=2>1</FONT></SUB><FONT SIZE=5>&middot;</FONT><I>v</I><SUB><FONT SIZE=2>2</FONT></SUB> = (<I>x</I><SUB><FONT SIZE=2>1</FONT></SUB> <I>x</I><SUB><FONT SIZE=2>2</FONT></SUB>, <I>y</I><SUB><FONT SIZE=2>1</FONT></SUB> <I>y</I><SUB><FONT SIZE=2>2</FONT></SUB>, <I>z</I><SUB><FONT SIZE=2>1</FONT></SUB> <I>z</I><SUB><FONT SIZE=2>2</FONT></SUB>).
+When <I>v</I><SUB><FONT SIZE=2>1</FONT></SUB> and <I>v</I><SUB><FONT SIZE=2>2</FONT></SUB> are <EM>unit</EM> vectors, then <I>v</I><SUB><FONT SIZE=2>1</FONT></SUB><FONT SIZE=5>&middot;</FONT><I>v</I><SUB><FONT SIZE=2>2</FONT></SUB>
+is the cosine of the angle formed by the two vectors.
+More generally, <I>v</I><SUB><FONT SIZE=2>1</FONT></SUB><FONT SIZE=5>&middot;</FONT><I>v</I><SUB><FONT SIZE=2>2</FONT></SUB> = |<I>v</I><SUB><FONT SIZE=2>1</FONT></SUB>| |<I>v</I><SUB><FONT SIZE=2>2</FONT></SUB>| cos(<FONT FACE=symbol>q</FONT>), where
+<FONT FACE=symbol>q</FONT> is the angle between the vectors.<BR>
+<BR>
+<!--TOC subsection Intersection testing-->
+
+<H3>5.2&nbsp;&nbsp; Intersection testing</H3><!--SEC END -->
+A plane <I>P</I> can be defined by its unit normal <B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB> and the distance <I>d</I>
+from the plane to the origin.
+The half-space that <I>P</I> = (<B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB>, <I>d</I>) defines are those points <I>Q</I> such that
+<I>Q</I><FONT SIZE=5>&middot;</FONT><B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB> + <I>d</I> <FONT FACE=symbol>&pound;</FONT> 0.
+Given this definition,
+the intersection of a ray <B><I>R</I></B>(<I>t</I>) = (<B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB> + <I>t</I> <B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB>) and
+a plane (<B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB>, <I>d</I>) is given by the equation
+<DIV ALIGN=center><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR VALIGN=middle><TD NOWRAP>
+<I>t</I></TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>&nbsp;</TD>
+</TR>
+<TR><TD NOWRAP><FONT SIZE=2><I><I>intersection</I></I></FONT></TD>
+</TR></TABLE></TD>
+<TD NOWRAP> = </TD>
+<TD NOWRAP><TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD NOWRAP ALIGN=center>-(<B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB> <FONT SIZE=5>&middot;</FONT> <B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB> + <I>d</I>)</TD>
+</TR>
+<TR><TD BGCOLOR=black><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD NOWRAP ALIGN=center><B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB><FONT SIZE=5>&middot;</FONT><B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB></TD>
+</TR></TABLE></TD>
+<TD NOWRAP>
+&nbsp;&nbsp;&nbsp;&nbsp;(13)</TD>
+</TR></TABLE></DIV>
+If <B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB><FONT SIZE=5>&middot;</FONT><B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB> = 0, then the ray is parallel to the plane
+(it might lie in the plane, but we can ignore that case for our purposes).
+If <I>t</I><SUB><FONT SIZE=2><I><I>intersection</I></I></FONT></SUB> &lt; 0, then the line defined by the ray
+intersects the plane behind the ray's origin; otherwise the point of
+intersection is <B><I>R</I></B>(<I>t</I><SUB><FONT SIZE=2><I><I>intersection</I></I></FONT></SUB>).
+We can tell which side of the plane <B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB> lies by examining the sign of
+<B><I>P</I></B><SUB><FONT SIZE=2><I>n</I></FONT></SUB><FONT SIZE=5>&middot;</FONT><B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB>; if it is positive, then <B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB> is in the half-space defined
+by <I>P</I>.<BR>
+<BR>
+Computing the intersection of a ray <B><I>R</I></B>(<I>t</I>) = (<B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB> + <I>t</I> <B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB>) and
+a sphere <I>S</I> centered at <B><I>S</I></B><SUB><FONT SIZE=2><I>c</I></FONT></SUB> with radius <I>r</I> is more complicated.
+Let <I>l</I><SUB><FONT SIZE=2><I><I>oc</I></I></FONT></SUB> be the length of the vector from the ray's origin
+to the center of the sphere; then if <I>l</I><I><I>oc</I></I> &lt; <I>r</I>, the ray
+originates inside the sphere.
+We can compute the distance along the ray from the ray's origin
+to the closest approach to the sphere's center by the equation
+<I>t</I><SUB><FONT SIZE=2><I><I>ca</I></I></FONT></SUB> = (<B><I>S</I></B><SUB><FONT SIZE=2><I>c</I></FONT></SUB> - <B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB>)<FONT SIZE=5>&middot;</FONT><B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB> (see
+<A HREF="#fig:sphere-intersection">Figure&nbsp;</a><A HREF="#fig:sphere-intersection">9</A>).
+If <I>t</I><SUB><FONT SIZE=2><I><I>ca</I></I></FONT></SUB> &lt; 0, then the ray is pointing away from the
+sphere's center, which means that if the ray's origin is outside the sphere
+then there is no intersection.
+Once we have computed <I>t</I><SUB><FONT SIZE=2><I><I>ca</I></I></FONT></SUB>, we can compute the square of
+the distance from the ray to the center at the point of closest approach
+by the <I>d</I><SUP><FONT SIZE=2>2</FONT></SUP> = <I>l</I><SUB><FONT SIZE=2><I><I>oc</I></I></FONT></SUB><SUP><FONT SIZE=2>2</FONT></SUP> - <I>t</I><SUB><FONT SIZE=2><I><I>ca</I></I></FONT></SUB><SUP><FONT SIZE=2>2</FONT></SUP>.
+From this, we can compute the square of the half chord
+distance
+<I>t</I><SUB><FONT SIZE=2><I><I>hc</I></I></FONT></SUB> = <I>r</I><SUP><FONT SIZE=2>2</FONT></SUP> - <I>d</I><SUP><FONT SIZE=2>2</FONT></SUP> = <I>r</I><SUP><FONT SIZE=2>2</FONT></SUP> - <I>l</I><SUB><FONT SIZE=2><I><I>oc</I></I></FONT></SUB><SUP><FONT SIZE=2>2</FONT></SUP> + <I>t</I><SUB><FONT SIZE=2><I><I>ca</I></I></FONT></SUB><SUP><FONT SIZE=2>2</FONT></SUP>.
+As can be seen in <A HREF="#fig:sphere-intersection">Figure&nbsp;</a><A HREF="#fig:sphere-intersection">9</A>, if <I>t</I><SUB><FONT SIZE=2><I><I>hc</I></I></FONT></SUB>&lt;0, then
+the ray does not intersect the sphere, otherwise the points of intersection
+are given by <B><I>R</I></B>(<I>t</I><SUB><FONT SIZE=2><I><I>ca</I></I></FONT></SUB>&plusmn;<I>t</I><SUB><FONT SIZE=2><I><I>hc</I></I></FONT></SUB>) (assuming the ray
+originates outside the sphere).
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+ <DIV ALIGN=center>
+<IMG SRC="task005.gif" width="496" height="241">
+ </DIV>
+ <BR>
+<DIV ALIGN=center>Figure 9: Ray/sphere intersection</DIV><BR>
+
+ <A NAME="fig:sphere-intersection"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>The intersection of a ray and a cube can be determined by using the
+technique given for planes (test against the planes containing the
+faces of the cube).
+Intersections for cones and cylinders can be determined by plugging the
+ray equation (<B><I>R</I></B>(<I>t</I>) = <B><I>R</I></B><SUB><FONT SIZE=2><I>o</I></FONT></SUB> + <I>t</I> <B><I>R</I></B><SUB><FONT SIZE=2><I>d</I></FONT></SUB>) into the equations for the
+surface.
+In both cases (as for spheres) the solution requires pluggin values into the
+quadratic formula.<BR>
+<BR>
+One approach to ray tracing with a modeling language that supports affine
+transformations (such as GML) is to transform the rays into object space
+and do the intersection tests there.
+This approach allows the intersection tests to be specialized to the
+standard objects, which can greatly simplify the tests.
+Remember, however, that affine transformations do not preserve lengths ---
+applying an affine transformation to a unit vector will not yield a unit
+vector in general.<BR>
+<BR>
+<!--TOC subsection Surface acne-->
+
+<H3>5.3&nbsp;&nbsp; Surface acne</H3><!--SEC END -->
+
+<A NAME="sec:acne"></A>One problem that you are likely to encounter is called <EM>surface acne</EM>
+and results from precision errors.
+The problem arises from when the origin of a <A HREF="#link:shadow-ray">shadow ray</A> is
+on the wrong side of its originating surface, and thus intersets the surface.
+The visual result is usually a black dot at that pixel.
+The <A HREF="http://www.cs.bell-labs.com/ jhr/icfp/examples.html">sample images</A>
+include an example that illustrates this problem.
+One solution is to offset the shadow ray's origin by a small amount in the ray's
+direction.
+Another solution is not to test intersection's against the originating surface.<BR>
+<BR>
+<!--TOC subsection Optimizations-->
+
+<H3>5.4&nbsp;&nbsp; Optimizations</H3><!--SEC END -->
+
+There are opportunities for performance improvements both in the the
+implementation of the GML interpreter and in the ray tracing engine.<BR>
+<BR>
+While the time spent to compute the objects in a scene is typically
+small compared to the rendering time, the GML functions that define
+the surface properties get evaluated for every ray intersection.
+You may find it useful to analyse surface functions for the common
+case where they are constant.<BR>
+<BR>
+The resources listed below include information on techniques for improving
+the efficiency of ray tracing.
+Most of these techniques focus on reducing the cost or number of ray/solid
+intersection tests.
+For example, if you precompute a bounding volume for a complex object,
+then a quick test against the bounding volume may allow you to avoid a
+more expensive test against the object.
+If your implementation supports the Tier-3 CSG operators, then you probably
+want to have a version of your intersection testing code that is
+specialized for <A HREF="#link:shadow-ray">shadow rays</A>.<BR>
+<BR>
+<!--TOC subsection Resources-->
+
+<H3>5.5&nbsp;&nbsp; Resources</H3><!--SEC END -->
+
+Here are a few pointers to on-line sources of information about graphical
+algorithms and ray tracing.<BR>
+<BR>
+<DL COMPACT=compact>
+<DT>
+ <A HREF="http://www.cs.cornell.edu/icfp/"><TT>http://www.cs.cornell.edu/icfp/</TT></A><DD><BR>is the ICFP'00 contest home page.
+ 
+<DT><A HREF="http://www.cs.bell-labs.com/~jhr/icfp/examples.html"><TT>http://www.cs.bell-labs.com/~jhr/icfp/examples.html</TT></A><DD><BR>is a page of example GML specifications with the expected images.
+ 
+<DT><A HREF="http://www.cs.bell-labs.com/~jhr/icfp/operators.txt"><TT>http://www.cs.bell-labs.com/~jhr/icfp/operators.txt</TT></A><DD><BR>is a text file that lists all of the GML operators.
+ 
+<DT><A HREF="http://www.realtimerendering.com/int/"><TT>http://www.realtimerendering.com/int/</TT></A><DD><BR>is the <EM>3D Object Intersection</EM> page with pointers to papers and code
+ describing various intersection algorithms.
+ 
+<DT><A HREF="http://www.acm.org/tog/resources/RTNews/html/"><TT>http://www.acm.org/tog/resources/RTNews/html/</TT></A><DD><BR>is the home page of the <EM>Ray Tracing News</EM>, which is an online
+ journal about ray tracing techniques.
+ 
+<DT><A HREF="http://www.cs.utah.edu/~bes/papers/fastRT/"><TT>http://www.cs.utah.edu/~bes/papers/fastRT/</TT></A><DD><BR>is a paper by Brian Smits on efficiency issues in implementing ray tracers.
+ 
+<DT><A HREF="http://www.acm.org/pubs/tog/GraphicsGems/"><TT>http://www.acm.org/pubs/tog/GraphicsGems/</TT></A><DD><BR>is the source-code repository for the <EM>Graphics Gems</EM> series.
+ 
+<DT><A HREF="http://www.exaflop.org/docs/cgafaq/"><TT>http://www.exaflop.org/docs/cgafaq/</TT></A><DD><BR>is the FAQ for the <TT>comp.graphics.algorithms</TT> news group.
+ 
+<DT><A HREF="http://www.magic-software.com"><TT>http://www.magic-software.com</TT></A><DD><BR>has source code for various graphical algorithms.
+</DL><!--TOC section Operator summary-->
+
+<H2>Operator summary</H2><!--SEC END -->
+
+<A NAME="appendix"></A>The following is an alphabetical listing of the GML operators
+with brief descriptions.
+The third column lists the section where the operator is defined and the
+fourth column specifies which implementation tier the operator belongs to.
+
+
+
+ <DIV ALIGN=center><TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><B>Name</B></TD>
+<TD ALIGN=left NOWRAP><B>Description</B></TD>
+<TD VALIGN=top ALIGN=center NOWRAP><B>Section</B></TD>
+<TD VALIGN=top ALIGN=center NOWRAP><B>Tier</B></TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=4><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:acos"><TT>acos</TT></A></TD>
+<TD VALIGN=top ALIGN=left>arc cosine function</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:addi"><TT>addi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer addition</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:addf"><TT>addf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real addition</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:apply"><TT>apply</TT></A></TD>
+<TD VALIGN=top ALIGN=left>function application operator</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:control">2.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:asin"><TT>asin</TT></A></TD>
+<TD VALIGN=top ALIGN=left>arc sine function</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:clampf"><TT>clampf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>clamp the range of a real number</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:cone"><TT>cone</TT></A></TD>
+<TD VALIGN=top ALIGN=left>a unit cone</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:prim-objects">3.2</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>**</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:cos"><TT>cos</TT></A></TD>
+<TD VALIGN=top ALIGN=left>cosine function</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:cube"><TT>cube</TT></A></TD>
+<TD VALIGN=top ALIGN=left>a unit cube</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:prim-objects">3.2</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>**</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:cylinder"><TT>cylinder</TT></A></TD>
+<TD VALIGN=top ALIGN=left>a unit cylinder</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:prim-objects">3.2</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>**</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:difference"><TT>difference</TT></A></TD>
+<TD VALIGN=top ALIGN=left>difference of two solids</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:csg">3.7</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>***</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:divi"><TT>divi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer division</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:divf"><TT>divf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real division</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:eqi"><TT>eqi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer equality comparison</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:eqf"><TT>eqf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real equality comparison</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:floor"><TT>floor</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real to integer conversion</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:frac"><TT>frac</TT></A></TD>
+<TD VALIGN=top ALIGN=left>fractional part of real number</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:get"><TT>get</TT></A></TD>
+<TD VALIGN=top ALIGN=left>get an array element</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:arrays">2.6</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:getx"><TT>getx</TT></A></TD>
+<TD VALIGN=top ALIGN=left>get <I>x</I> component of point</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:points">2.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:gety"><TT>gety</TT></A></TD>
+<TD VALIGN=top ALIGN=left>get <I>y</I> component of point</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:points">2.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:getz"><TT>getz</TT></A></TD>
+<TD VALIGN=top ALIGN=left>get <I>z</I> component of point</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:points">2.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:if"><TT>if</TT></A></TD>
+<TD VALIGN=top ALIGN=left>conditional control operator</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:control">2.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:intersect"><TT>intersect</TT></A></TD>
+<TD VALIGN=top ALIGN=left>intersection of two solids</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:csg">3.7</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>***</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:length"><TT>length</TT></A></TD>
+<TD VALIGN=top ALIGN=left>array length</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:arrays">2.6</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:lessi"><TT>lessi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer less-than comparison</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:lessf"><TT>lessf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real less-than comparison</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:light"><TT>light</TT></A></TD>
+<TD VALIGN=top ALIGN=left>defines a directional light source</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:lights">3.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:modi"><TT>modi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer remainder</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:muli"><TT>muli</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer multiplication</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:mulf"><TT>mulf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real multiplication</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:negi"><TT>negi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer negation</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:negf"><TT>negf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real negation</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:plane"><TT>plane</TT></A></TD>
+<TD VALIGN=top ALIGN=left>the <I>XZ</I>-plane</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:prim-objects">3.2</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:point"><TT>point</TT></A></TD>
+<TD VALIGN=top ALIGN=left>create a point value</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:points">2.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:pointlight"><TT>pointlight</TT></A></TD>
+<TD VALIGN=top ALIGN=left>defines a point-light source</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:lights">3.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>**</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:real"><TT>real</TT></A></TD>
+<TD VALIGN=top ALIGN=left>convert an integer to a real number</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:render"><TT>render</TT></A></TD>
+<TD VALIGN=top ALIGN=left>render a scene to a file</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:rendering">3.8</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:rotatex"><TT>rotatex</TT></A></TD>
+<TD VALIGN=top ALIGN=left>rotation around the <I>X</I>-axis</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:transformations">3.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:rotatey"><TT>rotatey</TT></A></TD>
+<TD VALIGN=top ALIGN=left>rotation around the <I>Y</I>-axis</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:transformations">3.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:rotatez"><TT>rotatez</TT></A></TD>
+<TD VALIGN=top ALIGN=left>rotation around the <I>Z</I>-axis</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:transformations">3.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:scale"><TT>scale</TT></A></TD>
+<TD VALIGN=top ALIGN=left>scaling transform</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:transformations">3.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:sin"><TT>sin</TT></A></TD>
+<TD VALIGN=top ALIGN=left>sine function</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:sphere"><TT>sphere</TT></A></TD>
+<TD VALIGN=top ALIGN=left>a unit sphere</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:prim-objects">3.2</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:spotlight"><TT>spotlight</TT></A></TD>
+<TD VALIGN=top ALIGN=left>defines a spotlight source</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:lights">3.5</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>***</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:sqrt"><TT>sqrt</TT></A></TD>
+<TD VALIGN=top ALIGN=left>square root</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:subi"><TT>subi</TT></A></TD>
+<TD VALIGN=top ALIGN=left>integer subtraction</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:subf"><TT>subf</TT></A></TD>
+<TD VALIGN=top ALIGN=left>real subtraction</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:numbers">2.4</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:translate"><TT>translate</TT></A></TD>
+<TD VALIGN=top ALIGN=left>translation transform</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:transformations">3.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:union"><TT>union</TT></A></TD>
+<TD VALIGN=top ALIGN=left>union of two solids</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:csg">3.7</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left NOWRAP><A HREF="#op:uscale"><TT>uscale</TT></A></TD>
+<TD VALIGN=top ALIGN=left>uniform scaling transform</TD>
+<TD VALIGN=top ALIGN=center NOWRAP><A HREF="#sec:transformations">3.3</A></TD>
+<TD VALIGN=top ALIGN=center NOWRAP>*</TD>
+</TR>
+<TR><TD BGCOLOR=black COLSPAN=4><TABLE BORDER=0 WIDTH="100%" CELLSPACING=0 CELLPADING=1><TR><TD></TD></TR></TABLE></TD>
+</TR></TABLE></DIV>
+<BR>
+<!--BEGIN NOTES document-->
+<HR WIDTH="50%" SIZE=1><DL>
+<DT><A NAME="note1" HREF="#text1"><FONT SIZE=5>1</FONT></A><DD> 
+ The <B>xv</B> program, available on most <FONT COLOR=navy>Unix</FONT> systems,
+ and the <B>IrfanView</B> viewer for Microsoft Windows (available from
+ <A HREF="http://www.irfanview.com/"><TT>http://www.irfanview.com/</TT></A>) both understand the PPM format.
+
+</DL>
+<!--END NOTES-->
+<!--HTMLFOOT-->
+<!--ENDHTML-->
+
+<!--FOOTER-->
+<HR SIZE=2>
+<BLOCKQUOTE><EM>This document was translated from L<sup>A</sup>T<sub>E</sub>X by
+</EM><A HREF="http://pauillac.inria.fr/~maranget/hevea/index.html"><EM>H</EM><EM><FONT SIZE=2><sup>E</sup></FONT></EM><EM>V</EM><EM><FONT SIZE=2><sup>E</sup></FONT></EM><EM>A</EM></A><EM>.
+</EM></BLOCKQUOTE>
+<p><a href="file://Woodstock/eweb/icfp/index.htm">Back</a><em> </em>to the
+ICFP'00 Programming Contest Home Page</p>
+</BODY>
+</HTML>
+

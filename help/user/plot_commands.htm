@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>Plot Commands</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="plot_options.htm">&gt&gt;</a>&nbsp;
+<a href="plot_types.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Plot Commands</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+The units used in these commands are based on an isigraph window of 1000 by 1000. The point 0,0 is the bottom left corner.
+
+<P>
+Some of these commands refer to &quot;gl&quot; commands which are documented in the wd Commands online help.
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=250><P>
+<B>Command</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+<B>Description</B>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=250><P>
+<B>reset [parent]</B>
+</TD>
+<TD VALIGN="TOP" WIDTH=512><P>
+reset plot with optional parent window id. 
+<P>
+For example:
+<pre>
+   pd 'reset'
+</pre>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=250><P>
+<B>new [window]</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+starts new plot with optional window, sets user defaults. Use to set initial values, and when display multiple plots. The default window is 0 0 1000 1000. 
+
+<P>
+For example, create a new plot window with xy position 100 100, and of size 400 by 600:
+
+<pre>
+   pd 'new 100 100 400 600'
+</pre>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>use window </B>
+<TD VALIGN="TOP" WIDTH=512><P>
+change window<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>text, textc, textr arg</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+text (left aligned), centered, right aligned. 
+
+<P>
+Argument is x y text, where x y are coordinates relative to window. 
+
+<P>
+For example, the following writes the text &quot;J Graphics&quot; centered at position 500 950:
+
+<pre>
+   pd 'textc 500 950 J Graphics'
+</pre>
+<TD VALIGN="TOP" WIDTH=200><P>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>{options}</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+sets plot options. See <a href="#Plotoptions">Plot Options</a>
+
+<P>
+For example:
+
+<pre>
+   pd 'backcolor white; frame 1'
+</pre>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>{numeric data} </B>
+<TD VALIGN="TOP" WIDTH=512><P>
+sets plot data. More than one set of data can be given.
+<P>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>clip [w h]</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+copy plot to clipboard in wmf format
+
+<P>
+w h are clipboard width and height in 0.01 millimeters,
+default 10000 7500<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>show</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+displays plot<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200><P>
+<B>save [file w h]</B>
+<TD VALIGN="TOP" WIDTH=512><P>
+save plot to file in wmf format
+
+<P>
+file is filename. The file extension defaults to .wmf. 
+If file not given, 'save' is treated as 'clip'. 
+<P>
+w h are relative width and height. Default is current plot width and height. For example,<br><br> 
+1000 1000 same width and height<br>
+1000 500 width is twice height<p>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+<B>savebmp [file w h]</B>
+<TD VALIGN="TOP" WIDTH=512>
+save plot as 24bit color bitmap file.
+
+<P>
+file is filename. The file extension defaults to .bmp. If file not given, the bitmap is copied to the clipboard.
+<P>
+w h are width and height in pixels, default 512 512.
+</TR></TABLE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="plot_options.htm">&gt&gt;</a>&nbsp;
+<a href="plot_types.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

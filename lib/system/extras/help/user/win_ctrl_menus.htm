@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>Menus</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="tab_cursor_keys.htm">&gt&gt;</a>&nbsp;
+<a href="acc_keys.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Menus</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+Several Window Driver commands support menus:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>menu id text</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+<code>add menu item</code>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>menupop text</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+add popup menu item
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>menupopz</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+ends popup menu and drops down a level
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>menusep</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+add separator line in a popup menu
+</tr></table>
+ 
+To add a popup menu item <code>pop1</code>, displayed in the menu bar:
+
+<pre>
+   wd 'menupop pop1'
+</pre>
+
+<P>
+To add individual items to the popup menu, displayed when the menu is selected:
+
+<pre>
+   wd 'menu item1 &quot;item name&quot;'
+</pre>
+
+<P>
+This displayes the text &quot;<code>item name</code>&quot;, and if selected, the Windows result contains the name <code>item1</code>.
+
+<P>
+To add a separator line: 
+
+<pre>
+   wd 'menusep'
+</pre>
+
+<P>
+To end the popup menu:
+
+<pre>
+   wd 'menupopz'
+</pre>
+
+<P>
+To check a menu item:
+
+<pre>
+   wd 'set item 1'          NB. 1=check, 0=uncheck
+</pre>
+
+<P>
+To enable a menu item:
+
+<pre>
+   wd 'setenable item 1'    NB. 1=enable, 1=disable
+</pre>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="tab_cursor_keys.htm">&gt&gt;</a>&nbsp;
+<a href="acc_keys.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

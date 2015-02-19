@@ -1,0 +1,4 @@
+#!/bin/sh
+
+noweave -html -filter autodefs.ijs -index  c2j.nw > c2j.html
+notangle -t8 -Rc2j-data.ijs -filter emptydefn  c2j.nw > c2j-data.ijs

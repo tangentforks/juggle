@@ -1,0 +1,59 @@
+LABTITLE=: 'Introduction to CMC'
+
+NB. =========================================================
+Lab Section INTRODUCTION
+
+The labs grouped under the heading CMC are adapted from the book CONCRETE MATH COMPANION, which is itself:
+
+   ... written as a companion to CONCRETE MATHEMATICS;
+   following it closely in its choice of topics and order
+   of treatment, and making frequent explicit references
+   to it. Because this book is written in an executable
+   notation, any expression can be entered directly on a
+   computer for experimentation.
+
+1. Graham R.L.,  D.E. Knuth , and O. Patashnik, CONCRETE
+   MATHEMATICS: A Foundation for Computer Science,
+   Addison-Wesley, 1988
+
+2. Kenneth E. Iverson, CONCRETE MATH COMPANION,
+   Strand Software (Click on Help and Product Information)
+)
+
+NB. =========================================================
+Lab Section
+
+The index may be used to locate relevant sections of CONCRETE MATH COMPANION; names such as GKP5_4 will be used to refer to theorem 4 of chapter 5 of Graham, Knuth, and Patashnik.
+
+The J notation used in these labs is accompanied by commentary that will usually be found sufficient. However, full information may be found by pressing key F1 to display the vocabulary, and then clicking on the relevant item.
+
+For example:
+)
+   a=. 0 1 2 3 4 NB. The copula =. assigns a name to any entity
+
+   a % 10        NB. Division is denoted by %
+
+   +/ a	NB. Adverb / inserts its verb argument + between items
+
+   sum=. +/         NB. The verb or function sum
+
+   sum a
+
+   # a              NB. Tally, or number of items
+
+   mean=. sum % #   NB. The arithmetic mean or average
+
+   mean a
+
+NB. =========================================================
+Lab Section
+
+Moreover, because you are always working within J, you may perform any experiments desired to confirm your compehension of notation. For example:
+)
+L1=. +/@i.             NB. Sum of integers
+
+L1 6
+
+i. 6
+
++/ i. 6

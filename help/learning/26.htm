@@ -1,0 +1,568 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 26: Script Files</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 26: Script Files</H1>
+<p>
+A file containing text in the form of lines of J is called a script-file,  
+or just a script.  
+By convention a script has a filename  
+terminating with <TT>.ijs</TT> . 
+The process of executing the lines of J in a script-file 
+is called "loading" a script. 
+<p>
+We write our own scripts for our  
+particular programming projects.  
+In addition, the J system comes supplied 
+with a library of predefined scripts of 
+general utility. 
+<p>
+We look first at built-in functions for loading scripts, 
+and then at a few utilities. 
+<H3>26.0.1  Creating Scripts</H3>
+<p>
+Here is an example of a tiny script. 
+It is supposed to show 
+a number of definitions and then 
+a computation. The lines of J   
+look like this: 
+<PRE>
+       plus =: +
+       k    =: 2 plus 3
+       k plus 1   
+</PRE>
+<p>
+Scripts are usually created using a text editor, 
+but here it is convenient 
+to use J to create small examples of scripts  
+as we need them. We can create this script 
+with a filename of say <TT>example.ijs</TT> 
+using the built-in verb <TT>1!:2</TT>,  like this: 
+<PRE>
+   (0 : 0) (1!:2) &lt; 'c:\example.ijs'
+plus =: +
+k    =: 2 plus 3
+k plus 1   
+)
+</PRE>
+<H3>26.0.2  Loading Scripts</H3>
+<p>
+There is a built-in verb <TT>0!:1</TT> to load a script. 
+The argument is the file-name as a boxed string. 
+<PRE>
+   0!:1 &lt; 'c:\example.ijs'
+   
+      plus =: +
+      k    =: 2 plus 3
+      k plus 1
+   6
+</PRE>
+<p>
+We see on the screen a transcript, or execution log, 
+showing the lines of the script as they were executed, 
+together with the result-values of any computations.  
+The definitions of <TT>plus</TT> and <TT>k</TT> are now available: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>plus</TT></TD> 
+<TD><TT>k</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+</TD> 
+<TD><PRE>5</TD> 
+</PRE></TABLE> 
+<p>
+Now we look at some variations on this basic theme. 
+<H3>26.0.3  With or Without a Transcript</H3>
+<p>
+To suppress the transcript we can load with <TT>0!:0</TT> 
+<PRE>
+   0!:0 &lt;'c:\example.ijs'
+</PRE>
+<p>
+We see nothing on the screen.  
+The value computed in the script for <TT>k plus 1</TT> 
+is discarded. 
+<p>
+To load a script, sending a transcript to 
+another file rather than the screen, 
+we can use dyadic <TT>0!:0</TT>. The right argument <TT>S</TT> 
+is the boxed filename of the script. The left 
+argument <TT>T</TT> is a boxed filename for the transcript (by convention 
+ending in <TT>.ijx</TT>). 
+<PRE>
+   S =: &lt; 'c:\example.ijs'
+   T =: &lt; 'c:\example.ijx'
+   
+   T  0!:0 S
+</PRE>
+<p>
+Now the file <TT>T</TT> contains the transcript.  
+<p>
+As well as <TT>0!:0</TT> and <TT>0!:1</TT> there are more 
+variations of <TT>0!:n</TT> - see the Dictionary. 
+<p>
+<H3>26.0.4  Local Assignments in Scripts</H3>
+<p>
+Here is an example of a script. 
+<PRE>
+   (0 : 0) (1 !: 2) &lt; 'c:\exa.ijs'
+w   =: 1 + 1
+foo =: + & w  
+)
+</PRE>
+<p>
+Suppose that variable <TT>w</TT> has the sole purpose 
+of helping to define verb <TT>foo</TT> and otherwise <TT>w</TT> is of 
+no interest. It would be better 
+to make <TT>w</TT> a local variable. 
+<p>
+<TT>w</TT> can, in effect, be made  
+local to the execution of the script on two conditions. 
+The first is that we 
+assign to <TT>w</TT> with <TT>=.</TT> 
+in the same way that we assign to local variables in explicit 
+functions.  Our revised script becomes: 
+<PRE>
+   (0 : 0) (1 !: 2) &lt; 'c:\exb.ijs'
+w   =. 1 + 1
+foo =: + & w  
+)
+</PRE>
+<p>
+The second condition is that we load the script inside  
+an explicit function, so there 
+is something for <TT>w</TT> to be local to.  (Outside any explicit definition 
+that is, "at the top level", <TT>=.</TT> is the same as <TT>=:</TT>) 
+<p>
+All that is needed is the merest wrapper of explicit definition 
+around <TT>0!:0</TT> or <TT>0!:1</TT>.  
+A suitable "localizing loader" verb might be:  
+<PRE>
+   LL =: 3 : '0!:0 y.'
+</PRE>
+<p>
+If we now load this script 
+<PRE>
+   LL &lt; 'c:\exb.ijs'
+</PRE>
+<p>
+and then look at the results: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>foo</TT></TD> 
+<TD><TT>w</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+&2</TD> 
+<TD><PRE>error</TD> 
+</PRE></TABLE> 
+<p>
+we see that <TT>foo</TT> is as expected,  
+but there is no value for <TT>w</TT>.  
+Therefore <TT>w</TT> was local to the execution of the script, 
+ or strictly speaking, 
+local to the execution of <TT>LL</TT>. 
+<H3>26.0.5  Local Verbs in Scripts</H3>
+<p>
+In the previous example, 
+the local variable <TT>w</TT> was a noun.  
+With a local verb, 
+there is a problem.  
+Here is an example of a script which tries to use 
+a local verb (<TT>sum</TT>) to assist the  
+definition of a global verb (<TT>mean</TT>). 
+<PRE>
+   (0 : 0) (1 !: 2) &lt; 'c:\exc.ijs'
+sum  =. +/
+mean =: sum % # 
+)
+   
+   LL &lt; 'c:\exc.ijs'
+</PRE>
+<p>
+We see that this will not work, because 
+mean needs <TT>sum</TT> and  
+<TT>sum</TT>, being local, is no longer available.  
+<PRE>
+   mean
+sum % #
+</PRE>
+<p>
+The remedy is to "fix" the definition of <TT>mean</TT>, 
+with the adverb <TT>f.</TT> (as we did in  <A HREF="12.htm">Chapter 12</A>). 
+Our revised script becomes 
+<PRE>
+   (0 : 0) (1 !: 2) &lt; 'c:\exd.ijs'
+sum =. +/
+mean =: (sum % #)  f.
+)
+</PRE>
+<p>
+Now <TT>mean</TT> is independent of <TT>sum</TT> 
+<PRE>
+   LL &lt; 'c:\exd.ijs'
+   mean
++/ % #
+   
+</PRE>
+<H3>26.0.6  Loading Into Locales</H3>
+<p>
+We looked at locales in  <A HREF="24.htm">Chapter 24</A>.   
+When we load a script with <TT>0!:0</TT> or <TT>LL</TT>  
+the locale that becomes populated with definitions 
+from the script is the current locale.  
+<p>
+By default, the current locale is <TT>base</TT>. 
+In general, we may wish to load a script into 
+a specified locale, say locale <TT>foo</TT>.  
+<p>
+Evidently we can do this by switching to locale <TT>foo</TT>  
+loading and switching back to the base locale.  
+<PRE>
+    18!:4 'foo'
+    0!:0  &lt;'c:\example.ijs' 
+    18!:4 'base'
+   
+</PRE>
+<p>
+A neater way is as follows. We define a loading verb,  
+ <TT>LLL</TT> say, which is just like <TT>LL</TT> above but this time 
+we install it in locale <TT>z</TT>. 
+<PRE>
+   LLL_z_ =: 3 : '0!:0 y.'
+   
+</PRE>
+<p>
+Now we can load a script into a specified locale, <TT>foo</TT> say, with: 
+<PRE>
+   LLL_foo_  &lt;'c:\example.ijs'
+   
+   
+</PRE>
+<H3>26.0.7  Library Scripts</H3>
+<p>
+The J system comes supplied with a useful library 
+of script files containing predefined utility functions. 
+<p>
+Suppose that on our computer the J system 
+is installed in the directory <TT>\j</TT>.  
+Then a typical library  
+script-file might be, for example, <TT>\j\system\main\dates.ijs</TT>. 
+This contains functions for handling calendar dates, 
+and can of course loaded with <TT>0!:0</TT>  
+(although we will see below there is a better way.) 
+<PRE>
+   0!:0 &lt;'\j\system\main\dates.ijs'
+</PRE>
+<p>
+We can inspect one of the utility functions just loaded: 
+<PRE>
+   weekday
+7: | 3: + todayno
+   
+</PRE>
+<H3>26.0.8  The Profile</H3>
+<p>
+A J session begins with the 
+automatic behind-the-scenes loading of a  
+script file called the "profile". 
+The contents of the profile can be whatever we choose - 
+whatever function definitions or other things we find 
+ convenient to have on hand as our regular setup at the beginning of 
+a session.  Commonly a profile itself loads 
+a further selection of library scripts and our own scripts.  
+<p>
+The profile to be used is specified in the operating-system command-line 
+initiating the J session.   
+If no profile is specified in the command-line, 
+then a standard system-supplied profile is used.  
+In this case a session  
+ begins with the automatic execution of: 
+<PRE>
+     0!:0 &lt;'\j\system\extras\config\profile.ijs'
+</PRE>
+<p>
+Loading this standard profile 
+  will load a further standard selection of library scripts, 
+to give a set of commonly useful predefined verbs. 
+The user can customize the standard profile to load 
+further scripts. 
+<H3>26.0.9  load and loadd</H3>
+<p>
+Among these useful predefined verbs is <TT>load</TT>.  
+Its effect is the same as <TT>0!:0</TT>, that is,  
+to load a script without displaying a transcript. 
+<PRE>
+   load 'c:\example.ijs'
+</PRE>
+<p>
+Notice that the argument filename above can be a  
+plain string, not boxed.  A companion verb is <TT>loadd</TT>, which, like <TT>0!:0</TT> 
+loads a script displaying a transcript. 
+<p>
+<TT>load</TT> and <TT>loadd</TT> have several advantages over <TT>0!:0</TT> and <TT>0!:1</TT>. 
+The first advantage of <TT>load</TT> is that for a library 
+script the full pathname is not needed:  
+a simple name is enough. Instead of  
+<PRE>
+   load '\j\system\main\dates.ijs'
+</PRE>
+<p>
+it is enough to say 
+<PRE>
+   load 'dates'
+</PRE>
+<p>
+To achieve this effect, <TT>load</TT> and <TT>loadd</TT> use 
+a predefined catalog of all the library scripts, set up 
+in the course of executing the standard profile. 
+The catalog is a noun - a boxed table - named  
+<TT>PUBLIC_j_</TT> .  There are many scripts;  
+the first 6 are shown by: 
+<PRE>
+     6 {.  PUBLIC_j_
++--------+---------------------------------------+-+
+|colib   |c:\j\system\main\colib.ijs             |z|
++--------+---------------------------------------+-+
+|color16 |c:\j\system\packages\color\color16.ijs |z|
++--------+---------------------------------------+-+
+|colortab|c:\j\system\packages\color\colortab.ijs|z|
++--------+---------------------------------------+-+
+|compare |c:\j\system\main\compare.ijs           |z|
++--------+---------------------------------------+-+
+|convert |c:\j\system\main\convert.ijs           |z|
++--------+---------------------------------------+-+
+|dates   |c:\j\system\main\dates.ijs             |z|
++--------+---------------------------------------+-+
+   
+</PRE>
+<p>
+Each row has a simple name, the associated  
+full path-name for the script, and finally 
+a locale, usually <TT>z</TT> or {j</TT>,  
+into which the script will be loaded. 
+<TT>PUBLIC_j_</TT> is itself set up from a file 
+<TT>\j\system\extras\config\scripts.ijs</TT>. 
+This file can be edited by the user. 
+Thus the second advantage of <TT>load</TT> 
+is that a script can be automatically steered into an appropriate  
+locale on loading. 
+<p>
+The third advantage of <TT>load</TT> is this.  
+Suppose one script depends on (definitions in)  
+a second script. If the first 
+includes a line  
+such as <TT>load 'second'</TT> then  
+ the second is automatically loaded  
+when the first is loaded.  
+<p>
+If we load the first script again  
+(say, after correcting an error) 
+then the second will be loaded again. This may 
+be unnecessary or undesirable.  
+To avoid repeated loading of the second script 
+we can <TT>require</TT> it rather than <TT>load</TT> it, that is 
+load it only if not already loaded. 
+<p>
+Here is a demonstration. Suppose we have  
+these two lines for the first script: 
+<PRE>
+   (0 : 0) (1 !: 2) &lt; 'c:\first.ijs'
+    require 'c:\second.ijs'
+    a =: a + 1
+)
+</PRE>
+<p>
+Here the variable <TT>a</TT> is a counter: 
+ every time <TT>first.ijs</TT> is loaded, 
+ <TT>a</TT> will be incremented.  
+Similarly for a second script: 
+<PRE>
+   (0 : 0) (1 !: 2) &lt; 'c:\second.ijs'
+    b  =: b + 1
+)
+</PRE>
+<p>
+We set the counters <TT>a</TT> and <TT>b</TT> to zero, load the first script 
+and inspect the counters: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(a =: 0),(b =: 0)</TT></TD> 
+<TD><TT>load 'c:\first.ijs'</TT></TD> 
+<TD><TT>a,b</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 0</TD> 
+<TD><PRE></TD> 
+<TD><PRE>1 1</TD> 
+</PRE></TABLE> 
+<p>
+Evidently each script has executed once.  
+If we now load the first again,  
+we see that it has executed again, but the second has not: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>load 'c:\first.ijs'</TT></TD> 
+<TD><TT>a,b</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE></TD> 
+<TD><PRE>2 1</TD> 
+</PRE></TABLE> 
+<p>
+The effect is achieved by automatically  
+tracking what has been loaded with <TT>load</TT> or <TT>loadd</TT>  
+in a table called <TT>LOADED_j_</TT>. 
+<PRE>
+   LOADED_j_
++---------------------------+-+
+|c:\j\system\main\format.ijs|z|
++---------------------------+-+
+|c:\example.ijs             | |
++---------------------------+-+
+|c:\j\system\main\dates.ijs | |
++---------------------------+-+
+|c:\j\system\main\dates.ijs |z|
++---------------------------+-+
+|c:\first.ijs               | |
++---------------------------+-+
+|c:\second.ijs              | |
++---------------------------+-+
+</PRE>
+<p>
+The fourth advantage of <TT>load</TT> is 
+that it respects local assignments (because at the heart of <TT>load</TT> 
+is <TT>0!: 0</TT>).  
+<p>
+The fifth advantage of <TT>load</TT> is that an optional 
+left argument can specify a locale into which to load the script. 
+For example: 
+<PRE>
+   'mylocale' load 'c:\example.ijs'
+   
+   plus_mylocale_
++
+   
+</PRE>
+<H3>26.0.10  More on Load Status</H3>
+<p>
+We saw above that the J system maintains a record of 
+which scripts have been loaded with the <TT>load</TT> verb.  
+There is 
+another separate system which keeps track of ALL scripts 
+loaded, whether with <TT>load</TT> or with <TT>0!:0</TT>.   The built-in verb 
+<TT>4 !: 3</TT> with a null argument gives a report 
+as a boxed list of filenames. 
+<PRE>
+   ,. 4 !: 3 ''
++-------------------------------------+
+|c:\js\pr1.ijs                        |
++-------------------------------------+
+|c:\j\system\extras\util\boot.ijs     |
++-------------------------------------+
+|c:\j\system\main\stdlib.ijs          |
++-------------------------------------+
+|c:\j\system\main\winlib.ijs          |
++-------------------------------------+
+|c:\j\system\main\colib.ijs           |
++-------------------------------------+
+|c:\j\system\main\loadlib.ijs         |
++-------------------------------------+
+|c:\j\system\main\jadelib.ijs         |
++-------------------------------------+
+|c:\j\system\extras\config\scripts.ijs|
++-------------------------------------+
+|c:\j\system\extras\config\winpos.ijs |
++-------------------------------------+
+|c:\j\system\extras\util\configur.ijs |
++-------------------------------------+
+|c:\j\system\extras\config\config.ijs |
++-------------------------------------+
+|c:\js\pr2.ijs                        |
++-------------------------------------+
+|c:\j\system\main\format.ijs          |
++-------------------------------------+
+|c:\work\current.js                   |
++-------------------------------------+
+|c:\example.ijs                       |
++-------------------------------------+
+|c:\exb.ijs                           |
++-------------------------------------+
+|c:\exc.ijs                           |
++-------------------------------------+
+|c:\exd.ijs                           |
++-------------------------------------+
+|c:\j\system\main\dates.ijs           |
++-------------------------------------+
+|c:\first.ijs                         |
++-------------------------------------+
+|c:\second.ijs                        |
++-------------------------------------+
+</PRE>
+<p>
+We see some scripts loaded by the standard profile,  
+and others particular to this session.  
+Recall that we defined <TT>plus</TT> 
+in the script <TT>example.ijs</TT> which we loaded above.  
+The built-in verb <TT>4!:4</TT> keeps track 
+of which name was loaded from which script.  
+The argument is a name (<TT>plus</TT> for example)  
+and the result is an index into the list of scripts 
+generated by <TT>4!:3</TT>.  We see that <TT>plus</TT> was indeed 
+defined by loading the script <TT>example.ijs</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>i =: 4!:4 &lt; 'plus'</TT></TD> 
+<TD><TT>i { 4!:3 '' </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>14</TD> 
+<TD><PRE>+--------------+ 
+|c:\example.ijs| 
++--------------+</TD> 
+</PRE></TABLE> 
+<H3>26.0.11  Summary</H3>
+<p>
+The recommendation is : 
+<UL> 
+<LI> Use the standard profile, or the standard profile 
+     with additional customizing. This ensures that 
+     a session begins having loaded the standard library scripts. 
+<LI> Use <TT>load</TT>, <TT>loadd</TT> or <TT>require</TT> for loading 
+     scripts. 
+</UL> 
+<p>
+This is the end of this chapter. 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="31.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 13 Jan 01</p>
+</BODY>
+</HTML>
+

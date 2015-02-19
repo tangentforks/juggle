@@ -1,0 +1,292 @@
+<html>
+<head>
+<title>GUI part 1</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="data_processing.htm">&gt&gt;</a>&nbsp;
+<a href="component_files.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Graphical user interface</h1><TR><TD>
+
+<P>These days almost no programming task is complete until it is packaged in a graphical user interface (GUI).</P>
+
+<P>Let's add a GUI to your <TT>centigrade </TT>and <TT>fahrenheit </TT>verbs.</P>
+
+<P>There are many steps in building a form and an application. The exact steps you should follow are contained in the series of indented, bulleted items. General discussion and background information is provided in text between these bulleted items.</P>
+
+<P>Run your cf.ijs script and make sure that centigrade and fahrenheit work.
+</P>
+<P>The first step in creating a GUI is to create a form definition. A form definition is stored in a script file just as are all your other definitions.</P>
+
+<P>Create a new script file, save it as a permanent file in the user directory, and start the form editor. The form editor is covered in more detail in the J Online Documentation available on the help menu and you should refer to that if you have problems with the following steps, or want more information at this time.</P>
+
+<UL>
+  <LI><P>create a new script file with <B>File|New IJS</B></P></LI>
+  <LI><P>save it in the user directory as cfgui.ijs with <B>File|Save As...</B></P></LI>
+  <LI><P>start the form editor with <B>Edit|Form Edit</B></P></LI>
+</UL>
+
+<P>You should now have the Form Edit dialog box on the screen.
+</P>
+ <IMG SRC="formedit.gif" BORDER="0" ALT="">
+
+<UL>
+  <LI><P>type <TT>cfgui </TT>for your form name</P></LI>
+  <LI><P>select the empty form item in the listbox</P></LI>
+  <LI><P>press OK to close the dialog</P></LI>
+</UL>
+
+<P>You should now have two new windows on the screen, one in the upper left corner and one in the center of the screen that look something like:</P>
+<table><tr><td><IMG SRC="cfgui0.gif" BORDER="0" ALT=""></td><td>&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td><td><IMG SRC="design.gif" BORDER="0" ALT=""></td></tr></table>
+
+ 
+
+<P>The small form in the corner is the new form you are editing. The Design dialog allows you to customize the form and is in the middle of the screen. The script file cfgui.ijs has had text added to it that defines the form.</P>
+
+<P>Create a static control in your form with the text centigrade. A static control is used to label other controls.</P>
+
+<UL>
+  <LI><P>press the New... button in the Design dialog</P></LI>
+  <LI><P>in the New Control dialog select static from the listbox</P></LI>
+  <LI><P>type <TT>centigrade </TT>into the caption edit box</P></LI>
+  <LI><P>press OK</P></LI>
+</UL>
+
+<P>New controls are created in the upper left corner of the form. You can drag a control with the mouse. To drag a control, point at it with the mouse, hold down the left mouse button and move it.</P>
+
+<UL>
+  <LI><P>drag the centigrade label down and to the right a bit</P></LI>
+</UL>
+
+<P>Create an edit control with an id of <TT>cid </TT>for the centigrade value. The id is very important as it is used as the name of the noun used for the control as well as being used in commands to indicate which control they affect.</P>
+
+<UL>
+  <LI><P>press the New... button</P></LI>
+  <LI><P>select a class of edit</P></LI>
+  <LI><P>type in <TT>cid </TT>as the control id</P></LI>
+  <LI><P>press OK</P></LI>
+  <LI><P>drag the <TT>cid </TT>edit control to the right of the label control</P></LI>
+</UL>
+
+<P>Create a static control with the text Fahrenheit and an edit control with an id of <TT>fid</TT>.</P>
+
+<UL>
+  <LI><P>repeat steps similar to the above to create a Fahrenheit static label and an fid edit control</P></LI>
+</UL>
+
+<P>Experiment a bit with moving the controls around. Grab edges or corners to resize them. If you make a mistake you can select a control with the mouse and press the Delete key to delete it and then recreate it.</P>
+
+<P>Your form should now look something like the following:
+</P>
+ 
+<IMG SRC="cfgui1.gif" BORDER="0" ALT="">
+<P>The form design is finished. Let's exit the form editor and try running the form.</P>
+
+<UL>
+  <LI><P>press OK in the Design dialog</P></LI>
+</UL>
+<P>The form definition is now in the cfgui.ijs script. Let's take a look at what the form editor put into the script. The numbers giving screen coordinate will be different, but your script should look something like:</P>
+
+ 
+<PRE>NB. base form 
+
+CFGUI=: 0 : 0
+pc cfgui;
+xywh 12 18 40 10;cc ccstatic static;cn "centigrade:";
+xywh 56 16 40 14;cc cid edit ws_border es_autohscroll;
+xywh 12 40 40 10;cc ccstatic static;cn "Fahrenheit:";
+xywh 56 36 40 14;cc fid edit ws_border es_autohscroll;
+pas 6 6;pcenter;
+rem form end;
+)
+
+cfgui_run=: 3 : 0
+wd CFGUI
+NB. initialize form here
+wd 'pshow;'
+)
+
+cfgui_close=: 3 : 0
+wd'pclose'
+)
+</PRE>
+<P>All interactions with forms are done with the <TT>wd </TT>(Window Driver) verb. The <TT>wd </TT>argument is always a string that starts with a command. A string can contain multiple commands separated by semicolons.</P>
+
+<P>The noun <TT>CFGUI </TT>is defined by the conjunction <TT>:</TT> in a manner similar to how verbs are defined. The left argument of <TT>0</TT> creates a noun. It is defined as the lines of characters up to the line which contains only the <TT>)</TT>. It contains the commands that will create the form. Don't worry about the details now, but most of it should make some sense. Commands are followed by parameters and multiple commands on a line are separated by <TT>;</TT>. The <TT>pc </TT>command is a parent create (a form is referred to as a parent). The next line has an <TT>xywh </TT>command that sets a rectangular area on the form and is followed by a <TT>cc </TT>command (create child) that creates one of the controls you put on the form. </P>
+
+<P>After the definition of <TT>CFGUI </TT>you will see that the editor has created a verb called <TT>cfgui_run</TT>. This verb ignores its argument. It executes the <TT>wd </TT>verb with <TT>CFGUI </TT>as an argument. This creates the form, but doesn't show it. The final <TT>wd </TT>with the argument <TT>'pshow;'</TT> will show the parent (form).</P>
+
+<P>At this point the cfgui.ijs script has not been run so the definitions are just text in the script file and have not been defined. After you run the script you are ready to run your application.</P>
+ 
+<UL>
+  <LI><P>run the cfgui.ijs script with <B>Run|Window</B></P></LI>
+  <LI><P>in the ijx window:<TT> cfgui_run 0</TT></P></LI>
+</UL>
+
+<P>When you execute <TT>cfgui_run 0</TT> you should see your form in the middle of the screen. Typing into the controls and pressing Enter has no effect because you have no code connected to the events yet.</P>
+
+<P>You can close the form manually by executing the <TT>wd </TT>command reset that closes all forms.</P>
+
+<UL>
+  <LI><P>in the ijx window: wd 'reset'</P></LI>
+</UL>
+
+<P>When you type a value in the centigrade edit control and press Enter you cause an event. An event is identified by the form and the control in which it occurs and the type of the event. An Enter in an edit control is a button event (pressing enter in an edit field is analogous to pressing a button control). So, the event of interest here is for form <TT>cfgui</TT>, control <TT>cid</TT>, and is a button event.</P>
+
+<P>When an event occurs, a verb called the event handler is executed. The name of the verb that is executed is determined by the event. The name of an event handler is made up of three parts: <TT>formid_controlid_event</TT>. So, the event handler of interest has the name <TT>cfgui_cid_button</TT>.</P>
+
+<P>The event handler <TT>cfgui_cid_button</TT> should convert the value from the <TT>cid </TT>edit control to Fahrenheit and then display that result in the <TT>fid </TT>edit control.</P>
+
+<P>The form editor can automatically create a skeleton of this event handler for you. In the form editor, hold down the Ctrl key and click a control, and you will be switched to editing in the script at the definition of the verb that handles the event for that control.</P>
+
+<P>You closed the form editor, so the first thing is to restart the form editor. Select the cfgui.ijs script and start the form editor with <B>Edit|Form Edit</B>. </P>
+
+<UL>
+  <LI><P>select cfgui.ijs (titlebar highlighted)</P></LI>
+  <LI><P>start form editor with <B>Edit|Form Edit</B></P></LI>
+</UL>
+
+ 
+<P>Your form should again appear open for editing in the corner of your screen.</P>
+
+<UL>
+  <LI><P>hold down the Ctrl key and click the cid control</P></LI>
+ 
+</UL>
+<P>You should be positioned at the skeleton definition of <TT>cfgui_cid_button </TT>in the cfgui.ijs script. You need to define that verb. When the event handler is executed the noun <TT>cid </TT>will automatically have the value of the contents of the edit field. It will be a string and you need to convert that to a number with the <TT>".</TT> primitive.</P>
+
+<PRE>t =. 0 ". cid
+</PRE>
+<P>The next thing is to convert that centigrade value to Fahrenheit.
+</P>
+<PRE>t =. fahrenheit t
+</PRE>
+<P>The noun <TT>t</TT> is the number you want to display in the <TT>fid </TT>edit control. The number must be converted to a string before it can be shown in an edit field. Use <TT>":</TT> (format) for this.</P>
+
+<PRE>t =. ": t
+</PRE>
+<P>Finally, write the text string to the <TT>fid </TT>edit field.
+</P>
+<PRE>wd 'set fid ' , t
+</PRE>
+<P>The <TT>wd </TT>argument has a command of <TT>set</TT>, the id of the control to set, and <TT>t</TT> contains the data to set. The <TT>*</TT>  indicates all the following data is the text to set in the control.</P>
+
+<P>Add these sentences to the definition in the cfgui.ijs script.
+</P>
+<PRE>cfgui_cid_button=: 3 : 0
+t =. 0 ". cid
+t =. fahrenheit t
+t =. ": t
+wd 'set fid *', t
+)</PRE>
+
+<P>Be careful to type this correctly into your script.</P>
+
+<P>You return to the form editor by holding down the Ctrl key and clicking the script window.</P>
+<UL>
+  <LI><P>add the sentences to the definition of <TT>cfgui_cid_button</TT></P></LI>
+  <LI><P>hold the Ctrl key and click the script to return to the form editor</P></LI>
+  <LI><P>press OK in the Design dialog</P></LI>
+</UL>
+
+<P>At this point the cfgui.ijs script has not been run so the changes are just text in the script file.</P>
+
+<UL>
+  <LI><P>run the script with <B>Run|Window</B></P></LI>
+  <LI><P>in the ijx window run the application: <TT>cfgui_run 0</TT></P></LI>
+</UL>
+
+<P>You should see your form in the middle of the screen. Type a number into the centigrade field and press Enter. The Fahrenheit value should display in its field.</P>
+
+<P>If you type into the Fahrenheit field and press Enter nothing happens. This is because you have not provided a handler for that event. If an event handler verb is not defined, the event is ignored. Let's define the event handler for Enter in the Fahrenheit field now. Start the form editor and hold down the Ctrl key and click the fid control to get to the definition of the verb for that event. The definition for <TT>cfgui_fid_button</TT> is similar to that of <TT>cfgui_cid_button</TT>.</P>
+
+<PRE>cfgui_fid_button=: 3 : 0
+t =. 0 ". fid
+t =. centigrade t
+wd'set fid *', ": t
+)</PRE>
+
+<UL>
+  <LI><P>select cfgui.ijs (titlebar highlighted)</P></LI>
+  <LI><P>start the form editor with <B>Edit|Form Edit</B></P></LI>
+
+  <LI><P>hold down the Ctrl key and click the fid control</P></LI>
+  <LI><P>add the <TT>cfgui_fid_button</TT> definition to the script</P></LI>
+  <LI><P>hold the Ctrl key and click the script to return to the form editor</P></LI>
+
+  <LI><P>press OK in the Design dialog</P></LI>
+
+  <LI><P>run the script with <B>Run|Window</B></P></LI>
+  <LI><P>in the ijx window: <TT>cfgui_run 0</TT></P></LI>
+</UL>
+
+<P>Now when you type a value in the Fahrenheit field and press Enter it will be converted and display in the centigrade field.</P>
+
+<P>Finally, add a close button so that the form will be able to close itself. The event handler will be as follows:</P>
+
+<PRE>cfgui_close_button=: 3 : 0
+wd 'pclose'
+)</PRE>
+
+<P>The wd command pclose (parent close) closes the form.</P>
+
+<UL>
+  <LI><P>in the ijx window: <TT>wd 'reset'</TT></P></LI>
+  <LI><P>start the form editor with <B>Edit|Form Edit</B></P></LI>
+  <LI><P>press the New... button</P></LI>
+
+  <LI><P>select a class of button</P></LI>
+  <LI><P>type close as the control id</P></LI>
+  <LI><P>type Close in the caption field</P></LI>
+  <LI><P>press OK</P></LI>
+
+  <LI><P>drag the Close button to the right side of the form</P></LI>
+
+  <LI><P>hold down the Ctrl key and click the Close button</P></LI>
+  <LI><P>add the <TT>wd 'pclose'</TT> sentence to the definition</P></LI>
+  <LI><P>hold the Ctrl key and click the script to return to the form editor</P></LI>
+
+  <LI><P>press OK in the Design dialog</P></LI>
+
+  <LI><P>run the script with Run|Window</P></LI>
+  <LI><P>in the ijx window: cfgui_run 0</P></LI>
+</UL>
+
+<P>When you tire of doing conversions you can press the Close button to close your form.</P>
+
+<P>Congratulations! you have written a GUI application in J. It is simple and has rough edges, but you are over the high hurdles.</P>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="data_processing.htm">&gt&gt;</a>&nbsp;
+<a href="component_files.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

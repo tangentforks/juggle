@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>Classes</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="grid_ctrl_methods.htm">&gt&gt;</a>&nbsp;
+<a href="grid_ctrl_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Classes</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+The basic grid class is jzgrid, and this provides facilities that should be required for any grid, including:
+
+<P>
+scrolling<br>
+mouse events<br>
+keyboard events<br>
+setting attributes, e.g. font, color, border, cell size
+
+<P>
+While the jzgrid class could in theory be used directly (for a very simple grid), there would typically be another class on top of the basic grid class that provides a specific type of grid, for example the watch class jwgrid. This would include data-related definitions such as providing formatted data for the grid and support for copying and editing. 
+
+<P>
+As well as the grid classes, yet another class is needed for the Windows form definition. This will include
+<p>
+<li>the isigraph control to display the grid
+<li>code to create the grid object from the grid classes to be used
+<li>calls to grid event handlers 
+
+<P>
+If you create a new form using File|New Class, the Form Editor Wizard can be used to add the appropriate definitions.
+
+<P>
+See <a href="#watch">Watch Example</a> for a  typical class structure.<br><br>
+
+<hr><A NAME="watch"></A>
+<h3>Watch Example</h3>
+
+<P>
+The following example using the watch grid illustrates the class paths:
+<br>
+<pre>
+   dat=. ?30 30$100
+</pre>
+
+<P>
+This defines some data to be watched.
+
+<pre>
+   load 'jwatch'
+</pre>
+
+<P>
+This loads the class jwatch into the jwatch locale, which in turn loads the scripts jwgrid and jinput, each into their own locale. jwgrid in turn loads the basic grid script, jzgrid. At this stage, all that has happened is that these scripts have been loaded, and the locale namelist looks like: 
+
+<pre>
+   conl ''
++----+-+------+------+------+------+-+
+|base|j|jinput|jwatch|jwgrid|jzgrid|z|
++----+-+------+------+------+------+-+
+</pre>
+
+<P>
+No locale path settings have been made, so each locale has a path of z, as is the case with all new locales.
+
+<pre>
+   a=. conew 'jwatch'
+</pre>
+
+<P>
+This creates a new object (numbered locale) referenced by <code>a</code>. In a new session, it would be named '<code>0</code>' :
+
+<pre>
+   conl''
++-+----+-+------+------+------+------+-+
+|0|base|j|jinput|jwatch|jwgrid|jzgrid|z|
++-+----+-+------+------+------+------+-+
+</pre>
+
+<P>
+The new locale is empty, but has a locale path that includes jwatch and z.
+
+<pre>
+   create__a 'dat'
+</pre>
+
+<P>
+<code>create__a</code> is called in the new locale, and gets its definition from jwatch. This verb creates a new form to display the grid, and then itself calls <code>conew</code> to create a jwgrid object and sets its path to include jwgrid and jzgrid:
+
+<pre>
+   grid=: ''conew'jwgrid'
+</pre>
+
+<P>
+Therefore the locale list now includes two numbered locales:
+
+<pre>
+   conl''
++-+-+----+-+------+------+------+------+-+
+|0|1|base|j|jinput|jwatch|jwgrid|jzgrid|z|
++-+-+----+-+------+------+------+------+-+
+</pre>
+
+<P>
+The paths in these two numbered locales are:
+
+<pre>
+   copath a           locale '0'
++------+-+
+|jwatch|z|
++------+-+
+
+   copath grid__a     locale '1'
++------+------+-+
+|jwgrid|jzgrid|z|
++------+------+-+
+</pre>
+
+<P>
+The structure of numbered locales is returned by <code>costate</code>:
+
+<pre>
+   costate''
++----+--+-------+---------------+
+|refs|id|creator|path           |
++----+--+-------+---------------+
+|a   |0 |base   |jwatch z       |
++----+--+-------+---------------+
+|    |1 |0      |jwgrid jzgrid z|
++----+--+-------+---------------+
+</pre>
+
+<P>
+Now suppose the mouse is clicked on one of the grid cells. The form is defined in locale <code>a</code>, so the mouse event handler <code>watch_grid_mbldown</code> will be called there. Since this locale has no event handlers of its own, the definition in the <code>jwatch</code> locale is used. This is defined as:
+
+<pre>
+   watch_grid_mbldown=: 3 : 'mbldown__grid sysdata'
+</pre>
+
+<P>
+Therefore the actual handler called is <code>mbldown</code> in the <code>grid</code> locale, which will pick its definition up from either <code>jwgrid</code> or <code>jzgrid</code>, whichever it sees first.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="grid_ctrl_methods.htm">&gt&gt;</a>&nbsp;
+<a href="grid_ctrl_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

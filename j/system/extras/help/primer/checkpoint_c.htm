@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Checkpoint C</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="basic_list_adding.htm">&gt&gt;</a>&nbsp;
+<a href="control_structure.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Checkpoint C</h1><TR><TD>
+
+<P>At this point you should understand:</P>
+
+<UL>
+  <LI>that load <TT>'debug'</TT> loads debug utilities</LI>
+  <LI>the general idea of verb debugging</LI>
+  <LI>how control words create control structures by grouping sentences into blocks</LI>
+  <LI>what the T block test result is</LI>
+  <LI>how the test result determines which B block to execute</LI>
+  <LI>how the test result determines when control structure execution is finished</LI>
+</UL>
+
+<P>Check your understanding by doing the following exercises:
+</P>
+<UL>
+  <LI>debug step through your convert verb</LI>
+  <LI>create a temporary script file and define a verb called <TT>conv </TT>that is similar to <TT>convert</TT>, but insists on a <TT>'f'</TT> argument to do the conversion to Fahrenheit and gives a string result indicating there was an error if the left argument is neither <TT>'c'</TT> nor <TT>'f'</TT>. Hint: use the control structure sketched out here:</LI>
+
+
+<PRE>if. x. = 'c' do. ...
+  elseif. x. = 'f' do. ...
+  elseif. 1 do. 'left arg not c or f'
+end.</PRE>
+
+<P>or try a <TT>select.</TT> structure.
+</P>
+<li>create a temporary script file and define a dyad called plus that adds its left argument to its right. But, if there is an error, it should give a string result. Hints: use dyad : <TT>0; 4 plus 9</TT> should return 13;<TT> 'a' plus 9</TT> should return your error string (perhaps, <TT>'there was an error'</TT>); use a <TT>try.</TT> control structure to catch the error and give the string result.</li>
+
+</UL>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="basic_list_adding.htm">&gt&gt;</a>&nbsp;
+<a href="control_structure.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

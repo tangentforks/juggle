@@ -1,0 +1,855 @@
+N B. Verbs
+T
+ *(Monads and Dyads.)*
+ Verbs have two definitions, one for the _(monadic)_
+ case (one argument), and one for the _(dyadic)_ case
+ (two arguments).  The dyadic definition applies if the
+ verb is preceded by a suitable left argument, that is,
+ any noun that is not itself an argument of a
+ conjunction; otherwise the monadic definition applies.
+ 
+ The monadic case of a verb is also called a _(monad)_,
+ and we speak of the *(monad)* [[%]] used in the phrase
+ [[%4]], and of the *(dyad)* [[%]] used in [[3%4]].
+ Either or both may have empty domains.
+ 
+ *(Ranks of Verbs.)*
+ The notion of verb rank is closely related to that of
+ noun rank: a verb of rank _(k)_ applies to each of the
+ k-cells of its argument.  For example (using the array
+ [[b]] from Section A):
+# new section, new definition, period.
+ b=:2 3 4 $ 'abcdefghijklmnopqrstuvwx'
+ ,b
+ ,"2 b
+ ,"_1 b
+T
+ Since the verb _(ravel)_ (denoted by [[,]]) applies to
+ its entire argument, its rank is said to be
+ _(unbounded)_.  The _(rank)_ conjunction [["]] used in
+ the phrase [[,"2]] produces a related verb of rank 2
+ that ravels each of the 2-cells to produce a result of
+ shape 2 by 12.
+ 
+ The shape of a result is the frame (relative to the
+ cells to which the verb applies) catenated with the
+ shape produced by applying the verb to the individual
+ cells.  Commonly these individual shapes agree, but if
+ not, they are first brought to a common rank by
+ introducing leading unit axes to any of lower rank,
+ and are then brought to a common shape by _(padding)_
+ with an appropriate _(fill)_ element: space for a
+ character array, 0 for a numeric array, and a boxed
+ empty list for a boxed array.  For example:
+E
+ i."0 s=: 2 3 4
+ >'I';'was';'here'
+T
+ The dyadic case of a verb has two ranks, governing the
+ left and right arguments.  For example:
+E
+ p=: 'abc'
+ q=: 3 5$'wake read lamp '
+ p,"0 1 q
+T
+ Finally, each verb has three intrinsic ranks: monadic,
+ left, and right.  The definition of any verb need
+ specify only its behaviour on cells of the intrinsic
+ ranks, and the extension to arguments of higher rank
+ occurs systematically.  The ranks of a verb merely
+ place upper limits on the ranks of the cells to which
+ it applies; its domain may include arguments of lower
+ rank.  For example, matrix inverse ([[%.]]) as monadic
+ rank 2, but treats the case of a vector as a
+ one-column matrix.
+ 
+ *(Agreement.)*
+ In the phrase [[p v q]], the arguments of [[v]] must
+ _(agree)_ in the sense that one frame must be a prefix
+ of the other, as in [[p,"0 1 q]] above, and in the
+ following examples:
+# messed up alignment in the printed version:
+E
+ p,"1 1 q
+ 3 4 5*i. 3 4
+ (i.3 4)*3 4 5
+T
+ If a frame contains [[0]], the verb is applied to a
+ cell of fills.  For example:
+E
+ ($ #"2 i. 1 0 3 4);($ 2 3 %"1 i. 0 2)
+ ($ $"2 i. 1 0 3 4);($ 2 3 %/"1 i. 0 4)
+
+N E. Parsing and Execution
+T
+ A sentence is evaluated by executing its phrases in a
+ sequence determined by the parsing rules of the
+ language.  For example, in the sentence [[10%3+2]],
+ the phrase [[3+2]] is evaluated first to obtain a
+ result that is then used to divide [[10]].  In
+ summary:
+ 
+ 1. Execution proceeds from right to left, except that
+ when a right parenthesis is encountered, the segment
+ enclosed by it and its matching left parenthesis is
+ executed, and its result replaces the entire segment
+ and its enclosing parentheses.
+ 
+ 2. Adverbs and conjunctions are executed before verbs;
+ the phrase [[,"2-a]] is equivalent to [[(,"2)-a]], not
+ to [[,"(2-a)]]. Moreover, the left argument of an verb
+ or conjunction is the entire verb phrase that precedes
+ it.  Thus, in the phrase [[+/ . */b]], the rightmost
+ adverb [[/]] applies to the verb derived from the
+ phrase [[+/ . *]], not to the verb [[*]].
+ 
+ 3. A verb is applied dyadically if possible; that is,
+ if preceded by a noun that is not itself the right
+ argument to a conjunction.
+ 
+ 4. Certain _(trains)_ form verbs, adverbs, and
+ conjunctions, as described in Section F.
+ 
+ 5. To ensure that these summary parsing rules agree
+ with the precise parsing rules prescribed below, it
+ may be necessary to parenthesize an adverbial or
+ conjunctival phrase that produces anything other than
+ a noun or verb.
+ 
+ One important consequence of these rules is that in an
+ unparenthesized expression the right argument of any
+ verb is the result of the entire phrase to its right.
+ The sentence [[3*p%q^|r-5]] can therefore be *(read)*
+ from left to right: the overall result is 3 times the
+ result of the remaining phrase, which is the quotient
+ of [[p]] and the part following the [[%]], and so on.
+ 
+ Parsing proceeds by moving successive elements (or
+ their *(values)* except in the case of proverbs and
+ names immediately to the left of a copula) from the
+ tail end of a _(queue)_ (initially the original
+# paragraph as marker replaced by non-existing,
+# reserved, straight-ASCII word "M:":
+ sentence prefixed by a left marker [[M:]]:
+ 
+|M: b =: + / 2 * a
+|M: b =: + / 2 *           1 2 3
+|M: b =: + / 2           * 1 2 3
+|M: b =: + /           2 * 1 2 3
+|M: b =: +           / 2 * 1 2 3
+|M: b =: +               / 2 4 6
+|M: b =:               + / 2 4 6
+|M: b               =: + / 2 4 6
+|M: b                      =: 12
+|M:                      b =: 12
+|M:                           12
+|                          M: 12
+ 
+ The foregoing illustrates two points:  1) Execution of
+ the phrase [[2 * 1 2 3]] is deferred until the next
+ element (the [[/]]) is transferred; had it been a
+ conjunction, the [[2]] would have been *(its)*
+ argument, and the monad [[*]] would have been applied
+ to [[1 2 3]]; and 2) Whereas the *(value)* of the name
+ [[a]] moves to the stack, the name [[b]] (because it
+ precedes a copula) moves unchanged, and the pronoun
+ [[b]] is assigned the value [[12]].
+ 
+ Parsing can be observed using the conjunction
+ [[13!:16]] (q.v.).
+ 
+ The executions in the stack are confined to
+ *(the first four elements)* only, and eligibility for
+ execution is determined only by the _(class)_ of each
+ element (noun, verb, etc., an unassigned name being
+ treated as a verb), as prescribed in the following
+ parse table.  The classes of the first four elements
+ on the stack are compared with the first four columns
+ of the table, and the first row that agrees in all
+ columns is selected.
+# Typographic change from "bold" to "parenthesized":
+ The parenthesized elements in the row are then
+ subjected to the action shown in the final column, and
+ are replaced by its result.  If no row is satisfied,
+ the next element is transferred from the queue.
+ 
+| EDGE       (VERB         NOUN)      ANY          0 Monad
+| EDGE+AVN    VERB        (VERB       NOUN)        1 Monad
+| EDGE+AVN   (NOUN         VERB       NOUN)        2 Dyad
+| EDGE+AVN   (VERB+NOUN    ADV)       ANY          3 Adverb
+| EDGE+AVN   (VERB+NOUN    CONJ       VERB+NOUN)   4 Conj
+| EDGE+AVN   (VERB         VERB       VERB)        5 Trident
+| EDGE       (CAVN         CAVN       CAVN)        6 Trident
+| EDGE       (CAVN         CAVN)      ANY          7 Bident
+|(NAME+NOUN   ASGN         CAVN)      ANY          8 Is
+|(LPAR        CAVN         RPAR)      ANY          9 Paren
+ 
+ Legend:
+ 
+ [[AVN]] denotes [[ADV+VERB+NOUN]]
+ 
+ [[CAVN]] denotes [[CONJ+ADV+VERB+NOUN]]
+ 
+ [[EDGE]] denotes [[MARK+ASGN+LPAR]]
+
+N F. Trains
+T
+ An isolated sequence, such as [[(+ */)]], which the
+# spelling "labeled"?
+ "normal" parsing rules (other than the three labelled
+ _(trident)_ and _(bident)_) do not resolve to a single
+ part of speech is called a _(train)_, and may be
+ further resolved as described below.
+ 
+ Meanings are assigned to certain trains of two or
+ three elements and, by implication, to trains of any
+ length by repeated resolution.  For example, the
+ trains [[+-*%]] and [[+-*%^]] are equivalent to
+ [[+(-*%)]] and [[+-(*%^)]].
+ 
+ A *(verb)* is produced by trains of three or two
+ verbs, as defined by the following diagrams:
+ 
+ HOOK:
+|      g            g
+|    /   \        /   \
+|  y       h    x       h
+|          |            |
+|          y            y
+ 
+ FORK:
+|      g               g
+|    /   \           /   \
+|  f       h       f       h
+|  |       |     /   \   /   \
+|  y       y    x     y x     y
+ 
+ CAPPED FORK:
+|  g          g
+|  |          |
+|  h          h
+|  |        /   \
+|  y      x       y
+ 
+ For example, [[5(+*-)3]] is [[(5+3) * (5-3)]].  If [[f]]
+ is a cap ([[ [:]]) the capped branch simplifies the
+ forks [[g h y]] and [[g x h y]].
+ 
+ The ranks of the hook and the fork are infinite.
+ 
+ Trains may also produce adverbs and conjunctions, and
+ trains of two or three elements are called
+ _(bidents)_, and _(tridents)_, respectively; hooks and
+ forks are special cases.  Tree displays illustrate the
+ choice of the names fork and trident:
+E
+ mean=: +/ % #
+ conj=: ]. , [.
+ tree=: 5!:4@<
+ 
+ tree 'mean'
+ tree 'conj'
+T
+ The following tables define all possible tridents and
+ bidents, using brackets to denote the optional
+ arguments of (ambivalent) verbs:
+ 
+# The first entry handles x and y differently than the
+# others:  x and y are usually _new_ ingredients, but
+# substitute N0 and N1 here.  This is distracting.
+# Likewise, the V0 N1 entry further below.
+|N0 V1 N2	noun		x V1 y
+|V0 V1 V2	verb		([x] V0 y) V1 ([x] V2 y)
+|V0 V1 C2	conj		V0 V1 (x C2 y)
+|A0 V1 V2	adv		(x A0) V1 V2
+|C0 V1 V2	conj		(x C0 y) V1 V2
+|C0 V1 C2	conj		(x C0 y) V1 (x C2 y)
+ 
+|A0 A1 V2	conj		(x A0) (y A1) V2
+|A0 A1 A2	adv		((x A0) A1) A2
+|C0 A1 A2	conj		((x C0 y) A1) A2
+ 
+# The labeling as a verb (and consequently, the use of y)
+# is questionable for the N0 C1 N2 -- the result is not necessarily
+# a verb.  For example:  5!:0 (N0 C1 N2) is an adverb.
+|N0 C1 N2	verb		[x] (N0 C1 N2) y
+|N0 C1 V2	verb		[x] (N0 C1 V2) y
+|N0 C1 A2	adv		N0 C1 (x A2)
+|N0 C1 C2	conj		NO C1 (x C2 y)
+|V0 C1 N2	verb		[x] (V0 C1 N2) y
+|V0 C1 V2	verb		[x] (V0 C1 V2) y
+|V0 C1 A2	adverb		V0 C1 (x A2)
+|V0 C1 C2	conj		V0 C1 (x C2 y)
+|A0 C1 N2	adv		(x A0) C1 N2
+|A0 C1 V2	adv		(x A0) C1 V2
+|A0 C1 A2	conj		(x A0) C1 (y A2)
+|A0 C1 C2	conj		(x A0) C1 (x C2 y)
+|C0 C1 N2	conj		(x C0 y) C1 N2
+|C0 C1 V2	conj		(x C0 y) C1 V2
+|C0 C1 A2	conj		(x C0 y) C1 (y A2)
+|C0 C1 C2	conj		(x C0 y) C1 (x C2 y)
+ 
+|N0 A1		verb		[x] (N0 A1) y
+|N0 C1		adv		N0 C1 x
+# See comment above
+|V0 N1		noun		V0 y
+|V0 V1		verb		[x else y] V0 V1 y
+|V0 A1		verb		[x] (V0 A1) y
+|V0 C1		adv		V0 C1 x
+|A0 V1		adv		(x A0) V1
+|A0 A1		adv		(x A0) A1
+|A0 C1		adv		(x A0) C1 x
+|C0 N1		adv		x C0 N1
+|C0 V1		adv		x C0 V1
+|C0 A1		conj		(x C0 y) A1
+
+N Plus
+D +
+R 0 0
+T
+ [[+]] is defined as in elementary arithmetic, and is
+ extended to complex numbers as usual.
+
+N Times
+D *
+R 0 0
+T
+ [[*]] denotes multiplication, defined as in elementary
+ mathematics and extended to the complex numbers as
+ usual:
+E
+ t=:+.x,y [ x=:2j4 [ y=:5j3
+ r=:-/*/t [ i=:+/ . * t
+ (x,:y);t;r;i;(r j. i);(x*y)
+H
+ The dyad [[*]] used on a list and a table illustrates
+ the significance of _(agreement)_, as discussed in
+ Section II B:
+E
+ m=: i. 3 4 [ v=: 3 2 1
+ m ; (v*m) ; (m*v) ; (+/ m*v) ; (v +/ . * m)
+
+N Less
+D -.
+R _ _
+T
+ [[x-.y]] includes all items of [[x]] except for those
+ that are cells of [[y]].
+ 
+ Tolerance [[t]] is provided by [[-.!.t]].
+H
+ The function _(less)_ applies to any conformable pair
+ of arguments.  For example:
+E
+ (i. 9) -. 2 3 5 7
+ 
+ 'abcdefghij' -. 'aeiou'
+ 
+ ]m=: i. 4 5
+ 
+ m -. 5 6 7 8 9
+ 
+ b=: <\ 'abcdefg'
+ b
+ b -. 'abc';'abcde;'cba'
+ 2 3 4 5 -. 'abcdef'
+
+N Append
+D ,
+R _ _
+T
+ [[x,y]] appends items of [[y]] to items of [[x]]
+ after:
+ 
+ 1) Reshaping an atomic argument to the shape of the
+ items of the other,
+ 
+ 2) Bringing the arguments to a common rank (of at
+ least [[1]]) by repeatedly _(itemizing)_ ([[,:]]) any
+ of lower rank, and
+ 
+ 3) Bringing them to a common shape by padding with
+ fill elements in the manner described in Section II B.
+ 
+ The fit conjunction ([[,!.f]]) provides fill specified
+ by the items of [[f]].
+H
+ The following examples illustrate the dyadic case:
+E
+ ('abc','de');('abc',"0/'de');(5 6 7,i.2 3);(7,i.2 3)
+
+N Itemize
+M ,:
+R _
+T
+ [[,:y]] adds a leading unit axis to [[y]], giving a
+ result of shape [[1,$y]].  Thus:
+E
+ $ ,: 2 3 4
+H
+E
+ s=: 3 [ v=: 2 3 4 [ m=: i. 3 3
+ (,:s); ($,:s); (,:v); ($,:v); ($,:m); ($,:^:4 v)
+
+N Laminate
+D ,:
+R _ _
+T
+ An atomic argument in [[x,:y]] is first reshaped to
+ the shape of the other (or to a list if the other is
+ also atomic); the results are then itemized and
+ catenated, as in [[(,:x),(,:y)]].
+ 
+ The fit conjunction ([[,:!.f]]) provides fill
+ specified by the items of [[f]].
+H
+ The following examples compare the dyadic cases of
+ Append and Laminate:
+E
+ a=: 'abcd' [ A=: 'ABCD' [ b=: 'abcdef'
+ m=: i. 3 3
+ (a,A) ; (a,:A) ; (a,:b) ; (m,m) ; (m ,: m)
+ t=: i. 3 2 2
+ t ; (,/t) ; (,./t) ; (,:/t)
+
+N Raze
+M ;
+R _
+T
+ [[;y]] assembles along a leading axis the opened
+ elements of the ravel of [[y]].
+H
+E
+ ]bv=: 1 2 3;4 5 6;7 8 9
+ ;bv
+ 
+ ]txt=: '3 %: 4 ^. 5'
+ ]s=: ;: txt		NB. Word formation
+ ;s
+
+N Link
+D ;
+R _ _
+T
+ [[x;y]] is [[(<x),y]] if [[y]] is boxed, and
+ [[(<x),<y]] if [[y]] is open.
+H
+E
+ ]bv=: 1 2 3;4 5 6;7 8 9
+ ]m=: >bv
+ ;/ m
+ 
+ (;/1 2 3 4 5) ,&< (;/i. 3 4)
+ 
+ (boxifopen=: <^:(< -: {:@;~)) 3 4
+ (<3 4) = boxifopen <3 4
+
+N Copy
+D #
+R 1 _
+T
+ If the arguments have an equal number of items, then
+ [[x#y]] copies [[+/x]] items from [[y]], with [[i{x]]
+ repetitions of item [[i{y]].  Otherwise, if one is an
+ atom it is repeated to make the item count of the
+ arguments equal.
+ 
+ The complex left argument [[a j. b]] copies [[a]]
+ items followed by [[b]] fills.  The fit conjunction
+ provides specified fills, as in [[#!.f]].
+H
+ Copy is illustrated by the following examples:
+E
+ 0 1 2 3 4 5 # 0 1 2 3 4 5 
+ 
+ t=: 3 4 $'abcdefghijkl' [ n=: i. 3 4
+ t ; n ; (3 0 1 # t) ; (3 0 1 # n) ; (3 1 4 2 #"1 t)
+ 
+ k=: 2j1 0 1j2
+ (k # t);(k # n);(k #!.'*' t);(k #!.4 n)
+
+N Insert
+A (m/)y   (u/)y
+R _
+T
+ [[u/y]] applies the dyad [[u]] between the items of
+ [[y]].  Thus:
+E
+ m=: i. 3 2
+ m; (+/m);(+/"1 m);(+/2 3 4)
+T
+ [[m/y]] inserts successive verbs from the gerund [[m]]
+ between items of [[y]], extending [[m]] cyclically as
+ required.  Thus, [[+`*/i.6]] is [[0+1*2+3*4+5]].
+H
+ If [[y]] has no items (that is, [[0=#y]]), the result
+ of [[u/y]] is the _(neutral)_ or _(identity element)_
+ of the function [[u]].  A neutral of a function [[u]]
+ is a value [[e]] such that [[x u e]] <=> [[x]] or
+ [[e u x]] <=> [[x]], for every [[x]] in the domain (or
+ some significant sub-domain such as boolean) of [[u]].
+ This definition of insertion over an argument having
+ *(zero)* items extends partitioning identities of the
+ form [[u/y]] <=> [[(u/k{.y u (u/k}.y]] to the cases
+ [[k e. 0,#y]].
+ 
+ The _(identity function)_ of [[u]] is a function
+ [[ifu]] such that [[ifu y]] is [[u/y]] if [[0=#y]].
+ The identity functions used are:
+# layout change:
+ 
+ [[$&0@}.@$]] for: [[< > + - +. ~: | (2 4 5 6 b.)]]
+ 
+ [[$&1@}.@$]] for: [[= <: >: * % *. %: ^ ! (1 9 11 13 b.)]]
+ 
+ [[$&_@}.@$]] for: [[<.]]
+ 
+ [[$&__@}.@$]] for: [[>.]]
+ 
+ [[i.@(0&,)@(2&}.)@$]] for: [[,]]
+ 
+ [[i.@(1&{.)@}.@$]] for: [[C. {]]
+ 
+# added () around mp:
+ [[=@i.@(1&{.)@}.@$]] for: [[%. (+/ . *)]]
+ 
+ [[ifu@#]] for: [[u/]]
+ 
+ [[$&(v^:_1 ifu$0)@}.@$]] for: [[u&.v]]
+
+N Table
+A x(m/)y x(m/)y
+R _ _
+T
+ If [[x]] and [[y]] are numeric lists, then [[x*/y]] is
+ their multiplication table.  Thus:
+E
+ 1 2 3 */ 4 5 6 7
+T
+ In general, each cell of [[x]] is applied to the
+ entire of [[y]].  Thus [[x u/ y]] is equivalent to
+ [[x"(lu,_) y]] where [[lu]] is the left rank of [[u]].
+ 
+ The case [[*/]] is called _(outer product)_ in tensor
+ analysis.
+
+N Catalogue
+M {
+R 1
+T
+ [[{y]] forms a catalogue from the atoms of its
+ argument, its shape being the chain of the shapes of
+ the opened items of [[y.]].  The common shape of the
+ boxed results is [[$y]].  For example:
+E
+ { 'ht';'ao';'gtw'
+T
+ The Cartesian product is readily defined in terms of
+ [[{]], thus:
+E
+ CP=: {@(,&<)
+ 0 1 CP 2 3 4
+
+N From
+D {
+R 0 _
+T
+ If [[x]] is an integer in the range from [[-n=: #y]]
+ to [[n-1]], then [[x{y]] selects item [[n|x]] from
+ [[y]].  Thus:
+E
+ 2 0 _1 _3 { 'abcdefg'
+ 
+ 1{t=:3 4$'abcdefghijkl'
+T
+ More generally, [[>x]] may be a list whose successive
+ elements are (possibly) boxed arrays that specify
+ selection along successive axes of [[y]].
+ 
+ Finally, if any [[r=:>j{>x]] used in the selection is
+ itself boxed, selection is made by the indices along
+ that axis that *(do not)* occur in [[>r]].
+ 
+ Note that the result in the very last dyadic example,
+ that ism [[(<<<_1{m]], is all *(except)* the last
+ item.
+H
+E
+ t; (1{t); (2 1{t); (1{"1 t); ((,1){"1 t); (2 1{"1 t)
+ 
+ t; (2 0{t); ((<2 0){t); ((2 0;1 3){t); ((<2 0;1 3){t)
+ 
+ (_1{m); (_1{"2 m); (_1{"1 m); (<<<_1){m=:i.2 3 4
+
+N Amend
+A x(m})y
+R _ _
+T
+ if [[m]] is not a gerund, [[x m} y]] is formed by
+ replacing be [[x]] those parts of [[y]] selected by
+ [[m&{]].  Thus:
+E
+ y; '%*'(1 3;2 _1)} y
+T
+ [[$x]] must be a suffix of [[$m{y]], and [[x]] has the
+ same effect as [[($m{y)$,x]].  Thus:
+E
+ y; 'think' 1 2} y
+T
+ If [[m]] is a gerund, one of its elements determines
+ the index argument to the adverb [[}]], and the others
+ modify the arguments [[x]] and [[y]]:
+ 
+ [[x (v0`v1`v2)} y]] <=> [[(x v0 y) (x v1 y)} (x v2 y)]]
+H
+ For example, the following functions [[E1]], [[E2]],
+ and [[E3]] interchange two rows of a matrix, multiply
+ a row by a constant, and add a multiple of one row to
+ another:
+E
+ E1=: <@] C. [  [.  E2=: f`g`[}  [.  E3=: F`g`[}
+ f=: {:@] * {.@] { [
+ F=: [: +/ (1:,{:@]) * (}:@] { [)
+ g=: {.@]
+ M=: i. 4 5
+ M;(M E1 1 3);(M E2 1 10);(M E3 1 3 10)
+
+N Item Amend
+A (u})y
+R _
+T
+ [[u}]] is defined in terms of the noun case [[m}]],
+ the verb [[u]] applying to the argument to provide the
+ numeric indices required by it.
+
+N Amend
+A x(u})y
+R _ _
+T
+ [[u}]] is defined in terms of the noun case [[m}]],
+ the verb [[u]] applying to the arguments to provide the
+ numeric indices required by it.
+H
+ For example:
+E
+ x=: 100 + i. 2 4
+ u=: */@$@] | (5: * i.@$@[)
+ y=: i. 3 2 4
+ x ; y ; (x u y) ; (x u} y)
+H
+ The positions selected by [[x u} y]] may be made to
+ depend on either or both of the arguments [[x]] and
+ [[y]], and related adverbs can be defined for
+ convenient use in common cases.  For example:
+E
+ A=: @(i.@$@])
+ u=: (<0 1)&|:
+ x=: 'DIAG' [ y=: a. {~ (a. i. 'a') + i. 4 5
+ x;y;(x u A y);(x u A} y)
+H
+ Also see the case [[m}]] for the use of gerunds.
+
+N Rank
+C m"n
+R 3 $&.|. n
+T
+ The verb [[m"n]] produces the constant result [[m]]
+ for each cell to which it applies.  The rank used is
+ [[3 $&.|. n]].  For example, if [[n=:2]], the three
+ ranks are [[2 2 2]], and if [[n=: 2 3]], they are
+ [[3 2 3]].  A negative rank is complementary:
+ [[m"(-r) y]] is equivalent to [[m"(0>.(#$y)-r) y]].
+H
+ Thus:
+E
+ v=: 2 3 5 7
+ m=: i. 2 3
+ 
+ m ; (m"0 v) ; (m"1 v) ; (m"1 m)
+ 
+ v m" 1 2 m
+H
+ The verbs [[_9:]] through [[9:]] are _(constant)_
+ verbs, equivalent to [[_9"_]] through [[9"_]].  For
+ example:
+E
+ odds=: 1: + 2: * i.
+ odds 5
+
+N Rank
+C u"n
+R 3$&.|.n
+T
+ The verb [[u"n]] applies to each cell as specified by
+ the rank [[n]].  The full form of the rank used is
+ [[3 $&.|. n]].  For example, if [[n=:2]], the three
+ ranks are [[2 2 2]], and if [[n=: 2 3]], they are
+ [[3 2 3]].  A negative rank is complementary:
+ [[u"(-r) y]] is equivalent to [[u"(0>.(#$y)-r) y]].
+H
+E
+ (] ; , ; ,"2) y=: a. {~ (a.i.'A') + i. 2 3 4
+ 
+ (<"0 ; <"1 ; <"3 ,&< <"_1) y  NB. Boxing of ranks 0, 2, 3, _1
+ 
+ ('*#' ,"0 1 ' abcde') ; (+/"2 i. 2 3 4) ; (+/"_1 i. 2 3 4)
+
+N Assign Rank
+C m"v u"v
+R mv lv rv
+T
+ The verbs [[m"v]] and [[u"v]] are equivalent to
+ [[m"r]] and [[u"r]], where [[r]] is the list of ranks
+ of [[v]].  The results may be examined by using the
+ _(basic characteristics)_ adverb [[b.]] to obtain
+ ranks.
+H
+ For example:
+E
+ , b. 0
+ %. b. 0
+ ravel=: , " %.
+ ravel b. 0
+ 
+ ]y=: a. {~ (a. i. 'A') + i. 2 3 4
+ ,y
+ ravel y
+
+N Atop
+C u@v y
+R mv
+T
+ [[u@v]] <=> [[u v y]].  For example, [[+:@- 7]] is
+ [[_14]] (double the negation).  Moreover, the monadic
+ uses of [[u@v]] and [[u&v]] are equivalent.
+H
+ Because adverbs and conjunctions are (as stated more
+ precisely in Section II E) executed before verbs,
+ phrases involving them are commonly used in trains
+ without parentheses.  For example:
+E
+ mean=: +/ % #
+ mean 1 2 3 4
+ 
+ f=: +:@*: +/ -:@%:	NB. Addition table of doubled square and halved sqrt
+ f 1 2 3 4
+H
+ Because a conjunction applies to the entity
+ immediately to its right, expressions to the right of
+ conjunctions commonly require parenthesization.  For
+ example:
+E
+ g=: *:@(+/)
+ h=: *:@+/
+ g 1 2 3 4
+ h 1 2 3 4
+ 
+ k=: *:@+
+ k/ 1 2 3 4
+H
+ Compare the behaviour of [[@]] with that of [[@:]].
+ They differ only in the ranks of the verbs that they
+ produce.
+
+N Atop
+C x u@v y
+R lv rv
+T
+ [[x u@v y]] <=> [[u x v y]].  For example,
+ [[3 +:@- 7]] is [[_8]] (double the difference).
+# none of the examples below uses the dyad of u@v,
+# but the remarks still apply.  Perhaps change the
+# examples?
+H
+ Because adverbs and conjunctions are (as stated more
+ precisely in Section II E) executed before verbs,
+ phrases involving them are commonly used in trains
+ without parentheses.  For example:
+E
+ mean=: +/ % #
+ mean 1 2 3 4
+ 
+ f=: +:@*: +/ -:@%:	NB. Addition table of doubled square and halved sqrt
+ f 1 2 3 4
+H
+ Because a conjunction applies to the entity
+ immediately to its right, expressions to the right of
+ conjunctions commonly require parenthesization.  For
+ example:
+E
+ g=: *:@(+/)
+ h=: *:@+/
+ g 1 2 3 4
+ h 1 2 3 4
+ 
+ k=: *:@+
+ k/ 1 2 3 4
+H
+ Compare the behaviour of [[@]] with that of [[@:]].
+ They differ only in the ranks of the verbs that they
+ produce.
+
+N At
+C u@:v
+R _ _ _
+T
+ [[@:]] is equivalent to [[@]] except that its ranks
+ are infinite.
+H
+ For example:
+E
+ x=: 1 2 3 4
+ y=: 7 5 3 2
+ x */ @: + y		NB. Applies product over sums to the entire lists
+ x */ @ + y		NB. Applies product over sums to each item of the list
+ 
+ + b. 0
+ */@:+ b. 0
+ */@+ b. 0
+
+N Member (In)
+D e.
+R _ _
+T
+ If [[x]] has the shape of an item of [[y]], then
+ [[x e. y]] is [[1]] if [[x]] matches an item of
+ [[y]].  In general, [[x e. y]] <=> [[(#y)>y i. x]].
+ 
+ The fit conjunction provides tolerant comparison, as
+ in [[e.!.t]].
+H
+ For example:
+E
+ ]y=:'abc';'dc';'a'
+ ;y
+ e. y
+ 
+ f=: ] e.~&>/ ;
+ f y
+ 
+ 'cat' e. 'abcd'
+ ]z=: 2 3$'catdog'
+ 'cat' e. z
+
+N Index Of
+D i.
+R _ _
+T
+ If [[rix]] is the rank of an item of [[x]], then the
+ shape of the result of [[x i. y]] is [[(-rix)}.$y]].
+ Each atom of the result is either [[#x]] or the index
+ of the first occurrence among the items of [[y]] of
+ the corresponding [[rix]]-cell of [[y]].
+ 
+ The comparison in [[x i. y]] is tolerant, and _(fit)_
+ can be used to specify the tolerance, as in
+ [[i.!.t]].
+H
+E
+ A=: 'abcdefghijklmnopqrstuvwxyz'
+ (A i. 'Now');(A i. 'now');(A {~ A i. 'now')
+ 
+ m=: 5 4 $ 12{. A
+ m;(m i. 'efgh');(1{m);(4{m)
+
+# vim:tw=55:ai:ic:inf

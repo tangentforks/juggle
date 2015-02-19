@@ -1,0 +1,757 @@
+N Part II: Grammar
+T
+ The following sentences illustrate the six parts of
+ speech:
+E
+ fahrenheit=: 50
+ (fahrenheit-32)*5%9
+ prices=: 3 1 4 2
+ orders=: 2 0 2 1
+ orders * prices
+ +/orders * prices
+ +/\1 2 3 4 5
+ bump=: 1&+
+ bump prices
+T
+ Parts of speech:
+ 
+ [[50 fahrenheit]]: nouns/pronouns
+ 
+ [[+ - * % bump]]: verbs/proverbs
+ 
+ [[/ \]]: adverbs
+ 
+ [[&]]: conjunction
+ 
+ [[( )]]: punctuation
+ 
+ [[=:]]: copula
+ 
+ Verbs act upon nouns to produce noun results; the nouns
+ to which a particular verb applies are called
+ _(arguments)_.  A verb may have two distinct (but
+ usually related) meanings according to whether it is
+ applied to one argument (to its right), or to two
+ arguments (left and right).  For example, [[2%5]]
+ yields [[0.4]], and [[%5]] yields [[0.2]].
+ 
+ An adverb acts on a single noun or verb to its
+ *(left)*.  Thus, [[+/]] is a derived verb (which might
+ be called _(plus over)_) that sums an argument list to
+ which it is applied, and [[*/]] gives the product of a
+ list.  A conjunction applies to two arguments, either
+ noun or verbs.
+ 
+ Punctuation is provided by parentheses that specify the
+ sequence of execution as in elementary algebra; other
+ punctuation includes [[if. do. end.]] as discussed
+ under Explicit Definition ([[:]]).
+ 
+ The word [[=:]] behaves like the copulas "is" and "are"
+ in English, and is read as such, as in "area is 3 times
+ 4" for [[area=: 3*4]].  The name [[area]] thus assigned
+ is a _(pronoun)_ and, as in English, it plays the role
+ of a noun.  Similar remarks apply to names assigned to
+ verbs, adverbs, and conjunctions.  Entry of a name
+ alone displays its value.  Errors are discussed in
+ Section II.J (Errors and Suspension).
+
+N A. Nouns
+T
+ Nouns are classified in three independent ways: numeric
+ or literal; open or boxed; arrays of various ranks.
+ The atoms of any array must belong to a single class:
+ numeric, literal, or boxed.  Arrays of ranks 0, 1, and
+ 2 or also called _(atom)_, _(list)_, and _(table)_, or,
+ in math, _(scalar)_, _(vector)_, and _(matrix)_.
+ Numbers and literals are represented as stated in
+ Part I.
+ 
+ *(Arrays.)*
+ A single entity such as [[2.3]] or [[_2.3j5]] or
+ [['A']] or [['+']] is called an atom.  The verb denoted
+ by comma chains its arguments to form a list whose
+ _(shape)_ (given by the verb [[$]]) is equal to number
+ of atoms combined.  For example:
+E
+ $ date=: 1,7,7,6
+ word=: 's','a','w'
+ |. word
+ |. date
+T
+ The verb [[|.]] used above is called _(reverse)_.  The
+ phrase [[s$b]] produces an array of shape [[s]] from
+ the list [[b]].  For example:
+E
+ (3,4) $ date,1,8,6,7,1,9,1,7
+ table=: 2 3$ word,'bat'
+ table
+ $table
+T
+ The number of atoms in the shape of a noun is called
+ its _(rank)_.  Each position of the shape is called an
+ _(axis)_ of the array, and axes are referred to by
+ indices 0, 1, 2, etc.  For example, axis 0 of [[table]]
+ has length 2 and axis 1 has length 3.
+ 
+ The last _(k)_ axes of an array [[b]] determine
+ _(rank-k cells)_ or _(k-cells)_ of [[b]].  The rest of
+ the shape vector is called the frame of [[b]] relative
+ to the cells of rank _(k)_; if [[$c]] is [[2 3 4 5]],
+ then [[c]] has the frame [[2 3]] relative to cells of
+ rank 2, the frame [[2 3 4 5]] relative to 0-cells
+ (atoms), and an empty frame relative to 4-cells.  If:
+E
+ ] b=:2 3 4 $ 'abcdefghijklmnopqrstuvwx'
+T
+ then the list [[abcd]] is a 1-cell of [[b]], and the
+ letters are each 0-cells.
+ 
+ A cell of rank one less than the rank of [[b]] is
+ called an _(item)_ of [[b]]; an atom has one item,
+ itself.  For example, the verb _(from)_ (denoted by
+ [[{]]) selects items from its right argument, as in:
+E
+ 0{b
+ 1{b
+ 0{0{b
+ 2 1{0{b
+ 1{2{0{b
+ 0{3
+T
+ Moreover, the verb _(grade)_ (denoted by [[/:]])
+ provides indices to [[{]] that bring items to "lexical"
+ order.  Thus:
+E
+ g=: /: n=: 4 3$3 1 4 2 7 9 3 2 0
+ n
+#messed up formatting in printed edition
+ g
+ g{n
+T
+ Negative numbers, as in _2-cell and _1-cell (an item),
+ are also used to refer to cells whose _(frames)_ are of
+ the length indicated by the magnitude of the number.
+ For example, the list [[abcd]] may be referred to
+ either as a _2-cell or as a 1-cell of [[b]].
+ 
+ *(Open and Boxed.)*
+ The nouns discussed thus far are called _(open)_, to
+ distinguish them from _(boxed)_ nouns produced by the
+ verb _(box)_ denoted by [[<]].  The result of box is an
+ atom, and boxed nouns are displayed in boxes.  Box
+ allows one to treat any array (such as the list of
+ letters that represent a word) as a single entity, or
+ atom.  Thus:
+E
+ words=: (<'I'),(<'was'),(<'it')
+ letters=:'I was it'
+ $words
+ $letters
+ |.words
+ |.letters
+ 2 3$words,|.words
+
+N B. Verbs
+T
+ *(Monads and Dyads.)*
+ Verbs have two definitions, one for the _(monadic)_
+ case (one argument), and one for the _(dyadic)_ case
+ (two arguments).  The dyadic definition applies if the
+ verb is preceded by a suitable left argument, that is,
+ any noun that is not itself an argument of a
+ conjunction; otherwise the monadic definition applies.
+ 
+ The monadic case of a verb is also called a _(monad)_,
+ and we speak of the *(monad)* [[%]] used in the phrase
+ [[%4]], and of the *(dyad)* [[%]] used in [[3%4]].
+ Either or both may have empty domains.
+ 
+ *(Ranks of Verbs.)*
+ The notion of verb rank is closely related to that of
+ noun rank: a verb of rank _(k)_ applies to each of the
+ k-cells of its argument.  For example (using the array
+ [[b]] from Section A):
+# new section, new definition, period.
+ b=:2 3 4 $ 'abcdefghijklmnopqrstuvwx'
+ ,b
+ ,"2 b
+ ,"_1 b
+T
+ Since the verb _(ravel)_ (denoted by [[,]]) applies to
+ its entire argument, its rank is said to be
+ _(unbounded)_.  The _(rank)_ conjunction [["]] used in
+ the phrase [[,"2]] produces a related verb of rank 2
+ that ravels each of the 2-cells to produce a result of
+ shape 2 by 12.
+ 
+ The shape of a result is the frame (relative to the
+ cells to which the verb applies) catenated with the
+ shape produced by applying the verb to the individual
+ cells.  Commonly these individual shapes agree, but if
+ not, they are first brought to a common rank by
+ introducing leading unit axes to any of lower rank,
+ and are then brought to a common shape by _(padding)_
+ with an appropriate _(fill)_ element: space for a
+ character array, 0 for a numeric array, and a boxed
+ empty list for a boxed array.  For example:
+E
+ i."0 s=: 2 3 4
+ >'I';'was';'here'
+T
+ The dyadic case of a verb has two ranks, governing the
+ left and right arguments.  For example:
+E
+ p=: 'abc'
+ q=: 3 5$'wake read lamp '
+ p,"0 1 q
+T
+ Finally, each verb has three intrinsic ranks: monadic,
+ left, and right.  The definition of any verb need
+ specify only its behaviour on cells of the intrinsic
+ ranks, and the extension to arguments of higher rank
+ occurs systematically.  The ranks of a verb merely
+ place upper limits on the ranks of the cells to which
+ it applies; its domain may include arguments of lower
+ rank.  For example, matrix inverse ([[%.]]) as monadic
+ rank 2, but treats the case of a vector as a
+ one-column matrix.
+ 
+ *(Agreement.)*
+ In the phrase [[p v q]], the arguments of [[v]] must
+ _(agree)_ in the sense that one frame must be a prefix
+ of the other, as in [[p,"0 1 q]] above, and in the
+ following examples:
+# messed up alignment in the printed version:
+E
+ p,"1 1 q
+ 3 4 5*i. 3 4
+ (i.3 4)*3 4 5
+T
+ If a frame contains [[0]], the verb is applied to a
+ cell of fills.  For example:
+E
+ ($ #"2 i. 1 0 3 4);($ 2 3 %"1 i. 0 2)
+ ($ $"2 i. 1 0 3 4);($ 2 3 %/"1 i. 0 4)
+
+N C. Adverbs and Conjunctions
+T
+ Unlike verbs, adverbs and conjunctions have fixed
+ valence: an adverb is monadic (applying to a single
+ argument on its *(left)*), and a conjunction is
+ dyadic.
+ 
+ Conjunctions and adverbs apply to noun or verb
+ arguments; a conjunction may produce as many as four
+ distinct classes of results.
+ 
+ For example, [[u&v]] produces the _(composition)_ of
+ the verbs [[u]] and [[v]]; and [[^&2]] produces the
+ _(square)_ by bonding the power function with the
+ right argument [[2]]; and [[2&^]] produces the
+ function _(2-to-the-power)_.  The conjunction [[&]]
+ may therefore be referred to by different names for
+ the different cases, or it may be referred to by the
+ single term _(and)_ (or _(with)_), which roughly
+ covers all cases.
+
+N D. Comparatives
+T
+ The comparison [[x=y]] is treated like the everyday
+ use of equality (that is, with a reasonable relative
+ tolerance), yielding [[1]] if the difference [[x-y]]
+ falls relatively close to zero.  Tolerant comparison
+ also applies to other relations and to _(floor)_ and
+ _(ceiling)_ ([[<.]] and [[>.]]); a precise definition
+ is given in Part III under _(Equal)_ ([[=]]).  An
+ arbitrary tolerance [[t]] can be specified by using
+ the _(fit)_ conjunction ([[!.]]), as in [[x =!.t y]].
+ The global tolerance can be queried and set using
+ [[9!:18]] and [[9!:19]].
+
+N E. Parsing and Execution
+T
+ A sentence is evaluated by executing its phrases in a
+ sequence determined by the parsing rules of the
+ language.  For example, in the sentence [[10%3+2]],
+ the phrase [[3+2]] is evaluated first to obtain a
+ result that is then used to divide [[10]].  In
+ summary:
+ 
+ 1. Execution proceeds from right to left, except that
+ when a right parenthesis is encountered, the segment
+ enclosed by it and its matching left parenthesis is
+ executed, and its result replaces the entire segment
+ and its enclosing parentheses.
+ 
+ 2. Adverbs and conjunctions are executed before verbs;
+ the phrase [[,"2-a]] is equivalent to [[(,"2)-a]], not
+ to [[,"(2-a)]]. Moreover, the left argument of an verb
+ or conjunction is the entire verb phrase that precedes
+ it.  Thus, in the phrase [[+/ . */b]], the rightmost
+ adverb [[/]] applies to the verb derived from the
+ phrase [[+/ . *]], not to the verb [[*]].
+ 
+ 3. A verb is applied dyadically if possible; that is,
+ if preceded by a noun that is not itself the right
+ argument to a conjunction.
+ 
+ 4. Certain _(trains)_ form verbs, adverbs, and
+ conjunctions, as described in Section F.
+ 
+ 5. To ensure that these summary parsing rules agree
+ with the precise parsing rules prescribed below, it
+ may be necessary to parenthesize an adverbial or
+ conjunctival phrase that produces anything other than
+ a noun or verb.
+ 
+ One important consequence of these rules is that in an
+ unparenthesized expression the right argument of any
+ verb is the result of the entire phrase to its right.
+ The sentence [[3*p%q^|r-5]] can therefore be *(read)*
+ from left to right: the overall result is 3 times the
+ result of the remaining phrase, which is the quotient
+ of [[p]] and the part following the [[%]], and so on.
+ 
+ Parsing proceeds by moving successive elements (or
+ their *(values)* except in the case of proverbs and
+ names immediately to the left of a copula) from the
+ tail end of a _(queue)_ (initially the original
+# paragraph as marker replaced by non-existing,
+# reserved, straight-ASCII word "M:":
+ sentence prefixed by a left marker [[M:]]:
+ 
+|M: b =: + / 2 * a
+|M: b =: + / 2 *           1 2 3
+|M: b =: + / 2           * 1 2 3
+|M: b =: + /           2 * 1 2 3
+|M: b =: +           / 2 * 1 2 3
+|M: b =: +               / 2 4 6
+|M: b =:               + / 2 4 6
+|M: b               =: + / 2 4 6
+|M: b                      =: 12
+|M:                      b =: 12
+|M:                           12
+|                          M: 12
+ 
+ The foregoing illustrates two points:  1) Execution of
+ the phrase [[2 * 1 2 3]] is deferred until the next
+ element (the [[/]]) is transferred; had it been a
+ conjunction, the [[2]] would have been *(its)*
+ argument, and the monad [[*]] would have been applied
+ to [[1 2 3]]; and 2) Whereas the *(value)* of the name
+ [[a]] moves to the stack, the name [[b]] (because it
+ precedes a copula) moves unchanged, and the pronoun
+ [[b]] is assigned the value [[12]].
+ 
+ Parsing can be observed using the conjunction
+ [[13!:16]] (q.v.).
+ 
+ The executions in the stack are confined to
+ *(the first four elements)* only, and eligibility for
+ execution is determined only by the _(class)_ of each
+ element (noun, verb, etc., an unassigned name being
+ treated as a verb), as prescribed in the following
+ parse table.  The classes of the first four elements
+ on the stack are compared with the first four columns
+ of the table, and the first row that agrees in all
+ columns is selected.
+# Typographic change from "bold" to "parenthesized":
+ The parenthesized elements in the row are then
+ subjected to the action shown in the final column, and
+ are replaced by its result.  If no row is satisfied,
+ the next element is transferred from the queue.
+ 
+| EDGE       (VERB         NOUN)      ANY          0 Monad
+| EDGE+AVN    VERB        (VERB       NOUN)        1 Monad
+| EDGE+AVN   (NOUN         VERB       NOUN)        2 Dyad
+| EDGE+AVN   (VERB+NOUN    ADV)       ANY          3 Adverb
+| EDGE+AVN   (VERB+NOUN    CONJ       VERB+NOUN)   4 Conj
+| EDGE+AVN   (VERB         VERB       VERB)        5 Trident
+| EDGE       (CAVN         CAVN       CAVN)        6 Trident
+| EDGE       (CAVN         CAVN)      ANY          7 Bident
+|(NAME+NOUN   ASGN         CAVN)      ANY          8 Is
+|(LPAR        CAVN         RPAR)      ANY          9 Paren
+ 
+ Legend:
+ 
+ [[AVN]] denotes [[ADV+VERB+NOUN]]
+ 
+ [[CAVN]] denotes [[CONJ+ADV+VERB+NOUN]]
+ 
+ [[EDGE]] denotes [[MARK+ASGN+LPAR]]
+
+N F. Trains
+T
+ An isolated sequence, such as [[(+ */)]], which the
+# spelling "labeled"?
+ "normal" parsing rules (other than the three labelled
+ _(trident)_ and _(bident)_) do not resolve to a single
+ part of speech is called a _(train)_, and may be
+ further resolved as described below.
+ 
+ Meanings are assigned to certain trains of two or
+ three elements and, by implication, to trains of any
+ length by repeated resolution.  For example, the
+ trains [[+-*%]] and [[+-*%^]] are equivalent to
+ [[+(-*%)]] and [[+-(*%^)]].
+ 
+ A *(verb)* is produced by trains of three or two
+ verbs, as defined by the following diagrams:
+ 
+ HOOK:
+|      g            g
+|    /   \        /   \
+|  y       h    x       h
+|          |            |
+|          y            y
+ 
+ FORK:
+|      g               g
+|    /   \           /   \
+|  f       h       f       h
+|  |       |     /   \   /   \
+|  y       y    x     y x     y
+ 
+ CAPPED FORK:
+|  g          g
+|  |          |
+|  h          h
+|  |        /   \
+|  y      x       y
+ 
+ For example, [[5(+*-)3]] is [[(5+3) * (5-3)]].  If [[f]]
+ is a cap ([[ [:]]) the capped branch simplifies the
+ forks [[g h y]] and [[g x h y]].
+ 
+ The ranks of the hook and the fork are infinite.
+ 
+ Trains may also produce adverbs and conjunctions, and
+ trains of two or three elements are called
+ _(bidents)_, and _(tridents)_, respectively; hooks and
+ forks are special cases.  Tree displays illustrate the
+ choice of the names fork and trident:
+E
+ mean=: +/ % #
+ conj=: ]. , [.
+ tree=: 5!:4@<
+ 
+ tree 'mean'
+ tree 'conj'
+T
+ The following tables define all possible tridents and
+ bidents, using brackets to denote the optional
+ arguments of (ambivalent) verbs:
+ 
+# The first entry handles x and y differently than the
+# others:  x and y are usually _new_ ingredients, but
+# substitute N0 and N1 here.  This is distracting.
+# Likewise, the V0 N1 entry further below.
+|N0 V1 N2	noun		x V1 y
+|V0 V1 V2	verb		([x] V0 y) V1 ([x] V2 y)
+|V0 V1 C2	conj		V0 V1 (x C2 y)
+|A0 V1 V2	adv		(x A0) V1 V2
+|C0 V1 V2	conj		(x C0 y) V1 V2
+|C0 V1 C2	conj		(x C0 y) V1 (x C2 y)
+ 
+|A0 A1 V2	conj		(x A0) (y A1) V2
+|A0 A1 A2	adv		((x A0) A1) A2
+|C0 A1 A2	conj		((x C0 y) A1) A2
+ 
+# The labeling as a verb (and consequently, the use of y)
+# is questionable for the N0 C1 N2 -- the result is not necessarily
+# a verb.  For example:  5!:0 (N0 C1 N2) is an adverb.
+|N0 C1 N2	verb		[x] (N0 C1 N2) y
+|N0 C1 V2	verb		[x] (N0 C1 V2) y
+|N0 C1 A2	adv		N0 C1 (x A2)
+|N0 C1 C2	conj		NO C1 (x C2 y)
+|V0 C1 N2	verb		[x] (V0 C1 N2) y
+|V0 C1 V2	verb		[x] (V0 C1 V2) y
+|V0 C1 A2	adverb		V0 C1 (x A2)
+|V0 C1 C2	conj		V0 C1 (x C2 y)
+|A0 C1 N2	adv		(x A0) C1 N2
+|A0 C1 V2	adv		(x A0) C1 V2
+|A0 C1 A2	conj		(x A0) C1 (y A2)
+|A0 C1 C2	conj		(x A0) C1 (x C2 y)
+|C0 C1 N2	conj		(x C0 y) C1 N2
+|C0 C1 V2	conj		(x C0 y) C1 V2
+|C0 C1 A2	conj		(x C0 y) C1 (y A2)
+|C0 C1 C2	conj		(x C0 y) C1 (x C2 y)
+ 
+|N0 A1		verb		[x] (N0 A1) y
+|N0 C1		adv		N0 C1 x
+# See comment above
+|V0 N1		noun		V0 y
+|V0 V1		verb		[x else y] V0 V1 y
+|V0 A1		verb		[x] (V0 A1) y
+|V0 C1		adv		V0 C1 x
+|A0 V1		adv		(x A0) V1
+|A0 A1		adv		(x A0) A1
+|A0 C1		adv		(x A0) C1 x
+|C0 N1		adv		x C0 N1
+|C0 V1		adv		x C0 V1
+|C0 A1		conj		(x C0 y) A1
+
+N G. Extended and Rational Arithmetic
+T
+ Extended precision integer constants can be entered
+ as a sequence of decimal digits terminated by an
+ [[x]].  The monad [[x:]] applies to integers and
+ produces extended integers.  For example, the
+ 2-element vector [[1234x 56x]] (or [[1234 56x]]) is
+ equivalent to [[x: 1234 56]].  Various primitives
+ produce extended results if the argument(s) are
+ extended.  Some functions [[f]] produce floating
+ point (inexact) results on some extended arguments
+ because the result is not integral; however, [[<.@f]]
+ and [[>.@f]] produce extended integer result when
+ applied to extended integer arguments.  Comparisons
+ involving extended integers are exact.  For example:
+E
+ !40
+ !40x
+ */ x: >: i.40
+ 0j_25 ": ! 2000x * i. 5 1	NB. Exponent format, 25 digits
+ 
+ ] r=: <.@%: 2 * 10 ^ 56x
+ ,. *: r + _1 0 1
+T
+ Rational constants can be entered as the decimal
+ digits of the enumerator and denominator, separated
+ by an [[r]] and preceded by an optional sign.  Thus
+ [[3r4]] is the rational number three-quarters and
+ [[_12r5]] is negative 12 divided by 5.  Rational
+ numbers are stored and displayed in standard form,
+ with the numerator and denominator relatively prime
+ and the denominator positive.  Thus:
+E
+ 1r2 _1r2 2r4 2r_4 _2r_4 0r9 5 _5
+T
+ Various primitive functions produce (exact) rational
+ results if the argument(s) are rational; non-rational
+ functions produce (inexact) floating point or complex
+ results when applied to rationals, if the function
+ has only a limited number of rational arguments that
+ produce rational results.  (For example, [[%:y]] is
+ rational if the atoms of [[y]] are perfect squares;
+ [[^0r1]] is floating point.)  The quotient of to
+ extended integers is an extended integer (if evenly
+ divisible) or rational (if not).  Comparisons
+ involving two rationals are non-tolerant (exact).
+ Functions or operators that require integer arguments
+ (such as the left arguments of [[{ {. # $]]) also
+ accept rational arguments, if they are integers.
+ Other dyadic functions (e.g. [[+ - * % , = <]])
+ convert their arguments to the same type, according
+ to the following table:
+ 
+|   |  B  I  X  Q  D  Z
+|---+------------------
+|B  |  B  I  X  Q  D  Z     B - boolean
+|I  |  I  I  X  Q  D  Z     I - integer
+|X  |  X  X  X  Q  D  Z     X - extended integer
+|Q  |  Q  Q  Q  Q  D  Z     Q - rational
+|D  |  D  D  D  D  D  Z     D - floating point
+|Z  |  Z  Z  Z  Z  Z  Z     Z - complex
+ 
+ For example, in the expression [[2.5+1r2]], the
+ [[1r2]] is converted to [[0.5]] before being added to
+ [[2.5]], resulting in a floating point [[3]].  And in
+ the expression [[2+1r2]], the [[2]] is converted to
+ [[2r1]] before being added to [[1r2]], resulting in
+ [[5r2]].
+ 
+ In particular, a comparison involving a rational and a
+ floating point number is tolerant, because the
+ rational argument is first converted into a floating
+ point number.
+ 
+ The verb [[x:]] (q.v.) produces rational
+ approximations to non-rational arguments.
+E
+ 2%3
+ 2%3x
+ (+%)/\10$1	NB. Floating point convergents to golden mean
+ (+%)/\x: 10$1	NB. Rational versions of the same
+ |: 2 x: (+%)/\x: 10$1
+ (+%)/ 100$1r1
+ 0j30 ": (+%)/100$1r1	NB. Display 30 decimal places
+ 
+ H=: % @: >: @: (+/~) @: i. @ x:	NB. Hilbert matrix of order n
+ ] h =: H 6
+ -/ .* h		NB. Determinant of h
+ ~. q: % -/ .* h	NB. Unique prime factors of reciprocal of det
+ i.&.(p:^:_1) 2*6	NB. Primes less than 2*n
+ 
+ ^ 2r1			NB. ^y is floating point or complex
+ %: 49r25		NB. %: on a rational perfect square is rational
+ %: 49r25 10r9
+ %: _2r1
+ 
+ 1=1+10r1^_15		NB. Exact (rational) comparison
+ (1.5-0.5) = 1+10r1^_15	NB. Tolerant (floating point) comparison
+ 0.5 = 1r2
+
+N H. Frets and Scripts
+T
+ Host systems commonly use the "line-feed" or "carriage
+ return" characters [[10{.a.]] or [[13{a.]] (or both
+ together) as _(frets)_ to mark divisions into
+ individual _(lines)_.  A character list provided with
+ zero or more frets will be called a _(script)_.
+ 
+ As detailed in the Appendix, a script [[t]] may be
+ filed and retrieved by expressions of the form
+ [[t 1!:2 <'abc']] and [[t=: 1!:1 <'abc']], and may be
+ _(executed)_ by the expression [[0!:11 <'abc']].
+ 
+ Convenient entry of scripts is provided by the phrase
+ [[0 : 0]]; succeeding keystrokes are accepted as
+ literal characters; the _(enter)_ key that would
+ normally terminate the entry is accepted as a fret;
+ and the entry is terminated by a lone right
+ parenthesis that is accepted as a final fret.
+ For example:
+E
+ s=: 0 : 0
+ y.*%:y.
+ :
+ x.*!y.
+ )
+ a. i. s	NB. The character with index 10 marks the end of each line
+T
+ Boxed and table representations of a script [[s]] may
+ be obtained as follows:
+E
+ ]b=: <;._2 s	NB. Cut on the final fret and exclude the frets
+ ]t=: >b
+T
+ Any of these representations [[r]] may be used as the
+ right argument to the explicit definition conjunction
+ to produce an adverb ([[1 : r]]), conjunction
+ ([[2 : r]]), or verb ([[3 : r]] or [[4 : r]]).  For
+ example:
+E
+ f=: 3 : s
+ f 9	NB. The colon in the script separates the monadic and dyadic cases
+ 3 f 4
+T
+ The phrases [[a=: 1 : 0]] and [[c=: 2 : 0]] and
+ [[v=: 3 : 0]] provide direct entry of adverbs,
+ conjunctions, and verbs.
+ 
+ Files of scripts may define functions and other
+ entities that can serve to supplement the primaries of
+ J.  They are commonly referred to as _(secondary)_ or
+ _(tertiary)_ functions according to their relative
+ generality.
+
+N I. Locatives
+T
+ Locative [[abc_f_]] refers to [[abc]] in locale [[f]];
+ indirect locative [[abc__xy]] refers to [[abc]] in the
+ locale whose name is the current value of [[xy]].
+ For compatibility with previous versions, the
+ non-standard [[abc__]] is accepted and is the same as
+ [[abc_base_]].  Thus
+E
+ b=: 1
+ Rome=: 2
+ Rome_NewYork_ =: 20
+ f_NewYork_ =: 3 : '3*b=: Rome+y.'
+ f_NewYork_ 10
+ b,Rome
+ b_NewYork_
+T
+ A name is global if it is not assigned by [[=.]]
+ within Explicit Definition ([[:]]).  Every global name
+ is executed within the current locale.  Initially, the
+ current locale is [[base]].  A locative [[f_abc_]],
+ while it is executing, switches the current locale to
+ [[abc]].  The verb [[18!:4]] also switches the current
+ locale, and [[18!:5]] gives its name.
+ 
+ The name [[f_abc_]] is _(executed in)_ locale [[abc]]
+ in the sense that a global name referenced in [[f]] is
+ sought therein, and, if not found, is then sought in
+# markup of abc below necessary?
+ the locales in the path of abc (but is still executed
+ in [[abc]]).  The path of a locale is initially
+ [[,<,'z']], except that locale [[z]] has an empty path
+ initially, and may be changed using [[18!:2]].
+ 
+ A locale is commonly populated by a script, by
+ appropriate naming of the verb used to execute the
+ script.  For example, if the file [[stats]] contains
+ the script:
+# Changed to create the script from here:
+E
+ (<'stats') 1!:2~ 0 : 0
+ mean=: sum % #
+ sum=: +/
+ )
+T
+ Then:
+E
+ ssx_z_=: 0!:10		NB. Silent script execution
+ ssx_a_ <'stats'	NB. Populate locale a
+ 
+ mean=: 'in the base locale'
+ mean_a_ 3 4 5
+ ssx_bc_ <'stats'	NB. Populate locale bc
+ sum_bc_ 3 4 5
+T
+ The example also illustrates the use of locale paths,
+ in this case the [[z]] locale: First, the utility
+ [[ssx]] is defined in the [[z]] locale.  In executing
+ [[ssx_a_]], [[ssc]] is not found in locale [[a]] and
+ is therefore sought (and found) in locale [[z]].
+ Since [[ssx_a_]] is *(executed)* in locale [[a]], the
+ names in the stats script are *(defined)* in locale
+ [[a]], populating it thereby.  Similarly for
+ [[ssx_bc_]].
+ 
+ See also [[18!:]] in the Appendix and the "Locales"
+ and "Object Oriented Programming" labs distributed
+ with the system.
+
+N J. Errors and Suspension
+T
+ Execution of a sentence _(suspends)_ when an error
+ occurs, and an error message and context information
+ are then displayed.  Four blanks indicate where
+ parsing stopped.  Suspension may occur in immediate
+ execution, in the execution of a script file, or in
+ the execution of a user-defined verb, adverb, or
+ conjunction, as illustrated by the following examples:
+E
+ NB. Immediate execution:
+ 2+'a'
+ 
+ NB. Execution of a script file:
+ t=: '2*3',(10{a.),'2+''a''',(10{a.),'2+3'
+ t			NB. A script
+ t 1!:2 <'test'		NB. Write script file
+ 0!:011 <'test'		NB. Execute file, continue on error, display (011)
+ 0!:001 <'test'		NB. Execute file, stop on error, display (001)
+ 
+ NB. User-Defined Verb
+ g=: 3 : ('1+y.' ; ':' ; '2+x.+y.')
+ 3+g 'a'
+ 13!:0 (1)		NB. Enable suspension
+ 3+g 'a'
+ y.			NB. six-space indent indicates suspension
+ y.=. 12		NB. Redefine local value of y.
+ 13!:4 ''		NB. Resume execution at the current line
+T
+ Sentences can be executed in the suspended
+ environment, local values can be accessed, and
+ execution can be resumed.  Errors cause suspension
+ *(only)* if suspension is enabled (by the phrase
+ [[13!:0]1]]).  When suspension is in effect, the input
+ prompt is six spaces.
+ 
+ Suspension and debugging facilities are controlled by
+ the [[13!:]] family as described in the Appendix.
+
+# vim:tw=55:ai:ic:inf

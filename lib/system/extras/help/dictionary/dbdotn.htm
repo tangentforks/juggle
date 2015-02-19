@@ -1,0 +1,90 @@
+<html>
+<head><title>b. Boolean /</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dbdotu.htm">&gt&gt;</a>&nbsp;
+<a href="dacapdot.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Boolean</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>m b. &nbsp;_ 0 0</font></td>
+<td align=right  width=33%>&nbsp;</b>
+</tr></table>
+<br>
+
+<table width=100%><tr><td bgcolor=#eeeeee>
+If<tt> f </tt>is a dyadic boolean function and<tt> d=: 0 1</tt>,<tt> </tt> 
+then<tt> d f/ d </tt>(or<tt> f/~d</tt>)<tt> </tt>is its complete table.  
+For example the tables for <i>or</i>, <i>nor</i>, <i>and</i>, and 
+<i>not-and</i> (followed by their ravels) appear as follows:<br>
+
+<pre>
+   (+./~ ; +:/~ ; *./~ ; *:/~) d=: 0 1
++---+---+---+---+
+|0 1|1 0|0 0|1 1|
+|1 1|0 0|0 1|1 0|
++---+---+---+---+
+
+   ,&.> (+./~ ; +:/~ ; *./~ ; *:/~) d
++-------+-------+-------+-------+
+|0 1 1 1|1 0 0 0|0 0 0 1|1 1 1 0|
++-------+-------+-------+-------+
+</pre>
+
+If ordered by their ravels, each of the sixteen possible boolean dyads 
+can be characterized by its index<tt> k</tt>;<tt> </tt>the 
+phrase<tt> k b. </tt>produces the corresponding function. 
+Moreover, negative indexing may be used.  For example:<br>
+
+<pre>
+   (7 b./~;8 b./~;1 b./~;14 b./~;_2 b./~) d
++---+---+---+---+---+
+|0 1|1 0|0 0|1 1|1 1|
+|1 1|0 0|0 1|1 0|1 0|
++---+---+---+---+---+
+</pre>
+
+The adverb<tt> b. </tt>also applies to array arguments.  For example:<br>
+
+<pre>
+   (&lt;"2) 2 0 1 |: 7 8 1 15 b./~ d
++---+---+---+---+
+|0 1|1 0|0 0|1 1|
+|1 1|0 0|0 1|1 1|
++---+---+---+---+
+</pre>
+
+The monad (as in<tt> m b. y</tt>) is equivalent to a zero left argument 
+(as in<tt> 0 m b. y</tt>).
+<br>&nbsp;</td>
+</tr></table>
+
+<br>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dbdotu.htm">&gt&gt;</a>&nbsp;
+<a href="dacapdot.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

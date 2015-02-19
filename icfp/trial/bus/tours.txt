@@ -1,0 +1,43 @@
+LL     1  [ line no. 1 ]
+
+111 001 E 0 0265 0273 00000 1 02 0001500 -1 004000 00 000342 01 -1    10010
+111 001 E 0 0266 0272 00000 1 02 0001501 -1 004000 00 000088 01 -1    10020
+111 001 N 1 0272 0295 07369 1 02 0001003  0 000088 01 000097 01  1    10020
+111 001 V 1 0273 0290 06016 1 02 0001175  0 000342 01 000097 01  1    10010
+111 001 E 0 0274 0282 00000 1 02 0001502 -1 004000 00 000178 01 -1    10070
+111 001 N 1 0282 0307 07921 1 02 0001001  0 000178 01 000097 01  1    10070
+111 001 E 0 0284 0292 00000 1 02 0001503 -1 004000 00 000178 01 -1    10030
+111 001 N 1 0292 0319 07921 1 02 0001002  0 000178 01 000097 01  2    10030
+111 001 N 2 0295 0323 08089 1 02 0001004  0 000097 02 000187 02  2    10010
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    |   | turn around
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    |   | number  or:
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    |   | detour no.?
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    |   | "Uml.Nr."
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    |  trip time type
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    |  ("Fahrzeitart")
+ |   |  | |  |    |     |   |  |    |     |   |    |    |    ` stop point no.
+ |   |  | |  |    |     |   |  |    |     |   |    |    ` destination stop
+ |   |  | |  |    |     |   |  |    |     |   |    ` stop point no.
+ |   |  | |  |    |     |   |  |    |     |   ` origin stop
+ |   |  | |  |    |     |   |  |    |     ` tour way (Fahrweg)
+ |   |  | |  |    |     |   |  |    ` tour number
+ |   |  | |  |    |     |   |  ` vehicle type
+ |   |  | |  |    |     |   ` service branch ("Betriebszweig")
+ |   |  | |  |    |     ` tour length (km)
+ |   |  | |  |    ` tour end (minutes past midnight)
+ |   |  | |  ` tour start (minutes past midnight)
+ |   |  | ` direction
+ |   |  ` regular (normal) or additional service
+ |   ` traffic day code (see below)
+ ` turn around schedule version
+
+traffic day codes
+
+	13	mon, tue, wed
+	4	thu  (extended 18.00-20.00 service)
+	5	fri
+	6	sat
+	7	sun
+
+hint:  only use the N tours (the regular ones in fahrten.dat)
+Only these go into the official schedule.

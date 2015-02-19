@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Sounds</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="program_access.htm">&gt&gt;</a>&nbsp;
+<a href="rich_text.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Lab Sounds</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+A lab can include sounds, for example to provide additional commentary on the text. The lab selection screen indicates which labs have sounds with <code>[sound]</code> following the name, and has an on/off switch. Since sound is optional, labs should work correctly without sounds.
+
+<P>
+Each section may have 0 or more sounds, interspersed with code for the section. If there is no sound, or sounds are off, all the code is run in a single step. Otherwise, Ctrl+A advances through the section by running any code up to the next sound, then playing the sound.
+
+<P>
+Sounds are read from a keyed file with extension .jf with the same name as the lab, in the same directory; thus the sound file system\extras\lab\cantor.jf matches the lab file system\extras\lab\cantor.ijt. The key names are included in the code with lines beginning <code>SOUND</code> , for example:
+
+<pre>
+Lab Section Numbers
+The integer function (i.) generates numbers:
+)
+i.10           NB. first 10 numbers
+SOUND integer1 
+i.4 3          NB. first 12 numbers in a 4 by 3 table
+SOUND integer2 
+SOUND integer3 
+</pre>
+
+<P>
+You should create the sounds using any sound recorder, and then import the sound files into the keyed file. First create a directory containing all the wav files to be imported, then use the <a href="lab_author.htm">Lab Author</a> menu item Sounds/Organizer to import the files. Each file is stored with a keyword of the short filename; thus c:\sounds\integer1.wav would be stored under key <code>integer1</code>. 
+
+<P>
+The sound files are normal keyed files and can be accessed directly using the J keyed file utilities.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="program_access.htm">&gt&gt;</a>&nbsp;
+<a href="rich_text.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

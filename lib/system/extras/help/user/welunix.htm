@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>Release Notes - J 4.05 for Unix</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="product.htm">&gt&gt;</a>&nbsp;
+<a href="welwin.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<H1>J4.05 for Unix Release Highlights</h1>
+<p>
+J4.05 is available for Linux and Sun and won't be available for other
+Unix platforms. All effort will be put into expediting the J4.06 release for all supported
+Unix platforms. Earlier releases are available for other Unix systems.
+</p>
+<b>License - prokey</b><p>
+J is free on all platforms! You can download, redistribute, and run J for free.
+There is a fee for a professional key (prokey) that enables features required for
+commercial development of large systems.<br><br>
+
+A prokey enables: debug suspension, performance monitor, and ijl
+encoding. The prokey is queried and set by 9!:30 and 9!:31.
+13!:0[1 (debug suspension) or 6!:10 (performance monitor) or
+3!:6 (ijl encode) fail with domain error if a prokey is not set.<br><br>
+
+A prokey is licensed for a single user on a single system. <br><br>
+
+Verb prokey, defined in profile, sets a prokey in your home
+directory in file .j_prokey. When you start J, profile reads this
+file as an argument to 9!:31. To set this file with key '1234-123-1234'
+start J and run the following:<br>
+<tt>&nbsp;&nbsp;&nbsp;prokey '1234-123-1234'</tt>
+</p>
+
+<b>jconsole</b><p>
+J can be downloaded and installed from <A HREF="http://www.jsoftware.com">www.jsoftware.com</A>
+in 3 parts : jconsole (platform dependent binary), J library, and J help.<br><br>
+
+Run<tt> jconsole </tt>to run J and Control-d to exit.<br><br>
+
+jconsole gives a file name error for profile.ijs if it can't find the J library.
+J is running, but without profile.<br><br>
+
+jconsole looks for the library in /usr/local/lib/j and loads profile. Set the JLIB
+environment variable to have it look elsewhere.<br><br>
+
+Run<tt> jconsole -jnoprofile </tt>to not load the profile.<br><br>
+
+With profile loaded:<br>
+<tt>&nbsp;&nbsp;&nbsp;JDIR_j_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</tt> - full path of library directory<br>
+<tt>&nbsp;&nbsp;&nbsp;jhelp 'netscape' </tt> - run browser on J help
+
+</p>
+<b>J help</b><p>
+J4.05 for Unix is one level behind the J for Windows release.
+J help documents the latest release and has some Windows centric bias.
+Unix users must exercise patience and common sense in figuring out what does and 
+does not apply and in ignoring or interpreting the Windows centric material.
+The Dictionary, Release, and Phrases books, except for obvious
+release and system differences, apply to J for Unix. The Primer applies, except as noted
+in the text. The User manual has useful material for Unix users, but has lots of
+Windows stuff. The Index applies except for references to Windows only scripts and labs.
+</p>
+
+<b>readline</b><p>
+jconsole uses readline to get input. See the readline man page.
+Edit the inputrc file to add J specific macros. For example, to have a J macro to advance
+a lab add the following:
+<br><tt>
+$if jconsole<br>
+ Control-j: "labgo 0\r"<br>
+$endif
+</tt><br><br>
+In J, Control-j executes<tt> labgo'' </tt>which advances a lab to the next step.
+</p>
+<b>Labs</b><p>
+Labs can teach you all kinds of things and are a good way to start learning J.
+Labs are a series of steps where the computer
+gives you the next piece of information, shows you examples, and then lets you
+experiment before proceeding. Use the following for Labs:<br><tt>
+&nbsp;&nbsp;&nbsp;lablist&nbsp;''&nbsp;NB.&nbsp;lab categories<br>
+&nbsp;&nbsp;&nbsp;lablist&nbsp;1&nbsp;&nbsp;NB. labs in category 1 (language)<br>
+&nbsp;&nbsp;&nbsp;labrun&nbsp;&nbsp;8&nbsp;&nbsp;NB. run lab 8 - A Taste of J (1)<br>
+&nbsp;&nbsp;&nbsp;labgo&nbsp;&nbsp;&nbsp;''&nbsp;NB.&nbsp;advance to next section in lab<br><br>
+</tt>
+If you defined the readline Control-j macro, use Control-j to advance through the lab.
+</p>
+
+<b>Dll call</b>
+<p>
+J can call external libraries with the dll call facility provided by the<tt> 15!:x </tt>foreign family.
+You can write applications in J that use routines from other languages and system libraries
+just like a C programmer.<tt> load 'dll' </tt> to define utilities for system calls
+and routines written in other languages.
+</p>
+<b>Sockets</b><p>
+<tt>load 'socket' </tt> to define utilties for working with sockets. These utilities use
+dll call to call the system socket routines. There are socket labs.
+</p>
+<b>Regular expressions</b><p>
+<tt>load 'regex' </tt>to define utilties for working with regular expressions.
+These utilities use dll call to call the system regex routines. There is a regex lab.
+</p>
+<b>#! J scripts</b><p>
+A #! J script (hash bang J script)
+is a text file that starts with <tt>#!/usr/local/bin/jconsole</tt> and has been made executable with <tt>chmod +x</tt>.
+Try the following:<br><br>
+create file sumsquares with 3 lines of text:<br>
+<tt>
+#!/usr/local/bin/jconsole<br>
+echo +/*:0".>,.2}.ARGV<br>
+exit''</tt><br><br>
+make it executable and run it<br>
+<tt>./sumsquares 1 2 3 4 5</tt><br><br>
+Use<tt> NB. </tt> to comment out the<tt> exit'' </tt> to stay in J.
+<br><br>Profile loads <tt> jconsole </tt> with the following definitions that are
+useful in #! J scripts:<br><tt>
+ARGV    - boxed list of jconsole, script name, and arguments<br>
+echo    - format and display output<br>
+getenv  - get value of environment variable<br>
+stdin   - read from standard input<br>
+stdout  - write to standard output<br>
+stderr  - write to standard error<br>
+exit    - exit J (arg is return code)<br>
+</tt><br>
+<tt>stdin </tt>is defined with<tt> stdout </tt>as its obverse (see the<tt> :. </tt>
+conjunction). When used with<tt> &. </tt>(under conjunction), as
+in<tt> foo&.stdin ''  </tt> stdin is first called, reading all of standard
+input.  That input is the argument to foo, and the result is passed
+to the inverse of stdin, which is stdout.  A verb which
+transforms a character list can be combined with the stdin verb
+with under to apply the transformation as a Unix filter.
+
+As an example we will create a Unix filter which reverses all the
+characters in a file.  Rather than just using<tt> |. </tt>we'll use
+<tt> (|.@}: , {:) </tt>which reverses all but the last character, and
+appends the last character to it. For files which end in a newline,
+this reverses the file keeping that newline at the end. Define the
+#! J script reverse as follows:<br>
+<pre>
+#!/usr/local/bin/jconsole
+rev=. |.@}: , {:
+rev&.stdin ''
+exit''
+</pre>
+If you wanted to do a complete reverse of a file which
+does not end in a newline you could do the following:<br>
+<tt> rev=. |.`(|.@}: , {:)@.(LF&=@{:)</tt><br><br>
+<tt>echo </tt> uses<tt> 1!:2 </tt>to write to J output (file number 2)
+and formats and writes any J array.<tt> stdout </tt>
+and<tt> stderr </tt>, however, must be given character lists, and writes
+them unaltered. In particular, <tt> echo 'a line' </tt>  will write a trailing
+newline character whereas<tt> stdout 'a line' </tt>does not.<br><br>
+<b>Calling a program with stdin and stdout</b><p>
+The verb defined below calls a program, writes to its standard
+input, and reads its output.
+<pre>
+run=: 4 : 0
+'p o i'=. 2!:2 x.   NB. Run command, save Process, Output, Input
+y. fwrite i         NB. Write to its input
+fclose i            NB. Close its input
+2!:3 p              NB. Wait for process to terminate
+z=.fread o          NB. Read its output
+fclose o            NB. Close its output
+z                   NB. Result
+)
+</pre></p>
+
+<!--bottom jump start--><hr><a href="product.htm">&gt&gt;</a>&nbsp;
+<a href="welwin.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

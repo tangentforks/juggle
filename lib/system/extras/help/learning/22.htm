@@ -1,0 +1,833 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 22: Vectors and Matrices</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 22: Vectors and Matrices</H1>
+<p>
+In this chapter we look at built-in functions 
+which support computation with vectors and matrices.  
+<H2>22.1  The Dot Product Conjunction</H2>
+<p>
+Recall the composition of verbs, from  <A HREF="08.htm">Chapter 08</A>.  
+A sum-of-products verb can be composed from <TT>sum</TT> and <TT>product</TT> 
+with the <TT>@:</TT> conjunction. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>P=:2 3 4</TT></TD> 
+<TD><TT>Q=:1 0 2</TT></TD> 
+<TD><TT>P * Q</TT></TD> 
+<TD><TT>+/ P * Q</TT></TD> 
+<TD><TT>P (+/ @: *) Q</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3 4</TD> 
+<TD><PRE>1 0 2</TD> 
+<TD><PRE>2 0 8</TD> 
+<TD><PRE>10</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<p>
+There is a conjunction <TT>.</TT> (dot, called "Dot Product").  
+It can be used instead of <TT>@:</TT> to compute the sum-of-products of two lists.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>P</TT></TD> 
+<TD><TT>Q</TT></TD> 
+<TD><TT>P (+/ @: *) Q</TT></TD> 
+<TD><TT>P (+/ . *) Q</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3 4</TD> 
+<TD><PRE>1 0 2</TD> 
+<TD><PRE>10</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<p>
+Evidently, the <TT>.</TT> conjunction is a form of composition,  
+a variation of <TT>@:</TT> or <TT>@</TT>.  
+We will see below that it is more convenient 
+for working with vectors and matrices. 
+<H2>22.2  Scalar Product of Vectors</H2>
+<p>
+Recall that <TT>P</TT> is a list of 3 numbers. If we interpret these numbers as coordinates 
+of a point in 3-dimensional space, then <TT>P</TT> can be regarded as 
+defining a vector, a line-segment with length and direction, from the origin at <TT>0 0 0</TT>  
+to the point <TT>P</TT>.  We can refer to the vector <TT>P</TT>. 
+<p>
+With <TT>P</TT> and <TT>Q</TT> interpreted as vectors, then the expression <TT>P (+/ . *) Q</TT> gives  
+what is called the "scalar product" of <TT>P</TT> and <TT>Q</TT>.   
+Other names for the same thing are "dot product", or "inner product", or "matrix product", 
+depending on context.  
+In this chapter let us stick to the neutral term "dot product", for which  
+we define a function <TT>dot</TT>: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>dot =: +/ . *</TT></TD> 
+<TD><TT>P</TT></TD> 
+<TD><TT>Q</TT></TD> 
+<TD><TT>P dot Q</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+/ .*</TD> 
+<TD><PRE>2 3 4</TD> 
+<TD><PRE>1 0 2</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<p>
+A textbook definition 
+of scalar product of vectors <TT>P</TT> and <TT>Q</TT> may appear in the form: 
+<PRE>
+      (magnitude P) * (magnitude Q) * (cos alpha)
+</PRE>
+<p>
+where the magnitude (or length) of a vector is  
+the square root of sum of squares of components, 
+and <TT>alpha</TT> is the smallest non-negative angle between 
+<TT>P</TT> and <TT>Q</TT>.  To show the equivalence 
+of this form with <TT>P dot Q</TT>,  
+we can define utility-verbs <TT>ma</TT> for magnitude-of-a-vector 
+and <TT>ca</TT> for cos-of-angle-between-vectors. 
+<PRE>
+   ma  =: %: @: (+/ @: *:)
+   ca  =: 4 : '(-/ *: b,(ma x.-y.), c) % (2*(b=.ma x.)*(c=. ma y.))'
+</PRE>
+<p>
+We expect the magnitude of vector <TT>3 4</TT> to be <TT>5</TT>, and expect the angle between <TT>P</TT> 
+and itself to be zero, and thus cosine to be <TT>1</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>ma 3 4</TT></TD> 
+<TD><TT>P ca P</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>5</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+then we see that the <TT>dot</TT> verb is equivalent to the textbook form above 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>P</TT></TD> 
+<TD><TT>Q</TT></TD> 
+<TD><TT>P dot Q</TT></TD> 
+<TD><TT>(ma P)*(ma Q)*(P ca Q)</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3 4</TD> 
+<TD><PRE>1 0 2</TD> 
+<TD><PRE>10</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<H2>22.3  Matrix Product</H2>
+<p>
+The verb we called <TT>dot</TT>  
+is "matrix product" for vectors and matrices. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M =: 3 4 ,: 2 3</TT></TD> 
+<TD><TT>V =: 3 5</TT></TD> 
+<TD><TT>V dot M</TT></TD> 
+<TD><TT>M dot V</TT></TD> 
+<TD><TT>M dot M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>3 5</TD> 
+<TD><PRE>19 27</TD> 
+<TD><PRE>29 21</TD> 
+<TD><PRE>17 24 
+12 17</TD> 
+</PRE></TABLE> 
+<p>
+There is a precondition which must be met  
+if we are to compute <TT>Z =: A dot B</TT>. 
+The precondition is that the last dimension of <TT>A</TT> must match  
+the first dimension of <TT>B</TT>.  
+<PRE>
+   A =: 2 3 5 $ 1
+   B =: 5 4   $ 2
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>$ A</TT></TD> 
+<TD><TT>$ B</TT></TD> 
+<TD><TT>Z =: A dot B</TT></TD> 
+<TD><TT>$ Z</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3 5</TD> 
+<TD><PRE>5 4</TD> 
+<TD><PRE>10 10 10 10 
+10 10 10 10 
+10 10 10 10 
+ 
+10 10 10 10 
+10 10 10 10 
+10 10 10 10</TD> 
+<TD><PRE>2 3 4</TD> 
+</PRE></TABLE> 
+<p>
+The example shows that the last-and-first 
+dimensions disappear from the result. If the two 
+dimensions do not match then an error is signalled. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>$ B</TT></TD> 
+<TD><TT>$ A</TT></TD> 
+<TD><TT>B dot A</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>5 4</TD> 
+<TD><PRE>2 3 5</TD> 
+<TD><PRE>error</TD> 
+</PRE></TABLE> 
+<H2>22.4  Generalisation</H2>
+<p>
+The "Dot Product" conjunction forms the  
+dot-product verb with <TT>(+/ . *)</TT>. Other verbs 
+can be formed on the pattern <TT>(u.v)</TT>. 
+<p>
+For example, consider a relationship between people: 
+person i is a child of person j, represented by a square 
+boolean matrix true at row i column j.  
+Using verbs <TT>+.</TT> (logical-or) and <TT>*.</TT> (logical-and). 
+We can compute 
+a grandchild relationship with the verb <TT>(+./ . *.)</TT>. 
+<PRE>
+   g   =: +. / . *.
+</PRE>
+<p>
+Taking the "child" relationship to be the matrix <TT>C</TT>: 
+<PRE>
+   C =: 4 4 $ 0 0 0 0 1 0 0 0 1 0 0 0 0 1 0 0
+</PRE>
+<p>
+Then the grandchild relationship is, so to speak, 
+the child relationship squared. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>C</TT></TD> 
+<TD><TT>G =: C g C</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 0 0 0 
+1 0 0 0 
+1 0 0 0 
+0 1 0 0</TD> 
+<TD><PRE>0 0 0 0 
+0 0 0 0 
+0 0 0 0 
+1 0 0 0</TD> 
+</PRE></TABLE> 
+<p>
+We can see from <TT>C</TT> that person 3 is a child of person 1, 
+and person 1 is a child of person 0. Hence, as we see in <TT>G</TT> 
+person 3 is a grandchild of person 0. 
+<H2>22.5  Symbolic Arithmetic</H2>
+<p>
+As arguments to the "Dot Product" conjunction 
+we could supply   
+verbs to perform symbolic arithmetic.  
+Thus we might 
+symbolically add the strings <TT>'a'</TT> and <TT>'b'</TT> to get  
+the string <TT>'a+b'</TT>.  
+Here is a small collection 
+of utility functions to  
+do some limited symbolic arithmetic on strings. 
+<PRE>
+   pa     =: ('('&,) @: (,&')')   
+   cp     =: [ ` pa @. (+./ @: ('+-*' & e.))
+   symbol =: (1 : (':';'&lt; (cp > x.), u., (cp > y.)')) " 0 0
+   
+   splus  =: '+' symbol 
+   sminus =: '-' symbol 
+   sprod  =: '*' symbol 
+   
+   a =: &lt;'a'
+   b =: &lt;'b'
+   c =: &lt;'c'
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a</TT></TD> 
+<TD><TT>b</TT></TD> 
+<TD><TT>c</TT></TD> 
+<TD><TT>a splus b</TT></TD> 
+<TD><TT>a sprod b splus c</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+ 
+|a| 
++-+</TD> 
+<TD><PRE>+-+ 
+|b| 
++-+</TD> 
+<TD><PRE>+-+ 
+|c| 
++-+</TD> 
+<TD><PRE>+---+ 
+|a+b| 
++---+</TD> 
+<TD><PRE>+-------+ 
+|a*(b+c)| 
++-------+</TD> 
+</PRE></TABLE> 
+<p>
+As a variant of the symbolic product, we could elide the multiplication symbol 
+to give an effect more like conventional notation: 
+<PRE>
+   sprodc =: '' symbol 
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a sprod b</TT></TD> 
+<TD><TT>a sprodc b</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+---+ 
+|a*b| 
++---+</TD> 
+<TD><PRE>+--+ 
+|ab| 
++--+</TD> 
+</PRE></TABLE> 
+<p>
+Now for the <TT>dot</TT> verb, which we recall is <TT>(+/ . *)</TT>, a symbolic version is:   
+<PRE>
+   sdot =: splus / . sprodc
+</PRE>
+<p>
+To illustrate: 
+<PRE>
+   S =: 3 2 $ &lt; "0 'abcdef'
+   T =: 2 3 $ &lt; "0 'pqrstu'
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>S</TT></TD> 
+<TD><TT>T</TT></TD> 
+<TD><TT>S sdot T</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+ 
+|a|b| 
++-+-+ 
+|c|d| 
++-+-+ 
+|e|f| 
++-+-+</TD> 
+<TD><PRE>+-+-+-+ 
+|p|q|r| 
++-+-+-+ 
+|s|t|u| 
++-+-+-+</TD> 
+<TD><PRE>+-----+-----+-----+ 
+|ap+bs|aq+bt|ar+bu| 
++-----+-----+-----+ 
+|cp+ds|cq+dt|cr+du| 
++-----+-----+-----+ 
+|ep+fs|eq+ft|er+fu| 
++-----+-----+-----+</TD> 
+</PRE></TABLE> 
+<H3>22.5.1  The Dot Product Conjunction Revisited</H3>
+<p>
+Recall from  <A HREF="07.htm">Chapter 07</A> that a dyadic verb  
+<TT>v</TT> has a left and right rank.  
+Here are some utility functions to extract the ranks from a given verb. 
+<PRE>
+   RANKS   =: 1 : 'x. b. 0'
+   LRANK   =: 1 : '1 { (x. RANKS)'   NB. left rank only
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+ RANKS</TT></TD> 
+<TD><TT>+ LRANK</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 0 0</TD> 
+<TD><PRE>0</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme for dyadic verbs 
+of the form (<TT>u.v</TT>) is: 
+<PRE>
+       u.v  means u @ (v " ((1+L), _))   where L = (v LRANK)
+</PRE>
+<p>
+or equivalently, 
+<PRE>
+      u.v   means (u @: v) " (1+L, _)
+</PRE>
+<p>
+and so we see how <TT>(.)</TT> and <TT>(@:)</TT> differ. Here is an example: 
+<PRE>
+   L  =: + LRANK
+   LR =: 1+L , _  
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M</TT></TD> 
+<TD><TT>M &lt; . + M</TT></TD> 
+<TD><TT>M &lt; @: + M</TT></TD> 
+<TD><TT>LR</TT></TD> 
+<TD><TT>M (&lt; @: +)" LR M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>+---+---+ 
+|6 7|5 6| 
+|6 7|5 6| 
++---+---+</TD> 
+<TD><PRE>+---+ 
+|6 8| 
+|4 6| 
++---+</TD> 
+<TD><PRE>1 _</TD> 
+<TD><PRE>+---+---+ 
+|6 7|5 6| 
+|6 7|5 6| 
++---+---+</TD> 
+</PRE></TABLE> 
+<H2>22.6  Determinant</H2>
+<H3>22.6.1  Minors</H3>
+<p>
+The "minors" of a matrix, with respect to the first column, 
+ are obtained by deleting the first 
+column and then deleting each row in turn. The following function 
+is taken from the Dictionary.  
+<PRE>
+   mi  =: }."1@ (1&([\.))     
+</PRE>
+<p>
+For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>S =: 3 3 $ &lt;"0 'abcdefghi'</TT></TD> 
+<TD><TT>mi S</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+-+ 
+|a|b|c| 
++-+-+-+ 
+|d|e|f| 
++-+-+-+ 
+|g|h|i| 
++-+-+-+</TD> 
+<TD><PRE>+-+-+ 
+|e|f| 
++-+-+ 
+|h|i| 
++-+-+ 
+ 
++-+-+ 
+|b|c| 
++-+-+ 
+|h|i| 
++-+-+ 
+ 
++-+-+ 
+|b|c| 
++-+-+ 
+|e|f| 
++-+-+</TD> 
+</PRE></TABLE> 
+<H3>22.6.2  Determinant</H3>
+<p>
+The monadic verb <TT>(- / . *)</TT> computes  
+the determinant of a matrix. 
+<PRE>
+   det =: - / . *
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M</TT></TD> 
+<TD><TT>det M</TT></TD> 
+<TD><TT>(3*3)-(2*4)</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+For a square matrix, the determinant is 
+unchanged by transposing,   
+but not so for a non-square matrix. 
+<PRE>
+   N =: 3 2 $ 2 1 0 3 4 5 
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>$ M</TT></TD> 
+<TD><TT>det M</TT></TD> 
+<TD><TT>det |: M</TT></TD> 
+<TD><TT>$ N</TT></TD> 
+<TD><TT>det N</TT></TD> 
+<TD><TT>det |: N</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 2</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>3 2</TD> 
+<TD><PRE>_12</TD> 
+<TD><PRE>0</TD> 
+</PRE></TABLE> 
+<p>
+Symbolically: 
+<PRE>
+   sdet =: sminus / . sprodc
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>S</TT></TD> 
+<TD><TT>sdet S</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+-+ 
+|a|b|c| 
++-+-+-+ 
+|d|e|f| 
++-+-+-+ 
+|g|h|i| 
++-+-+-+</TD> 
+<TD><PRE>+----------------------------------+ 
+|(a(ei-hf))-((d(bi-hc))-(g(bf-ec)))| 
++----------------------------------+</TD> 
+</PRE></TABLE> 
+<p>
+The determinant of a matrix is the alternating sum 
+<TT>(-/)</TT> of first column multiplied by  
+determinants (recursively) of corresponding minors.  
+The following 
+function <TT>dex</TT> is a version of determinant  
+showing the recursion explicitly: 
+<PRE>
+   fc  =: {. " 1      NB. first column
+   
+   dex =: 3 : 0
+if.    2 > {: $ y.      
+do.    -/ , y. 
+else.  -/ (fc y.) * (dex"_1 mi y.)
+end.
+)
+   
+   N =: 3 3 $ 2 1 0 3 4 5 6 2 3
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>N</TT></TD> 
+<TD><TT>mi N</TT></TD> 
+<TD><TT>dex"_1 mi N</TT></TD> 
+<TD><TT>dex N</TT></TD> 
+<TD><TT>det N</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 1 0 
+3 4 5 
+6 2 3</TD> 
+<TD><PRE>4 5 
+2 3 
+ 
+1 0 
+2 3 
+ 
+1 0 
+4 5</TD> 
+<TD><PRE>2 3 5</TD> 
+<TD><PRE>25</TD> 
+<TD><PRE>25</TD> 
+</PRE></TABLE> 
+<H3>22.6.3  Singular Matrices</H3>
+<p>
+A matrix is said to be singular if the rows (or columns) 
+are not linearly independent, that is, if one row 
+(or column) can be obtained from another  
+by multiplying by a constant.  
+A singular matrix has a zero determinant. 
+  
+In the following 
+example <TT>A</TT> is a (symbolic) singular matrix, 
+with <TT>m</TT> the constant multiplier. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>A =: 2 2 $ 'a';'b';'ma';'mb'</TT></TD> 
+<TD><TT>sdet A</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+--+--+ 
+|a |b | 
++--+--+ 
+|ma|mb| 
++--+--+</TD> 
+<TD><PRE>+-------+ 
+|amb-mab| 
++-------+</TD> 
+</PRE></TABLE> 
+<p>
+We see that the resulting term <TT>(amb-mab)</TT> must be zero for all 
+<TT>a</TT>, <TT>b</TT> and <TT>m</TT>. 
+<H2>22.7  Matrix Divide</H2>
+<p>
+The built-in verb <TT>%.</TT>  
+(percent dot) is called "Matrix Divide". It can be used 
+to find solutions to systems of simultaneous linear equations. 
+For example,  consider the equations  
+written conventionally as: 
+<PRE>
+          3x + 4y = 11
+          2x + 3y =  8
+</PRE>
+<p>
+Rewriting as a matrix equation, we have, informally, 
+<PRE>
+          M dot (x,y) = V
+</PRE>
+<p>
+where <TT>M</TT> is the matrix of coefficients and <TT>V</TT> is the vector of 
+right-hand-side values: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M =: 3 4 ,: 2 3</TT></TD> 
+<TD><TT>V =: 11 8</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>11 8</TD> 
+</PRE></TABLE> 
+<p>
+The vector of unknowns (<TT>x,y</TT>) can be found 
+by dividing vector <TT>V</TT> by matrix <TT>M</TT>.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M</TT></TD> 
+<TD><TT>V</TT></TD> 
+<TD><TT>xy =: V  %. M</TT></TD> 
+<TD><TT>M dot xy</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>11 8</TD> 
+<TD><PRE>1 2</TD> 
+<TD><PRE>11 8</TD> 
+</PRE></TABLE> 
+<p>
+There are preconditions which must be satisfied in order 
+to compute <TT>Z =: A %. B</TT>. Consider 
+the following example in two dimensions: 
+<PRE>
+   A =: 3 2 $ 3 5 10 14 18 28
+   B =: 3 2 $ 1 0 2 4 5 3
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>A</TT></TD> 
+<TD><TT>B</TT></TD> 
+<TD><TT>Z =: A %. B</TT></TD> 
+<TD><TT>B dot Z</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE> 3  5 
+10 14 
+18 28</TD> 
+<TD><PRE>1 0 
+2 4 
+5 3</TD> 
+<TD><PRE>3 5 
+1 1</TD> 
+<TD><PRE> 3  5 
+10 14 
+18 28</TD> 
+</PRE></TABLE> 
+<p>
+If we write: 
+<PRE>
+   'r s' =: $ B
+   't u' =: $ Z
+</PRE>
+<p>
+then since we know that <TT>A</TT> equals <TT>B dot Z</TT>  
+then the dimensions of A must be <TT>(r,u)</TT>, 
+from the precondition for <TT>dot</TT> mentioned above. 
+Hence the first dimension of <TT>A</TT> must equal the first of <TT>B</TT>. 
+If this condition is not met, an error results: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>E =: |: B</TT></TD> 
+<TD><TT>$A</TT></TD> 
+<TD><TT>$E</TT></TD> 
+<TD><TT>A %. E</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 2 5 
+0 4 3</TD> 
+<TD><PRE>3 2</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>error</TD> 
+</PRE></TABLE> 
+<p>
+The second precondition for <TT>Z=: A %. B</TT> 
+is that <TT>B</TT> must be non-singular, 
+that is, the determinant of <TT>B</TT> must be non-zero. 
+Otherwise an error is reported. For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>F =: 3 2 $ 1</TT></TD> 
+<TD><TT>det F</TT></TD> 
+<TD><TT>A %. F</TT></TD> 
+<TD><TT>B</TT></TD> 
+<TD><TT>det B</TT></TD> 
+<TD><TT>A %. B</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 1 
+1 1 
+1 1</TD> 
+<TD><PRE>0</TD> 
+<TD><PRE>error</TD> 
+<TD><PRE>1 0 
+2 4 
+5 3</TD> 
+<TD><PRE>_13</TD> 
+<TD><PRE>3 5 
+1 1</TD> 
+</PRE></TABLE> 
+<H3>22.7.1  Identity Matrix</H3>
+<p>
+A (non-singular) matrix <TT>M</TT> divided by itself yields  
+an "identity matrix", <TT>I</TT> say, such that <TT>(M dot I) = M</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M</TT></TD> 
+<TD><TT>I =: M %. M</TT></TD> 
+<TD><TT>M dot I</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>1 0 
+0 1</TD> 
+<TD><PRE>3 4 
+2 3</TD> 
+</PRE></TABLE> 
+<p>
+The identity matrix is always square even if 
+the original matrix is not. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>A</TT></TD> 
+<TD><TT>K =: A %. A</TT></TD> 
+<TD><TT>A dot K</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE> 3  5 
+10 14 
+18 28</TD> 
+<TD><PRE>          1 _4.44089e_14 
+1.95399e_14            1</TD> 
+<TD><PRE> 3  5 
+10 14 
+18 28</TD> 
+</PRE></TABLE> 
+<p>
+In the last example we see terms in <TT>e_14</TT>, 
+very close to zero. We can repeat 
+the computation, 
+first converting <TT>A</TT> to extended-precision with the 
+built-in verb <TT>x:</TT> (see  <A HREF="19.htm">Chapter 19</A>). 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>A =: x: A</TT></TD> 
+<TD><TT>K =: A %. A</TT></TD> 
+<TD><TT>A dot K</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE> 3  5 
+10 14 
+18 28</TD> 
+<TD><PRE>1 0 
+0 1</TD> 
+<TD><PRE> 3  5 
+10 14 
+18 28</TD> 
+</PRE></TABLE> 
+<H2>22.8  Matrix Inverse</H2>
+<p>
+The monadic verb <TT>%.</TT> computes the inverse of a matrix 
+That is, <TT>%. M</TT> is  
+equivalent to <TT>I %. M</TT> for a suitable 
+identity matrix <TT>I</TT>: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>M</TT></TD> 
+<TD><TT>I =: M %. M</TT></TD> 
+<TD><TT>I %. M</TT></TD> 
+<TD><TT>%. M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 4 
+2 3</TD> 
+<TD><PRE>1 0 
+0 1</TD> 
+<TD><PRE> 3 _4 
+_2  3</TD> 
+<TD><PRE> 3 _4 
+_2  3</TD> 
+</PRE></TABLE> 
+<p>
+For a vector <TT>V</TT>, the inverse <TT>W</TT> 
+has the reciprocal magnitude and the same direction. 
+Thus the product of the magnitudes is <TT>1</TT> and the cosine 
+of the angle between is <TT>1</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>V</TT></TD> 
+<TD><TT>W =:  %. V</TT></TD> 
+<TD><TT>(ma V) * (ma W)</TT></TD> 
+<TD><TT>V ca W</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>11 8</TD> 
+<TD><PRE>0.0594595 0.0432432</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+This brings us to the end of Chapter 22 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="24.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 19Feb00</p>
+</BODY>
+</HTML>
+

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cp *.ijs src
+tar cvzf juggle.tgz buildme runme README src support
+md5=`md5sum juggle.tgz | awk '{print $1}'`
+
+cat > info.txt <<- .
+	team: Team Juggle
+	contact-email: juggle-icfp@gaertner.de
+	address1: Captn None Such Juggle, Gaertner Datensysteme 
+	address1: Hamburger Str. 273a, D-38114 Braunschweig, Germany
+	phone: +49 531 2335555
+	md5sum: $md5
+.

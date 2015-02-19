@@ -1,0 +1,17 @@
+directory:  packages\finance
+
+This directory contains financial scripts.
+
+interest.ijs
+============
+defines standard functions in compound interest, including
+annuities-certain, amortizations, net present value etc.
+
+actfns.ijs
+=========
+standard annuity and assurance calculations.
+
+actutil.ijs
+==========
+various actuarial utilities - joint life, convert between populations
+and rates, read in actuarial tables, etc.

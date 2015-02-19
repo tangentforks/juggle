@@ -1,0 +1,94 @@
+LABTITLE=: 'Theorems and Proofs'
+
+NB. =========================================================
+Lab Section THEOREMS AND PROOFS
+
+A theorem is an assertion that one expression L,the left limb, is equivalent to another R, and may be expressed as the function T=. L -: R . A theorem may also be called a tautology, a function that yields 1 (true) for any argument. For example:
+)
+L=: +/@i.             NB. Sum of integers
+
+R=: (] * ] - 1:) % 2:
+
+T=: L -: R
+
+(T ; L ; R ; i.) 6
+
+NB. =========================================================
+Lab Section
+
+We can also assign the name n to the right argument function ] to allow a function such as R1 to be written more readably for a beginner. Thus:
+)
+n=: ]
+
+R=: (n*n-1:)%2:
+
+R 6
+
+NB. =========================================================
+Lab Section
+
+A proof is a sequence of equivalent expressions that lead in justifiable steps from a left limb to a right. We will write one expression below another to assert that it is equivalent to the one above it, possibly annotating it with the justification to provide a formal proof:
+
+L        NB. Theorem 1
+
++/@i.    NB. Definition of L
+
++/@|.@i. NB. Sum is associative  and commutative, (|. reverses)
+
+(((+/@i.)+(+/@|.@i.)) % 2:)   NB. Half sum of equal quantities
+
+(+/@(i. + |.@i.) % 2:) NB. Summation distributes over addition
+
+(+/@(n # n - 1:) % 2:) NB. Sum with reversal gives list of n-1
+
+((n * n - 1:) % 2:)    NB. Definition of times
+
+R                      NB. Definition of R
+)
+
+NB. =========================================================
+Lab Section
+
+The foregoing proof can be illuminated by entering each expression followed by an argument, and observing that each gives the same result. Any mis-step in a proof will likely show an anomolous result.
+
+An expression can be conveniently entered by moving the cursor up to it, pressing enter to bring it to the input area, modifying it by inserting the argument, and then pressing enter. Moreover, partial expressions may be entered to observe their results. Thus:
+)
+L 6
+
++/@i. 6
+
++/@|.@i.6 NB. Sum is associative  and commutative (|. reverses)
+
+(((+/@i.)+(+/@|.@i.)) % 2:)6  NB. Half sum of equal quantities
+
+R 6
+
+(i. + |.@i.) 6 NB. To show that this is indeed a list of n-1
+
+NB. =========================================================
+Lab Section
+
+The following is a similar proof that the sum of the first n odd integers equals the square of n:
+
+(odds=: 1: + 2: * i.)        NB. First odd integers
+
++/@(1: + 2: * i.)            NB. Sum of odds
+
+(n + +/@(2: * i.))           NB. Sum of n ones is n
+
+(n + 2: * +/@i.)             NB. Sum of twice is twice sum
+
+(n + 2: * (n * n - 1:) % 2:) NB. Result of preceding theorem
+
+(n + n * n - 1:)             NB. Simple algebra
+
+(n * n)                      NB. Simple algebra
+
+*:                           NB. Definition of square
+)
+
+NB. =========================================================
+Lab Section
+
+An inductive proof is based (explicitly or implicitly) on a recursive definition of a function. The treatment of inductive proofs will be found in the lab on recursion.
+)

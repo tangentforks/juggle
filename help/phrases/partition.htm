@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>Partition</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="special_matrcies.htm">&gt&gt;</a>&nbsp;
+<a href="structural.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Partition</h1>
+<TR><TD colspan="2">
+
+<PRE>   x=:1 1 0 0 0 1 0 0 1 1
+   y=:3 4 8 2 5 6 9 4 5 4
+   x +/ ;. 1 y
+3 19 19 5 4
+
+   x < ;. 1 y
++-------------------+
+¦3¦4 8 2 5¦6 9 4¦5¦4¦
++-------------------+
+
+   x < ;. 2 y
++-------------------+
+¦3¦4¦8 2 5 6¦9 4 5¦4¦
++-------------------+
+
+   x +/ ;. 2 y
+3 4 21 18 4</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The foregoing expressions illustrate the use of the cut conjunction (<TT>;.</TT>) to apply the functions sum (<TT>+/</TT>) and box (&lt;) over <I>partitions </I>or <I>fields </I>of the right argument <TT>y</TT> demarked by the boolean left argument <TT>x</TT>. The case of the box gives a clear picture of the partitioning performed; in case <TT>1</TT>, the ones in the left argument mark the beginnings of fields, and in case <TT>2</TT> they mark the ends.</P>
+
+<P>A function (such as the sum scan) that produces non-scalar results illustrates the fact that the box of such a function provides a more readable result:</P></TD></TR></TABLE>
+<PRE>   x +/\ ;. 2 y
+3  0  0  0
+4  0  0  0
+8 10 15 21
+9 13 18  0
+4  0  0  0
+
+   x &lt;@(+/\) ;. 2 y
++------------------------+
+¦3¦4¦8 10 15 21¦9 13 18¦4¦
++------------------------+
+
+   ; x &lt;@(+/\) ;. 2 y
+3 4 8 10 15 21 9 13 18 4</PRE> 
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>We therefore define a corresponding conjunction:
+</P></TD></TR></TABLE>
+<PRE>   cut=: 2 : ';@(&lt;@x.;.y.)'
+   x +/\ cut 1 y
+3 4 12 14 19 6 15 19 5 4
+
+   x +/\ cut 2 y
+3 4 8 10 15 21 9 13 18 4</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>c0=: cut=: 2 : ';@(&lt;@x.;.y.)'</TT></TD><TD></TD>	
+  </TR><TR><TD><TT>a1=: c1=: cut 1</TT></TD>	<TD>Case 1 of cut</TD>
+  </TR><TR><TD><TT>a2=: c2=: cut 2</TT></TD>	<TD>Case 2 of cut</TD>
+  </TR><TR><TD><TT>d3=: pmax=: &gt;./ c1</TT></TD> 	<TD>Partitioned max over (case 1)</TD></TR>
+  <TR><TD><TT>d4=: pmax2=: &gt;./c2</TT></TD>	<TD>Partitioned max over (case 2)</TD>
+  </TR><TR><TD><TT>d5=: pmaxs=: &gt;./\ c1</TT></TD>	<TD>Partitioned max scan</TD>
+  </TR><TR><TD><TT>d6=: pnub=: ~. c1</TT></TD>	<TD>Partitioned nub</TD>
+  </TR><TR><TD><TT>d7=: psort=: /:~ c1</TT></TD>	<TD>Partitioned sort</TD>
+  </TR><TR><TD><TT>d8=: prev=: |. c1</TT></TD>	<TD>Partitioned reverse</TD>
+  </TR>
+</TABLE></TD></TR></TABLE>
+
+<PRE>   x
+1 1 0 0 0 1 0 0 1 1
+
+   y
+3 4 8 2 5 6 9 4 5 4
+
+ 
+   (x pmax y) ,: (x pmax2 y)
+3 8 9 5 4
+3 4 8 9 4
+
+  x([ , ] ,psort ,: prev)y
+1 1 0 0 0 1 0 0 1 1
+3 4 8 2 5 6 9 4 5 4
+3 2 4 5 8 4 6 9 5 4
+3 5 2 8 4 4 9 6 5 4
+
+   p=: &gt;;:'sparkle out among the fern to bicker down a valley'
+   x (,.@[ ; ,.@] ; psort ; prev) p
++-------------------------+
+¦1¦sparkle¦sparkle¦sparkle¦
+¦1¦out    ¦among  ¦fern   ¦
+¦0¦among  ¦fern   ¦the    ¦
+¦0¦the    ¦out    ¦among  ¦
+¦0¦fern   ¦the    ¦out    ¦
+¦1¦to     ¦bicker ¦down   ¦
+¦0¦bicker ¦down   ¦bicker ¦
+¦0¦down   ¦to     ¦to     ¦
+¦1¦a      ¦a      ¦a      ¦
+¦1¦valley ¦valley ¦valley ¦
++-------------------------+
+	x	p	psort	prev</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The monadic case of the 1-cut partitions at each occurrence of the leading item of the argument. Moreover a negative case suppresses the partitioning item. For example:</P></TD></TR></TABLE>
+
+<PRE>   q=: 0 4 2 3 0 4 7 6 0 2 
+   &lt; c1 q
++-------------------+
+¦0 4 2 3¦0 4 7 6¦0 2¦
++-------------------+
+
+   psort q
+0 2 3 4 0 4 6 7 0 2
+
+ 
+   r=: &gt;;:'/do you love me / or do you not / you told me once / but I forgot'
+   &lt; cut 1 r
++---------------------------+
+¦/     ¦/     ¦/     ¦/     ¦
+¦do    ¦or    ¦you   ¦but   ¦
+¦you   ¦do    ¦told  ¦I     ¦
+¦love  ¦you   ¦me    ¦forgot¦
+¦me    ¦not   ¦once  ¦      ¦
++---------------------------+
+
+   &lt; cut _1 r
++---------------------------+
+¦do    ¦or    ¦you   ¦but   ¦
+¦you   ¦do    ¦told  ¦I     ¦
+¦love  ¦you   ¦me    ¦forgot¦
+¦me    ¦not   ¦once  ¦      ¦
++---------------------------+</PRE>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="special_matrcies.htm">&gt&gt;</a>&nbsp;
+<a href="structural.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>Cut ;. </title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="each.htm">&gt&gt;</a>&nbsp;
+<a href="select_without_from.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Cut ;.</h1>	<TR><TD>
+<P>The cut conjunction applies a verb to partitions of its argument. In discussing cut we will use the expression <TT>f =: u ;. n</TT> to give names to the various elements. The left argument of cut is the verb <TT>u</TT> that will be applied to partitions of the right argument of the derived verb<TT> </TT>f . The right argument of cut is the noun n that indicates the kind of partitions.</P>
+
+<P>Let's consider cases where <TT>n</TT> is <TT>1</TT>, <TT>_1</TT>, <TT>2</TT>, or <TT>_2</TT> and where the derived verb is used monadically.</P>
+
+<P>If <TT>n</TT> is <TT>2</TT> or <TT>_2</TT>, the items of the right argument are partitioned into arguments that end with the last item in the argument. The item that is used to mark the partitions is called the fret. A negative <TT>n</TT> indicates that the fret is not included in the partition. Each partition is passed to the verb <TT>u</TT> and the partial results are assembled into the final result.</P>
+
+<PRE>   cut2  =. < ;. 2
+</Pre>
+<P>The definition of <TT>cut2 </TT>could be read as: box cut last.</P>
+
+<PRE>   cut2 'how now brown cow '
++---------------------+
+¦how ¦now ¦brown ¦cow ¦
++---------------------+ </PRE>
+
+<P>In this example the items of the right argument are characters. The fret is the last character, which is a blank. The fret is used to break the entire argument into a series of arguments to which the verb &lt; is applied. Visually:</P>
+
+<PRE>< 'how '  (first partition)  gives  first partial result
+< 'now '  (next partition)   gives  next partial result
+< 'brown '
+< 'cow '</Pre>
+
+<P>The partial results are assembled into the final result.
+</P>
+<PRE>   <;._2 'how now brown cow '
++-----------------+
+¦how¦now¦brown¦cow¦
++-----------------+</Pre>
+
+<P>The <TT>cut2 </TT>boxed results include the fret and the <TT>&lt;;._2</TT> boxed results do not include the fret.</P>
+
+<P>The following applies to the same partitions of the right argument, but applies the dyad <TT>#</TT> (tally) instead. This gives us the count of each partition.</P>
+
+<PRE>   #;._2 'how now brown cow '
+3 3 5 3</PRE>
+
+<P>This applies in the same way to numeric data. In the following <TT>_1</TT> is the fret.</P>
+
+<PRE>   a =. 2 3 4 _1 5 3 2 _1 23 45 65 132 _1
+   <;._2 a
++------------------------+
+¦2 3 4¦5 3 2¦23 45 65 132¦
++------------------------+
+
+   #;._2 a
+3 3 4
+
+   +/;._2 a
+9 10 265
+</Pre>
+<P>A <TT>1</TT> or <TT>_1</TT> uses the first item as the fret. If positive, the fret is included in the result, if negative it is not included.</P>
+
+ 
+<PRE>   <;._1 'madam i''m adam'
++-------------+
+¦ada¦ i'¦ ada¦¦
++-------------+</Pre>
+
+<P>Sometimes the partition information is separate from the data. Instead of frets in the data, the partition information can be provided in a left argument to the derived verb. The partition information is boolean data where a <TT>1</TT> indicates the start (with <TT>1</TT> or <TT>_1</TT>) or end (with <TT>2</TT> or <TT>_2</TT>) of the partitions.</P>
+
+<PRE>   1 0 0 0 1 0 0 <;.1 'abcdefg'
++--------+
+¦abcd¦efg¦
++--------+
+
+   d =.  'the test is the thing'
+   'the' E. d
+1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0
+
+   ('the' E. d) <;.1 d
++----------------------+
+¦the test is ¦the thing¦
++----------------------+</Pre>
+
+<P>The example above uses a new primitive <TT>E.</TT> that you can look up in the J Dictionary if you want additional information at this time. However, without worrying about the details you should get the idea of what is happening.</P>
+
+<P>Chopping up character lists into boxes is so useful that there is a standard utility called cutopen that handles many of the common cases. For example:</P>
+
+<PRE>   cutopen 'testing testing 1 2 3'
++---------------------+
+¦testing¦testing¦1¦2¦3¦
++---------------------+
+</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="each.htm">&gt&gt;</a>&nbsp;
+<a href="select_without_from.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

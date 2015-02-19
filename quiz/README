@@ -1,0 +1,35 @@
+Hier sind ein paar Unix-Quiz-Fragen, zusammengestellt anlaesslich
+der 2. Braunschweiger Linuxtage (Mai 2000).
+
+License? Doch nicht fuer diesen Kleinkram, bitte.
+
+							Martin Neitzel
+							neitzel@gaertner.de
+
+blt-2000.q	Fragen (inkl. Kategorie/Schwierigkeitsgrad und Antwort)
+
+EIGENTLICH sollte zur Abwicklung des Quizzes eine Browser/Server/CGI-Kombo
+eingesetzt werden.  Es stellte sich jedoch recht kurzfristig :-) heraus,
+dass der Beamer nicht so recht mit dem Laptop koopieren wollte.
+Deswegen wurde kurzerhand das Quiz-File via awk->troff->PostScript in
+klassische Folien umgepumpt.
+
+q2troff		Quiz-Preview:   q2troff blt-2000.q | groff -X
+grid.tbl	Eine fixe gehackte "GrosserPreis"-Tabelle (groff -t grid.tbl)
+
+
+Das angefange Webserver-Geraffel.  Es als "fragmentarisch" zu bezeichnen, waere
+bereits geschoent.
+
+index.wn	Meta-File fuer den WN Webserver.
+q2html		Quix-2-html-Konverter, naja, eben ein Anfang dafuer.
+
+TODOs:
+
+- Umpumpen in Standard-BSD-quiz(6)-Files.
+
+- Entweder einen CGI-Quiz-Driver selber machen oder einen der vielen
+  existierenden hernehmen und das Format umpumpen.
+
+- Einige der Fragen gehoeren eigentlich in eine Sequenz.  Das drueckt
+  das Quizfile aber nicht aus.

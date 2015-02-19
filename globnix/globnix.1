@@ -1,0 +1,62 @@
+.TH GLOBNIX 1 "April 2000" GDS
+.SH NAME
+globnix \- create a set of stress-testing filenames
+.SH SYNOPSIS
+.B globnix
+.BR - [ crnv ]
+.SH DESCRIPTION
+.B globnix
+creates (-c) or removes (-r) a set of empty files with
+"funny" names:  names with embedded spaces, quotes, newlines, wildcards, etc.
+Some funny links are included, too.
+.PP
+The intention is to use these pathological cases as
+fodder for stress-testing your programs, in particular scripts where
+proper quoting is important (be it for robustness or security reasons).
+.SH OPTIONS
+.IP -c
+Create the files.
+.IP -r
+Remove the files again.
+This will only purge the globnix test files;
+no other files will be harmed.
+.IP -n
+Do nothing but show what a "-c" would do.
+Mind you, many of the names are not what they look like.
+.BR vis (1)
+is your friend, or
+.I
+cat -nvet
+if you are pre-posix.  At any rate, you'll get a picture what to expect
+and whether
+.B globnix
+filenames would clash with your files.
+.IP -v
+Identify the version you are running.
+.SH FILES
+Yes.  About two dozen.  All files are created (or removed) in the
+current directory.
+.SH SEE ALSO
+.BR touch (1),
+.BR ln(1),
+.BR ls (1),
+.BR sh (1),
+.BR csh (1),
+.I
+The Common Gateway Interface standard
+.SH RESTRICTIONS
+The -n option does not indicate embedded whitespace
+or the boundary between filenames faithfully.
+Use common sense when reading the list.
+.SH DIAGNOSTICS
+Sure \- as soon as you get rolling with your tests :-)
+.SH AVAILABILITY
+Get the sources via
+.BR cvs (1)
+with these parameters:
+.nf
+CVSROOT :pserver:anoncvs@cvs.gaertner.de:/usr/local/cvs,
+password "cvs", module globnix.
+.SH AUTHOR
+Martin Neitzel, G\(:artner Datensysteme, Braunschweig.
+Send bug reports and perverse suggestions to neitzel@gaertner.de.

@@ -1,0 +1,368 @@
+<<*>>=
+<<midi.ijs>>
+<<session trace>>
+
+<<midi.ijs>>=
+<<midi.ijs required files>>
+<<midi.ijs dll calls>>
+<<midi.ijs short message routines>>
+<<midi.ijs play verb>>
+<<midi.ijs initialization code>>
+<<midi.ijs exports>>
+
+@
+<h1>Sending MIDI Messages to a Sound-card with J</h1>
+
+<address>
+Martin Neitzel
+<br>neitzel@gaertner.de
+</address>
+
+Today's PCs are usually equipped with a sound-card which is
+MIDI-capable, that is, it will understand the protocol defined by
+the Musical Instrument Data Interchange standard.  Here is some
+simple code to interface to a MIDI device using J.
+
+<h2>The MIDI utility definitions</h2>
+
+The Microsoft Windows system already contains all the basic
+routines to deal with MIDI devices.  There are actually to sets of
+routines: The high-level "multimedia player" routines allow you to
+run prepared MIDI files.  MIDI files typically have several voices
+and contain timing information.  The other set of routines, and
+these will be our topic, are the low-level routines.  They allow
+us to send tiny protocol units directly to the sound-card which is
+just fine in an interpreter's interactive environment:
+
+<<midi.ijs required files>>=
+
+require 'dll format'
+coclass 'midi'
+
+NB. The winapi declarations have moved around a bit historically,
+NB. and its not always possible just to say 'require winapi'.  So:
+winapi_path =. monad define
+	select. ({.~  i.&'/') 9!:14''
+	case. '4.01';'4.02'	do. 'system/examples/winapi/winapi'
+	case.			do. 'system/packages/winapi/winapi'
+	end.
+)
+
+'z' load winapi_path''
+
+<<midi.ijs dll calls>>=
+
+midiOutGetNumDevs =:'midiOutGetNumDevs' win32api
+NB. Two are buggy in the J system distribution:
+midiOutGetDevCapsA  =: 'winmm midiOutGetDevCapsA i i *c i'&cd
+midiOutOpen =: 'winmm midiOutOpen i *i i i i i'&cd
+midiOutShortMsg =: 'midiOutShortMsg' win32api
+midiOutReset =: 'midiOutReset' win32api
+midiOutClose =: 'midiOutClose' win32api
+
+@
+Two of the DLL calls are incorrectly declared in the supplied API
+specs for [[win32api]], so we have to do it ourselves.
+
+Alas, to find these routines and their documentation, you still
+have to acquire some Microsoft products:  A "Microsoft Developer's
+Network" CD-ROM is essential for the documentation -- but still not
+enough.  In addition, you'll need the C header files to find all
+the actual values of the symbolic constants mentioned in the
+documentation.
+
+Almost all of the functionality of a MIDI device can be controlled
+by "MIDI short messages".  They consist of a command byte followed
+by up to three parameters.  Our work horse for the experiments
+will therefor be [[midiOutShortMsg]], disguised by a simple J
+utility [[sm]] which takes care of the message encoding and the
+currently opened MIDI device.  
+
+The "General MIDI" standard assigns various piano, string, or wind
+instruments to numbers ranging from 0 to 127, and sometimes the
+whole 8-bit-byte range is supported by a MIDI device.  Note
+numbers are simply a chromatic numbering, using 60 for the middle
+C, 61 for middle sharp C, and so on.  Loudness (or, more
+accurately, "velocity") uses 127 as medium loud and 255 as
+"fortissimo".  (Mind you: effective loudness is depends on your
+volume settings.  Check them in case you hear nothing during your
+experiments.)
+
+In the [[sm]] definition below, [[".@('moh'"_)]] will cause a
+deferred evaluation of the variable [[moh]], the current Midi Output
+Handle as returned from the last [[midiOutOpen]].  The sub-clause
+[[256&#.@|.]] is a neat way to put the up two three Short Message
+codes into the proper byte order and merge them into
+the [[int]] required by the Windows API.
+
+<<midi.ijs short message routines>>=
+
+sm=: midiOutShortMsg @ (".@('moh'"_) ; 256&#.@|.)
+
+chprg	=: sm @ (192&,)				NB. cmd192  instr-nr(y.)
+noteon	=: sm @ ((1})& 144 0 125) " 0		NB. cmd144  note(y.)  loudness
+noteoff =: sm @ ((1})& 128 0 125) " 0		NB. cmd128  note(y.)  loudness
+
+@
+
+To play a note, you have to send a "note on" message, wait a bit,
+and then send a "note off" message.  With a piano sound, one might
+think a "note on" message would suffice, since the note will decay
+naturally.  However, until you finally emit the "note off"
+message, precious resources might still be tied up in your
+sound-card.  Also, switching to an "organ" type sound will make
+the purpose of "note off" messages drastically clear.
+
+To ease the three steps of on/wait/off for each note, the [[dp]] verb
+will play a note with a given duration.  It uses the [[6!:3]] delay
+foreign with sub-second resolution.  Unit time here is a
+tenth of a second, and the default duration is set at 2 tenths.
+Of course nobody is prevented to use a duration of [[0.1]], resulting
+in a milli-second note -- very quick!
+
+Exercise here:  Make a prediction just from looking at the definition
+what [[dp]] would do with non-scalar or boxed arguments.
+
+<<midi.ijs play verb>>=
+
+dp =: verb define "0 0
+	2 dp y.
+:
+	noteon y. =. >y.
+	6!:3  x. * 0.1
+	empty noteoff y.
+)
+
+@
+<h2>Initializing the MIDI device</h2>
+
+The above provides a lot of definitions.  As the last step of midi.ijs,
+we will open one of the devices using the low-level routines.
+This way, users can directly proceed with using [[dp]] and have some
+fun.
+
+Before we present the code going into the midi.ijs script, we start
+with a simpler session trace showing what is involved with opening
+the device, step by step.  We switch a bit back and forth between
+session logs and midi.ijs code, so watch the headers.
+
+First, we have to open the proper MIDI device and to obtain a handle
+for it.  [[midiOutGetNumDevs]] will return the total number of devices
+in the system able to receive MIDI messages.  Even though my laptop
+used for these experiments has only one physical sound-card, I'll get
+3 MIDI devices reported:
+<ul>
+<li>the MIDI-controlled sound generator of the sound-card
+<li>the external MIDI port of the sound-card (disguised as a game port),
+	possibly leading to one or more connected MIDI synthesizers, drum
+	machines, and similar gizmos
+<li>a software emulated MIDI synthesizer accepting MIDI messages and
+	generating WAV data for any cheap-o sound-card based on
+	high quality instrument samples
+</ul>
+
+Another MIDI output "device" often seen is the "MIDI Mapper" of
+the Windows system.  This is a pure software driver used to
+compensate for some lack of standardization from the early MIDI
+days:  the code numbers for instruments have not always been
+fixed, and the "MIDI mapper" allows you to re-assign instrument
+numbers on-the-fly, before the messages finally reach the true
+device.
+
+The numbering of the devices is <em>not</em> fixed.  It can change
+from reboot to reboot on a machine.  In order not to end up with
+speaking to an orphaned game port, you'll have to list the names
+of the reported devices and choose the proper one.
+
+[[midiOutGetDevCapsA]] returns a rich structure.  We use a bit of
+magic hackery here just to extract the name of a device.  Another
+article describes how the complete story can be uncovered.
+
+<<midi.ijs dll calls>>=
+
+NB. A wrapper to return the device name given a device number:
+
+midiOutGetDevName =: monad define "0
+	caps=. midiOutGetDevCapsA  y. ; (100#' ') ; 100
+	NB. The following relies on some "magic knowledge"
+	NB. about the layout of the "capabilities" C structure:
+	name=. ({.~ i.&(0{a.)) (8+i.32) { > 2{caps
+)
+
+<<session trace>>=
+
+   ] ndev =. > midiOutGetNumDevs ''
+3
+   (; midiOutGetDevName)"0 i. ndev
++-+-------------------+
+|0|ESS MPU-401        |
++-+-------------------+
+|1|ESFM-Synthese (220)|
++-+-------------------+
+|2|YAMAHA SGMP Driver |
++-+-------------------+
+@
+
+The "MPU-401" device refers to the external game/midi port of the
+system, whereas "ESFM-Synthese" refers to the on-board FM MIDI
+chipset of the sound-card.  The odds are good you'll find
+something similar in your system, too.  The Yamaha SGMP Driver is
+the software-emulated "sound-card".  Let's use the built-in
+hardware synth, i.e. the device number 1 from the list above.
+(The MPU driver would be useless unless there's a synthesizer
+hooked up to the external port.)
+
+The first argument to [[midiOutOpen]], [[(,9)]], is a bit tricky.
+The parameter type is [[*i]], for "a pointer to the space
+receiving the handle of the opened device".  Fortunately, there is
+no need to involve complicated [[mema/r/w/f]] calls to get the memory.
+We are not dealing with a structure which will be referenced again
+later on.  Instead a simple temporary
+array will do the the job, therefor the ravel comma.  But a
+[[(,0)]] or [[(,1)]] would not be adequate, because that gives only
+a list for one (J) boolean.  We really need an integer like 9 (or
+54321 or 2 or _42) here to create the space capable to hold the
+(integer-like) handle.
+
+The second argument in the list is [[1]], the device number of our
+ESFM-Synthesizer.  Just accept the three remaining zeroes as
+constants for the moment.
+
+<<>>=
+
+   ] r =. midiOutOpen (,9) ; 1 ; 0 ; 0; 0
++-+-----------+-+-+-+-+
+|0|_2104923004|1|0|0|0|
++-+-----------+-+-+-+-+
+   moh =: 0{1 pick r
+   
+   
+   chprg 0	NB. acoustic grand piano
++-+-----------+---+
+|0|_2104923004|192|
++-+-----------+---+
+   
+   dp 60	NB. play a single note (middle C)
+NB. Bing!
+
+@
+In our script, we are doing just the same.  The only difference
+is that we will pop up a selection dialog and take it from there.
+
+<<midi.ijs initialization code>>=
+
+ndev =. > midiOutGetNumDevs ''
+devlist=. midiOutGetDevName each i. ndev
+mo_dev_idx=: 1 pick (<:ndev) wdselect 'Select the MIDI device' ; <devlist
+
+NB. parameters are:
+NB. *device_handle (will be set) ; device_index;
+NB. callback_function; instance; flags (int!)
+] r =: midiOutOpen (,9) ; mo_dev_idx ; 0 ; 0; 9-9
+] moh =: 0{1 pick r
+
+chprg 0		NB. acoustic grand piano
+
+NB. Announce that we are up & running:
+2 2 2 8 dp 51 51 51 48		NB. yaddadda-dah!
+
+@
+The final section of the code makes the high-level functions
+visible to general applications by planting referents into the
+[[z]] locale.  Utilities requiring MIDI knowledge remain confined
+to the [[midi]] class.
+
+<<midi.ijs exports>>=
+
+NB. export major tools:
+export =: monad define
+	dp_z_		=:dp_midi_
+	chprg_z_	=:chprg_midi_
+	midireset_z_	=:midiOutReset_midi_ bind moh
+	midiclose_z_	=:midiOutClose_midi_ bind moh
+	empty ''
+)
+export ''
+
+@
+This simple set of routines hides all the details of the MIDI system.
+In particular, the output handle [[moh]] becomes completely invisible.
+Users of the [[midi]] class only have to remember a final call to
+[[midiclose]].
+
+This closes our [[midi.ijs]] script.
+
+<h2>From MIDI technology to simple music theory</h2>
+
+This, finally, is the fruit of our labor: a short sample
+session using just the high-level definitions and concentrating
+on the notes from a musician's perspective.  It does look impressive
+here as it is written: while you can read the J input sentences
+here, the output is "only" audible.  So run the code!
+
+<<session trace>>=
+
+   require 'contrib/windows/packages/music/midi'
+
+   maj =: 0 4 7
+   min =: 0 3 7
+   10 10 20 dp 66 68 69 +each maj;min;maj	NB. box notes for chords
+   
+   NB. Elvis was here:
+   C=:60
+   riff =. 0 12 10 7
+   blues =. 0 0 0 0  5 5 0 0  7 5 0 7
+   (dp~ # $ 6 3"_) C + 0 ,~,~, blues +/ 2 # riff
+
+   NB. Use midireset whenever you have to reset the device,
+   NB. for example if you experience "hanging notes".
+   NB. Also, a call is well advised before closing the device:
+   midireset''
++-+-----------+
+|0|_2104923004|
++-+-----------+
+
+   NB. When you are done with everything:
+   midiclose''
++-+-----------+
+|0|_2104923004|
++-+-----------+
+@
+
+<h2>Where to get this code</h2>
+
+This text is available in a variety of forms.  The true source of
+it is a single file written for a simple literate programming tool.
+This file has been postprocessed into various forms.  You are
+probably looking at one of the following right now:
+
+You might hold it in your hands as a printed Vector article,
+containing both descriptive text and the J code.
+
+You might be browsing though the hypertext version with full blown
+crossreferences, served at
+[[http://juggle.gaertner.de/bnp/midi.html]].
+
+Very likely however, you'd be interested in just the [[midi.ijs]] script
+file as extract from this text.  This is available, too,
+along with the original literate programming version and
+a [[music.ijs]] script providing simple tools for studying
+simple harmony theory (scales, chords, and all that).
+
+All these files are still evolving, and therefore they are excellent
+candidates for maintainence in the J source repository.  It is the
+module [[j/contrib/windows/packages/music]] at the CVS repository
+[[:pserver:anoncvs@juggle.gaertner.de:/usr/local/cvs]].  If this looks
+all Greek to you, turn to
+[[http://juggle.gaertner.de/cvs/]], the repository intro page.
+It provides anything you need to know, including hands-on tutorials
+and references to the software for your system.  If you don't want
+to bother with CVS, however, you can download all the files introduced
+here (and the source of this article) with your web client from
+[[http://juggle.gaertner.de/cvs/cvsweb.cgi/j/contrib/windows/packages/music]].
+
+<h2>Acknowledgements</h2>
+
+I'm indebted to Eric Iverson for explaining the finer
+points of the DLL interface to me and for his comments on this text.
+

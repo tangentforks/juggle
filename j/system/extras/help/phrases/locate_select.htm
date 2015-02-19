@@ -1,0 +1,217 @@
+<html>
+<head>
+<title>Locating &amp; Selecting</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="test.htm">&gt&gt;</a>&nbsp;
+<a href="intervals.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Locating And Selecting</h1>
+<TR><TD colspan="2">
+
+<P>In dealing with large amounts of data it is frequently necessary to find the location or locations of a particular datum, sometimes a particular value, sometimes one satisfying certain criteria. The verbs below give examples of techniques that can be used. In the first set, indices are the result. The result of each of these can be used to select the item indexed, using an expression such as</P>
+
+<P><TT>(f y) { y or (x f y) { y.</TT></P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0=: \:</TT></TD>	<TD>Downgrade</TD>
+  </TR><TR><TD><TT>m1=: {.@\:</TT></TD>	<TD>Index of (IO) first occurrence of max</TD>
+  </TR><TR><TD><TT>m2=: i.&gt;./</TT></TD>	<TD>IO first occurrence of maximum of y</TD>
+  </TR><TR><TD><TT>m3=: {:@/:</TT></TD>	<TD>IO last occurrence of maximum of y</TD>
+  </TR><TR><TD><TT>m4=: {.@/:</TT></TD>	<TD>IO first occurrence of minimum of y</TD>
+  </TR><TR><TD><TT>m5=: {:@\:</TT></TD>	<TD>IO last occurrence of minimum of y</TD>
+  </TR><TR><TD><TT>m6=: i.&lt;./</TT></TD>	<TD>IO first occurrence of minimum of y</TD>
+  </TR><TR><TD><TT>d7=: ~: i. 1:</TT></TD>	<TD>IO first item where x and y differ</TD>
+  </TR><TR><TD><TT>m8=: # - 1: #.~ ] = ' '"_</TT></TD>	<TD>IO last nonblank in y</TD></TR>
+  <TR><TD><TT>d9=: &lt;./@i.</TT></TD>	<TD>IO first occurrence in x of any item of y</TD></TR>
+  <TR><TD><TT>d10=: [ + i.&amp;1@}.</TT></TD>	<TD>IO first 1 in y after first x items</TD></TR>
+  <TR><TD><TT>m11=: ] i. 1:</TT></TD>	<TD>IO first 1 in y</TD>
+  </TR><TR><TD><TT>d12=: i.</TT></TD>	<TD>IO items of y in key x</TD>
+  </TR><TR><TD><TT>d13=: &lt;:@($@]) - |.@] i. [</TT></TD>	<TD>IO last item of x in y</TD></TR>
+  <TR><TD><TT>d14=: (&lt;:@(#@[) - |.@[ i. ])"1</TT></TD>	<TD>IO last occurrence of y in x</TD></TR>
+  <TR><TD><TT>d15=: |.@[ i. ]</TT></TD><TD>IO last occurrence of y in x, from rear</TD></TR>
+  <TR><TD><TT>d16=: E. # i.@#@]</TT></TD>	<TD>Indices of (ISO) beginnings of x in y</TD></TR>
+  <TR><TD><TT>d17=: e.~&amp;, # i.@#@]</TT></TD>	<TD>ISO all occurrences of items of y in x</TD></TR>
+  <TR><TD><TT>d18=: =#[:i.[:#[</TT></TD>	<TD>ISO all occurrences of items of y in x</TD></TR>
+  <TR><TD><TT>m19=: +/{.\:</TT></TD>	<TD>ISO 1s in Boolean list y</TD>
+  </TR><TR><TD><TT>m20=: [: m38 m39</TT></TD>	<TD>ISO 1s in Boolean table y</TD>
+  </TR><TR><TD><TT>m21=: ] i."1 ' '"_</TT></TD>	<TD>ISO first blank in rows of table y</TD></TR>
+  <TR><TD><TT>m22=: ([:(&lt;/\&amp;.|.i.1:)' '"_ ~:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;])"1</TT></TD>	<TD>ISO last nonblank in rows of table y</TD></TR>
+  <TR><TD><TT>m23=: &lt;:@(+/\) i. i.@(+/)</TT></TD>	<TD>ISO 1s in Boolean list y</TD></TR>
+  <TR><TD><TT>m24=: ] # [: i. #</TT></TD>	<TD>ISO 1s in Boolean list y</TD>
+  </TR><TR><TD><TT>d25=: ([: $ ]) #."1 ([: &gt; [)</TT></TD>	<TD>Indices from (boxed) indices x to table y</TD></TR>
+  <TR><TD><TT>d26=: +/i.</TT></TD>	<TD>ISO infixes of length y, starting at x</TD></TR>
+  <TR><TD><TT>m27=:  [: i. #</TT></TD>	<TD>All indices of list y</TD>
+  </TR><TR><TD><TT>m28=: [: { [: i.&amp;.&gt; $</TT></TD>	<TD>Catalog of indices of y, in shape of y</TD></TR>
+  <TR><TD><TT>m29=: +/\@}:@(0:,])</TT></TD>	<TD>Indices of start positions from counts y</TD></TR>
+  <TR><TD><TT>m30=: $ #: [: i. [: # ,</TT></TD>	<TD>Table of all indices of array y (odometer)</TD></TR>
+  <TR><TD><TT>d31=: {@(;/&amp;i.)</TT></TD>	<TD>Catalog of all pairs from i.x and i.y</TD></TR>
+  <TR><TD><TT>d32=: [: m20 [ e. [: , ]</TT></TD>	<TD>Indices in x of atoms of list y</TD></TR>
+  <TR><TD><TT>m33=: a."_ i. ]</TT></TD>	<TD>Index in a. of character y</TD>
+  </TR><TR><TD><TT>d34=: i."_1</TT></TD>	<TD>Itemwise index in table x of rows of y</TD></TR>
+  <TR><TD><TT>d35=: E. i. 1:</TT></TD>	<TD>IO first occurrence of array x in y</TD></TR>
+  <TR><TD><TT>d36=: &lt;:@(+/@(&lt;/))</TT></TD>	<TD>Index in classes x of y</TD></TR>
+  <TR><TD><TT>d37=: i.</TT></TD>	<TD>Index in rows of table x of list y</TD>
+  </TR><TR><TD><TT>m38=: &lt;"1</TT></TD>	<TD>(Bxed) indices from rows of open table y</TD></TR>
+  <TR><TD><TT>m39=: $ #: (# i.@$)@,</TT></TD>	<TD>Open ISO 1s in array y  (inverse of 
+  </TR><TR><TD><TT>m40=: m20@m43</TT></TD>	<TD>ISO free zeros in formatted y</TD>
+  </TR><TR><TD><TT>m41=: m20@m82</TT></TD>	<TD>IO saddle point in y</TD>
+  </TR><TR><TD><TT>m42=: &lt;:@(+/\) i. i.@(+/)</TT></TD>	<TD>ISO 1s ub Boolean list y</TD></TR>
+</TABLE>
+
+
+<P>Location of an item in an array y can also be given by means of a Boolean list x having the same number of items as y. Typically such a Boolean list can be formed using a relational or membership expression. Such a list characterizes the items of an array in a certain way. There can be <tt>2^#y</tt> ways of forming such a Boolean list, each way characterizing the array in a different and unique way. The importance of such a  Boolean list is that it can be used to select items from by an expression such as <TT>(f y) # y</TT> or <TT>(x f y) # y</TT>. The following expressions give some of the ways such Boolean lists can be formed.</P>
+ 
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m43=: ' 0 '"_ E."1 ' '"_ ,. ] ,. ' '"_</TT></TD>	<TD>Locate free zeros in formatted y</TD></TR>
+  <TR><TD><TT>m44=: =&amp;''''</TT></TD>	<TD>Locate quotes in y</TD>
+  </TR><TR><TD><TT>m45=: = &gt;./</TT></TD>	<TD>Locate all instances of maximum of y</TD></TR>
+  <TR><TD><TT>m46=: '.'&amp;~:</TT></TD>	<TD>Exclude periods in y</TD>
+  </TR><TR><TD><TT>m47=: e.&' 0123456789'</TT></TD>	<TD>Locate digits and blanks in y</TD></TR>
+  <TR><TD><TT>d48=: E.</TT></TD>	<TD>Locate beginning points of pattern x in y</TD></TR>
+  <TR><TD><TT>m49=: 2&=@(+/@(0&=@(|/~@i.)))</TT></TD>	<TD>Locate primes less than y</TD></TR>
+  <TR><TD><TT>d50=: i.@(#@])e.[</TT></TD>	<TD>Locate indices x in y</TD>
+  </TR><TR><TD><TT>d51=: ] e.~ [: i. [: # [</TT></TD>	<TD>Locate indices y in x</TD>
+  </TR><TR><TD><TT>m52=: ] e.~ [: i. [: &gt;: &gt;./</TT></TD>	<TD>Locate indices y</TD></TR>
+  <TR><TD><TT>m53=: *./ .=&amp;' '</TT></TD>	<TD>Locate blank rows in table y</TD>
+  </TR><TR><TD><TT>m54=: ] -:"1 [: {. ' '"_ , ]</TT></TD>	<TD>Locate blank rows in table y</TD></TR>
+  <TR><TD><TT>m55=: ~:</TT></TD>	<TD>Locate first instance of each item</TD>
+  </TR><TR><TD><TT>m56=: [: *./\  ' '"_ = ]</TT></TD>	<TD>Locate leading blanks</TD>
+  </TR><TR><TD><TT>m57=: [: *./\. ' '"_ = ]</TT></TD>	<TD>Locate trailing blanks</TD>
+  </TR><TR><TD nowrap><TT>m58=: 2:+./\0:,2:|+/\@(=&amp;'''')</TT></TD>	<TD>Locate text between and including quotes</TD></TR>
+  <TR><TD nowrap><TT>m59=: 2:*./\0:,2:|+/\@(=&'''')</TT></TD>	<TD>Locate text between quotes</TD></TR>
+  <TR><TD><TT>m60=: 2: &lt;/\ 0: , ]</TT></TD>	<TD>Locate first 1 in each group of 1s in y</TD></TR>
+  <TR><TD><TT>m61=: 2: >/\ 0: , ]</TT></TD> 	<TD>Locate first 0 after each group of 1s in y</TD></TR>
+  <TR><TD><TT>d62=: * $ -@] {. 1:</TT></TD>	<TD>Locate ends of x fields of length y</TD></TR>
+  <TR><TD><TT>d63=: * $   ] {. 1:</TT></TD>	<TD>Locate starts of x fields of length y</TD></TR>
+  <TR><TD><TT>m64=: 1: ,~ 2: ~:/\ ]</TT></TD>	<TD>Loc ends of fields of identical atoms in y</TD></TR>
+  <TR><TD><TT>m65=: 1: ,  2: ~:/\ ]</TT></TD>	<TD>Loc starts of fields of identical atoms in y</TD></TR>
+  <TR><TD><TT>m66=: 1: ,~ 2: ~:/\ ]</TT></TD>	<TD>Loc where atom differs from nxt rgt in y</TD></TR>
+  <TR><TD><TT>m67=: 1: ,  2: ~:/\ ]</TT></TD>	<TD>Loc where atom differs next left in y</TD></TR>
+  <TR><TD><TT>m68=: ] > [: }. 0: ,~ ]</TT></TD>	<TD>Loc last 1 in each group of 1s in y</TD></TR>
+  <TR><TD><TT>m69=: ] > [: }: 0: ,  ]</TT></TD>	<TD>Loc first 1 in each group of 1s</TD></TR>
+  <TR><TD><TT>d70=: 0: = [ | [: i. [: # ]</TT></TD>	<TD>Loc every xth item of y</TD></TR>
+  <TR><TD><TT>m71=: 2: | [: >: [: i. #</TT></TD>	<TD>Loc every 2d item of y</TD>
+  </TR><TR><TD><TT>d72=: 0: = |</TT></TD>	<TD>Loc atoms of y divisible by x</TD>
+  </TR><TR><TD><TT>d73=: [: -. [ e.~ [: i. ]</TT></TD>	<TD>Loc atoms of i. y not  in x</TD></TR>
+  <TR><TD><TT>d74=:       [ e.~ [: i. ]</TT></TD>	<TD>Loc atoms of i.y in x</TD>
+  </TR><TR><TD><TT>d75=: i. = [: # [</TT></TD>	<TD>Loc items of y not in x</TD></TR>
+  <TR><TD><TT>m76=: 0: *. ]</TT></TD>	<TD>Loc nothing</TD>
+  </TR><TR><TD><TT>d77=: &lt;:</TT></TD>	<TD>Loc where x implies y</TD>
+  </TR><TR><TD><TT>d78=: &gt;</TT></TD>	<TD>Loc where x but not y</TD>
+  </TR><TR><TD><TT>d79=: ~:</TT></TD>	<TD>Loc exclusive or of x and y</TD>
+  </TR><TR><TD><TT>d80=: =</TT></TD>	<TD>Loc Kronecker delta of x and y</TD></TR>
+  <TR><TD><TT>d81=: #@[ &gt; /:@(] ,~ i.@#@[)</TT></TD>	<TD>Loc fills formed by expanding y by x</TD></TR>
+  <TR><TD><TT>m82=: (= &lt;./"1) *. (="1 &gt;./)</TT></TD>	<TD>Loc saddle points of table y</TD></TR>
+  <TR><TD><TT>m83=: [: #: [: i. 2: ^ #</TT></TD>	<TD>Loc all subsets of order #n (truth table)</TD></TR>
+  <TR><TD><TT>m84=: [: #: [: i. 2: ^ ]</TT></TD>	<TD>Loc all subsets of order n (truth table)</TD></TR>
+  <TR><TD><TT>m85=: 1: [`(m38@])`(m93@])} ]</TT></TD>	<TD>Loc indices y in large enough table (connection matrix from table of indices) (inverse of m39)</TD></TR>
+  <TR><TD><TT>m86=: 1: [`(&lt;"1@])`((&gt;:@(&gt;./@])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$0:)@]) } ]</TT></TD><TD>Loc indices y in large enough table</TD>
+  </TR><TR><TD><TT>m87=: ' '&=</TT></TD>	<TD>Loc blanks in y</TD>
+  </TR><TR><TD><TT>m88=: =</TT></TD>	<TD>Loc each item of set of y (position  or distribution matrix)</TD></TR>
+  <TR><TD><TT>m89=: (#~ (1: ~: +/"1))@=</TT></TD>	<TD>Table in which each row Locs an infix in y of 2 or more consecutive equal items</TD></TR>
+  <TR><TD><TT>d90=: [: , [ {.&amp;&gt; ] (</TT><@#"0) 1:</TD>	<TD>Expansion mask for fields of length y to uniform field of length |x </TD></TR>
+  <TR><TD><TT>m91=: _8&d90</TT></TD>	<TD>Expansion mask for fields of length y to uniform right justified fields of length 8 </TD></TR>
+  <TR><TD><TT>m92=: [: -. [: *./\. m53</TT></TD>	<TD>Loc rows preceding trailing blank rows</TD></TR>
+  <TR><TD><TT>m93=: 0: $~ [: &gt;: &gt;./</TT></TD>	<TD>Loc nothing in table large enough for y</TD></TR>
+  <TR><TD><TT>d94=: [ -:"1 ([: # [) {."1 ]</TT></TD>	<TD>Loc rows of y beginning with x</TD></TR>
+  <TR><TD><TT>m95=: ' '&(+./ .~:)</TT></TD>	<TD>Loc nonblank columns</TD>
+  </TR><TR><TD><TT>m96=: [: -. [: *./\. ' '"_ = ]</TT></TD>	<TD>Exclude trailing blanks</TD></TR>
+  <TR><TD><TT>m97=: m105@m95</TT></TD>	<TD>Exclude leading blank columns</TD>
+  </TR><TR><TD><TT>m98=: +. 1&,@}:</TT></TD>	<TD>Loc 1s and 1st 0 in each group of 0s</TD></TR>
+  <TR><TD><TT>m99=: m98@m95</TT></TD>	<TD>Exclude all but first blank columns</TD>
+  </TR><TR><TD><TT>m100=: *./ .=&' '</TT></TD>	<TD>Loc blank rows</TD>
+  </TR><TR><TD><TT>m101=: 1: , 2: +./\ ]</TT></TD>	<TD>Exclude all 0s but the first in a group</TD></TR>
+  <TR><TD><TT>m102=: m101@m100</TT></TD>	<TD>Exclude all but first blank rows</TD></TR>
+  <TR><TD><TT>m103=: +./\.</TT></TD>	<TD>Loc items left of leftmost trailing 0</TD>
+  </TR><TR><TD><TT>m104=: m103@m95</TT></TD>	<TD>Exclude trailing blank columns</TD>
+  </TR><TR><TD><TT>m105=: +./\</TT></TD>	<TD>Loc items right of rightmost leading 0</TD>
+  </TR><TR><TD><TT>m106=: *./\</TT></TD>	<TD>Exclude all 1s right of first 0</TD>
+  </TR><TR><TD><TT>m107=: *./\.</TT></TD>	<TD>Exclude all 1s left of last 0</TD>
+  </TR><TR><TD><TT>m108=: +./ .~:&' '</TT></TD>	<TD>Loc nonblank rows</TD>
+  </TR><TR><TD><TT>m109=: m103@m108</TT></TD>	<TD>Exclude trailing blank rows</TD>
+  </TR><TR><TD><TT>m110=: m105@m108</TT></TD>	<TD>Exclude leading blank rows</TD>
+  </TR><TR><TD><TT>m111=: m98@m95</TT></TD>	<TD>Include only first of  group of blank cols</TD></TR>
+  <TR><TD><TT>m112=: m98@m108</TT></TD><TD>Include only first of group of blank rows</TD></TR>
+  <TR><TD><TT>d113=: +./ .~:"1</TT></TD>	<TD>Loc rows of x having atoms not y</TD></TR>
+  <TR><TD><TT>d114=: -:"1</TT></TD>	<TD>Loc rows of x matching y</TD>
+  </TR><TR><TD><TT>d115=: ,@,. # $&1 0@#@,</TT></TD>	<TD>Alternate i{x 1s and i{y 0s</TD></TR>
+  <TR><TD><TT>m116=: # $&1 0@# </TT></TD>   <TD>Alternate i{x 1s, (1+i){x 0s, etc</TD></TR>
+  <TR><TD><TT>m117=: +./\ *. +./\.</TT></TD>	<TD>Loc atoms between leading & trailing 0s</TD></TR>
+  <TR><TD><TT>m118=: *. *./\@(= +./\)"1</TT></TD>	<TD>Loc first infix of 1s</TD>
+  </TR><TR><TD><TT>m119=: ' '&~:</TT></TD>	<TD>Loc nonblanks</TD>
+  </TR><TR><TD nowrap><TT>d120=: ]*.*.(]e.#)+/\@(2:&lt;/\0:,])@]</TT></TD>	<TD>Loc groups of ones in y indicated by x</TD></TR>
+  <TR><TD><TT>m121=: +.~:/\</TT></TD>	<TD>Loc 1s in y and 0s between pairs of 1s</TD>
+  </TR><TR><TD><TT>m122=: -. *. ~:/\</TT></TD>	<TD>Loc 0s between pairs of 1s</TD>
+  </TR><TR><TD><TT>m123=: &lt;/\</TT></TD>	<TD>Loc leftmost 1</TD>
+  </TR><TR><TD><TT>m124=: &lt;:/\</TT></TD>	<TD>Loc 1s and all 0s following leftmost 0</TD></TR>
+  <TR><TD><TT>m125=: ~:/\</TT></TD>	<TD>Loc where odd number of 1s are at left</TD> 
+  </TR>
+</TABLE>
+
+<P>If <TT>L</TT> is a function that determines locations (that is, indices) in an argument according to some criteria, then the function <TT>L { ]</TT> selects the indicated portions of the argument. For example:</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>d126=: #"1</TT> </TD>	<TD>1s in x select from each row (list) of y</TD></TR>
+  <TR><TD><TT>d127=: #.@[ { ]</TT></TD>	<TD>Boolean list x as integer selecting from y</TD></TR>
+  <TR><TD><TT>d128=: ([: &lt;"1 [) { ]</TT></TD>	<TD>Scattered index table x select from y</TD> </TR>
+  <TR><TD><TT>d129=: {</TT></TD>	<TD>Selecting x from y </TD>
+  </TR><TR><TD><TT>d130=: &gt;./ . #</TT></TD>	<TD>Select maximum of x located by y</TD></TR>
+  <TR><TD><TT>m131=: m41 { ]</TT></TD>	<TD>Select saddle point(s) of y</TD>
+  </TR><TR><TD><TT>m132=: ([:-.(1:,''"_=])#.1:)}.]</TT></TD>	<TD>Delete trailing blanks</TD></TR>
+  <TR><TD><TT>m133=: m104 #"1 ]</TT></TD>	<TD>Delete trailing blank columns</TD>
+  </TR><TR><TD><TT>m134=: m97 #"1 ]</TT></TD>	<TD>Delete leading blank columns</TD>
+  </TR><TR><TD><TT>m135=: m110 # ]</TT></TD>	<TD>Delete leading blank rows</TD>
+  </TR><TR><TD><TT>m136=: m109 # ]</TT></TD>	<TD>Delete trailing blank rows</TD>
+  </TR><TR><TD><TT>m137=: m98@m108 # ]</TT></TD>	<TD>Delete repeated blank rows</TD>
+  </TR><TR><TD><TT>m138=: m98@m95 #"1 ]</TT></TD>	<TD>Delete repeated blank columns</TD>
+  </TR><TR><TD><TT>m139=: ] -. [: {. ' '"_ , ]</TT></TD>	<TD>Delete blank rows</TD>
+  </TR><TR><TD><TT>m140=: m108 # ]</TT></TD>	<TD>Delete blank rows</TD>
+  </TR><TR><TD><TT>m141=: m95 #"1 ]</TT></TD>	<TD>Delete blank columns</TD>
+  </TR><TR><TD><TT>m142=: ([: m117 ] ~: ' '"_) # ]</TT></TD>	<TD>Delete leading & trailing blanks</TD></TR>
+  <TR><TD><TT>m143=: +/@(*./\@(' '&=)) }. ]</TT></TD>	<TD>Delete leading blanks</TD>
+  </TR><TR><TD><TT>m144=: #~ ([: +./\. ' '&~:)</TT></TD>	<TD>Delete trailing blanks</TD>
+  </TR><TR><TD><TT>d145=: ,</TT></TD>	<TD>Append atom or list to table</TD>
+  </TR><TR><TD><TT>d146=: ,.</TT></TD>	<TD>List or atom as new column of table</TD>
+  </TR><TR><TD><TT>m147=: ~.</TT></TD>	<TD>Delete repeated items</TD>
+  </TR><TR><TD><TT>m148=: */@}:@$</TT></TD>	<TD>Number of rows in array y</TD>
+  </TR><TR><TD><TT>m149=: #~(+. 1&|.@(&gt;&lt;/\))@(' '&~:)</TT></TD>	<TD>Delete extra blanks</TD></TR>
+  <TR><TD><TT>d150=: ,.</TT></TD>	<TD>Join along last dimension</TD>
+  </TR><TR><TD><TT>d151=: ,.&.&gt;/</TT></TD>	<TD>Join items of boxed array</TD>
+  </TR>
+</TABLE>
+
+
+ 
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="test.htm">&gt&gt;</a>&nbsp;
+<a href="intervals.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

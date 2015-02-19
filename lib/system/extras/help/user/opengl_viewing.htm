@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Viewing</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="java.htm">&gt&gt;</a>&nbsp;
+<a href="movement_keys.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Viewing</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+Graphics are drawn at the origin, and then three viewing controls are applied.  First, the graphic is rotated about one or more axes. Next, it is translated (moved) to a new position. Finally, the observer's view position is given. 
+
+<P>
+These viewing controls are always applied. If not specified, defaults are used. Rotation and translation may be zero, leaving the graphic at the origin, as originally drawn.
+
+<P>
+(Since OpenGL applies viewing commands in the reverse order in which they are specified, they are here specified in the order: view, translate, rotate.)
+<br><br>
+
+<B>Rotation</B>
+
+<P>
+The rotation angles are given in degrees in ROTXYZ, and are applied in the order ROTNDX.
+
+<P>
+By default ROTNDX is 0 1 2, meaning the specification order is x-axis, y-axis and z-axis (and applied by OpenGL in the order z, y, x). When setting up a graphic, it is easiest to leave ROTNDX as the default. However, the paint handlers may change the order to ensure smooth rotations when using the x y z keys to rotate the graphic.
+<br><br>
+
+<B>Translation</B>
+
+<P>
+Translation moves the graphic away from the origin, by the amount in TRNXYZ. In most cases, there is no need to move the graphic.
+<br><br>
+
+<B>Viewing</B>
+
+<P>
+The position of the observer is given in VIEWXYZ, and the up direction in VIEWUP. The observer always looks at the origin. If you set VIEWXYZ manually, ensure that VIEWUP is also given a suitable value.
+<br><br>
+
+<B>Example</B>
+
+<P>
+A good way to experiment with viewing is to use the OpenGL demo Basic/Viewing. This shows the viewbox with the positive axes. Try to guess which way the graphic will move when each key is pressed.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="java.htm">&gt&gt;</a>&nbsp;
+<a href="movement_keys.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

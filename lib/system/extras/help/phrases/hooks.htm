@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Hooks</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="verb_trains.htm">&gt&gt;</a>&nbsp;
+<a href="explicit_def.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Hooks</h1>
+<TR><TD colspan="2">
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P>A pair of functions in isolation form a hook whose monadic case is defined as in:
+</P> 
+<BLOCKQUOTE>  <TT> (= <.) y</tt> is equivalent to <TT>y = <. y</tt>
+</BLOCKQUOTE>
+<P>hence the function <TT>h=: =<</tt>. compares its argument with its integer part, and therefore provides a test for integers. Hooks occur frequently in most sections.</P>
+
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0=: It=: =&lt;.</TT></TD>	<TD>Integer test</TD>
+  </TR><TR><TD><TT>m1=: Rt=: =+</TT></TD>	<TD>Real test</TD>
+  </TR><TR><TD><TT>v2=: $,:</TT></TD>	<TD><TT>x</TT> copies of <TT>y</TT></TD>
+  </TR><TR><TD><TT>m3=: cf=: (+%)/</TT></TD>	<TD>Continued fraction</TD>
+  </TR><TR><TD><TT>m4=: cfc=: (+%)/\</TT></TD>	<TD>Continued fraction convergents</TD>
+  </TR>
+</TABLE>
+
+<P>For example:
+</P></TD></TR></TABLE>
+<PRE>  cf 3 7 15 1		Approximation to pi
+3.14159
+
+   cfc 3 7 15 1		Convergents to pi
+3 3.14286 3.14151 3.14159	 
+
+   cfc 1 1 1 1 1 1 1	Convergents to golden mean
+1 2 1.5 1.66667 1.6 1.625 1.61538	
+
+   cfc 10$1x		As above in extended precision
+1 2 3r2 5r3 8r5 13r8 21r13 34r21 55r34 89r55</PRE>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="verb_trains.htm">&gt&gt;</a>&nbsp;
+<a href="explicit_def.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

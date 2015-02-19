@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Debug - an error</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="comparative.htm">&gt&gt;</a>&nbsp;
+<a href="debug_verb.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Debug - an error</h1><TR><TD>
+
+<P>Let's introduce an error into your <TT>centigrade </TT>verb to see how that looks and how you would find and fix it.</P>
+
+<P>Open your cf.ijs script and edit the first line to have an error by adding quotes around the expression to the right of the copula.</P>
+
+<PRE>t1 =. 'y. - 32'
+</PRE>
+<P>Instead of <TT>t1 </TT>being defined as the result of <TT>y. - 32 </TT>, it will be defined as the string </P>
+<PRE>'y. - 32' .
+</PRE>
+<P>Run the script to make the new definition. Turn off debug suspension and request no stops and then run your buggy <TT>centigrade</TT>. Be sure to load the debug utilities if they are not already loaded.</P>
+
+<PRE>   dbr 0	NB. disable suspension
+   dbss ''
+   centigrade 212
+¦domain error
+¦   t2=.t1    *5
+</PRE>
+<P>You are executing with suspension disabled (<TT>dbr 0</TT>) so execution did not suspend in centigrade and you have the normal 3 space indent.</P>
+
+<P>If you look at the line in error it is clear that the 5 is a valid argument to times, so there must be something wrong with <TT>t1</TT>. But you don't know the value of <TT>t1</TT>. You could stare at the source for the error, but, in a complex situation, it might be quicker to use debug. </P>
+
+<P>Enable suspension and rerun.
+</P>
+<PRE>   dbr 1	NB. enable suspension
+   centigrade 212
+¦domain error
+¦   t2=.t1    *5
+¦centigrade[1]
+</PRE>
+<P>There is a 6 space indent indicating suspension, and because <TT>centigrade </TT>is suspended you can look at the value of t1.</P>
+
+<PRE>      t1
+y. - 32
+</PRE>
+<P>From the display of t1 it is clear that it is a string, not the number from the desired calculation. You can now look at the source to see where <TT>t1 </TT>was defined and see that the quotes should not be there.</P>
+
+<P>Edit the source to fix the definition by removing the quotes and run the script to redefine <TT>centigrade</TT>.</P>
+
+<P>You want to run line 0 again to properly define <TT>t1</TT>. You can do this by using <TT>dbnxt </TT>to continue execution at line 0.</P>
+
+<PRE>      dbjmp 0
+100
+
+</PRE><P>Since no stops are set and there are no other errors, line 0 of <TT>centigrade </TT>is executed, which sets a proper value into local <TT>t1 </TT>and execution continues until finished.</P>
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="comparative.htm">&gt&gt;</a>&nbsp;
+<a href="debug_verb.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

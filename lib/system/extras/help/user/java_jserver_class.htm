@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>Java jserver class</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="java_classpath.htm">&gt&gt;</a>&nbsp;
+<a href="java_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Java jserver class</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+The jserver class is a wrapper for the J Automation objects JEXEServer and JDLLServer. The jserver.class is in package isi.ijserver (Iverson Software Inc.) and is distributed with the J system. To use a J object you import isi.ijserver into a Java source file and use the class methods and fields.
+
+<P>
+The jserver class provides identical access for all JVMs to J Automation objects and it provides methods that simplify mapping J data to Java. The jserver class uses native methods in a C++ dll. There are two versions of the native method dll: jsnmms.dll (J Server Native Method MS) and jsnmns.dll (Netscape and other JVMs).
+
+<P>
+The jserver class uses native methods and must exist in the local file system. The class and native method dlls must be in the J system\extras\java\classes\isi\jserver directory. This path is added to the Java classpath environment variable when J is installed.
+
+<P>
+// constants - results of getType()<br>
+final static int TYPEBOOL=1;<br>
+final static int TYPEBYTE=2;<br>
+final static int TYPEINT=4;<br>
+final static int TYPEDOUBLE=8;<br>
+final static int TYPEBOX=32;
+
+<P>
+// methods<br>
+synchronized void start(int dllv)    // 0 for JEXEServer, 1 for JDLLServer<br>
+int close()    // close J object<br>
+int Do(String s)<br>
+int DoR(String s)    // Do with formatted result<br>
+int Show(boolean b)<br>
+int Log(boolean b)
+
+<P>
+// methods for getting J data<br>
+int Get(String s)   // get data for J variable<br><br>
+int getType()<br>
+int getRank()<br>
+int getElements()<br>
+int[] getShape()
+
+<P>
+boolean getBool()<br>
+char getChar()<br>
+int getInt()<br>
+double getDouble()
+
+<P>
+boolean[] getBools()<br>
+byte[] getBytes()<br>
+int[] getInts()<br>
+double[] getDoubles()<br>
+String getString()
+
+<P>
+// methods for setting J data<br>
+int Set(String s, Object x)
+
+<P>
+int Set(String s, byte x)<br>
+int Set(String s, int x)<br>
+int Set(String s, double x)
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="java_classpath.htm">&gt&gt;</a>&nbsp;
+<a href="java_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

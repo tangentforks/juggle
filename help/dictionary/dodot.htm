@@ -1,0 +1,176 @@
+<html>
+<head><title>o. Pi Times  -  Circle Function</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dpdot.htm">&gt&gt;</a>&nbsp;
+<a href="dnb.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Pi Times</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>o. &nbsp;0 0 0</font></td>
+<td align=right  width=33%><b><font size=+2>Circle Function</font></b>
+</tr></table>
+<br>
+
+<table width=100% border=0><tr>
+<td valign=top width=49% bgcolor=#eeeeee>
+<tt>o. y </tt>yields <font face=Symbol>p</font> times<tt> y</tt> .<tt> </tt>
+Thus<tt> o. 1 </tt>is approximately<tt> 3.14159</tt> .
+<br>&nbsp;</td>
+
+<td width=2%>&nbsp;</td>
+
+<td valign=top width=49% bgcolor=#eeeeee>
+The function<tt> x&o. </tt>is even or odd as<tt> x </tt>is even or 
+odd;<tt> (-x)&o. </tt>is its inverse.
+<br>&nbsp;</td>                                                         
+</tr></table><br>
+
+<table><tr><td>&nbsp; &nbsp;</td><td>
+
+<table>
+<tr>
+<td><font size=+1><b>x o. y</b></font></td>
+<td align=right><font size=+1><b>x</b></font></td>
+<td>&nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td><font size=+1><b>(-x) o. y</b></font></td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td>Sqrt 1-(Sqr y)</td>
+<td align=right><b>0</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Sqrt 1-(Sqr y)</td>
+<td><tt>0&o.@(1&o.) </tt><font face=Symbol>&#171;</font><tt> 2&o.</tt></td></tr>
+
+<tr>
+<td>Sine y</td>
+<td align=right><b>1</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Arcsine y</td>
+<td>Radian arg/result</td></tr>
+
+<tr>
+<td>Cosine y</td>
+<td align=right><b>2</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Arccos y</td>
+<td>&quot;</td></tr>
+
+<tr>
+<td>Tangent y</td>
+<td align=right><b>3</b></td>
+<td>&nbsp; &nbsp;</td>
+<td> Arctan y</td>
+<td>&quot;</td></tr>
+
+<tr>
+<td>Sqrt (Sqr y)+1</td>
+<td align=right><b>4</b></td>
+<td>&nbsp; &nbsp;</td>
+<td> Sqrt (Sqr y)-1</td>
+<td><tt>4&o.@(5&o.) </tt><font face=Symbol>&#171;</font><tt> 6&o.</tt></td></tr>
+
+<tr>
+<td>Sinh y</td>
+<td align=right><b>5</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Arcsinh y</td>
+<td>Sinh is hyperbolic sine</td></tr>
+
+<tr>
+<td>Cosh y</td>
+<td align=right><b>6</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Arccosh y</td></tr>
+
+<tr>
+<td>Tanh y</td>
+<td align=right><b>7</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Arctanh y</td></tr>
+
+<tr>
+<td>Sqrt - (1 + Sqr y) &nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td align=right><b>8</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>- Sqrt - (1 + Sqr y) &nbsp; &nbsp;</td></tr>
+
+<tr>
+<td>RealPart y</td>
+<td align=right><b>9</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>y</td></tr>
+
+<tr>
+<td>Magnitude y</td>
+<td align=right><b>10</b></td>
+<td>&nbsp; &nbsp;</td>
+<td>Conjugate<tt> </tt>(<tt>+y</tt>)</td></tr>
+
+<tr>
+<td>ImaginaryPart y</td>
+<td align=right><b>11</b></td>
+<td>&nbsp; &nbsp;</td>
+<td><tt>j. y</tt></td></tr>
+
+<tr>
+<td>AngleOf y</td>
+<td align=right><b>12</b></td>
+<td>&nbsp; &nbsp;</td>
+<td><tt>^j. y</tt></td></tr>
+
+</table>
+</td></tr></table>
+<br>
+
+Examples:<br>
+
+<pre>
+   rfd=: %&180 @ o.            <font face=Times size=+1>Radians from degrees</font>
+   sin=: 1&o.
+   SIN=: sin@rfd
+   (rfd 0 90 180);(sin 0 1.5708);(SIN 0 90)
++----------------+---+---+
+|0 1.5708 3.14159|0 1|0 1|
++----------------+---+---+
+</pre>
+
+The principal domain of the inverse of a non-monotonic function 
+is restricted.  The limits on real domains of arcsine and arccos 
+may be obtained as follows (as multiples of <font face=Symbol>p</font>):<br>
+
+<pre>
+   1p_1 * _1 _2 o./ _1 1
+_0.5 0.5
+   1   0
+</pre>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dpdot.htm">&gt&gt;</a>&nbsp;
+<a href="dnb.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

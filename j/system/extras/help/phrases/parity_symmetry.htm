@@ -1,0 +1,206 @@
+<html>
+<head>
+<title>Parity &amp; Symmetry</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="numbers_counting.htm">&gt&gt;</a>&nbsp;
+<a href="rotate_reflect.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Parity And Symmetry</h1>
+<TR><TD colspan="2">
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P><I>Parity </I>and <I>symmetry </I>each refer to any one of several related notions, including:</P>
+
+<P><B>Parity
+</B></P>
+<OL type="a">
+	<LI>Integers - odd or even</LI>
+	<LI>Permutations - odd if equivalent to an odd number of transpositions of pairs; even otherwise</LI>
+	<LI>A function - odd if negation of its argument negates its result; even if the result is unchanged; or neither</LI>
+</OL>
+
+<P><B>Symmetry and skew-symmetry
+</B></P>
+<OL type="a">
+	<LI>A matrix is symmetric if equal to its transpose; skew if equal to the negation of its transpose; or neither</LI>
+	<LI>function is symmetric if it is invariant under permutations of its argument</LI>
+	<LI>A function f is symmetric under <TT>g</TT> if <TT>f&amp;.g</TT> is equivalent to <TT>f</TT>; is skew if it is equivalent to <TT>-@f</TT>; or neither. Item c of parity concerns symmetry under -</LI>
+</OL>
+
+<P><B>Symmetric and skew-symmetric parts
+</B></P>
+<BLOCKQUOTE>Each has the specified property, and their sum equals the function from which they are derived. For example, sinh and cosh are the odd and even parts of the exponential under negation.</BLOCKQUOTE>
+
+<P>In classifying any entity for parity or symmetry, we will give the result _1 for the odd or skew case, 1 for the even or symmetric case, and 0 for neither.</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<TR><TD><TT>m0=: Isodd=: 2&amp;|</TT></TD>	<TD>Test if y is an odd integer</TD>
+</TR><TR><TD><TT>m1=: Iseven=: -.@Isodd</TT></TD>	<TD>Test if y is an even integer</TD>
+</TR><TR><TD><TT>m2=: Isperm=: -: /:@/:</TT></TD>	<TD>Test if y is a permutation vector</TD>
+</TR><TR><TD><TT>a3=: 1 : 'x. -: x.@(?@!@#A.])'</TT></TD>	<TD>Necessary condition  for symmetry of fn.</TD></TR>
+<TR><TD><TT>m4=: m2*_1:^>/~ ~:/@,@:* &lt;/~@i.@#</TT></TD>	<TD>Classify argument as a permutation</TD></TR>
+  <TR><TD><TT>m5=: L=: &gt;/~</TT></TD>	<TD>Left, centre, right limbs of the fork</TD>
+  </TR><TR><TD><TT>m6=: C=: ~:/@,@:*</TT></TD>	<TD>evaluated in m4. See their use below</TD>
+  </TR><TR><TD><TT>m7=: R=: &lt;/~@i.@#</TT></TD>	<TD>to demonstrate design of its definition</TD></TR>
+  <TR><TD><TT>m8=: m2*_1:^+/@(&lt;:@#@&gt;@(C.@~.))</TT></TD>	<TD>Parity of permutation from cycle lengths</TD></TR>
+  <TR><TD><TT>m9=: -/@(|:-:"2],:-)</TT></TD>	<TD>Classify matrix (skew, neither, sym)</TD>
+  </TR>
+</TABLE>
+
+<P>The symmetry of a function may be tested (but not guaranteed) by the adverb a3 :</P></TD></TR></TABLE>
+
+<PRE>   +/a3 
++/ -: +/@(?@!@# A. ])
+
+   (+/a3,-/a3,*/a3,&gt;./a3,/:~a3) 3 1 4 2 
+1 0 1 1 1		Sum, product over, max over, and grade are 
+	        	symmetric, but the alternating sum is not.</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Phrases may be analyzed by isolating and executing phrases that occur within them. Consider, for example, phrases m4-7:</P></TD></TR></TABLE>
+
+<PRE>   p6=: (i.@! A. i.) 3
+   n6=: 3 3 3#:i.6 
+   p6 ; (,. m4"1 p6) ; n6 ; (,. m4"1 n6)
++----------------+
+&brvbar;0 1 2&brvbar; 1&brvbar;0 0 0&brvbar;0&brvbar;
+&brvbar;0 2 1&brvbar;_1&brvbar;0 0 1&brvbar;0&brvbar;
+&brvbar;1 0 2&brvbar;_1&brvbar;0 0 2&brvbar;0&brvbar;
+&brvbar;1 2 0&brvbar; 1&brvbar;0 1 0&brvbar;0&brvbar;
+&brvbar;2 0 1&brvbar; 1&brvbar;0 1 1&brvbar;0&brvbar;
+&brvbar;2 1 0&brvbar;_1&brvbar;0 1 2&brvbar;1&brvbar;
++----------------+
+
+ 
+   perm=: 3 1 4 2 0 
+   (L;R;(L*R);(L C R)) perm
++-------------------------------+
+&brvbar;0 1 0 1 1&brvbar;0 1 1 1 1&brvbar;0 1 0 1 1&brvbar;1&brvbar;
+&brvbar;0 0 0 0 1&brvbar;0 0 1 1 1&brvbar;0 0 0 0 1&brvbar; &brvbar;
+&brvbar;1 1 0 1 1&brvbar;0 0 0 1 1&brvbar;0 0 0 1 1&brvbar; &brvbar;
+&brvbar;0 1 0 0 1&brvbar;0 0 0 0 1&brvbar;0 0 0 0 1&brvbar; &brvbar;
+&brvbar;0 0 0 0 0&brvbar;0 0 0 0 0&brvbar;0 0 0 0 0&brvbar; &brvbar;
++-------------------------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>These panels show that <TT>L</TT> compares every pair of elements of the argument for precedence (to see which must be moved over which), and the upper triangle provided by <TT>R</TT> masks out double counting. </P>
+
+<P>Used with various functions such as negate and transpose, the conjunctions <TT>.:</TT> and <TT>..</TT> yield adverbs that produce odd and even parts of functions to which they are applied:</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>a10=: skn=: .:-</TT></TD>	<TD>Skew    part with respect to negate</TD>
+  </TR><TR><TD><TT>a11=: syn=: ..-</TT></TD>	<TD>Symmetric           "</TD>
+  </TR><TR><TD><TT>a12=: skt=: .:|:</TT></TD>	<TD>Skew    part with respect to transpose</TD>
+  </TR><TR><TD><TT>a13=: syt=: ..|:</TT></TD>	<TD>Symmetric           "</TD>
+  </TR><TR><TD><TT>m14=: sinh=: 5&amp;o.</TT></TD>	<TD>Hyperbolic sine</TD>
+  </TR><TR><TD><TT>m15=: cosh=: 6&amp;o.</TT></TD>	<TD>Hyperbolic cosine</TD>
+  </TR><TR><TD><TT>n16=: m=: 3 1 4,2 0 5,:1 4 1</TT></TD>	<TD>A 3-by-3 matrix</TD>
+  </TR><TR><TD><TT>d17=: ip=: +/ . *</TT></TD>	<TD>Inner (matrix) product</TD>
+  </TR><TR><TD><TT>m18=: L=: m&amp;ip</TT></TD>	<TD>A linear function</TD>
+  </TR>
+</TABLE></TD></TR></TABLE>
+
+<PRE>   (^skn,sinh,^syn,cosh,: ^ = ^skn + ^syn) a=:i.6
+0  1.1752 3.62686 10.0179 27.2899 74.2032
+0  1.1752 3.62686 10.0179 27.2899 74.2032
+1 1.54308  3.7622 10.0677 27.3082 74.2099
+1 1.54308  3.7622 10.0677 27.3082 74.2099
+1       1       1       1       1       1
+
+      ]y=: (^t. , ^skn t. , sinh t. , ^syn t. ,: cosh t.) a
+1 1 0.5 0.1666667 0.04166667 0.008333333
+0 1   0 0.1666667          0 0.008333333
+0 1   0 0.1666667          0 0.008333333
+1 0 0.5         0 0.04166667           0
+1 0 0.5         0 0.04166667           0
+
+ 
+   % y
+1 1 2 6 24 120
+_ 1 _ 6  _ 120
+_ 1 _ 6  _ 120
+1 _ 2 _ 24   _
+1 _ 2 _ 24   _
+
+   !^:_1 % y
+0 0 2 3 4 5
+_ 0 _ 3 _ 5
+_ 0 _ 3 _ 5
+0 _ 2 _ 4 _
+0 _ 2 _ 4 _
+
+   (L;L skt;L syt;L skt+L syt) m
++----------------------------------------------+
+&brvbar;15 19 21&brvbar;_5.5 _3.5   5&brvbar;20.5 22.5   16&brvbar;15 19 21&brvbar;
+&brvbar;11 22 13&brvbar;_7.5 _3.5   3&brvbar;18.5 25.5   10&brvbar;11 22 13&brvbar;
+&brvbar;12  5 25&brvbar; 0.5   _1 3.5&brvbar;11.5    6 21.5&brvbar;12  5 25&brvbar;
++----------------------------------------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Skew arrays may be used in expressions for orthogonality, as in the vector cross product (orthogonal to the plane defined by its arguments), the curl (orthogonal to the matrix of partial derivatives), and the determinant. We will illustrate this by the completely skew tensor (<TT>cst</TT>), whose sign is reversed by the transposition of any pair of axes.</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m19=: cst=: m4"1@(#: i.)@:(#~)</TT></TD>	<TD>Complete skew tensor; m4 tests for perm</TD></TR>
+  <TR><TD><TT>d20=: cross1=: [ip cst@#@[ip]</TT></TD>	<TD>Generalized cross-product</TD>
+  </TR><TR><TD nowrap><TT>d21=: cross2=: ((_1: |.[)*(1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|.]))-((1: |.[)*(_1: |. ]))</TT></TD>	<TD>Conventional cross product (not valid for dimension greater than 3)</TD></TR>
+  <TR><TD><TT>m22=: det1=: +/@,@(*// * cst@#)</TT></TD>	<TD>Determinant in terms of cst</TD></TR>
+  <TR><TD><TT>m23=: det2=: -/ . *</TT></TD>	<TD>Determinant</TD>
+  </TR><TR><TD><TT>m24=: length=: m24=: +/&.(*:"_)"1</TT></TD>	<TD>Length of vector</TD>
+  </TR><TR><TD><TT>m25=: arcsin=: _1&o.</TT></TD>	<TD>Arcsine</TD>
+  </TR><TR><TD nowrap><TT>m26=: angle=:arcsin@(length@ cross1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;% length@[*length@])</TT></TD>	<TD>Angle between two vectors</TD></TR>
+  <TR><TD><TT>m27=: dfr=: 180p_1&*</TT></TD>	<TD>Degrees from radians</TD>
+  </TR>
+</TABLE></TD></TR></TABLE>
+
+ 
+<PRE>   v=: a cross1 b [a=: 3 1 4 [ b=: 2 0 5
+   v;(v ip a,.b);(a angle b);(dfr 0 0 1 angle 0 1 0)
++-----------------------+
+¦_5 7 2¦0 0¦0.3274544¦90¦
++-----------------------+
+
+   (cst@#;*//;(cst@#**//);+/@,@(cst@#**//);det1) m
++----------------------------------+
+¦ 0  0  0¦ 6 24  6¦0   0  0¦_25¦_25¦
+¦ 0  0  1¦ 0  0  0¦0   0  0¦   ¦   ¦
+¦ 0 _1  0¦15 60 15¦0 _60  0¦   ¦   ¦
+¦        ¦        ¦        ¦   ¦   ¦
+¦ 0  0 _1¦ 2  8  2¦0   0 _2¦   ¦   ¦
+¦ 0  0  0¦ 0  0  0¦0   0  0¦   ¦   ¦
+¦ 1  0  0¦ 5 20  5¦5   0  0¦   ¦   ¦
+¦        ¦        ¦        ¦   ¦   ¦
+¦ 0  1  0¦ 8 32  8¦0  32  0¦   ¦   ¦
+¦_1  0  0¦ 0  0  0¦0   0  0¦   ¦   ¦
+¦ 0  0  0¦20 80 20¦0   0  0¦   ¦   ¦
++----------------------------------+</PRE>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="numbers_counting.htm">&gt&gt;</a>&nbsp;
+<a href="rotate_reflect.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

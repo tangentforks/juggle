@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Location and Size</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="child_controls.htm">&gt&gt;</a>&nbsp;
+<a href="parent_windows.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Location and Size</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+The location and size of controls in a parent is set with the <I> rectangle</I>. The <code>xywh</code> command sets all values for the rectangle.
+
+<P>
+4 integers define the rectangle:
+
+<P>
+ x units from the left<br>
+ y units from the top<br>
+ w units in width (to the right)
+
+<P>
+h units in height (to the bottom)
+
+<P>
+These units are in terms of the average character size of a notional <I>system font</I>. The size of this system font can be obtained from the <code>qm</code> (query metrics) command. <code>wd 'qm'</code> returns the screen size in pixels, and the pixel size of the system font.
+<p>
+<li>x and w values are 1/4 of the system font width<br>
+<li>y and h values are 1/8 of the system font height
+
+<P>
+For example:
+
+<pre>
+   wd 'xywh 40 80 100 160'
+</pre>
+
+<P>
+sets the rectangle to be 40 units from the left edge of the parent; 80 units down from the top edge of the parent; 100 units wide; and 160 units high.
+
+<P>
+Since location and size are defined relative to the size of the notional system font, window definitions should display reasonably well on different screens at various resolutions.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="child_controls.htm">&gt&gt;</a>&nbsp;
+<a href="parent_windows.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

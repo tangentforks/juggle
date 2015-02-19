@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>J OLE Automation Server</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="j_ole_client.htm">&gt&gt;</a>&nbsp;
+<a href="ole_ocx_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>J OLE Automation Server</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+There are two servers:<br><br>
+<li>JEXEServer is the full J development system and is intended for use in developing applications. This is the same J.EXE file that provides the regular J development system.
+<p><li>JDLLServer is the J interpreter only, and is intended for runtime applications. This is in file J.DLL.
+
+<P>
+An EXE server runs as a separate application from the client, i.e. is a local server. JEXEServer provides the full J development system, which makes it easy to develop and debug applications. As a developer, you have full access to both the client and the J server environments.
+
+<P>
+A DLL is part of the client application and uses the same memory space, i.e. is an in-process server. A client accesses DLL services almost as efficiently as it accesses its own native services. The JDLLServer is not as convenient as JEXEServer for development purposes, but it is very efficient and is ideal for runtime applications.
+
+<P>
+Typically, you develop your application using JEXEServer, and run it using the JDLLServer.
+
+<P>
+Note that JEXEServer and JDLLServer are 32bit servers and are designed for 32bit clients. It may be possible to use JEXEServer from 16bit clients, but this is not officially supported.
+
+<P>
+J.DLL can be called directly as an ordinary DLL, without using OLE. For more information, see online help <I>DLLs and Memory Management</I>.
+
+<P>
+Clients<br>
+Any application with OLE Automation controller support, such as Visual Basic, Delphi, Excel, or a Visual C++ application, can use JEXEServer and JDLLServer. Also, any application that can call 32bit DLLs can access JDLLServer.
+
+<P>
+Registration<br>
+JEXEServer and JDLLServer must be registered with your system before they can be used. To do so, you run JREG.EXE , which is stored in the same directory as J.EXE, i.e. select Start/Run and enter:
+<br><br>
+c:\j401\jreg.exe (use the correct directory name)
+<br><br>
+If there are problems later when accessing the J servers it may be because they are no longer properly registered. You can always run JREG.EXE to register the servers again. In particular, you will need to do this if you move the J system files to another directory, or if for some reason, the Registry is damaged and you have to recover an old version.
+
+<P>
+Using the J OLE Automation servers
+<br>
+The steps are fairly straightforward, but may differ in minor ways from one client to another. 
+
+<P>
+You should be familiar with both the J system and the client before tackling them in a client/server combination.
+
+<P>
+First load the client application and ensure it references the J servers. You need only select the server you intend to use, but when experimenting, you should check both:
+
+<P>
+Once the J servers are referenced, you can check the methods available, which are as follows. 
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Break
+<TD VALIGN="TOP" WIDTH=400><P>
+interrupt J execution
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Clear
+<TD VALIGN="TOP" WIDTH=400><P>
+erases all definitions in J 
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Do
+<TD VALIGN="TOP" WIDTH=400><P>
+execute a J sentence
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+ErrorText/ErrorTextM
+<TD VALIGN="TOP" WIDTH=400><P>
+get error text (run after a J error)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Get/GetB/GetM
+<TD VALIGN="TOP" WIDTH=400><P>
+get the value of a J variable
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+IsBusy
+<TD VALIGN="TOP" WIDTH=400><P>
+returns 0 if J is ready to execute, else an error code
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Log
+<TD VALIGN="TOP" WIDTH=400><P>
+display (1) or discard (0) the J EXE session log
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Quit
+<TD VALIGN="TOP" WIDTH=400><P>
+causes J EXE server to close when last object is released
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Set/SetB/SetM
+<TD VALIGN="TOP" WIDTH=400><P>
+set a value to a J variable
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Show
+<TD VALIGN="TOP" WIDTH=400><P>
+show (1) or hide (0) the J EXE server
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=190><P>
+Transpose
+<TD VALIGN="TOP" WIDTH=400><P>
+return array data transposed 
+</TR></TABLE>
+
+<P>
+For details, see file system\examples\data\jdll.h.
+
+<P>
+Note that methods Show and Log are ignored by a JDLLServer.
+
+<P>
+Once the J servers have been referenced, their methods become available for use by the client. You should declare the J server as an object in the client, and can then reference that object in order to access the J server methods.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="j_ole_client.htm">&gt&gt;</a>&nbsp;
+<a href="ole_ocx_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

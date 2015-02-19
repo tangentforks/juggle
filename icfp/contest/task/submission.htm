@@ -1,0 +1,214 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>ICFP Programming Contest Submission Information</title>
+</head>
+
+<body>
+
+<h1>Third Annual ICFP Programming Contest:&nbsp; Submission Information</h1>
+
+<p>Last Update:&nbsp; <em><!--webbot bot="Timestamp" S-Type="EDITED"
+S-Format="%A %B %d, %Y %I:%M:%S %p" startspan -->Monday August 28, 2000 12:04:07 PM<!--webbot bot="Timestamp" endspan i-checksum="54694" --></em></p>
+
+<hr>
+
+<h2><font color="#FF0000"><b>New:</b></font> </h2>
+
+<blockquote>
+
+<p><i>Details of the submission process are spelled out below.&nbsp; We have an email-based
+submission policy that will ask you to provide (1) your team
+name, (2) contact information, (3) a gzipped tar file with your entry code and support
+files (see below), (4) an <a href="md5.htm"> MD5 checksum</a> of your tar file.&nbsp;
+The mail should be sent to <a href="mailto:icfp-sub@cs.cornell.edu">icfp-sub@cs.cornell.edu</a>.&nbsp;&nbsp;</i> </p>
+
+<p><i>Because we've had so many problems with the registration server and
+database, we've decided that you
+do <font color="#FF0000">not</font> need to register your team name and
+password in advance to submit an entry.&nbsp; See the details below.</i> </p>
+
+<p><i>Please send all email inquiries to <a href="mailto:icfp00@cs.cornell.edu">icfp00@cs.cornell.edu</a>.&nbsp;
+We will try to answer your questions and keep the FAQ updated.&nbsp; Do <b>not</b>
+send your submission to this address.</i> </p>
+
+</blockquote>
+
+<hr>
+
+<h2><b>Contest Platform:</b> </h2>
+
+<p>The contest platform will&nbsp; be a 200MHz Pentium&nbsp;II with 64MB&nbsp;RAM
+running Red&nbsp;Hat Linux version&nbsp;6.2.&nbsp; (Though this is a pretty old
+configuration hardware-wise, we can get lots of these machines which will simplify the
+evaluation phase.)&nbsp;&nbsp; See the <a href="machine_desc.htm">machine
+configuration</a> page for more information about pre-installed software. </p>
+
+<hr>
+<h2><b>What to Submit:</b></h2>
+<p>You should submit a <i>gzipped tar</i> file as your entry.&nbsp; You may submit multiple entries during the contest, and we will use the most recently
+submitted file during evaluation.&nbsp; For space reasons, we will <em>not</em> retain old
+versions.</p>
+
+<p>The tar file should contain the following: 
+
+<ul>
+  <li>An executable program <font face="Courier New">./buildme</font><font face="Courier">. </font>This
+    program is likely to be a Linux binary or a shell script which can be used to build your
+    final executable.&nbsp; If your <font face="Courier New">runme</font> program is
+    pre-built, then this script should simply be:<br>
+    <br>
+    #!bin/sh<br>
+    exit 0<br>
+  </li>
+  <li>An executable program <tt><font face="Courier New">./runme</font></tt>.&nbsp; This program is likely to be a Linux
+    binary or a shell script and will be used during our evaluation. Details regarding its
+    purpose will be posted on the task page.&nbsp; Obviously, this file does not need to be
+    present if <font face="Courier New">buildme</font> builds it.<br>
+  </li>
+  <li>A <tt>./README</tt> file containing a brief description of the submission, algorithm,
+    programming language(s) used, and anything else that you want to bring to the attention of
+    the judges. At minimum, the <tt>README</tt> file must contain <ul>
+      <li>the team name </li>
+      <li>the team captain's name </li>
+      <li>the team captain's email address -- if this address is not valid, we
+        will reject your entry. </li>
+      <li>a physical mail address where we can send prizes (in case you don't go
+        to ICFP.) </li>
+      <li>the names and e-mail addresses of all team members. </li>
+      <li>Indication of language(s) used. To avoid debate about just what constitutes a functional
+        language, we will accept programs written in <em>any</em> language. </li>
+      <li>A brief description of how you accomplished the task or anything novel
+        about your entry. </li>
+    </ul>
+    <p>The contents of the <tt>README</tt> file are likely to have some bearing on the Judges'
+    Prize, so it may be worth including more information. </p>
+  </li>
+  <li>A <tt>./src</tt> directory containing the source code and other build files for your
+    entry.&nbsp; <em>Don't expect the judges to configure your buildme script or to debug your
+    sources.&nbsp; </em>If at all possible, submit a statically linked binary.&nbsp;
+    We want you to include your sources only so that we can read them and try to
+    recover from silly configuration errors<em>.&nbsp;&nbsp;</em> <br>
+  </li>
+  <li>An optional <tt>./support</tt> directory containing libraries, binaries, configuration
+    files, and anything else that <tt>./runme</tt> might need. </li>
+</ul>
+
+<p>We have installed a number of standard functional language implementations on
+the test machines, including the latest versions of GHC, Hugs, SML/NJ, O'Caml,
+and MzScheme.&nbsp;We have installed these languages only in case we need to
+debug your code to get it to work. The RPMs that we used to install these language
+implementations or paths to the relevant directories are available on the <a href="machine_desc.htm">machine
+description page</a>.&nbsp; Hopefully, we will also provide a test environment so that you can
+upload a sample program and ensure that it builds and executes correctly on our platform.
+&nbsp;&nbsp; </p>
+
+<p>However, the contest machines may not have the language implementations or shared
+libraries for your implementation language, may be configured in an unexpected way, and/or
+we may not have the test environment set up with enough lead time.&nbsp; Thus, your best
+bet is to <em><font color="#FF0000">submit a statically linked executable</font></em> and to include any files that you
+need.&nbsp; If your favorite language cannot emit executable binaries, then let <tt>./runme</tt>
+be an executable shell script that runs an interpreter binary located in <tt>./support</tt>.</p>
+
+<hr>
+
+<h2>How to Submit:</h2>
+<p>Because of Cornell is in the process of upgrading it's webservers we've
+decided to do the submission process via email, which will be more reliable than
+the webserver right now.</p>
+<p>There are two forms of email submission<br>
+&nbsp;&nbsp; 1. Submit a URL to your submission which we will then download, <i>or</i><br>
+&nbsp;&nbsp; 2. Submit an email with the submission as an attached file.</p>
+<p>Choice #1 is the preferred method of submission for large files (&gt;= 2MB).</p>
+<p>Choice #2 is fine if you only have access to email and can't easily make your
+submission available for download via the web or anonymous ftp.</p>
+<p>Details regarding the two options are below.&nbsp; Remember that all
+submissions should be a single tarred and gzipped file with contents as
+specified above. At a minimum, your tar file should contain <font face="Courier New">buildme</font>,
+<font face="Courier New">README</font>, and <font face="Courier New">runme</font>
+files.&nbsp; Please keep copies of the tar file if you submit multiple times and
+the associated md5 sums just in case....&nbsp;</p>
+<h3>Choice #1 (Email a URL that points to your gzipped tar file)</h3>
+<p>Create an email with the following text (without the --cut here-- lines) and
+send it to <font color="#FF0000"><a href="mailto:icfp-sub@cs.cornell.edu">icfp-sub@cs.cornell.edu</a></font>.</p>
+<p><i>-----cut here----</i><br>
+[submission]<br>
+team: &lt;name of your team&gt;<br>
+contact-email: &lt;if different than sender&gt;<br>
+address1: &lt;first line of address&gt;<br>
+address2: &lt;second line of address&gt;<br>
+phone: &lt;phone number&gt;<br>
+md5sum: &lt;<a href="md5.htm">md5sum</a> of your
+submission here&gt;<br>
+url: &lt;url to the gzipped tar file&gt;<br>
+<i>-----cut here-----</i></p>
+<p>Fill in each field as appropriate.&nbsp; Don't add anything else as it will
+confuse our parser. It's especially important to not add any leading white space
+to the lines. The subject of the email and the name of the submitted file do not
+matter.</p>
+<p>The contact-email field is optional and only necessary if it's different from
+the submission address.&nbsp; However <i>all errors and replies</i> get sent
+back to the sender of the email (based on the Return-Path: header of the email
+message.) The contact email address is who we complain to after we get all the
+submissions and need to figure who to bug about issues unrelated to the
+submission process.</p>
+<p>Please make sure your mailer isn't sending anything other than plain old
+text. Make sure to send the message to <font color="#FF0000"><a href="mailto:icfp-sub@cs.cornell.edu">icfp-sub@cs.cornell.edu</a></font><a href="mailto:icfp-sub@cs.cornell.edu">.</a></p>
+<h3>Choice #2 (Email your gzipped tar file with our handy shell script)</h3>
+<p>First, create an information file (say info.txt) with the following
+information:</p>
+<p><i>-----cut here----</i><br>
+[submission]<br>
+team: &lt;name of your team&gt;<br>
+contact-email: &lt;if different than sender&gt;<br>
+address1: &lt;first line of address&gt;<br>
+address2: &lt;second line of address&gt;<br>
+phone: &lt;phone number&gt;<br>
+md5sum: &lt;<a href="md5.htm">md5sum</a> of your
+submission here&gt;<br>
+<i>-----cut here-----</i></p>
+<p>Fill in each field as appropriate.&nbsp; Don't add anything else as it will
+confuse our parser. It's especially important to not add any leading white space
+to the lines. The subject of the email and the name of the submitted file do not
+matter.&nbsp; The contact-email field is optional and only necessary if it's
+different from the submission address.&nbsp; However <i>all errors and replies</i>
+get sent back to the sender of the email (based on the Return-Path: header of
+the email message.) The contact email address is who we complain to after we get
+all the submissions and need to figure who to bug about issues unrelated to the
+submission process.</p>
+<p>Download the <a href="submit.sh"> submit.sh</a> shell script and make it executable (chmod u+x).&nbsp;
+Then invoke it giving it your information file and your tar file.</p>
+<p>&nbsp; submit.sh &lt;information file&gt; &lt;gzipped tar file for your
+submission&gt;</p>
+<p>The script requires metamail to execute, which should be standard on any
+Linux/UNIX system.&nbsp; If you have trouble with the script, then you can use
+any mailer that can send a multipart/mixed MIME message.&nbsp; The message
+should be sent to <a href="mailto:icfp-sub@cs.cornell.edu">icfp-sub@cs.cornell.edu</a>
+and should start with the fields listed above.&nbsp; You should then attach your
+gzipped tar file as a base64 encoded file.</p>
+<hr>
+<h2>What Happens After you Submit</h2>
+<p>After you submit you will receive a reply back from our auto-responder.&nbsp;
+Given that this is email and not the web, please be patient.&nbsp; The message
+should tell you whether the submission succeeded. We will check the md5 sum of
+the file we receive against the submitted version.</p>
+<p>Those who submit a url, may get a checksum error because of an incorrect URL.
+Please, double check you the URL returned in our acknowledgement, before
+resubmitting.</p>
+<hr>
+<h2>What Happens If We Goof Up (Don't Panic)</h2>
+<p>If there's a bug with our script, it will generate an error message which
+gets mailed back to you and to a real live person, who will try to fix the
+problem and get back to you hastily. Also all emails are logged, and since we
+have md5 sums and message time stamps, if you keep copies of the submitted
+files, if the world comes to an end we can still make progress.&nbsp; Please
+email <a href="mailto:icfp00@cs.cornell.edu">icfp00@cs.cornell.edu</a> for any
+questions you may have regarding the process.</p>
+<p>* Python hackers may figure out we are using ConfigParser module to do<br>
+&nbsp; our parsing, as well as Python to do all the processing of incoming</p>
+<hr>
+
+<p><a href="index.htm">Back</a> to the ICFP Programming Contest Main Page</p>
+</body>
+</html>

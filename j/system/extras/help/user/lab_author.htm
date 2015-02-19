@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Lab Author</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="rich_text.htm">&gt&gt;</a>&nbsp;
+<a href="running_labs.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Lab Author</h1>
+<TR><TD colspan="2"> 
+
+
+<p>
+The Lab Authoring system can be used to create lab files. Load it from menu item Studio/Author.
+
+<P>
+A lab is created as a header, plus lab chapters and sections. Each section is displayed in two panes - the top pane is the text, and the lower pane is the code. Either may be empty.
+
+<P>
+Press the Run button to run the code in any section. The Lab is run in the session window, i.e. LABWINDOWED is ignored. Any errors are displayed in a message box. The code is not run automatically as you navigate through the lab. 
+
+<P>
+You can step through the lab by pressing Ctrl+A when the Author form has focus. This simulates the normal running of the lab. Note that the Author form has to have the focus to advance. 
+
+<P>
+To load and run the lab exactly as the user would run it, use the menu item File/Run Lab.
+
+<P>
+Note that if your Lab creates Windows forms, you need to ensure that <code>wd</code> commands are sent to the correct form. Start your code sections with appropriate <code>PREPARE</code> statements, for example:
+
+<pre>
+PREPARE
+wd 'psel myform'
+PREPARE
+</pre>
+
+<P>
+The Wrap button wraps the text pane to the current width. Use Edit/UnWrap to undo; this is only available immediately after a wrap has been done. Otherwise, use Edit/Restore Section to restore the pane to its original state.
+
+<P>
+The width indicator shows the current default width. Only part of the width indicator will show if the choice of Font and Width makes it too wide to display in the window - in which case, resize the window, or reduce the Font or Width settings.
+
+<P>
+The Sounds items are enabled only when the lab has sounds. Check Enable to play the sounds when running each section. Use the Insert button to insert a sound in the code.
+
+<P>
+The menu items are mostly self-explanatory, for example:
+
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=184><P>
+Section/Restore Section
+<TD VALIGN="TOP" WIDTH=424><P>
+Restores the panes to the initial values when you moved to the section 
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=184><P>
+Edit/Font...
+<TD VALIGN="TOP" WIDTH=424><P>
+Sets the font used in the two panes
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=184><P>
+Edit/Header...
+<TD VALIGN="TOP" WIDTH=424><P>
+Sets the lab header
+</tr></table>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="rich_text.htm">&gt&gt;</a>&nbsp;
+<a href="running_labs.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

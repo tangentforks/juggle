@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>Building Applications</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="project_conven.htm">&gt&gt;</a>&nbsp;
+<a href="project_man_tabs.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+<TR valign="baseline"><TD><H1>Building Applications</H1>
+<TR><TD colspan="2"> 
+
+<P>
+You build the application by clicking the Build button 
+in the Project Manager and Build Options dialogs.
+                     
+<P>
+<B>Include Files</B><br>
+You can choose whether to include or require files when building the targetfile; "include" means the scripts form part of the target file, "require" means there is a line of the form: 
+
+<pre>   script_z_ &lt;'filename'
+</pre>
+
+<P>
+written into the target file.
+
+<P>
+For applications that will be run when the J development system is loaded, you would typically want to require any project libraries, and either include or require project source.
+
+<P>For standalone files, you should require libraries only 
+if you know that the application will be run on your own machine, and so the 
+library files will be available. Otherwise, you should select to include all 
+library files; in this case, any library script referenced by the project will 
+be included in the targetfile. 
+
+<p>The standard libraries that are included in standalone applications are:
+
+<p>
+colib.ijs<br>
+loadlib.ijs<br>
+stdlib.ijs<br>
+winlib.ijs<br>
+
+<P>The Libraries for J DLL option excludes winlib.ijs from the standard 
+libraries.
+
+<p><b>Build Options</b><br>
+<P>The delete comments option removes all comments from your source files, 
+except only any comments that appear on consecutive lines in your first 
+script.
+
+<P>
+If Load in locale is given as for example, "myloc", the script will include a line:
+
+<pre>
+   coclass 'myloc' 
+</pre>
+
+<P>
+after any standard libaries are loaded, and before the project files are loaded.
+
+<P>
+If Append to file is given, it is added as the last statement in the application. Use this to run the application when it is loaded.
+
+
+</TD></TR>
+<TR><TD><!--bottom jump start--><hr><a href="project_conven.htm">&gt&gt;</a>&nbsp;
+<a href="project_man_tabs.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></TD></TR></TABLE></body>
+</html>

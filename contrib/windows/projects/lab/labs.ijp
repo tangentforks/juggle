@@ -1,0 +1,63 @@
+NB. project file: source\main\labs\labs
+
+coclass 'jproject'
+
+PRIMARYFILES=: 0 : 0
+source\main\labs\labutil
+source\main\labs\labini
+source\main\labs\labfiles
+source\main\labs\labjmp
+source\main\labs\labrtf
+source\main\labs\labsel
+source\main\labs\labwin
+source\main\labs\latcfg
+source\main\labs\latchap
+source\main\labs\latfns
+source\main\labs\latfont
+source\main\labs\latinit
+source\main\labs\latinsnd
+source\main\labs\latorder
+source\main\labs\latprop
+source\main\labs\latrecnt
+source\main\labs\latsel
+source\main\labs\latsnd
+source\main\labs\latwin
+)
+
+PRIMARYLIBS=: ''
+
+DEVFILES=: ''
+
+DEVLIBS=: 0 : 0
+dir
+files
+myutil
+)
+
+OTHERFILES=: 0 : 0
+source\main\labs\labdict.ijs
+source\main\labs\labdir.ijs
+source\main\labs\labs.txt
+)
+
+TARGETFILE=: ''
+
+TARGETLOCALE=: ''
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: 'source\main\labs\labmake.ijs'
+
+TESTFILE=: ''
+
+NOTES=: ''
+
+WINDOWS=: ''
+
+WINDOWSTATE=: 0

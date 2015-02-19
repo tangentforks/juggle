@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Tolerance</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="checkpoint_d.htm">&gt&gt;</a>&nbsp;
+<a href="inexact_numbers.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Tolerance</h1><TR><TD>
+
+<P>This section is a bit advanced and understanding it is not critical. If it makes sense, great. If not, don't worry about it, and just move on to the next section.</P>
+
+<P>For some kinds of work with floating point numbers, this section is important, along with a more detailed understanding of how numbers are stored and manipulated by the hardware. For most work, however, this section can be ignored.</P>
+
+<P>Let's consider the calculation at the end of the last section in more detail.</P>
+ 
+<PRE>   pps 20
+
+   a =. 3 * 100 * % 3
+   a
+99.999999999999986
+
+   a = 100
+1
+</PRE>
+<P>By exact math you would expect <TT>a</TT> to be <TT>100</TT>. But because the computer can't exactly represent the value <TT>%3</TT>, you get a value for a that is very close to <TT>100</TT>, but not exactly, as you can see by its detailed display with a print precision of  <TT>20</TT>. However, note that a is considered to be equal to <TT>100</TT>, even though you can see that it is not exactly equal. This is because the comparison is tolerant. That is, numbers do not have to be exactly identical to be considered equal.</P>
+
+<P>Let's experiment to get an idea for how tolerant the comparison is by gradually taking the value further away from 100. The input line recall shortcut with Shift+Ctrl+up arrow is very useful for playing with things like this.</P>
+
+<PRE>   100 = 100
+1
+
+   100 = 99.999999999999986
+1
+
+   100 = 99.99999999999998
+1
+
+   100 = 99.9999999999999
+1
+
+ 
+   100 = 99.999999999999
+1
+
+   100 = 99.99999999999
+0
+
+</PRE><P>In the last example you crossed the line and the value is far enough away from 100 that it is no longer considered to be equal. Let's look at another example.</P>
+
+<PRE>   a =. 23
+   b =. a - 1e_12
+   c =. a - 1e_11
+   a
+23
+
+   b
+22.999999999999002
+
+   c
+22.999999999989999
+
+   a = b
+1
+
+   a = c
+0</PRE>
+
+<P>The values of <TT>a</TT> and <TT>b</TT> are close enough to be considered equal. The values of <TT>a</TT> and <TT>c</TT> are not close enough to be considered equal. Close enough refers to the difference between the two numbers.</P>
+
+<PRE>   a - b
+9.9831254374294076e_13
+
+   a - c
+1.000088900582341e_11
+</PRE>
+<P>In both cases the difference is small, but <TT>b</TT> is closer than <TT>c</TT> to <TT>a</TT>. Reading the J Dictionary definition for <TT>=</TT> you will see that the dividing line between close enough and not close enough is determined by the result of multiplying the larger of the numbers times the default tolerance value of <TT>2^_44</TT>. That is, close enough is <I>relative </I>to the size of the numbers.</P>
+
+ 
+<PRE>   tolerance =. a * 2 ^ _44
+   tolerance
+1.3073986337985843e_12</PRE>
+
+<P>Check both differences against this tolerance:
+</P>
+<PRE>   (a - b , c) <: tolerance
+1 0</Pre>
+
+<P>The difference between <TT>a</TT> and <TT>b</TT> is less or equal to the tolerance, whereas the difference between <TT>a</TT> and <TT>c</TT> is not.</P>
+
+
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="checkpoint_d.htm">&gt&gt;</a>&nbsp;
+<a href="inexact_numbers.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,129 @@
+<html>
+<head><title>7!: Space</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dx009.htm">&gt&gt;</a>&nbsp;
+<a href="dx006.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=50%><b><font size=+2>Space</font></b></td>
+<td align=right  width=50%><b><font face="Courier New" size=+3>7!:</font></b></td>
+</tr></table>
+<br>
+
+<TABLE>
+<tr><td valign=top width=120><a name="0"></a><tt>7!:0 y</tt></td>
+<td><B>Current</B>. Space currently in use.</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td valign=top><a name="1"></a><tt>7!:1 y </tt></td>
+<td><B>Session</B>. Total space used since start of session.</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td valign=top><a name="2"></a><tt>7!:2 y </tt></td>
+<td><B>Execute</B>. Space required to execute sentence<tt> y</tt>.<tt> </tt>  
+For example:<br>
+
+<pre>
+   7!:2 ',/x' [ x=: 3000 2 5$'kerygmatic'
+33888
+</pre>
+</td></tr>
+
+<tr><td valign=top><a name="3"></a><tt>7!:3 y</tt></td>
+<td><B>Free Space</B>. Information on the state of the J 
+memory manager, currently a 2-column table of the block sizes 
+and number of free blocks for each size.  
+The definition of the result of<tt> 7!:3</tt> ,<tt> </tt>
+as well as the availability of<tt> 7!:3 </tt>itself, 
+are subject to change. For example:<br>
+
+<pre>
+   7!:3 ''
+   32  950
+   64 1135
+  128  554
+  256  157
+  512   74
+ 1024   40
+ 2048    7
+ 4096   14
+ 8192    1
+16384    1
+32768    1
+</pre>
+</td></tr>
+
+<tr><td valign=top><a name="4"></a><tt>7!:4 y </tt></td>
+<td>
+<B>Release Space</B>.  Release unused memory from the J memory manager.  
+Use of<tt> 7!:4 </tt>can have detrimental performance effects 
+and such use is expected to be required only rarely.  
+The definition of the effects of<tt> 7!:4</tt> ,<tt> </tt>as well 
+as the availability of<tt> 7!:4 </tt>itself, are subject to change.<br><br>
+
+<tt>7!:4 </tt>currently (J 4.05) has no effect.
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td valign=top><a name="5"></a><tt>7!:5 y </tt></td>
+<td><b>Space</b>. The space in bytes needed by the named 
+objects<tt> y</tt> .<tt> </tt>For example:<br>
+
+<pre>
+   Hilbert=: % @: >: @: (+/~) @: i.
+
+   7!:5 <'Hilbert'
+896
+   7!:5 <'name_without_value'
+|value error: name_without_value
+|       7!:5<'name_without_value'
+
+   sp=: 3 : '7!:5 <''y.'''
+   sp 'chiaroscuro'
+64
+   sp i.1000
+4096
+   sp o.i.1000
+8192
+
+   x=: o.y=: i.1000
+   7!:5 ;:'x y Hilbert'
+8192 4096 896
+</pre>
+</td></tr>
+</table>
+
+See also<tt> <a href="dx009.htm#20">9!:20</a> </tt>
+and<tt> <a href="dx009.htm#20">9!:21</a></tt> .<br>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dx009.htm">&gt&gt;</a>&nbsp;
+<a href="dx006.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

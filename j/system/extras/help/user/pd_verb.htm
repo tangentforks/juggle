@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>pd verb</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="plot_verb.htm">&gt&gt;</a>&nbsp;
+<a href="plot_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+<TR valign="baseline"><TD><H1>pd verb</h1>
+<TR><TD colspan="2"> 
+<P>
+<code>pd</code> is the low-level verb that handles all calls to Plot.
+<P>
+<code>pd</code> has three types of argument:
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=94><P>
+<B>commands</B>
+<TD VALIGN="TOP" WIDTH=210><P>
+set up and show a plot
+<TD VALIGN="TOP" WIDTH=222><P>
+<a href="plot_commands.htm">Plot Commands</a>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=94><P>
+<B>options</B>
+<TD VALIGN="TOP" WIDTH=210><P>
+specify plot type, colors etc
+<TD VALIGN="TOP" WIDTH=222><P>
+<a href="plot_options.htm">Plot Options</a>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=94><P>
+<B>data</B>
+<TD VALIGN="TOP" WIDTH=210><P>
+data used in the plot
+<TD VALIGN="TOP" WIDTH=222><P>
+<a href="plot_data.htm">Plot Data</a>
+</TR></TABLE>
+
+<P>
+Commands and options are given in a character list, delimited by semicolons. Data is a numeric or boxed array.
+
+<P>
+For example:
+
+<pre>
+load 'plot numeric trig'    NB. load plot and some utilities
+pd 'reset'                  NB. command reset
+pd 'textc 500 950 My Plot'  NB. command textc
+pd 'type line'              NB. option type
+pd cos steps 0 8 100        NB. data
+pd 'show'                   NB. command show
+pd 'clip'                   NB. command clip
+pd 'print'                  NB. command print
+</pre>
+
+</TD></tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="plot_verb.htm">&gt&gt;</a>&nbsp;
+<a href="plot_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

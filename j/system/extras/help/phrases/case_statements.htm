@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>Case Statements</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="miscellaneous.htm">&gt&gt;</a>&nbsp;
+<a href="date_time.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Case Statements</h1>
+<TR><TD colspan="2"> 
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+
+<P>If <TT>ag </TT>generates indices for a gerund <TT>ger</TT>, we will call <TT>ag </TT>an <I>agenda </I>function, and the function <TT>ger@.ag</TT> a <I>case statement</I>. For example:</P></TD></TR></TABLE>
+
+<PRE>   ger=: f`g`h
+   ag=: #@$
+   case=: ger@.ag
+   f=: -: [. g=: +: [. h=: *:
+   (case 3);(case 2 3 4 5);(case i.3 4)
++--------------------------+
+&brvbar;1.5&brvbar;4 6 8 10&brvbar; 0  1   4   9&brvbar;
+&brvbar;   &brvbar;        &brvbar;16 25  36  49&brvbar;
+&brvbar;   &brvbar;        &brvbar;64 81 100 121&brvbar;
++--------------------------+
+
+   f=: *:
+   (case 3);(case 2 3 4 5);(case i.3 4)
++------------------------+
+&brvbar;9&brvbar;4 6 8 10&brvbar; 0  1   4   9&brvbar;
+&brvbar; &brvbar;        &brvbar;16 25  36  49&brvbar;
+&brvbar; &brvbar;        &brvbar;64 81 100 121&brvbar;
++------------------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Certain agendas prove to be useful with a variety of gerunds: for example, the <I>rank </I>used above, as well as various classifications such as negative, zero, and positive; integral or fractional; real or complex; numeric or character; boxed or open; and the <I>depth </I>of boxing. Since indices may be negative, the result of an agenda may be negative; thus the case <TT>f`g`h@.*</TT> applies <TT>f</TT> if the argument is zero, <TT>g</TT> if it is positive, and <TT>h</TT> if it is negative.  </P>
+
+<P>Since an agenda such as the hook <TT>=&lt;.</TT> (which tests for fractional or integral) might invoke a domain error (when the argument is character or boxed), it is often useful to extend an agenda to produce a result in such a case. If this result is <TT>_1</TT>, the corresponding function in the gerund (perhaps <TT>h=: 'ERROR'"_</TT>) may be simply appended to the normal cases. Thus, the test for integral may be defined (using <I>adverse</I>) as <TT>(=&lt;.) :: _1:</TT> For example:</P></TD></TR></TABLE>
+
+<PRE>   F=: (=&lt;.) :: _1:
+   F"0 x=: 0.5 _2 2
+0 1 1
+
+ 
+   F 'abcd'
+_1</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0=: ~. ,. #/.~	</TT></TD><TD>Nub and count</TD></TR>
+  <TR><TD><TT>m1=: ({.,#)/.~</TT></TD>	<TD>Nub and count</TD></TR>
+  <TR><TD><TT>a2=: et=: :: _1:</TT></TD>	<TD>Error in tail position</TD></TR>
+  <TR><TD><TT>m3=: I=: (-:&lt;.)et</TT></TD>	<TD>Integral</TD></TR>
+  <TR><TD><TT>m4=: C=: -.@(-:+) et</TT></TD>	<TD>Complex</TD></TR>
+  <TR><TD><TT>a5=: ep=: :: _2:</TT></TD>	<TD>Error in penultimate position</TD></TR>
+  <TR><TD><TT>m6=: S=: *ep</TT></TD>	<TD>Signum test with error in penultimate</TD></TR>
+  <TR><TD><TT>m7=: B=: -.@(-:&gt;) :: 0:</TT></TD>	<TD>Boxed </TD></TR>
+  <TR><TD><TT>m8=: R=: #@$</TT></TD>	<TD>Rank</TD></TR>
+</TABLE>
+
+
+<P>An "or" over an agenda (that is, applying a given function for any one of several cases distinguished by the agenda) can be achieved by placing the same function in several places in the gerund . Moreover, agendas may be used in combination, as illustrated below:</P></TD></TR></TABLE>
+
+<PRE>   c=: co`cb@.B			Executes co if open; cb if boxed
+     co=: -@|`+@.C			Minus magnitude if real; conjugate 
+     cb=: ]`(|.&amp;.&gt;)`(|:&amp;.&gt;)@.(R@&gt;)	Reverse if opened is list; transpose
+
+   c &lt;i. 2 4			if opened is a table
+   cb &lt;i.2 4			The case chosen by the agenda B
++---+
+&brvbar;0 4&brvbar;
+&brvbar;1 5&brvbar;
+&brvbar;2 6&brvbar;
+&brvbar;3 7&brvbar;
++---+
+
+   c 3j4 5 6j7			(Open) complex argument
+3j_4 5 6j_7			Conjugate
+
+   co 3j4 5 6j7			The case chosen by the agenda B
+3j_4 5 6j_7</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The complete definition of <TT>c</TT> can be seen by fixing it:</P></TD></TR></TABLE>
+
+<PRE>   c f.
+-@|`+@.(-.@(-: +) ::(_1:))`(]`(|.&amp;.&gt;)`(|:&amp;.&gt;)@.(#@$@&gt;))@.(-.@(-: &gt;) ::0:)</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="miscellaneous.htm">&gt&gt;</a>&nbsp;
+<a href="date_time.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

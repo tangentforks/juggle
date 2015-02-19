@@ -1,0 +1,24 @@
+00001 00000 00000 1 Abbenrode                      ABBE 000 11 0011 001 000 000
+00001 00000 00000 1 Abbenrode                      ABBE 000 12 0001 001 000 000
+00001 00000 00000 1 Abbenrode                      ABBE 000 13 0001 001 000 000
+00001 00000 00000 1 Abbenrode                      ABBE 000 14 0011 001 000 000
+00002 00000 00000 1 Abzweigung Liedingen           ALIE 000 11 0011 001 000 000
+00002 00000 00000 1 Abzweigung Liedingen           ALIE 000 12 0011 001 000 000
+00003 00000 00000 1 Abzweigung Schulenrode         ABSC 000 11 0011 001 000 000
+00003 00000 00000 1 Abzweigung Schulenrode         ABSC 000 12 0011 001 000 000
+00004 00000 00000 1 Ackerstraﬂe                    ACKE 000 01 0011 001 000 000
+00004 00000 00000 1 Ackerstraﬂe                    ACKE 000 02 0011 001 000 000
+00004 00000 00000 1 Ackerstraﬂe                    ACKE 000 11 0011 001 000 000
+00004 00000 00000 1 Ackerstraﬂe                    ACKE 000 12 0011 001 000 000
+00004 00000 00000 1 Ackerstraﬂe                    ACKE 000 13 0011 001 000 000
+ |     |    |     |  |                              |    |   |  |
+ |     |    |     |  |                              |    |   |  |   no meaning
+ |     |    |     |  |                              |    |   |  ` stop pt. code
+ |     |    |     |  |                              |    |   ` stop point no.
+ |     |    |     |  |                              |    ` meaningless
+ |     |    |     |  |  short stop code   ----------'
+ |     |    |     |  ` stop name
+ |     |    |     ` type of marking point
+ |     |    ` Y-coordinate (not present)
+ |     ` X-coordinate (not present)
+ ` stop number

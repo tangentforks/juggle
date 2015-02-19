@@ -1,0 +1,241 @@
+<html>
+<head>
+<title>Richedit Control</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="win_ctrl_statusbar.htm">&gt&gt;</a>&nbsp;
+<a href="child_classes.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Richedit Control</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+A richedit control is an edit control that displays RTF (rich text format) data. 
+
+<P>
+RTF is a text description language that uses only standard ASCII characters, so that you can create and view RTF data as ordinary text. For a summary of the language, see file: system\examples\data\rtf.txt.
+
+<P>
+You can also create RTF data from most Windows editors, for example, WordPad, by saving your text in RTF format. Thus you could create and format some text in WordPad, save it in RTF format, then read in the RTF file and display it in J using a richedit control.
+
+<P>
+You can also copy and paste between a richedit control and any application, such as WordPad, that supports RTF.
+
+<P>
+Events and event data for richedit controls are the same as for edit controls. The event data is the simple text from the control, not the rtf data. To read the text in rtf format, use command  <code>qrtf</code>.
+
+<P>
+Here is a summary of commands applicable to richedit controls:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=200><P>
+<li><pre>set</pre>
+<TD VALIGN="TOP" WIDTH=600><P>
+set rtfdata into a richedit control. For example:
+<br><br>
+<pre>wd 'set rid *',rtfdata</pre>
+</tr></table>
+
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=200><P>
+<li><pre>setreplace</pre>
+<TD VALIGN="TOP" WIDTH=600><P>
+replace selected rtfdata in a richedit control For example:
+<br><br>
+<pre>wd 'setreplace rid *',rtfdata</pre>
+</tr></table>
+
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=200><P>
+<li><pre>setbkgnd</pre>
+<TD VALIGN="TOP" WIDTH=600><P>
+set background color. For example:
+<br><br>
+<pre>wd 'setbkgnd rid 255 0 0'</pre>
+</tr></table>
+
+A useful color is the gray window background,  which is typically 192 192 192. A richedit control with this background color and without the sunken style appears as text on the form.
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=200><P>
+<li><pre>setreadonly</pre>
+<TD VALIGN="TOP" WIDTH=600><P>
+prevent the user from making changes. For example:
+<br><br>
+<pre>wd 'setreadonly rid'</pre>
+</tr></table>
+
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=200><P>
+<li><pre>qrtf</pre>
+<TD VALIGN="TOP" WIDTH=600><P>
+reads the RTF data from the control. For example:
+<br><br>
+<pre>rtfdata=. wd 'qrtf rid'</pre>
+</tr></table>
+
+Here is a brief overview of the RTF format:
+
+<P>
+The <code>\</code> character starts an RTF command and curly braces <code>{}</code> group data.
+
+<P>
+Some RTF commands:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\b</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+bold
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\cfn</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+color from color table
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\fn</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+font from font table
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\fsn</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+font size
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\i</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+italic
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\par</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+paragraph (new line)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<pre>\ul</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+underline
+</tr></table>
+
+Commands like <code>\b</code> can be followed by a 0 or 1 to turn the attribute off or on.
+
+<P>
+The font table definition is enclosed in <code>{}</code> and each font definition is also enclosed in <code>{}</code>. For example:
+
+<pre>
+   {\fonttbl{\f0\fcourier Courier New;}}
+</pre>
+
+<P>
+The <code>\fn</code> command indicates which font to use. For example:
+
+<pre>
+   \f0 test
+</pre>
+
+<P>
+The <code>\fsn</code> command indicates font size. For example:
+
+<pre>
+   \fs90 test
+</pre>
+
+<P>
+To replace the current selection with &quot;test&quot; in Courier New size 90:
+
+<pre>
+   wd 'setreplace rid *{{\fonttbl{\f0\fcourier Courier New;}}\f0\ fs90 test}'
+</pre>
+
+<P>
+Colors are managed in a manner similar to fonts. Define a color table and then select colors from that table. The following table defines colors black and red:
+
+<pre>
+   {\colortbl\red0\green0\blue0;\red255\green0\blue0;}
+</pre>
+
+<P>
+To replace the current selection with <code>'test'</code> in red:
+
+<pre>
+   wd 'setreplace rid *{{\colortbl\red0\green0\blue0;\red255\
+green0\blue0;}\cf1 test}'
+</pre>
+
+<P>
+The <code>/</code> character is an escape character that treats the following character as text. For example to enter a <code>}</code> as part of text, rather than treat it as a grouping character:
+
+<pre>
+   wd 'setreplace red *{the character /{ appears}'
+</pre>
+
+<P>
+The following example (in script examples\demo\rtf.ijs) creates some RTF data, then displays it in a form with a richeditm control:
+
+<pre>
+rtfdata=: 0 : 0
+{
+{\fonttbl{\f0\fcourier Courier New;}}
+{\colortbl\red0\green0\blue0;\red255\green0\blue0;}
+\f0 black
+\par
+\b
+\cf1 bold red
+\par
+\i
+\fs60 big bold italic red
+}
+)
+wd 0 : 0
+
+pc abc closeok;
+xywh 148 8 34 12;cc ok button;cn &quot;OK&quot;;
+xywh 148 23 34 12;cc cancel button;cn &quot;Cancel&quot;;
+xywh 9 7 128 69;cc rid richeditm es_autovscroll es_sunken;
+pas 6 6;pcenter;
+rem form end;
+)
+wd 'set rid *',rtfdata
+wd 'pshow'
+</pre>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="win_ctrl_statusbar.htm">&gt&gt;</a>&nbsp;
+<a href="child_classes.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+echo './rfc -k news'
+./rfc -k news
+echo
+echo
+echo './rfc -k News'
+./rfc -k News
+echo
+echo
+echo './rfc -k "nEtwork  	news trAnsfer		proTOCol"'
+./rfc -k 'nEtwork  	news trAnsfer		proTOCol'
+echo
+echo
+echo './rfc -k "network communication"'
+./rfc -k 'network communication'
+echo
+echo
+echo './rfc -k "furunkel"'
+./rfc -k 'furunkel'
+echo
+echo
+echo './rfc -k "netbios"'
+./rfc -k 'netbios'
+echo
+echo
+echo './rfc -i bcp'
+./rfc -i bcp
+echo
+echo
+echo './rfc -i fyi'
+./rfc -i fyi
+echo
+echo

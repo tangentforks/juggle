@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>Date & Time</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="case_statements.htm">&gt&gt;</a>&nbsp;
+<a href="execution_time_space.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Date &amp; Time</h1>
+<TR><TD colspan="2"> 
+
+
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0=: 6!:0</TT></TD>	<TD>System time stamp yyyy mm dd hh mm ss (argument y needed but ignored)</TD></TR>
+  <TR><TD><TT>m1=: [:&lt;._3:{.]</TT></TD>	<TD>hh mm ss part of time stamp</TD></TR>
+  <TR><TD><TT>m2=: 1000"_ #. ]</TT></TD>	<TD>Base-1000 form of y</TD></TR>
+  <TR><TD><TT>m3=: (':'"_) _6 _3} ":</TT></TD>	<TD>Format with ':' between fields</TD></TR>
+  <TR><TD><TT>m4=: [:&lt;.3:{.]</TT></TD>	<TD>yyyy mm dd part of time stamp</TD></TR>
+  <TR><TD><TT>m5=: ('/'"_) 4 7} ":</TT></TD>	<TD>Format with '/' between fields</TD></TR>
+  <TR><TD><TT>m6=: [: m3 [: m2 [: m1 m0</TT></TD>	<TD>Formatted time stamp hh:mm:ss</TD></TR>
+  <TR><TD><TT>m7=: [: m5 [: m2 [: m4 m0</TT></TD>	<TD>Formatted date stamp yyyy/mm/dd</TD></TR>
+  <TR><TD nowrap><TT>m8=: (':'"_) 2 5} [: ": 1000"_ #.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_3: {. [: &lt;. m0</TT></TD>	<TD>Formatted time stamp hh:mm:ss</TD></TR>
+  <TR><TD nowrap><TT>m9=: ('/'"_) 4 7} [: ": 1000"_ #.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3: {. [: &lt;. m0</TT></TD>	<TD>Formatted date stamp yyyy.mm/dd</TD></TR>
+  <TR><TD><TT>m10=: 100"_#.100"_|3:{. m0</TT></TD>	<TD>yymmdd from ccyy mm dd (y neglected)</TD></TR>
+  <TR><TD nowrap><TT>m11=: 0: ~:/ .= 4 100 400"_ |/ ]</TT></TD>	<TD>Is y a leap year?</TD></TR>
+  <TR><TD><TT>m12=: 28"_ + m11@]</TT></TD>	<TD>Number of days in February of year y</TD></TR>
+  <TR><TD><TT>d13=: 31"_ - 2: | 7: | [</TT></TD>	<TD>31 - 2 | 7 | x: days in month x, not = 1</TD></TR>
+  <TR><TD><TT>d14=: d13`m12@.([=1:)</TT></TD>	<TD>Number of days in month x of year y</TD></TR>
+  <TR><TD nowrap><TT>m15=: ('0123456789 '"_ i.[:":[:|.3:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{. 6!:0) { ('0123456789.'"_)</TT></TD>	<TD>Current date in dd.mm.yy fmt, neglect y</TD></TR>
+  <TR><TD><TT>m16=: ((12"_ &lt;: {.),2:) { 'apm'"_</TT></TD>	<TD>am or pm depending on first atom of y</TD></TR>
+  <TR><TD><TT>m17=: ([: m3 m2) , (' '"_ , m16)</TT></TD>	<TD>Formatted 3-atom time y in 'm' form</TD></TR>
+  <TR><TD><TT>m18=: [:":[:(1:|.])100"_|[:m4 m0</TT></TD>	<TD>Formatted date in mm dd yy form</TD></TR>
+  <TR><TD><TT>m19=: '/'"_(]#[:i.#)@(' '"_=])}]</TT></TD>	<TD>Replace blanks in y by '/'</TD></TR>
+  <TR><TD><TT>m20=: m19@m18</TT></TD>	<TD>Formatted date in mm/dd/yy form</TD></TR>
+  <TR><TD nowrap><TT>m21=: &gt;:@(365&amp;* + m22)@(-&amp;1601)</TT></TD>	<TD># of New Year's Day, Gregorian  year y; m21 1601 is 1</TD></TR>
+  <TR><TD><TT>m22=: -/@:&lt;.@(%&amp;4 100 400)"0</TT></TD>	<TD># of leap days in y years (Clavian corr.)</TD></TR>
+  <TR><TD><TT>m23=: 7&amp;|@m21</TT></TD>	<TD>Day of week year y begins (0=Sunday)
+  </TD></TR>
+</TABLE>
+
+ 
+<P>Number of New Year's Day for Gregorian years.</P>
+
+<PRE>   m21 1601 1602 2001
+1 366 146098
+
+Number of leap days in y years
+
+   m22 0 1 4 100 400 2000
+0 0 1 24 97 485
+
+Day of week year y begins (0 is Sunday)
+
+   m23 1900 2000
+1 6</PRE>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="case_statements.htm">&gt&gt;</a>&nbsp;
+<a href="execution_time_space.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

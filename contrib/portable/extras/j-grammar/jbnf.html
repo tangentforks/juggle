@@ -1,0 +1,92 @@
+
+<title>Is there a standard BNF grammar for J?</title>
+<h1>Is there a standard BNF grammar for J?</h1>
+
+One of the recent questions on the J Forum mailing was:
+
+<quote>
+Is there any standard BNF grammar for J available?
+</quote>
+
+The Backus-Naur-Form (initially called "Backus-Normal-Form") is the classical
+formal device used to define the grammars of programming languages since the
+hey days of Algol60.  A BNF grammar defines concisely all syntactically
+legal programs, often imposing some semantic structure on the program at
+the same time.  For example, grammars can already imply the precedence rules
+expressions, although that often goes along with fanciful abstract constructs
+such as in:
+
+<pre>
+	expr =: mult-expression '+' mult-expression
+	      | mult-expression '-' mult-expression
+
+	mult-expression =: factor-term '*' factor-term
+	                 | factor-term '%' factor-term
+			 | factor-term
+
+	factor-term =: primary '^' primary  |  primary
+
+	primary =: constant  |  variable | '(' term ')'
+</pre>
+
+Anyway, even if you've never heard the acronym "BNF" before, this
+should give you the idea what we are looking for in this article.
+If you happen to think of "railroad diagrams", you are thinking along
+the right track, too.
+
+Back to the question:
+
+<quote>
+Is there any standard BNF grammar for J available?
+</quote>
+
+It is a conmmon question, in particular because so many other
+programming languages define their grammars through a BNF.
+Many programmers would know how to find their ways around in
+a J phrase if they had a BNF at hand.  They could also quickly
+check where they went astray when faced with a "syntax error".
+
+As it happens, there is no BNF for J given in the Dictionary.
+The control structures are all given in a very BNF-like notation,
+but there is nothing like that for expression level; that is,
+phrases formed with nouns, verbs, adverbs, and conjunctions.
+
+Instead, there are a handful or rules in informal language, such
+as "An adverb acts on a single noun or verb to its <i>left</i>."
+These are accompagnied by the so-called "operational semantics"
+how some possible abstract (or real) J engine might deal with
+the various J constructs.
+
+When I was wading through this definition of J, I was wondering
+if it would be possible to summarize all this in a neat little
+aequivalent BNF grammar.  It took me quite some time to find the
+answer:
+
+No.
+
+The reason for this is that J by definition intertwines parsing
+and execution.  Whereas all syntactical questions in Pascal program
+can be answered statical before the program is executed, this cannot
+be said for J.
+
+For a start, consider this expression with
+functions and arguments in Pascal:
+
+<pre>
+	a(b, c(d, e));
+</pre>
+
+and the corresponding line in J:
+
+<pre>
+	b a d c e
+</pre>
+
+The additional syntactical overhead in Pascal an essential help
+to tell functions from variable arguments already on formal grounds.
+In J, a mere "b a d c e" alone tells us nothing.  We have to do some
+research to discern a function name from a data name, and only then
+we start to sort out the syntactical structure.  Any static analysis
+is finally completely swarted by the possibility to have "d" above
+merrily change between being bound to a noun or to a verb.  Hence
+we cannot even resolve the monad/dyad ambiguity of "c" statically.

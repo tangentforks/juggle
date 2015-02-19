@@ -1,0 +1,235 @@
+<html>
+<head>
+<title>Controlling</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="libraries.htm">&gt&gt;</a>&nbsp;
+<a href="status_bar.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Controlling the Session Manager</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+A J program can use the Window Driver <code>wd</code> to access some aspects of the Session Manager, such as the Tools menu document windows. The names of Window Driver commands specific to the session manager start with the letters <code>sm</code>.
+
+<P>
+<B>Tools Menu</B><br>
+You can add your own menu items to the Tools menu using <code>smsetcmd</code>. These also define the function keys. Your menu items can be accessed either by selecting the item directly from the Tools menu, or by pressing the corresponding function key. Function keys F2-F9 are available for this purpose.
+
+<P>
+The form is:
+
+<pre>
+   wd 'smsetcmd num type name sentence;'
+</pre>
+
+<P>
+where:
+<p>
+<li><code>num</code> corresponds to the function key being defined.
+<p><li><code>type</code> is one of :<br>
+0 = remove definition<br>
+1 = add definition, when invoked displays the sentence being run.<br>
+2 = add definition, when invoked does not display the sentence being run.
+<p><li><code>name</code> is the text that appears on the Tools menu
+<p><li><code>sentence</code> is the sentence that will be run when the menu item is invoked.
+
+<P>
+For example, the following will assign the sentence <code>load 'laserjet'</code> to the function key F2 and corresponding menu item LaserJet. The sentence will display when invoked:
+
+<pre>
+   wd 'smsetcmd 2 1 &quot;LaserJet&quot; &quot;load ''laserjet''&quot;;'
+</pre>
+
+
+<P>
+When you next select the Tools menu, you will see the new menu item LaserJet. It is a good idea to define a &quot;HotKey&quot; letter and include the number of the corresponding function key in the menu item. If you do this, you can also right-justify the function key name by preceding it with a <code>TAB</code>. Thus, the above command could have been entered as:
+
+<pre>
+   wd 'smsetcmd 2 1 &quot;&amp;LaserJet',TAB,'F2&quot; &quot;load ''laserjet''&quot;;'
+</pre>
+
+<P>
+The menu item will now appear as:
+
+<pre>
+   LaserJet F2
+</pre>
+
+<P>
+To remove this definition, enter:
+
+<pre>
+   wd 'smsetcmd 2 0;'
+</pre>
+
+<P>
+<B>Document Windows</B><br>
+There are several Window Driver commands to access the document windows. In most cases, you must first select the window that is to be the target of subsequent commands (this need not be the active window). To select a window, you actually select its  filename:
+<p>
+<TABLE>
+<TR><TD VALIGN="TOP" WIDTH=300>
+<pre>qsmact</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+file name of selected window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>qsmall</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+file names of all windows
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>qsmcsize</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+size of current execution window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>qsmout</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+file name of current execution window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>qsmsize</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+size of selected window (pixels)
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>qsmwh</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+size of MDI client area (pixels)
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smappend</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+appends text to selected window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smcascade</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+cascade windows
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smclose</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+close selected window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smfocus</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+activates selected window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smmove xywh</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+move and size selected window (pixels)
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smopen</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+opens selected  filename, if not already open
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smread</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+reads data from selected window
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smsave</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+saves selected window (if modified)
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smscroll n</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+scrolls selected window 
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smsetselect</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+set selected text
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smsel</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+selects window, by its filename
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smshow param</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+shows selected window, with parameters from the set:
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>
+sw_hide              sw_maximize
+sw_minimize          sw_restore
+sw_show              sw_showmaximized
+sw_showminimized     sw_showminnoactive
+sw_showna            sw_shownoactivate
+sw_shownormal</pre>
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smssetcmd n t name sentence</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+modifies Tools menu
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smtile</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+tile windows down
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smtilea</PRE>
+<TD VALIGN="TOP" WIDTH=400>
+tile windows across
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>smwrite</pre>
+<TD VALIGN="TOP" WIDTH=400>
+writes text to selected window
+</TR></table>
+
+<P>
+For example, the following will open file user\mywork.ijs for editing and make it the active window:
+
+<pre>
+   wd 'smsel &quot;user\mywork.ijs&quot;;smopen;smfocus'
+</pre>
+
+<P>
+Having opened the window, you could write some text (e.g. in the noun <code>TXT</code>) to it as follows:
+
+<pre>
+   wd 'smwrite *',TXT
+</pre>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="libraries.htm">&gt&gt;</a>&nbsp;
+<a href="status_bar.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

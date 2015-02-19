@@ -1,0 +1,1289 @@
+N Appendix - Foreign Conjunction
+T
+ The conjunction [[!:]] applies to integer scalar left
+ and right arguments to produce verbs, with the
+ exception that the case [[5!:0]] produces an adverb.
+ These verbs behave like any other verb: they may be
+ assigned names, may serve as arguments to adverbs and
+ conjunctions, and must be used with an argument even
+ though (as in [[6!:0 '']]) it may have no
+ significance.
+ Where these verbs take names as arguments, the names
+ are boxed, as in [[4!:55 'a';'bc']] to erase the names
+ [[a]] and [[bc]].
+# We may use another notation, so check this:
+ A bracketed left argument indicates that it is
+ optional.
+
+N Scripts
+F 0!:
+T
+
+N Execute
+F [x] 0!:k y
+T
+ The script [[y]] is executed according to the digits
+ (zero or one) in the 3-digit decimal representation
+ of [[k]], and the resulting execution log is appended
+ to the file named [[x]] (if specified):
+ 
+# table replaced by new layout & wording:
+ *(1st digit)*:  from file ([[0]]) or noun ([[1]]).
+ 
+ *(2nd digit)*:  stop ([[0]]) or continue ([[1]]) on
+ error.
+ 
+ *(3rd digit)*:  execution silent ([[0]]) or with
+ display ([[1]]).
+ 
+ For example, [[0!:111 abc]] executes the *(noun)*
+ *(abc)*, *(completes)*, and *(displays)*.
+ 
+ If [[y]] is [[1]], input is from the keyboard:
+ [[(<'f2') 0!:1 (1)]] files the execution log in
+ [[f2]].
+ 
+ Sessions begin with (silent, stop) execution of
+ [[0!:0<'profile.ijs']].
+
+N Tautologies
+F 0!:2 y
+T
+ The script is expected to be a sequence of tautologies;
+ [[0!:2 y]] is like [[0!:1 y]] but stops if any result
+ is other than all [[1]].
+
+N Check
+F 0!:3 y
+T
+ Like [[0!:2 y]], but produces a [[1]] or [[0]] result
+ according to whether the script passes (contains only
+ tautologies) or fails.
+
+N Files
+F 1!:
+T
+ Except as otherwise noted, a file may be specified by
+ a name (such as [[<'sub\abc.q']]) or by an integer
+ file number obtained from open
+ ([[1!:21 <'sub\abc.q']]).
+
+N Directory
+F 1!:0 y
+T
+ [[y]] is a string of the path search expression (a
+ boxed string is also accepted); the result is a
+ 5-column table of the file name, modification time,
+ size, permission, and attributes, individually boxed.
+ For example, try [[1!:0 '*.*']].  The permission and
+ attribute columns are system dependent.
+# One example per system, to make post-processors run
+# everywhere:
+ For example, in Windows:
+E
+ 1!:0 'j.exe'
+T
+ Permission is a 3-letter string indicating the read,
+ write, and execute permissions.  Attributes is a
+ 6-letter string indicating read-only, hidden, system,
+ volume label, directory, and archive.
+
+N Read
+F 1!:1 y
+T
+ [[y]] is a file name or a file number (produced by
+ [[1!:21]]); the result is a string of the file
+ contents, e.g. [[1!:1 <'abc.q']].  The following
+ values for [[y]] are also permitted:
+ 
+ [[1]]: read from the keyboard
+
+ [[2]]: (Unix only) read from standard input (stdin)
+
+N Write
+F x 1!:2 y
+T
+ [[x]] is a string of the new contents of the file;
+ [[y]] is a file name or file number (produced by
+ [[1!:21]]).  The following values for [[y]] are also
+ permitted:
+ 
+ [[2]]: screen output.
+ 
+ [[4]]: (Unix only) standard output (stdout)
+ 
+ [[5]]: (Unix only) standard error (stderr)
+
+N Append
+F x 1!:3 y
+T
+ Like [[x 1!:2 y]], but appends rather than replaces.
+
+N Size
+F 1!:4 y
+T
+
+N Create Directory
+F 1!:5 y
+T
+ [[y]] is a (boxed) directory name
+
+N Query/Set Attributes
+F [x] 1!:6 y
+T
+
+N Query/Set Permissions
+F [x] 1!:7 y
+T
+
+N Indexed Read
+F 1!:11 y
+T
+ [[y]] is a list of a boxed file name (or number) and a
+ boxed index and length.  The index may be negative.
+ If the length is elided, the read goes to the end.
+ For example:
+# Do we really want examples with such side effects
+# such as leaving files around?
+E
+ 1!:11 'abc.x';1000 20
+ f=: 1!:21 <'abc.x'
+ 1!:11 f,1000 20
+
+N Indexed Write
+F x 1!:12 y
+T
+ Like indexed read; [[x]] specifies the string to be
+ written.
+
+N File Numbers and Names
+F 1!:20 y
+T
+ A 2-column table of the open file numbers and names.
+
+N Open
+F 1!:21 y
+T
+ Open the file named [[y]], creating it if necessary;
+ result is a file number.
+
+N Close
+F 1!:22 y
+T
+ Close file named or numbered [[y]].
+ Any locks are released.
+
+N Locks
+F 1!:30 y
+T
+ A 3-column integer table of the file number, index,
+ and length of file locks.  The argument [[y]] is
+ required but ignored.
+
+N Lock
+F 1!:31 y
+T
+ [[y]] is a 3-element integer vector of the file
+ number, index, and length of the region to be locked;
+ the result is [[1]] if the request succeeded, [[0]] if
+ it did not.
+
+N Unlock
+F 1!:32 y
+T
+ [[y]] is a 3-element integer vector of the file
+ number, index, and length of the file region to be
+ unlocked.
+
+N Path
+F 1!:40 y
+T
+ The directory path of the J application executable
+ file.
+
+N Server Path
+F 1!:41 y
+T
+ The directory path of the JDLLServer j.dll file (or
+ [['']] if not JDLLServer).
+
+N Library Path
+F 1!:42 y
+T
+ The directory path of the directory where J scripts
+ are located.
+
+N Erase File/Directory
+F 1!:55 y
+T
+ For example, [[1!:55 <'careful']]
+
+N Host Interfaces
+F 2!:
+T
+
+N Host
+F 2!:0 y
+T
+ The list [[y]] is executed by the host system, and the
+ result is returned.  For example,  [[2!:0 'dir *.exe']].
+ Not available for Windows or Macintosh.
+
+N Spawn
+F 2!:1 y
+T
+ Like [[2!:0]], but yields [['']] without waiting for
+ the host to finish.  Any output is ignored.
+ For example, [[2!:1]] can be used to invoke a
+ text-editor.
+ Not available for Windows or Macintosh.
+
+N Host IO
+F 2!:2 y
+T
+ (Unix only.)
+ The host command line [[y]] is passed to [[/bin/sh]]
+ for processing, connecting to file numbers to the
+ command's standard input/output.  The result is a
+ 3-element list of the process id of the task started
+ and the file numbers associated with its standard
+ input and output.  These file numbers also appear in
+ the result of [[1!:20]].  In this case, instead of
+ appearing with a name they appear with a command line,
+ prefixed by [[>]] (standard input) or [[<]] (standard
+ output).  The files associated with the process should
+ be closed with [[1!:22]] when no longer in use.
+ See also [[2!:3]] for a verb to wait for processes to
+ complete.
+
+N Wait
+F 2!:3 y
+T
+ (Unix only.)
+ Wait for process id [[y]] to terminate.  The result is
+ the status code returned by the process.
+
+N Command line
+F 2!:4 y
+T
+ When J is used as a shell, the result of [[2!:4]] is a
+# added "the":
+ boxed list representing the command line.
+ The first element is the name of the shell script
+ itself; subsequent elements are the arguments, if any.
+
+N Getenv
+F 2!:5 y
+T
+ The value of the shell environment variable [[y]].
+ If the named variable is undefined, the result is
+ [[0]].
+
+N Terminate Session
+F 2!:55 y
+T
+ [[y]] is an integer return code.
+
+N Conversions
+F 3!:
+T
+
+N Type
+F 3!:0 y
+T
+ The internal type code of the noun [[y]], encoded as
+ follows:
+ 
+ [[1]]: boolean
+ 
+ [[2]]: literal
+ 
+ [[4]]: integer
+ 
+ [[8]]: floating point
+ 
+ [[16]]: complex
+ 
+ [[32]]: boxed
+ 
+ [[64]]: extended integer
+ 
+ [[128]]: rational
+
+N Convert to Binary Representation
+F 3!:1 y
+T
+ A string of the binary representation of a noun [[y]].
+ The result is machine dependent.
+
+N Convert from Binary/Hex Representation
+F 3!:2 y
+T
+ Inverse of [[3!:1]] and [[3!:3]].
+
+N Hex Representation
+F 3!:3 y
+ Like [[3!:1]], but the result is a literal matrix of
+ the hexadecimal representation.
+# system-dependent example:
+ For example, under Windows:
+E
+ (3!:3 x); 3!:3 x,1p1 [ x=:1 2 3 0 _1
+
+N Integer Conversion
+F 3!:4 y
+T
+ If [[ic=: 3!:4]], then
+ 
+ [[2 ic y]]: J integers to binary long integers
+ 
+ [[_2 ic y]]: binary long integers to J integers
+ 
+ [[1 ic y]]: J integers to binary short integers
+ 
+ [[_1 ic y]]: binary short integers to J integers
+ 
+ [[0 ic y]]: binary unsigned short integers to J
+ integers
+ 
+ All ranks are infinite and all inverses of [[k&ic]]
+ exist.
+
+N Floating Conversion
+F 3!:5 y
+T
+ If [[fc=: 3!:5]], then
+ 
+ [[2 fc y]]: J floats to binary doubles
+ 
+ [[_2 fc y]]: binary doubles to J floats
+ 
+ [[1 fc y]]: J floats to binary short floats
+ 
+ [[_1 fc y]]: binary short floats to J floats
+ 
+ All ranks are infinite and all inverses of [[k&fc]]
+ exist.
+
+N Names
+F 4!:
+T
+
+N Name Class
+F 4!:0 y
+T
+ Class of boxed name:
+ 
+ [[_2]]: invalid
+ 
+ [[_1]]: unused
+ 
+ [[0]]: noun
+ 
+ [[1]]: adverb
+ 
+ [[2]]: conjunction
+ 
+ [[3]]: verb
+ 
+ [[6]]: locale
+
+N Name List
+F [x] 4!:1 y
+T
+ Result is a vector of boxed names belonging to the
+ classes [[0]] to [[3]] and [[6]], as defined under
+ [[4!:0]] above.  The optional left argument specifies
+ the initial letters of names to be included.
+
+N Scripts
+F 4!:3 y
+T
+ List of script names that have been invoked using
+ [[0!:]].
+
+N Script Index
+F 4!:4 y
+T
+ Index (in [[4!:3 '']]) of the script that defined
+ [[y]], or [[_1]] if [[y]] was not defined from a
+ script.
+
+N Names Changed
+F 4!:5 y
+T
+ [[4!:5]0]] turns off data collection; [[4!:5]1]] turns
+ it on and produces a list of global names assigned
+ since the last execution of [[4!:5]].
+
+N Erase
+F 4!:55 y
+T
+
+N Erase All
+F 4!:56 y
+T
+ Erase all names and all locales.
+
+N Representation
+F 5!:
+T
+H
+ For all but the noun case, the default displays
+ established by [[9!:3]] provide convenient
+ experimentation with all representations.  For
+ example, [[9!:3 (6 4 2)]] specifies that the paren,
+ tree, and boxed representations are all to be
+ displayed.
+
+N Define
+F x 5!:0
+T
+ [[5!:0]] is an adverb and provides a complete inverse
+ of [[5!:1]].  That is, [[(5!:1 <'f') 5!:0]] equals
+ [[f]] for all [[f]].
+
+N Atomic
+F 5!:1 y
+T
+ The atomic representation of the entity named [[y]]
+ and is used in gerunds.  The result is a single box
+ containing a character list of the symbol (if
+ primitive) or a two element boxed list of the symbol
+ and atomic representation of the arguments (if not
+ primitive).  "Symbol-less" entities are assigned the
+ following encodings:
+ 
+ 0: noun
+ 
+ 2: hook
+ 
+ 3: fork
+ 
+ 4: bonded conjunction
+ 
+ 5: bident
+ 
+ 6: trident
+ 
+ 7: defined operator (pro-adverb or pro-conjunction)
+ 
+ For example:
+E
+# "capital error" in printed edition:
+ plus=: +
+ 5!:1 <'plus'
+ noun=: 3 1 4 1 5 9
+ 5!:1 <'noun'
+ increment=: 1&+
+ 5!:1 <'increment'
+
+N Boxed
+F 5!:2 y
+T
+E
+ nub=: (i.@# = i.~) # ]
+ 5!:2 <'nub'
+
+# What became of 5!:3?
+N Tree
+F 5!:4 y
+T
+ A literal matrix that represents the named entity in
+ tree form.  Thus:
+E
+ nub=: (i.@# = i.~) # ]
+ 5!:4 <'nub'
+
+N Linear
+F 5!:5 y
+T
+ The linear representation is a string which, when
+ interpreted, produces the named object.
+ For example:
+E
+ nub=: (i.@# = i.~) # ]
+ 5!:5 <'nub'
+ 5!:5 <'a' [ a=: o. i. 3 4
+ 
+ lr=: 3 : '5!:5 <''y.'''
+ lr 10000$'x'
+
+N Paren
+F 5!:6 y
+T
+ Like the linear representation, but is fully
+ parenthesized.
+E
+ nub=: (i.@# = i.~) # ]
+ 5!:6 <'nub'
+
+N Time
+F 6!:
+T
+
+N Current
+F 6!:0 y
+T
+ The current time in order YMDHMS (with fractional
+ seconds):
+E
+ 6!:0''
+
+N Session
+F 6!:1 y
+T
+ Seconds since start of session.
+
+N Execute
+F [x] 6!:2 y
+T
+ Seconds to execute sentence [[y]] (mean of [[x]] times
+ with default once).  For example:
+E
+ a=:?50 50?100
+ 6!:2 '%.a'
+ 10 (6!:2) '%.a'
+ ts=: 6!:2 , 7!:2@]		NB. Time and space
+ ts '%.a'
+
+N Delay
+F 6!:3 y
+T
+ Delay execution for [[y]] seconds.
+ For example, [[6!:3 (2.5)]]
+
+N Space
+F 7!:
+T
+H
+ See also [[9!:20]] and [[9!:21]].
+
+N Current
+F 7!:0 y
+T
+ Space currently in use.
+
+N Session
+F 7!:1 y
+T
+ Total space used since start of session.
+
+N Execute
+F 7!:2 y
+T
+ Space required to execute sentence [[y]].
+ For example:
+E
+ 7!:2 ',/x' [x=: 3000 2 5$'kerygmatic'
+
+N Free Space
+F 7!:3 y
+T
+ Information on the state of the J memory manager,
+ currently a 2-column table of the block sizes and
+ number of free blocks for each size.  The definition
+ of the result of [[7!:3]], as well as the availability
+ of [[7!:3]] itself, are subject to change.
+ For example:
+E
+ 7!:3 ''
+
+N Release Space
+F 7!:4 y
+T
+ Release unused memory from the J memory manager.
+ Use of 7!:4 can have detrimental performance effects
+ and such use is expected to be required only rarely.
+ The definition of the effects of [[7!:4]], as well as
+ the availability of [[7!:4]] itself, are subject to
+ change.
+
+N Global Parameters
+F 9!:
+T
+ [[9!:(2*n)]] queries a parameter and [[9!:(1+2*n)]]
+ sets it.
+
+N Random Seed
+F 9!:0 y  9!:1 y
+T
+ Queries and sets the random seed used in pseudo-random
+# bullet replaced by /:
+ number generation in the verb [[?]] (Roll/Deal).
+ The initial value is [[7^5]].
+
+N Default Displays
+F 9!:2 y  9!:3 y
+T
+ The representation(s) to be used for default displays
+ of non-nouns.  The representations are defined as in
+ [[5!:n]]: 1 atomic, 2 boxed, 4 tree, 5 linear, 6
+ paren.
+
+N Input Prompt
+F 9!:4 y  9!:5 y
+T
+ The initial value is [['   ']] (three spaces).
+# How about documenting or removing the restriction
+# that prompts may only contain spaces?
+
+N Box drawing characters
+F 9!:6 y  9!:7 y
+T
+ An eleven-column table whose leading row is used in
+ default display (and in the monad format [[":]]).
+ Any row may be invoked by the index [[j]] in the dyad
+ [[(h,v,j)":x]], where [[h]] and [[v]] control the
+ horizontal and vertical positions within the boxes.
+ 
+# layout change to remove commented output
+ The initial settings of six rows are:
+ normal, 7-bit ASCII, spaces, normal less |-,
+ only |-, dots.
+E
+ 9!:6 ''
+
+N Error Messages
+F 9!:8 y  9!:9 y
+T
+ For example, replace English messages (default) by
+ French.
+
+N Print Precision
+F 9!:10 y  9!:11 y
+T
+ The print precision in default output (initially 6).
+ The precision in particular cases can be set using
+ fit, thus: [[":!.p]]
+
+N System Type
+F 9!:12 y
+T
+# This list is outdated and wrong.
+ [[0]] PC; [[1]] PC386; [[2]] Windows; [[3]] Macintosh;
+ [[4]] Unix; [[5]] OS2; [[6]] Windows32 (Windows95 or
+ Windows NT); [[_1]] other
+
+N J Version
+F 9!:14 y
+T
+ For example:
+E
+ 9!:14''
+
+N Boxed Display positioning
+F 9!:16 y  9!:17 y
+T
+ [[y]] is [[r,c]] specifying row and column
+ positioning: 0 (top, left); 1 (center); 2 (bottom,
+ right)
+
+N Comparison Tolerance
+F 9!:18 y  9!:19 y
+T
+ Queries and sets the comparison tolerance.  See Equal
+ ([[=]]).  The tolerance in particular cases can be set
+ using fit, thus: [[=!.t]].
+
+N Memory Limit
+F 9!:20 y  9!:21 y
+T
+ An upper bound on the size of any one memory
+ allocation.  The memory limit is initially infinity.
+# please document the domain!
+
+N Security Level
+F 9!:24 y  9!:25 y
+T
+ The security level is either [[0]] or [[1]].  It is
+ initially [[0]], and may be set to [[1]] (and can not
+ be reset to [[0]]).  When the security level is [[1]],
+ executing Window driver commands and certain foreigns
+ ([[!:]]) that can alter the external state cause a
+ "security violation" error to be signaled.  The
+ following foreigns are prohibited: dyads [[0!:n]],
+ [[1!:n]] except [[1!:40]], [[1!:41]], and [[1!:42]],
+ [[2!:n]], [[8!:n]], [[14!:n]], [[15!:n]], and
+ [[16!:n]].
+
+N Window Driver
+F 11!:
+T
+
+N Window Driver
+F 11!:0 y
+T
+ See help files.
+
+N Debug
+F 13!:
+T
+ See Section II.J and the script
+ [[system\main\debug.ijs]].
+
+N Reset
+F 13!:0 y
+T
+ Reset stack and disable ([[0]]) or enable ([[1]])
+ suspension.
+# The general hint should go up to the section head.
+ Nearly all the facilities in the [[13!:]]
+ family require that suspension is enabled;  all the
+ examples below that suspension is enabled:
+ [[13!:0 ]1]]
+
+N Display Stack
+F 13!:1 y
+T
+ See also [[13!:18]].
+
+N Query Stops
+F 13!:2 y
+T
+
+N Set Stops
+F 13!:3 y
+T
+ Explicit stops are requested by name and line number
+ in the argument [[y]], which contains zero or more
+ stop specifications separated by semicolons.  Each
+ stop specification indicates a name, line numbers (if
+ any) for the monadic case, a colon, and line numbers
+ (if any) for the dyadic case.  An asterisk indicates
+ "all", and a tilde indicates "except for".
+ For example:
+E
+ 13!:3 'f 0'		NB. f monadic line 0
+ 13!:3 'f :2'		NB. f dyadic line 2
+ 13!:3 'f 0 2:1'	NB. f monadic 0 2, dyadic 1
+ 13!:3 'f 0; g :*'	NB. f monadic 0 and g all dyadic
+ NB. All monadic and dyadic whose names begin with a,
+ NB. except for any beginning with ab.
+ 
+ 13!:3 'a* *:*; ~ab* *:*'
+ 
+ f=: 3 : 0
+   10
+   11
+ :
+   20
+ )
+ 13!:3 'f 1:0'		NB. Stop at f monad line 2, dyad line 2
+ f ''
+ 13!:0 ]1		NB. Clear stack and enable suspension
+
+N Run Again
+F 13!:4 y
+T
+ Resume execution at the current line.
+ For example:
+E
+ g=: 3 : ('t=. 2*y.'; '1+t')
+ 3 4,g 'abc'
+ NB. six-space indent indicates suspension.
+ NB. check the local value of y., redefine it,
+ NB. and run again:
+ y.
+ y.=. 25
+ 13!:4 ''
+
+N Run Next
+F 13!:5 y
+T
+ Resume execution at the next line.  For example:
+E
+ h=: 3 : ('t=. 2 3*y.'; '1+t')
+ 3 4,h 5 6 7
+ NB. six-space indent indicates suspension.
+ NB. Redefine and run next:
+ t=. 99
+ 13!:5 ''
+
+N Exit and Return
+F 13!:6 y
+T
+ Exit the verb/adverb/conjunction at the top of the
+ stack, returning result [[y]].
+ For example:
+E
+ h=: 3 : ('t=. 2 3*y.'; '1+t')
+ 3 4,g 'abc'
+ 13!:6 [9		NB. Exit g with result 9
+ h=: 2&*
+ 3 4,h 'abc'
+ 13!:6 ]97		NB. Exit h with result 97
+
+N Continue
+F 13!:7 y
+T
+ Resume execution at line number [[y]].
+
+N Signal
+F [x] 13!:8 y
+T
+ Signal error number [[{.,y]] (see [[9!:8]]) with
+ optional text [[x]].
+
+N Rerun
+F [x] 13!:9 y
+T
+ Resume execution by rerunning the
+ verb/adverb/conjunction on the top of stack with the
+ specified arguments.  Thus:
+E
+ plus=: +
+ plus/'abc'
+ 13!:13''	NB. See below re interpretation of stack
+ 2 (13!:9) 3	NB. Rerun, getting another error
+ 13!:13 ''	NB. Note left and right args ('a' and 5)
+ 1 (13!:9) 5	NB. Rerun
+
+N Rerun Execute
+F [x] 13!:10 y
+T
+ Rerun with specified executed arguments.
+
+N Error Number
+F 13!:11 y
+T
+ Last error number.
+
+N Error Message
+F 13!:12 y
+T
+ Last Error Message
+
+N Stack
+F 13!:13 y
+T
+ If suspension is enabled, [[13!:13 '']] produces an
+ 8-column matrix of information on the
+ verbs/adverbs/conjunctions on the stack:
+ 
+ 0: name
+ 
+ 1: error number or 0 if not in error
+ 
+ 2: line number
+ 
+ 3: name class: 3, 1, or 2 denoting verb, adverb, or
+ conjunction
+ 
+ 4: linear representation of the entity
+ 
+ 5: the name of the defining script
+ 
+ 6: argument(s) individually boxed
+ 
+ 7: locals as a 2-column matrix of name and value
+ 
+ In the last two columns, nouns are included
+ _(per se)_, and verb, adverb, and conjunction are
+ presented by linear forms.  For example:
+E
+ mean=:sum % #
+ sum=: plus/
+ plus=: 4 : 'x.+y.'
+ mean 'abcd'
+ 13!:13 ''	NB. Note tacit definitions have no locals 
+
+N Query Latent Expression
+F 13!:14 y
+T
+
+N Set Latent Expression
+F 13!:15 y
+T
+ The latent expression is executed when execution is
+ about to be suspended; error messages are suppressed;
+ any continuation must be programmed in the latent
+ expression.
+
+N Trace
+F 13!:16 y
+T
+ The conjunction [[13!:16]] controls tracing.
+ 
+ [[u 13!:16 n]]
+ 
+ [[(r,c) 13!:16 n]]
+ 
+ The right argument [[n]] specifies the maximum level
+ of function call to be traced: [[0]] means no trace;
+ [[1]] means immediate execution only; [[_]] means
+ trace everything; etc.  The left argument can be a
+ verb to be used for displaying arrays in the trace
+ (and is not itself traced during tracing).  It may
+ also be integers [[r,c]], whence the system default
+ display is used, clipped to [[r]] rows and [[c]]
+ columns.  (Two numbers suffice as clipping parameters
+ because the output of an n-dimensional array is
+ 2-dimensional on the screen.)  Finally, it may be the
+ empty vector, whence the current trace level and
+ display are shown.  The result is [[i. 0 0]].
+ For example:
+E
+ trace=:13!:16
+ lr   =: 3 : '5!:5<''y.'''	NB. Linear display of an array
+ _ _ trace _	NB. Trace everything, display everything
+ 9 trace 1	NB. Trace immediate execution only; display maximum of 9 rows
+ ": trace n=:3	NB. Same as  _ _ trace n
+ lr trace n	NB. Linear display of trace output
+T
+ Tracing provide information on results (*within*) a
+ line.  The action labels, "0 monad", "1 monad", "9
+ paren", etc., are from the parse table in Section
+ II.E, and reflect the actions of the interpreter with
+ high fidelity.
+E
+ _ _ (13!:16) _		NB. Trace everything, display everything
+ i.4
+ (i.2 4) +/ .* *: 5 * 10 20 30 40
+
+N Query
+F 13!:17 y
+T
+ Is suspension enabled?  (Set by [[13!:0]])
+
+N Stack Text
+F 13!:18 y
+T
+ Like [[13!:1]], but gives the stack as a literal
+ matrix.
+
+N Data Driver
+F 14!:
+T
+ See help files and te script [[system\main\dd.ijs]].
+
+N Connect
+F 14!:0 y
+T
+
+N Disconnect
+F 14!:1 y
+T
+
+N SQL
+F x 14!:2 y
+T
+
+N Fetch
+F 14!:3 y
+T
+
+N Columns
+F x 14!:4 y
+T
+
+N Column Names
+F 14!:5 y
+T
+
+N Source Names
+F 14!:6 y
+T
+
+N Select
+F x 14!:7 y
+T
+
+N End
+F 14!:8 y
+T
+
+N Error
+F 14!:9 y
+T
+
+N Begin Transaction
+F 14!:10 y
+T
+
+N Commit Transaction
+F 14!:11 y
+T
+
+N Rollback Transaction
+F 14!:12 y
+T
+
+N Table
+F 14!:13 y
+T
+
+N Fetch Columns
+F 14!:14 y
+T
+
+N Row Count
+F 14!:15 y
+T
+
+N Dynamic Link Library
+F 15!:
+T
+ See the help files and the script
+ [[system\main\dll.ijs]]
+
+N Call DLL function
+F x 15!:0 y
+T
+
+N Memory Read
+F 15!:1 y
+T
+
+N Memory Write
+F x 15!:2 y
+T
+
+N Allocate Memory
+F 15!:3 y
+T
+
+N Release Memory
+F 15!:4 y
+T
+
+N Sockets
+F 16!:
+T
+ See help files and the script
+ [[system\main\socket.ijs]].
+
+N Socket
+F 16!:0 y
+T
+
+N Receive
+F 16!:1 y
+T
+
+N Send
+F x 16!:2 y
+T
+
+N Receive from
+F 16!:3 y
+T
+
+N Send to
+F x 16!:4 y
+T
+
+N Close
+F 16!:5 y
+T
+
+N Connect
+F 16!:6 y
+T
+
+N Bind
+F 16!:7 y
+T
+
+N Listen
+F 16!:8 y
+T
+
+N Accept
+F 16!:9 y
+T
+
+N Select
+F 16!:10 y
+T
+
+N Get Options
+F 16!:11 y
+T
+
+N Set Options
+F 16!:12 y
+T
+
+N IO Control
+F 16!:13 y
+T
+
+N Get Host Name
+F 16!:14 y
+T
+
+N Get Peer Name
+F 16!:15 y
+T
+
+N Get Socket Name
+F 16!:16 y
+T
+
+N Get Host by Name
+F 16!:17 y
+T
+
+N Get Host by Address
+F 16!:18 y
+T
+
+N Get Sockets
+F 16!:19 y
+T
+
+N Async
+F 16!:20 y
+T
+
+N Clean up
+F 16!:21 y
+T
+
+N Regular Expression
+F 17!:
+T
+ See help files and the script
+ [[system\main\regex.ijs]].
+
+N Match
+F x 17!:0 y
+T
+ Find first match.
+
+N Matches
+F x 17!:1 y
+T
+ Find all matches.
+
+N Compile
+F 17!:2 y
+T
+ Compile pattern, returning handle.
+
+N Free
+F 17!:3 y
+T
+ Release compiled pattern.
+
+N Handles
+F 17!:4 y
+T
+ All pattern handles.
+
+N Info
+F 17!:5 y
+T
+ Number of sub-expressions and pattern.
+
+N Error
+F 17!:6 y
+T
+ Error text.
+
+N Locales
+F 18!:
+T
+ See also Section II.I and the "locales" lab under menu
+ item "Studio|Labs...|Locales".
+
+N Name Class
+F 18!:0 y
+T
+ Give the name class of the locale named [[y]], with
+ [[0]] for named, [[1]] for numbered, [[_1]] for
+ non-existent, and [[_2]] for illegal name.  Thus:
+E
+# watch out: example assumes std lib loaded:
+ 18!:0 ;:'base j z 45bad asdf 0'
+
+N Name List
+F [x] 18!: y
+T
+ Give the names of named (0) or numbered (1) locales.
+ The optional left argument specifies the initial
+ letters of names.  Thus:
+E
+ 18!:1 [0	NB. All named locales
+ asdf_bb_=: 'sesquipedalian'
+ 'jb' 18!:1 [0	NB. All named locales beginning in j or b
+ 18!:3 ''	NB. Create a numbered locale
+ 18!:1 i.2	NB. All named and numbered locales
+
+N Path
+F [x] 18!:2 y
+T
+ The monad gives the (search) path for locale [[y]];
+ the dyad sets the path for locale [[y]] to [[x]].
+ The path of a locale is initially [[,<,'z']], except
+ that locale [[z]] has an empty path initially.  If a
+ name sought in locale [[f]] is not found in [[f]],
+ then it is sought in the locales in the path of [[f]]
+ (but not searching in *(their)* paths).  For example:
+E
+ (;:'a cd b') 18!:2 <'f'
+ 18!:2 <'f'
+T
+ The path of locale [[f]] is set to [[a]], [[cd]], and
+ [[b]].
+
+N Create
+F 18!:3 y
+T
+ Create a previously unused numbered locale and return
+ its name.
+E
+ 18!:3 ''	NB. Create a numbered locale
+# typo in printed edition
+ 18!:3 ''	NB. Create another one
+ 18!:1 [1	NB. Names of numbered locales
+
+N Switch Current
+F 18!:4 y
+T
+ Switch the current locale to [[y]].  Initially the
+ current locale is [[base]].
+
+N Current
+F 18!:5 y
+T
+ The name of the current locale.  For example:
+E
+ 18!:5 ''
+
+N Erase
+F 18!:55 y
+T
+ Erase locale [[y]] (once it finishes execution).  A
+ numbered locale, once erased, may not be reused; a
+ named locale may be reused at will.
+
+N Numerical Functions
+F 128!:
+T
+
+N QR
+F 128!:0 y
+T
+ Produces the QR decomposition of a complex matrix
+ [[y]] (in the domain of matrix inverse [[%.]]), an
+ Hermitian matrix and a square upper triangular matrix,
+ individually boxed.
+E
+ x=: +/ . *		NB. Matrix product
+ A=: j./?. 2 7 4$10	NB. A random complex matrix
+ $A
+ 'Q R'=: 128!:0 A
+ $Q
+ $R
+ >./|,(=i.4) - (+|:Q) x Q	NB. Q is Hermitian
+ 0~:R				NB. Q is upper triangular
+ A -: Q x R
+
+N R Inv
+F 128!:1 y
+T
+ Invert square upper triangular matrix.
+
+# vim:tw=55:ai:ic:inf

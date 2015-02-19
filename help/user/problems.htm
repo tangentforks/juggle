@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Problems</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="projects.htm">&gt&gt;</a>&nbsp;
+<a href="tech_notes.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Problems</h1>
+<TR><TD colspan="2"> 
+
+<P>Outstanding problems include:</P>
+
+<UL>
+  <LI><P>Stops are ignored on explicit adverbs and conjunctions which have both the x. and m. locals.</LI>
+
+  <LI><P>Local explicit definitions are treated as character strings.</LI>
+
+  <LI><P>If the debugger is started after a suspension, it does not know the locale where the definition is suspended. As a result, global variables in that locale may not be displayed correctly.</LI>
+
+  <LI><P>If the error is stack full, it is possible that there is no room for a stack entry for the dbr call needed to reset the stack. You can usually recover from this without shutting down J by using 13!:0 instead of dbr as this does not require a new stack entry. That is:</LI>
+
+  <PRE>   13!:0 [ 0 NB. clear stack that has hit the limit</PRE>
+
+  <LI><P>Debug commands such as single step and single step into require additional debug primitives to ensure that they work correctly. At the moment, they are simulated by first changing the stop settings, then running the program, and then restoring the previous stop settings when the Debug window regains control. This works as long as the program being debugged does not itself change stop settings; if it does, then the changes made would be discarded when the Debug window regains control.</LI>
+</UL>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="projects.htm">&gt&gt;</a>&nbsp;
+<a href="tech_notes.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

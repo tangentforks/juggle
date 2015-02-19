@@ -1,0 +1,13 @@
+c2j is a tool to deal with C structures (and aggregate data types
+in general) in J programs.  The approach here uses an extendable
+hierarchy of type definitions.
+
+This material was first released in the "Vector" Volume 16, No. 2:
+Martin Neitzel:  "A Very Simple Structure Compiler for J"
+
+The c2j.nw file is a noweb file containing both the code and the
+documentation.  You have to use "noweb" to create both derived
+outputs.  Find out more about using J with noweb in the j-noweb
+directory next to this one.
+
+						Martin Neitzel

@@ -1,0 +1,432 @@
+<html>
+<head>
+<title>Release Notes - J 4.06 for Windows</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="welunix.htm">&gt&gt;</a>&nbsp;
+<a href="title.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>J 4.06 for Windows Release Highlights</h1>
+<TR><TD colspan="2"> 
+
+<P>Whether you are new to J or an old hand, it is a good
+idea to start by exploring the menu. Experiment with all
+the commands (status bar gives a brief description).</P>
+
+<P><B>Help</B></P>
+<P>Browse the help to get an idea of what is there and how to navigate. Look at the J Primer if you are new to J. Use context-sensitive help and F1 shortcuts.</P>
+<P><B>Studio</B></P>
+<P>Demos are example applications. Run them to get an idea of what J can do. The code is all there, so later on you can look to see exactly how it is done. Run the isigraph demo to see some 2D graphics. Run the OpenGL demo to see 3D graphics (try the movements documented in Help).</P>
+<P>Labs can teach you all kinds of things. Labs are a series of steps where the computer gives you the next piece of information, shows you examples, and then lets you experiment before proceeding.</P>
+<P> Author helps you create your own labs.</P>
+<P><B>Tools</B></P>
+<P>Execute your J programs (customized with Edit|Configure).</P>
+<P><B>Run</B></P>
+<P>Commands that load definitions from files and run services such as Project Manager and Debug.</P>
+
+<P><B>Edit</B></P>
+Find   -   Find and replace in a file.<br>
+Find in Files   -   Find things in your files and projects.<br>
+Configure   -   Customize your J system.<br>
+<P><B>File</B></P>
+<P>New Class   -   Wizard for creating a new class (OOP is easy in J).</P>
+
+<P>Many menu commands run J applications. Find, Project Manager, and others are just J applications providing an interactive development environment.</P>
+<P><B>License - prokey</B></P>
+<P>J is free on all platforms! You can download, redistribute, and run J for free.
+There is a fee for a professional key (prokey) that enables features required for
+commercial development of large systems.
+</P>
+
+<P>A prokey enables: debug suspension, performance monitor, and ijl encoding. The prokey is set in the Edit|Configure|License (query/set 9!:30 and 9!:31). 13!:0[1 (debug suspension) or 6!:10 (performance monitor) or 3!:6 (ijl encode) fail with domain error if a prokey is not set.</P>
+
+<P>A prokey is licensed for a single user on a single system. <BR>
+</P>
+
+<H1>J 4.06 Release</H1>
+Data displayed with boxes is an important J feature. Previous versions of
+J for Windows, by default, used oem fonts with linedraw characters for
+boxes with solid lines. The alternative is <tt>+-|</tt> ascii characters.
+Linedraw boxes are pretty, but they are also a never ending nuisance.
+Oem fonts aren't ansi or unicode and are discouraged by Microsoft and other vendors.
+They aren't standard in Unix and J for Unix uses <tt>+-|</tt>.
+They are a problem in email. In theory html can handle oem fonts,
+but across platforms and browsers the reality is a nightmare.
+Jsoftware has decided that easy html documentation, email communication,
+and standard usage across platforms outweighs pretty boxes.
+If you want them for your own use, you can still have them.
+<br><br>
+Jsoftware favors ascii boxes and the default in this release is ansi "Courier New".
+<BR><BR>
+The online J books User, Primer, Phrases, Dictionary, and Release Notes are in html.
+Select menu Help|Help to get an overview of the J Help System and the integrated index.
+<BR><BR>
+A preliminary version of 'Learning J' by Roger Stokes and Ken Iverson's 'Computers 
+and Mathematical Notation' are also available through the J Help System.
+<BR><BR>
+A new lab 'A J Introduction' by Ken Iverson is in the Languages category. 
+There are five other new labs by Ken in the Live Texts category.
+<BR><BR>
+For details on new features in this release see the Release Notes in the J Help System.
+The following are a few topics covered in those notes.
+<BR><BR>
+By default, explicit definitions keep a copy of the original text with
+whitespace and comments. This is convenient for casual use and development, but can
+be a significant and unnecessary space overhead in large production systems.
+Foreign<tt> 9!:41 </tt>can change the default so that this space is not used.
+Production systems should startup with<tt> 9!:41[0 </tt>.
+<BR><BR>
+Locales are more efficient and limits have been removed.
+<BR><BR>
+Foreigns<tt> 9!:36 </tt>and<tt> 9!:37 </tt>provide output formatting control. Adjust output formatting with 
+Edit|Configure|Parameters. 
+<BR><BR>
+Dll callbacks are supported. See lab: DLL: Callback.
+<BR><BR>
+Symbol and unicode, significant new data types, have been added.
+<BR><BR>
+<tt>try. </tt>control structure has been extended and a new control word<tt> throw. </tt>has been added.
+<BR><BR>
+<tt>assert. </tt>is a new control word.
+<BR><BR>
+
+<H1>J 4.05 Release</H1>
+<P>The prokey license was introduced in J 4.05</p>
+<P><B>business</B></P>
+<P>We have consolidated under the name Jsoftware. Iverson Software Inc. has changed its name to Jsoftware Inc. and does the marketing and sales activities previously run by Strand Software (the Strand staff now work directly with Jsoftware).</P>
+
+<P><B>documentation</B></P>
+<P>The Help for foreigns, wd commands, and runtime have not been updated. Use them in conjunction with the latest information here.</P>
+ 
+<P><B>html help</B></P>
+<P>Help menu item HTML Help runs your browser on documents for new J features. Of particular interest are: Performance Monitor, Mapped Boxed Arrays, Special Code, and Execution Time Limit.</P>
+
+<P><B>labs</B></P>
+<P>Ken Iverson's Lipshutz lab is a companion to the Seymore Lipshutz "Linear Algebra" of Schaum's Outline Series. Chris Burke's Performance Monitor Utilities lab is an overview of the new performance monitor.</P>
+ 
+<P><B>undo/cut/copy/paste (ctrl+zxcv)</B></P>
+<P>The old Win31 shortcuts (alt+backspace/shift+delete/ctrl+insert/shift+insert) are no longer supported in the session manager. This was necessary to simplify resolving conflicts between shortcuts for the session manager, forms, controls, and OCX.</P>
+
+<P><B>debug</B></P>
+<P>dbr 2 ( 13!:0[2 ) does not require a prokey and records information before clearing the stack. The debug latent expression ( 13!:15 ) executes after the stack is cleared and debug is reset. See HTML Help for more information. The stack information is recorded as:</P>
+   <P align="center"><CODE>STACK_ERROR_INFO_base_=: (13!:11;13!:12;13!:13;18!:5) ''</CODE></P>
+
+<P><B>jfiles</B></P>
+<P>A change in 3!:1 means that jfiles written with J version 405 cannot be read by earlier versions. J405 can read jfiles created by earlier versions. The change in 3!:1 supports writing and reading binaries in standard and reverse byte order. For more information, see Help|HTML Help|3!:1, 3!:2, and 3!:3 Extended.</P>
+
+<P><B>regex and socket</B></P>
+<P>The regex (16!:x) and socket foreigns (17!:x) have been decommitted. regex.ijs and socket.ijs scripts now use dll call (cd) to provide the same services. This is similar to how we previously decommitted the data driver (14!:x) foreigns. This results in a smaller, more portable J engine and in more open systems where you have full access to the scripts and underlying system services.</P>
+
+<P>Socket verbs return the result code linked with the result, rather than catenated as in previous releases.</P>
+ 
+<P><B>command line</B></P>
+<P>The form is:   [filename]  [ /command [parameter] ]  ..</P>
+
+<P>Standard profile (system\extras\config\profile.ijs) is run unless there is a /jnoprofile command.</P>
+
+<P>Filename is run after the standard profile.</P>
+
+<P>There are 3 types of commands: windows, J startup, and application.</P>
+
+<P><B>windows:</B></P>
+<P>   /register (or /regserver) - register JEXEServer and JDLLServer<BR>
+
+   /unregister (or /unregsever) - unregister JEXEServer and JDLLServer<BR>
+
+   /embedding - start as Automation server for COM client</P>
+
+<P><B>J startup (start with j, as will new ones)</B></P>
+<P>   /jnoprofile - start without standard profile<BR>
+   /jtemp path - temp directory<BR>
+   /jddename servername<BR>
+   /jrt - runtime application (see runtime section)</P>
+
+<P>Application commands can be used in the application (wd'qmdline').</P>
+
+<P><B>Examples:</B></P>
+<P>profile (show session)<BR>
+c:\j.exe<BR>
+profile (show session),  run foo.ijs<BR>
+c:\j.exe user\foo.ijs<BR>
+profile (hide session), run foo.ijs (simple runtime app)<BR>
+c:\j.exe user\foo.ijs /jrt<BR>
+no profile, run foo.ijs (production runtime app)<BR>
+c:\j.exe app.ijs /noprofile /jrt </P>
+
+<P><B>window driver</B></P>
+<P>wd'...' 65k argument limit removed and 65k result limit is now 500k.</P>
+
+<P>makejr - decommitted (see runtime section)</P>
+<P>makejl - decommitted (see runtime section)</P>
+
+picon filename n - set form icon with icon n from file (exe, dll, or ico file)       wd'picon system\examples\data\jy.ico 0'
+
+qrt - decommitted (see runtime section)
+
+smicon filename n - set sm icon (see picon)
+
+<P><B>runtime</B></P>
+<P>The J license is free and you can distribute runtime applications that include as much of the J system as required.</P>
+ 
+<P>Simple runtime applications can use the standard profile. Production runtime systems should be built with the Project Manager.</P>
+
+<P>/rt parameter is decommited. You have to rework old runtime applications.</P>
+ 
+<P>/jrt parameter causes the standard profile to not do an smmfshow command to show the session manager. The runtime app can have the standard profile, but not show the session manager. If there is an error and the session manager is invisible, J terminates  with a message box saying there was an error. If J finishes execution and the session manager is invisible and  there are no forms, then J terminates.</P>
+ 
+<P>wd'picon ...' sets form icons for the application.</P>
+
+<P>wd commands makeijr and makeijl are desupported. ijr files are no longer supported. ijl files are created by 3!:6 .</P>
+
+<P>system\examples\demo\runtime.ijs is a simple runtime application. Open and experiment with the script. Run it from an icon or Start|Run with command line:</P>
+<P align="center"><CODE>c:\j405\j.exe   system\examples\demo\runtime.ijs   /jrt</CODE></P>
+
+<P>system\examples\runtime\bldrt.bat creates a production runtime application setup and distribution. Study the bldrt.bat file and run it to create a distributable J runtime application.</P>
+
+<P><B>ocx controls</B></P>
+<P>OCX controls with ids with blanks are supported by the form editor with quotes. For example: "ocx:rmocx.RealPlayer G2 Control.1" </P>
+
+<P>OLE command picture and object arguments start with a !. For example:</P>
+   <P align="center"><CODE>wd'olemethod images listimages add ,, !picture:abc.bmp'</CODE></P>
+
+<P>If the argument contains blanks, it must be quoted, but then it can't be distinguished from quoted data. A ! by itself is an escape so that the next parameter can be a quoted picture or object argument. For example:</P>
+   <P align="center"><CODE>wd'olemethod ... ,, ! "!picture:my abc file.bmp"</CODE></P>'
+
+<P><B>addons (LAPACK and FFTW)</B></P>
+<P>J addons are installed in the J addon directory. Old addon  downloads won't install in the proper place for J4.05 and new downloads won't install in the proper place for previous releases.</P>
+ 
+<P><B>COM</B></P>
+<P>The j.exe and j.dll tlb files are now included as resources and are no longer separate files. The J installation registers both the JEXEServer and JDLLServer COM objects. Use jreg.bat to register or unregister.</P>
+
+<H1>J 4.04 Release</H1>
+
+<P>Release 4.04 has sparse arrays, changes in J COM objects, and OCX license support.</P>
+
+<P><B>Sparse arrays</B></P>
+<P>Sparse arrays provide a compact and efficient storage form for very large arrays where most elements are zero or some other "sparse element". The sparse array representation does not store extra copies of the sparse element. J primitives work directly on sparse arrays. A new verb $. converts between sparse and dense representations of arrays.</P>
+
+<P>In this release, only numeric arrays can be sparse. Subsequent releases will support sparse character and boxed arrays.</P>
+<P>
+Run lab Sparse Arrays for a quick overview of the new facility. For detailed information, see Help|HTML Help|Sparse Arrays.</P>
+
+<P><B>J COM objects</B></P>
+<P>GetB and ErrorTextB methods in previous versions incorrectly returned a BSTR with a count that included the terminating NULL. This bug has been fixed. Applications with workarounds may need fixing.</P>
+
+<P>Multiple JDLLServer COM objects are now supported. Each JDLLServer object created is a complete new instance of J. Previously each JDLLServer object shared the same globals (for example, symbol tables) and was not useful. It is now possible to efficiently create completely independent, in-process, J COM objects.These independent J COM objects can run in the same threads or in different threads.</P>
+
+<P>The direct DLL interface to J requires new, explicit calls to create and free a J instance and the instance handle is a new parameter to all other calls. For example:</P>
+
+<PRE>	HANDLE pj = JInit(); // get handle for new J instance
+	JDo(pj, "a=:i.5");
+	JFree(pj);           // free J instance</PRE>
+
+<P><B>OCX license</B></P>
+<P>OCX controls distributed with a J application can be distributed in a runtime version that requires license information when they are created. On a system with the design time OCX installed, use olegetlic to get the license The progid is the same id used in the cc command (without the ocx: prefix). To create the OCX on a system with a runtime OCX, use olesetlic to set the license. The following example uses the FarPoint spreadsheet control.</P>
+
+<PRE>   fpkey =: wd'olegetlic FPSpread.Spread.2'
+   fpkey
+67 0 111 0 112 0 121 0 114 0 105 0 103 0 104 0 116 0 32 0 ...
+   (".fpkey) { a.   NB. 2 byte unicode is often readable
+Copyright ...
+
+   NB. in a distributed application set key before cc
+   wd'olesetlic FPSpread.Spread.2 ',fpkey
+   wd'cc ss ocx: FPSpread.Spread.2'</PRE>
+
+<P><B>load utility</B></P>
+<P>The load utility has changed, when loading scripts from a directory that includes a project file. If the left argument of load is not given, then a default locale is used. Previously, this locale was always base; now, if the directory contains a project file, the default locale used is that specified in the projects target locale. This makes it easy to work with individual scripts in a project, since they will automatically load into the projects target locale.</P>
+<P><B>
+Debug</B></P>
+<P>The Debug window now includes single-step and single-step-into buttons, plus several other commands available on shortcut keys.</P> 
+<P>
+The toolbar Open button now responds to the current cursor position. If the name at the cursor is a noun, its definition is displayed in a viewer; otherwise the script where the name is defined is opened.</P>
+
+<P>See Debug for more details, or with the Debug window active, press Ctrl-H for a list of the available shortcut keys.</P> 
+
+<H1>J 4.03 Release</H1>
+
+<P><B>Code Editor</B></P>
+<P>The new code editor was written by Andrei Stcherbatchenko and we're sure you'll find it makes life as a J programmer more exciting and productive. </P>
+<UL>
+  <LI>customized code coloring (Edit|Configure)</LI>
+  <LI>large files (up to 10,000 lines)</LI>
+  <LI>multiple undo and redo</LI>
+  <LI>drag and drop editing</LI>
+  <LI>standard arrow/home/end shortcuts (ctrl /shift modifiers)</LI>
+  <LI>Ins toggles overstrike/insert</LI>
+  <LI>left margin</LI>
+  <LI>quick line selection with mouse</LI>
+  <LI>ctrl+shift+0-9 toggles mark</LI>
+  <LI>alt+0-9 scrolls mark visible</LI>
+  <LI>ctrl+shift+F2 clears marks</LI>
+  <LI>Tab indents (shift+Tab exdents) selected lines</LI>
+  <LI>fixed pitch font required</LI>
+  <LI>ijx output truncated with . . . at 256 characters</LI>
+  <LI>ctrl+shift+up/down arrow recalls lines (used to be ctrl+up/down)</LI>
+</UL>
+
+<P><B>Form colors</B></P>
+<P>You can set form and control (text, text background, and background) colors. </P>
+<CODE>wd'pcolor R G B'  NB. form color
+wd'setcolor id textR G B textbkgndR G B bkgndR G B'</CODE>
+<P>
+You can add these commands in form initialization.</P>
+<PRE>abc_run=: 3 : 0
+wd ABC
+NB. initialize form here
+wd 'pcolor 0 0 255'
+wd 'setcolor cceditm 255 0 0 0 0 255 0 0 255'
+wd 'pshow;'
+)</PRE>
+
+<P>The setcolor command can override the gray readonly edit boxes. The setcolor command has no effect on push buttons or the dropdown listbox of a combobox (unfortunate Window facts).</P>
+ 
+<P><B>Debug</B></P>
+<P>This release includes a preliminary version of a debug GUI. It is built on top of facilities that have been in J for some time. This version is not complete, and requires  changes in the J engine before it can provide all the facilities we envision. However, we found that it is already so useful that we decided to include it in this release. It is a taste of things to come.</P>
+
+<P>Start Debug with Run|Debug. Press the Help button to see documentation. Learn about Debug with the Debug lab.</P>
+
+<P><B>HTML Publish</B></P>
+<P>Use Run|HTML Publish, or Tools|HTML Publish from Project Manager, to convert scripts to HTML format for the web. Hold down the shift key to convert the active window.</P>
+ 
+<P><B>Popup Menu</B></P>
+<P>The release includes Oleg Kobchenko's popup menu, as enhanced by Alex Kornilovski. For more information, see scripts system\packages\winapi\menu.ijs and menudemo.ijs.</P>
+<PRE>   load 'menu'
+   wdmenu ' one two three'</PRE>
+
+<P><B>ODBC</B></P>
+<P>This release decommits the Data Driver foreign family 14!:x . This interface was written in C and was a closed, black box to J programmers. It didn't support newer versions of the ODBC API and was missing important features.</P>
+
+<P>The new ODBC support was written by John D. Baker and is provided by scripts that use DLL calls to directly access the ODBC API. The J programmer now has the same ODBC access as the C programmer. The new script dd.ijs provides the same functionality as the previous version with DLL calls to the ODBC API, rather than with 14!:x calls. An application that uses dd.ijs should work with the new dd.ijs. There are some performance improvements and significant new functionality such as support for stored procedures. If you are interested in ODBC, work your way through the new ODBC labs.</P>
+<P><B>
+FFTW AddOn</B></P>
+<P>In addition to the Lapack AddOn, there is now an FFTW AddOn. FFTW is a collection of fast C routines for computing the Discrete Fourier Transform in one or more dimensions. It includes complex, real, and parallel transforms, and can handle arbitrary array sizes efficiently. The FFTW AddOn consists of a DLL incorporating the FFTW routines, plus supporting J scripts and labs. The AddOn is currently only available for Windows 9x/NT. For more information and to download the FFTW AddOn, visit www.jsoftware.com (or use the J cdrom AddOn directory). </P>
+
+<P><B>Project Manager (PM)</B></P>
+<P>There are several improvements in the Project Manager. If you're an experienced J user and you don't use PM, then we suggest it is time to start. It is great for both small and large projects. If you're new to J, start out right by using PM for all your projects. Start PM from menu command Run|Project Manager.</P>
+<P><B>
+wd commands</B></P>
+<P>New wd commands (documented in Help|wd commands):</P> 
+<UL>
+  <LI>glgridspace x y - space in from upper left for text</LI>
+  <LI>pcolor R G B - form background color</LI>
+  <LI>setcolor id textR G B textbkgndR B G bkgndR B G - control color</LI>
+  <LI>smcolor n R G B - code editor color</LI>
+  <LI>smkeywords n keywords - code editor keywords (for color)</LI>
+  <LI>smreplace text - replace selected text</LI>
+  <LI>smgetscroll - scroll position of top line</LI>
+  <LI>smflush [bool] - force immediate (unbuffered) output</LI>
+</UL>
+
+<P>Enter in a readonly editm control is an enter event.</P>
+
+<P><B>Miscellaneous</B></P>
+<P>File menu MRU (most recently used) files has 8 items and is retained between sessions.</P>
+ 
+<P>Bug fixes (thanks to all you out there, particulary J forum members,  for giving us the chance to fix them!).</P>
+ 
+<PRE>try. catch. honors debug stops.</PRE>
+
+<P>Several performance improvements in the J engine.</P>
+
+<H1>J 4.02 Release</H1>
+<P>Try the new demos pousse and eigenpictures (J LAPACK AddOn is required for eigenpictures).</P>
+
+<P>Take a look at the new lab Fractals Visualization, & J.</P>
+
+<P>Run labs Mapped Names and Files and Mapped File Database to learn about these new facilities. A mapped file can be accessed as if it were memory and a mapped name is an array that is a file.</P>
+
+<P>Run labs DLL: Writing and Using a DLL and DLL: Using System DLLs (file examples) to learn about changes to the 15!:x DLL call facilities. The User Manual chapter DLLs and Memory Management has been updated to reflect the changes. Some of the changes are incompatible with previous releases. Previously this facility was only available in Win95 and NT. It will now be available on all platforms.</P>
+
+<P>A J AddOn is a separately packaged installation that is added on to the base J installation. </P>
+
+<P>The complete LAPACK library is now available with the J LAPACK AddOn. LAPACK (Linear Algebra Package) is a set of routines for solving systems of simultaneous linear equations, least-squares solutions of linear systems of equations, eigenvalue problems, and singular value problems. The associated matrix factorizations (LU, Cholesky, QR, SVD, Schur, generalized Schur) are also provided, as are related computations such as reordering of the Schur factorizations and estimating condition numbers.</P>
+
+<P>Download jlapack.exe and run it after you have installed J4.02. This adds the LAPACK files to the J directory structure. When it is installed, run lab LAPACK to learn about this powerful new addition to J. </P>
+<P><B>
+J 4.02 Interpreter</B></P>
+<P>The dyad {. has been extended to accept infinities in the left argument, with an infinite value specifying the length of the corresponding axis.</P>
+<PRE>   a=: i.4 5
+   a
+ 0  1  2  3  4
+ 5  6  7  8  9
+10 11 12 13 14
+15 16 17 18 19
+   2 _ {. a           NB. first 2 rows and all columns
+0 1 2 3 4
+5 6 7 8 9
+   _ 2 {. a           NB. all rows and first two columns
+ 0  1
+ 5  6
+10 11
+15 16
+   _1 __ {. a         NB. last row and all columns
+15 16 17 18 19
+   _ {. a             NB. all rows and all columns
+ 0  1  2  3  4
+ 5  6  7  8  9
+10 11 12 13 14
+15 16 17 18 19</PRE>
+
+<P>The monad i: has rank 0; i: n gives integers from -n to n inclusive; 
+i: a j. b gives numbers from -a to a in b equal steps.</P>
+<PRE>   i: 5
+_5 _4 _3 _2 _1 0 1 2 3 4 5
+   i: _5
+5 4 3 2 1 0 _1 _2 _3 _4 _5
+   i: 5j4
+_5 _2.5 0 2.5 5
+   i: _5j4
+5 2.5 0 _2.5 _5
+   i: 2.5j4
+_2.5 _1.25 0 1.25 2.5
+   i: 5j_4
+|domain error
+|       i:5j_4</PRE>
+
+<P>On extended precision arguments, the determinant -/ .* runs faster in less space.</P>
+<PRE>   ts=: 6!:2 , 7!:2@]          NB. time and space
+   ts '-/ .* h' [ h=: % >: +/~ i.10x
+0.14 37888
+   ts '-/ .* h' [ h=: % >: +/~ i.20x
+2.073 291520</PRE>
+
+<P><B>J 4.01 Release</B></P>
+<P>Use =: for global definitions in scripts. Run|Window and Run|File use load and definitions made with =. are local to load and disappear when it finishes.</P>
+
+<P>The J file suffix has changed from .j? to .ij? ( .js to .ijs ) to avoid javascript conflicts. Use system\extras\migrate\ext.ijs if you have lots of files.</P>
+
+<P>system directory contains the other distributed directories (main\stdlib.js is now system\main\stdlib.ijs).</P>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="welunix.htm">&gt&gt;</a>&nbsp;
+<a href="title.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

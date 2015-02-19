@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Inverse</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="duality.htm">&gt&gt;</a>&nbsp;
+<a href="random_numbers.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Inverse</h1>
+<TR><TD colspan="2"> 
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<P>J provides a comprehensive calculus of inverses:
+</P>
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+
+
+<TR><TD><TT>a0=: I=: ^:_1</TT></TD>	<TD>Inverse (adverb)</TD></TR>
+<TR><TD><TT>m1 =: ^ I</TT></TD>	<TD>Natural log (^.); Inverse exponential</TD></TR>
+<TR><TD><TT>m2 =: ^.I</TT></TD>	<TD>Exponential</TD></TR>
+<TR><TD><TT>m3 =: 10&amp;^.	</TT></TD> <TD>Base 10 log</TD></TR>
+<TR><TD><TT>m4 =: m3 I</TT></TD>	 <TD>Inverse base 10 log (10&amp;^)</TD></TR>
+<TR><TD><TT>m5 =: ] -: m4@m3</TT></TD>	 <TD>Tautology (test that m4 is left inverse)</TD></TR>
+<TR><TD><TT>m6 =: ] -: m3@m4</TT></TD>	 <TD>Tautology (test that m4 is right inverse)</TD></TR>
+<TR><TD><TT>m7 =: ssc=: +/\	</TT></TD> <TD>Sum scan (subtotals)</TD></TR>
+<TR><TD><TT>m8 =: ssc I</TT></TD>	 <TD>Inverse sum scan; first differences</TD></TR>
+<TR><TD><TT>m9 =: (]-:m8@m7)*.(]-:m7@m8) </TT></TD>  	 <TD>Tautology</TD></TR>
+<TR><TD><TT>m10=: assc=: -/\</TT></TD>	 <TD>Alternating sum scan</TD></TR>
+<TR><TD><TT>m11=: assc I</TT></TD>	<TD>&nbsp;</TD></TR>
+<TR><TD><TT>m12=: ] -:	</TT></TD><TD>&nbsp;</TD></TR>
+<TR><TD><TT>m13=: * /\ I</TT></TD>	 <TD>e.g.  * /\ m13 3 1 4 15 9 26 5 3</TD></TR>
+<TR><TD><TT>m14=: % /\ I</TT></TD>	 <TD>e.g.  % /\ m14 3 1 4 15 9 26 5 3</TD></TR>
+<TR><TD><TT>m15=: ~:/\ I</TT></TD>	 <TD>e.g.  ~:/\ m15 1 1 0 1 1 0 1 1</TD></TR>
+<TR><TD><TT>m16=: = /\ I</TT></TD>	 <TD>e.g.  = /\ m16 1 1 0 1 1 0 1 1</TD></TR>
+<TR><TD><TT>m17=: + /\. I</TT></TD>	 <TD>e.g.  + /\. m17 3 1 4 15 9 26 5 3</TD></TR>
+<TR><TD><TT>m18=: - /\. I</TT></TD>	 <TD>e.g.  - /\. m18 3 1 4 15 9 26 5 3</TD></TR>
+<TR><TD><TT>m19=: * /\. I</TT></TD>	 <TD>e.g.  * /\. m19 3 1 4 15 9 26 5 3</TD></TR>
+<TR><TD><TT>m20=: % /\. I</TT></TD>	 <TD>e.g.  % /\. m20 3 1 4 15 9 26 5 3</TD></TR>
+<TR><TD><TT>m21=: ~:/\. I</TT></TD>	 <TD>e.g.  ~:/\. m21 1 1 0 1 1 0 1 1</TD></TR>
+<TR><TD><TT>m22=: = /\. I</TT></TD>	 <TD>e.g.  =/\. m22 1 1 0 1 1 0 1 1</TD></TR>
+<TR><TD><TT>d23=: # I</TT></TD>	 <TD>Expand; 'ab' -: 1 0 1 # 1 0 1 d23 'ab'</TD></TR>
+<TR><TD><TT>m24=: p: I</TT></TD>	 <TD>p (n) the number of primes less than n</TD></TR>
+<TR><TD><TT>m25=: x: I</TT></TD>	 <TD>Floating point approx. of a rational. e.g.  m25 3r7</TD></TR>
+<TR><TD><TT>m26=: 1&amp;+ I	</TT></TD> <TD>Inverse increment; decrement</TD></TR>
+<TR><TD><TT>m27=: +&amp;1 I</TT></TD>	 <TD>Inverse increment; decrement</TD></TR>
+<TR><TD><TT>m28=: &gt;: I</TT></TD>	 <TD>Inverse increment; decrement</TD></TR>
+<TR><TD><TT>m29=: _1&amp;+ I</TT></TD>	 <TD>Inverse decrement; increment</TD></TR>
+<TR><TD><TT>m30=: +&amp;_1 I</TT></TD>	 <TD>Inverse decrement; increment</TD></TR>
+<TR><TD><TT>m31=: -&amp;1 I	</TT></TD> <TD>Inverse decrement; increment</TD></TR>
+<TR><TD><TT>m32=: &lt;: I</TT></TD>	 <TD>Inverse decrement; increment</TD>
+</TR><TR><TD><TT>m33=: 2&amp;* I</TT></TD>	 <TD>Inverse double; halve</TD></TR>
+<TR><TD><TT>m34=: *&amp;2 I	</TT></TD> <TD>Inverse double; halve</TD></TR>
+<TR><TD><TT>m35=: +: I</TT></TD>	 <TD>Inverse double; halve</TD></TR>
+<TR><TD><TT>m36=: 0.5&amp;* I</TT></TD>	 <TD>Inverse halve; double</TD></TR>
+<TR><TD><TT>m37=: *&amp;0.5 I</TT></TD>	 <TD>Inverse halve; double</TD></TR>
+<TR><TD><TT>m38=: %&amp;2 I</TT></TD>	<TD> Inverse halve; double</TD></TR>
+<TR><TD><TT>m39=: -: I</TT></TD>	 <TD>Inverse halve; double</TD></TR>
+<TR><TD><TT>m40=: ^&amp;2 I</TT></TD> <TD>Inverse square</TD></TR>
+<TR><TD><TT>m41=: ^&amp;3 I</TT></TD>	 <TD>Inverse cube</TD></TR>
+<TR><TD><TT>m42=: ^&amp;0.5 I</TT></TD>	 <TD>Inverse square root</TD></TR>
+<TR><TD><TT>m43=: ^&amp;1r3 I</TT></TD>	 <TD>Inverse cube root</TD></TR>
+<TR><TD><TT>m44=: 2&amp;^ I	</TT></TD> <TD>Inverse 2 with power; base 2 log</TD></TR>
+<TR><TD><TT>m45=: 10&amp;^ I</TT></TD>	 <TD>Inverse 10 with power; base 10 log</TD></TR>
+<TR><TD><TT>m46=: 2&amp;! I</TT></TD>	 <TD>Inverse triangular number. e.g. +/i.&lt;.2&amp;! I m</TD></TR>
+<TR><TD><TT>m47=: +~ I</TT></TD>	 <TD>Inverse double</TD></TR>
+<TR><TD><TT>m48=: *~ I</TT></TD>	 <TD>Inverse square</TD></TR>
+<TR><TD><TT>m49=: ^~ I</TT></TD>	 <TD>e.g.  x^x=: ^~ I 12</TD></TR>
+<TR><TD nowrap><TT>m50=: (3&amp;+)@(%&amp;2)I -: (%&amp;2 I)@(3&amp;+ I)</TT></TD>	 <TD>Inverse of composition is composition of inverses</TD></TR>
+</table>
+
+<P>These inverses may be illustrated as follows:
+</P></TD></TR></TABLE>
+<PRE>   x=: 2 3 5 7 
+   ,.(] ; m1 ; m2 ; m1@m2) x
++---------------------------------+
+&brvbar;2 3 5 7                          &brvbar;
++---------------------------------&brvbar;
+&brvbar;0.6931472 1.09861 1.60944 1.94591&brvbar;
++---------------------------------&brvbar;
+&brvbar;7.38906 20.0855 148.413 1096.63  &brvbar;
++---------------------------------&brvbar;
+&brvbar;2 3 5 7                          &brvbar;
++---------------------------------+
+
+   (] ; m7 ; m8 ; m9) x
++---------------------------+
+&brvbar;2 3 5 7&brvbar;2 5 10 17&brvbar;2 1 2 2&brvbar;1&brvbar;
++---------------------------+
+   (];m10;m11;m11@m10) x
++-----------------------------------+
+&brvbar;2 3 5 7&brvbar;2 _1 4 _3&brvbar;2 _1 2 _2&brvbar;2 3 5 7&brvbar;
++-----------------------------------+</PRE>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="duality.htm">&gt&gt;</a>&nbsp;
+<a href="random_numbers.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

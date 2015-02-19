@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Sums &amp; Means</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="e_pluribus_unum.htm">&gt&gt;</a>&nbsp;
+<a href="geometry.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Sums And Means</h1>
+<TR><TD colspan="2"> 
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+<TR><TD><TT>m0=: A=: # %~ +/</TT></TD>	<TD>Arithmetic mean</TD></TR>
+<TR><TD><TT>m1=: G=: # %: */</TT></TD>	<TD>Geometric mean</TD>
+</TR><TR><TD><TT>m2=: H=: A&.(%"_)</TT></TD>	<TD>Harmonic mean </TD></TR>
+<TR><TD><TT>m3=: C=: {.@((G,A)^:_)</TT></TD>	<TD>Common mean (de Kerf [2])</TD></TR>
+<TR><TD><tt>m4=: A&(^&3)</TT></TD>	<TD><TT>Mean of cubes</TT></TD></TR>
+
+<TR><td><TT>a5=: (^&amp;) (A&amp;)</TT></td>	<TD>Generalized x-mean</TD></TR>
+<TR><TD><TT>m6=: m4 -: 3 a5</TT></TD>	<TD>Tautology</TD></TR>
+<TR><td><TT>a7=: (^&amp;) (A&amp;.)</TT></td>	<TD>L-x norm</TD></TR>
+<TR><td><TT>m8=: (^&amp;3)@(3 a7) -: (3 a5)</TT></td><TD>Tautology</TD>
+</TR>
+<TR><TD><TT>v9=: MA=: A\</TT></TD>	<TD>x-period moving average of <TT>y</TT></TD></TR>
+<TR><TD><TT>m10=: +/\  -: +/\.&amp;.|.</TT></TD>	<TD>Tautology: invariance under reverse</TD></TR>
+<TR><TD><TT>m11=: +/\. -: +/\ &amp;.|.</TT></TD>	<TD>Tautology: invariance under reverse</TD></TR>
+<TR><TD><TT>m12=: +/\^:(i.`($&amp;1))	</TT></TD><TD>Figurate numbers</TD></TR>
+<TR><TD><TT>m13=: 1: #. ]</TT></TD>	<TD>Sum; <TT>+/"1</TT></TD></TR>
+<TR><TD><TT>m14=: +/&amp;.(*:"_)@:+."0</TT></TD>	<TD>Magnitude <TT>|</TT></TD></TR>
+<TR><TD><TT>m15=: - |.!.0</TT></TD>	<TD><TT>.+/\^:_1</TT></TD></TR>
+<TR><TD><TT>d16=: psum=: ([:+/ [ ^~ i.@])"0</TT></TD>	<TD>Sum of powers of integers; 2 sum 7</TD></TR>
+<TR><TD><TT>m17=: 0&amp;psum -: [</TT></TD>	<TD>Tautology: <TT>+/(i.n)^0</TT></TD></TR>
+<TR><TD><TT>m18=: 1&amp;psum -: 2&amp;!</TT></TD>	<TD>Tautology: <TT>+/(i.n)^1</TT></TD></TR>
+<TR><TD><TT>m19=: 2&amp;psum -: 0 1r6 _1r2 1r3&amp;p.</TT></TD>	<TD>Tautology: <TT>+/(i.n)^2</TT></TD></TR>
+<TR><TD><TT>m20=: [ (psum %. ^/~@]) i.@(2&amp;+)</TT></TD>	<TD>Polynomial coeff. of <TT>+/(i.n)^k</TT></TD></TR></table>
+
+
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="e_pluribus_unum.htm">&gt&gt;</a>&nbsp;
+<a href="geometry.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,29 @@
+$Id: todos,v 1.24 1999/06/18 11:04:10 niebuhr Exp $
+
+===============================================================================
+Todo:
+
+18.06.1999:	bei -i option:  aktualisiere rfc-index.txt wenn der
+		rfc-index laenger als einen tag nicht angeguckt wurde
+
+13.01.1999:	englische kommentare
+
+===============================================================================
+Done:		
+
+18.06.1999:	-r [rfc|std|bcp|fyi] option fuer index-files refreshen
+18.06.1999:	-v option fuer version
+10.06.1999:	man patch (1) lesen und  mn's diff via patch(1) einfrickeln
+		(ist schon seit zwei oder drei Wochen erledigt)
+10.06.1999:	-k option vereinfacht, nur noch rfc-index.txt nach keyword 
+		durchsuchen, nicht mehr std-index.txt
+09.06.1999:	-i option erweitern fuer bcp und fyi
+26.05.1999:	STDs  (FYIs?) soll(en) abgerufen werden koennen (rfc -k netbios)
+		(jeden std, bcp und fyi gibt es sowieso als rfc dokument)
+18.05.1999:	rfc 2097 /tmp/rfctmp.1234: no such file or directory repariert
+11.05.1999:	reparierte bugs besser kommentieren (in "testaufrufe")
+10.05.1999:	formatierte ausgabe bei rfc -k "..."
+		man fmt(1) lesen
+		info gnats lesen
+		Versuchen, mittels edit-pr Martins report abzuwickeln.
+

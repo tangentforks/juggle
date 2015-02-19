@@ -1,0 +1,26 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+	FS="\t"
+}
+
+/^G/	{ hdr=$2; pts=$3 ;  hdrlist[hdr]++; ptlist[pts]++}
+/^Q/	{ q[hdr, pts] = $2 }
+/^A/	{ a[hdr, pts] = $2 }
+
+END {
+	print "<table border=1>"
+
+	print "<tr>"
+	for (h in hdrlist)
+		printf ("<th>%s</th>\n", h)
+	print "</tr>"
+
+	for (p in ptlist) {
+		print "<tr>"
+		for (h in hdrlist)
+			printf ("<td>%s</td>\n", q[h,p] ? p : "-")
+		print "</tr>"
+	}
+	print "</table>"
+}

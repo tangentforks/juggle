@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>Project File</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="project_man.htm">&gt&gt;</a>&nbsp;
+<a href="project_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Project File</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+A project file is a script file with extension .ijp that defines the project. It is created and maintained by the <a href="project_man.htm">Project Manager</a>.
+
+<P>
+A project file defines the following nouns:
+
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+PRIMARYFILES
+<TD VALIGN="TOP" WIDTH=387><P>
+Project-specific files, required for the application 
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+PRIMARYLIBS
+<TD VALIGN="TOP" WIDTH=387><P>
+Standard libraries needed for the application
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+DEVFILES
+<TD VALIGN="TOP" WIDTH=387><P>
+Project-specific files, required for development only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+DEVLIBS
+<TD VALIGN="TOP" WIDTH=387><P>
+Standard libraries required for development only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+OTHERFILES
+<TD VALIGN="TOP" WIDTH=387><P>
+Other files accessible in Project Manager
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+TARGETFILE
+<TD VALIGN="TOP" WIDTH=387><P>
+Target file for the application
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+TARGETLOCALE
+<TD VALIGN="TOP" WIDTH=387><P>
+Target locale
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+TARGETHEADER
+<TD VALIGN="TOP" WIDTH=387><P>
+Header comments written to target file
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+TARGETEXTRA
+<TD VALIGN="TOP" WIDTH=387><P>
+Extra code appended to target file
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+BUILDOPTS
+<TD VALIGN="TOP" WIDTH=387><P>
+Build options (numeric list)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+BUILDFILE
+<TD VALIGN="TOP" WIDTH=387><P>
+Special build file
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+NOTES
+<TD VALIGN="TOP" WIDTH=387><P>
+Free-form notes
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+WINDOWS
+<TD VALIGN="TOP" WIDTH=387><P>
+Project open window positions
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=154><P>
+WINDOWSTATE
+<TD VALIGN="TOP" WIDTH=387><P>
+Project open window state
+</TR></TABLE>
+
+<P>
+The distinction between PRIMARY or DEVELOPMENT is that when you create an application from the project, only the primary files are used. The development files are assumed to be required for development purposes only.
+
+<P>
+FILES refer to files specific to the project, and LIBS to library files that are supplied with the J system. Library files are referenced by their short names. Note that library files stdlib.ijs, colib.ijs and winlib.ijs are assumed to be always available, and therefore do not appear in the selections for library files.
+
+<P>
+OTHERFILES is an additional list of files that you can access when using Project Manager. For example, these include the project file itself, the target file (if specified), and any other files that you want to access easily, but not load with the project.
+
+<P>
+The project system uses the jproject locale for storing the project definitions. However, the project scripts are loaded into the TARGETLOCALE or base locale if not given.
+
+<P>
+TARGETFILE is the file created when building the final application. If TARGETLOCALE is given, the locale is set after any library files are loaded. TARGETEXTRA is an optional line of code to be appended to the targetfile, typically to run the application when it is loaded. TARGETHEADER comments are lines prefixed by NB. that are added to the top of the file. Use this for the file description.
+
+<P>
+BUILDOPTS configure the targetfile. BUILDFILE is an optional script file run when building the application.
+
+<P>
+A project file is a plain text file and can be edited directly, as long as you preserve the same names. You should not add new definitions to the file, since the Project Manager will overwrite them when you next use it. Instead, add any new definitions to other script files in the project.
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="project_man.htm">&gt&gt;</a>&nbsp;
+<a href="project_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

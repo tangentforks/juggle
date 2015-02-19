@@ -1,0 +1,37 @@
+Team Juggle
+
+as lead by:  Captn None Such Juggle <juggle-icfp@gaertner.de>
+
+Address: 
+	Captn None Such Juggle
+	Gaertner Datensysteme 
+	Hamburger Str. 273a 
+	D-38114 Braunschweig
+	Germany
+
+Juggle Crew:
+	Henry Rich <glasss@mindspring.com>
+	Joachim Hoffmann <joho@jaustria.freeserve.co.uk>
+	Martin Neitzel <neitzel@gaertner.de>
+	Simon Garland <simon_garland@bluewin.ch>
+	Uwe Faustmann <Uwe.Faustmann@t-online.de>
+
+Language used:  J
+
+	J is a dialect of APL, supporting functions that are applied to
+	lists containing numbers and strings, and higher-order operators,
+	including user-defined ones, that are applied to functions or pairs
+	of functions.  It is an interpreted language and, as per ICFP-1998,
+	already officially "cool".
+
+Task Scope:
+
+	Tier - 0.5 to 1 (we are using fuzzy logic)
+
+Algorithm used:
+
+	Do the basic parsing, then surrender to the rendering.	The ultra
+	high speed rendering engine uses a lot of energy.  It usually
+	drains also some power of the light sources.   The resulting
+	images may therefore be a bit darker then usual, but performance
+	should be very good.

@@ -1,0 +1,44 @@
+This is a straight ASCII edition of the
+
+	Dictionary of J
+	by K.E.Iverson and R.K.W.Hui
+
+It is a transcription from the printed edition for J Release 4,
+published 1998 by Iverson Software Inc., ISBN 1-895721-15-6.
+
+The design of the ASCII text format and the sample postprocessors
+are copyrighted (C) 1999 by M. Neitzel.  The transcription as made
+by M. Neitzel is derived work from the printed edition and all rights
+remain reserved with Iverson Software Inc. and M. Neitzel.
+
+
+The purpose of this edition is to serve as a basis for derived
+works.  The format of the text is designed to be easily processed
+into other forms for presentation, be it in whole or in part.
+
+
+As of now, it is the Dictionary proper, that is, the Parts I, II,
+and III, including the Appendix describing all facilities derived
+from the Foreign conjunction (!:).  Not included are the the parts
+"Introduction" and "Sample Topics", since these do not contain
+reference material (and have historically been separate publications
+anyway.)
+
+The current processors are all awk(1) scripts.  Naturally, we would
+prefer J scripts because that would make them portable to all platforms
+where J runs.  Also, J is required to expand any embedded examples.
+
+
+Files included:
+
+	README		this file
+	COPYRIGHTS	repeats the issues on the copyrights here
+	*.txt		the raw form ASCII documents
+	apl99doj.txt	an extract used for the APL99 Workshop "Reading the DoJ"
+	format		the formatting rules used in these documents
+	dict2html.awk	a converter from raw form to HTML.
+	dict2troff.awk	a converter from raw form to troff(1) input.
+	checkfiles.awk	an extractor of dubiously formatted lines
+	Makefile	a Makefile for producing derived texts, indexes, etc.
+	markup.html	a simple HTML file demonstrating various renderings.
+	*-index, qi	temporary (?) index files as produced as a side-effect

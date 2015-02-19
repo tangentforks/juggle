@@ -1,0 +1,420 @@
+@
+<h1>Literate Programming with J and noweb</h1>
+
+<address>
+by Martin Neitzel
+<a href=mailto:neitzel@gaertner.de>(neitzel@gaertner.de)</a>
+</address>
+
+The integrated creation of program source and its documentation is
+called <def>literate programming</def>.  This term goes back to
+Donald Knuth and his "WEB" system, a literate programming system
+for Pascal.
+
+This article describes my first experiences with using Norman
+Ramsey's "noweb" system for J programming.  We also take a look at
+a few other approaches to create nice representations of J code.
+
+<h2>Introduction</h2>
+
+Perhaps interestingly, I took my first look at noweb when I
+wrote my first Vector article.  I already had all the J coding
+done, and I just wanted to document it for Vector readers.  Rather
+than starting a new text document and including some source snippets
+via cut and paste, I extended the original J script file with
+additional text material.
+
+Keeping the source code and its documentation in the same file is
+the central idea behind literate programming.  This way it becomes
+easy to maintain these two aspects of a program consistently.  As
+the old adage says:  nothing is more misleading than outdated
+comments and incorrect documentation.  By tying the code and all its
+documentation closely together, literate programming makes it easier
+to keep both in sync.
+
+The unified source is then filtered in different ways for different
+purposes.  One can either extract the program code for the compiler
+or, as is the case with J, the interpreter; or, alternatively, pull
+out the documentation with embedded code fragments to be nicely
+typeset.
+
+Noweb is a freely available WEB cousin written by Norman Ramsey.
+The web site
+<a href=http://www.eecs.harvard.edu/~nr/noweb/>
+http://www.eecs.harvard.edu/~nr/noweb/</a>
+is the home page of the system.  Noweb's main characteristics are
+simplicity and language-independency.  It is available for all J
+platforms and already comes as an installable package with all of
+the free Unix/Linux distributions.  All in all, enough reasons for
+me to give it a serious try with a few small J projects.
+
+The following are the main tools of the noweb system:
+<dl>
+<dt>notangle
+<dd>extracts just the source code proper from the literate program,
+i.e. a J script.
+
+<dt>noweave
+<dd>extracts documentation with embedded code prepared for some
+typesetting program such as TeX/LaTeX, troff, or an HTML browser;
+it optionally creates and formats cross references along the way.
+</dl>
+
+Noweb supports a handful of programming languages and typesetting
+backends out of the box.  For the use with J, I provided a very
+simple recogniser for declarations in order to get the cross
+referencer working.  One could give explicit hints with each
+code chunk about the defined objects but an automatic recogniser
+is much more convenient.
+
+Since I deemed only global definitions at the module level worthwhile
+to be indexed, this was easy.  A single regular expression was all
+I needed, namely [[^[a-zA-Z0-9_]+ *=:]].  This pattern matches all
+assignments to J names at the beginning of a line.  I always indent
+J sentences within a verb definition, a style that in my opinion
+makes a script more digestable for both human readers and such
+simplistic analysers alike.
+
+Noweb's way of integration of such tools is straightforward.  One
+just needs to provide a text filter operating on a common intermediate
+format.
+
+All in all, a 20-line [[awk]] script takes care of definition recognition,
+index collection, and some other amenities like using [[@<<@>>=]] for
+the continuation of the previous code chunk without spelling
+out its name again.
+
+<h2>A Simple Example</h2>
+<h3>Input (aka: The Source)</h3>
+
+Here is a simple example.  First, a noweb input file with some
+documented J code, presumably stored as [[stat.nw]]:
+
+<xmp>
+@<<statistics@>>=
+  @<<auxiliaries>>
+  @<<averages>>
+@@
+Averages are coming in various forms.
+There is the well-known @[[mean@]] function,
+for a start:
+@<<averages@>>=
+mean=:sum % #
+@@
+The geometric mean is another one:
+@<<averages@>>=
+geomean=: # %: prod
+@@
+This works with the help of
+some aggregating functions:
+@<<auxiliaries@>>=
+sum=: +/
+prod=: */
+</xmp>
+
+See how code chunks start or are continued with names in
+double angle brackets.  Documentation mode is entered with
+a single "@" character.  Embedded code in documentation
+is written in double square brackets.
+
+<h3>Output 1:  The Code</h3>
+
+The command
+<pre>
+notangle -t8 -Rstatistics -filter emptydefn stat.nw &gt; stat.ijs
+</pre>
+will extract the J script file [[stat.ijs]].  It will look like this:
+
+<xmp>
+  sum=: +/
+  prod=: */
+  mean=:sum % #
+  geomean=: # %: prod
+</xmp>
+
+The [[-Rstatistics]] option tells noweave to start extraction at
+the root node [[statistics]].  This node is then expanded from
+its arbitrarily large tree of sub nodes.  The important things
+to note about the nodes are:
+<ol>
+<li>You can extract different code parts, i.e., different J scripts,
+from one and the same noweb source.
+<li>The order of the extracted code can very well be different
+from the order in the noweb source which is typically the one deemed
+most suitable for a lucid presentation.
+</ol>
+
+<h3>Output 2:  The Documentation</h3>
+
+The command
+<pre>
+noweave -html stat.nw &gt; stat.html
+</pre>
+creates the documentation variant of the file.  It can generate
+TeX, LaTeX, troff, and HTML markup out of the box.
+When viewed with your browser, you'd see roughly the following,
+including the font changes:
+
+<blockquote>
+<<statistics>>=
+  <<auxiliaries>>
+  <<averages>>
+@
+Averages are coming in various forms.
+There is the well-known [[mean]] function,
+for a start:
+<<averages>>=
+mean=:sum % #
+@
+The geometric mean is another one:
+<<averages>>=
+geomean=: # %: prod
+@
+This works with the help of
+some aggregating functions:
+<<auxiliaries>>=
+sum=: +/
+prod=: */
+@
+</blockquote>
+
+The same command with a few additional options will create
+hyperjumps and indexes for chunk names and definitions:
+<pre>
+noweave -html -filter autodefs.ijs -index  stat.nw &gt; stat.html
+</pre>
+Check out
+<a href=http://juggle.gaertner.de/bnp/litprog.html>
+http://juggle.gaertner.de/bnp/litprog.html</a>
+to experience that version of this article.
+
+Many references created by noweave are marked as "U" or "D", pointing
+to uses and definitions of the named code nodes or global J names.
+
+The text sections in a noweb source can also use any markup commands
+appropriate for the noweave backend used.  If you want to have chapter
+headings or bulleted lists in your documentation, this is the way
+to go.
+
+With the output generated for the heavy-duty typesetting programs
+LaTeX or troff, you can make a high-quality booklet or even tome.
+The cross-references will go into the page margin, of course with
+the proper page references.  I stumbled over noweb when I read the
+following gem:  <it>A Retargetable C Compiler: Design and
+Implementation</it> by C. Fraser and D. Hanson -- 592 pages
+noweb-based compiler source and documentation in finest typography.
+The PDF for a sample chapter can be downloaded from the [[lcc]] home page
+<a href=http://www.cs.princeton.edu/software/lcc/>
+http://www.cs.princeton.edu/software/lcc/</a>.
+
+<h2>Nitty-gritty Details</h2>
+
+Knuth's original WEB tool was tailored to Pascal and TeX.  (It was actually
+written to overcome some of Pascal's short-comings:  the lack
+of a module system and the very strict order of definitions in a standard
+Pascal program.)
+The good thing about noweb is that it can be used with any source language
+and generate output for different text processing systems.
+
+While the J code excerpt shown above is digestable by J, you don't
+want to touch it ever again.  For example, if you have to fix a
+bug, you should do this in the [[stat.nw]] file, not in
+[[stat.ijs]] produced by [[notangle]].  Likewise, there is little use to put
+[[stat.ijs]] under version control.
+
+I have therefore written my little [[load]] variant [[loadnw]] which
+notangles a script on the fly and loads the output:
+
+<<loader>>=
+NB. [chunkname] loadnw filename
+NB. *loads a node from a noweb file.
+loadnw_z_ =: verb define
+	'*' loadnw y.
+:
+	0!:100 (2!:0) 'notangle -t8 ''-R', x., ''' -filter emptydefn ', y.
+)
+@
+The chunk name [[*]] used as default left argument here is noweb's
+default root node.  You'll often find noweb files just containing
+one or more [[@<<*@>>]] chunks and no further sub-nodes.
+
+The option to extract different code parts from a script also comes in
+very handy for test code.  Users of the library just want to get the
+definitions from the script.  But when I work on the script, it helps
+to have an additional test chunk executed which prepares and runs
+some initial tests.
+The library code is defined as a subordinate node to the test node
+so that I can choose which version to extract from the script by
+specifying the corresponding root node.  Noweb is effectively taking
+the role of a classic "conditional preprocessor" when used in this
+style.
+
+Unfortunately, J will report errors with a line count referring
+just to the extracted code.  It would be really helpful if the line
+number could refer properly to the noweb source file.  After all,
+this is where the fix has to be made.  Noweb can indicate the proper
+source coordinates in its notangled output.  By default, it uses
+C preprocessor-style [[#line 123 stat.nw]] directives but it can
+generate any other syntax as appropriate for the programming language
+used.  It would be really helpful if J could take such a hint --
+not just for working with noweb but for any other code generator
+as well.
+
+The [[nountangle]] utility is a variant of [[notangle]].  It creates
+a program, too, but keeps the full documentation as block comments
+in the extracted code.  [[Nountangle]] needed to be extended to
+support J's [[NB.]] syntax.  As luck has it, it is a shell script
+on Unix, so this was very simple to arrange.
+
+<h2>Comparisons with Other Approaches</h2>
+
+<h3>Plain Old Comments</h3>
+
+Lines prefixed with [[NB.]]s are easy to ignore in small doses.
+Beyond a dozen lines, the letters can begin to irritate readers.
+Longer documentation also benefits from decent typesetting.  After
+all, you seldom see a Vector article only consisting of [[NB]]'ed
+code.
+
+Just for improved readability, I've seen some people using
+literate noun scripts to include one or more paragraphs of
+comments in a script.  This runs as follows:
+
+<xmp>
+0 : 0
+todayno:  converts dates to day numbers.
+Method is to subtract dates on a calendar basis to determine
+integral number of months plus the exact number of days remaining.
+This is converted to payment periods, where # days remaining are
+calculated as: (# days)%365
+)
+</xmp>
+
+The script containing the notes is simply parsed and
+immediately discarded again.  Without any leading [[NB]] letters,
+it is readable with less distraction than ordinary comment blocks.
+
+<h3>Scriptdoc</h3>
+
+J/Windows comes with the [[scriptdoc]] utility.
+It will extract traditional [[NB.]] comments written according
+to some scriptdoc-specific markup conventions.  Basically,
+you just have to put an asterisk and a one-letter code in
+a strategic place.
+
+The comments list the names of the routines, their typical use,
+and perhaps some notes on their implementation.  It is [[scriptdoc]]'s
+job to extract this info and create a nice overview.  This can
+then be used as a quick reference or manual.
+
+Scriptdoc's job is to <em>suppress</em> implementation details.
+The output is usually biased towards the users of a library script.
+Noweb in turn targets other developers working on the code
+which is included in its entirety.
+
+<h3>HTML-Publish</h3>
+
+J/Windows Release 4.03 comes with a code-to-HTML converter.  It
+uses syntax-based colouring to create nice output according to
+user-definable colour schemes.  One would typically use HTML-Publish
+to save the generated output to separate web page which could then
+be viewed by others.
+
+<h3>vgrind</h3>
+
+Vgrind is a traditional pretty-printing tool for the Unix nroff/troff
+typesetting system.  Code fragments are embedded in the text within
+[[.vS]]/[[.vE]] start and end lines.
+
+Vgrind will then insert the appropriate font change instructions
+to mark keywords, constants, and comments.  It detects these elements
+guided by a short language description defining some patterns.
+The patterns will also enable vgrind to collect an index for whatever
+looks like a "procedure definition".  You can find such a vgrind
+definition for J on juggle.gaertner.de .
+
+The mixed documentation/code approach is not unlike the style used
+in noweb sources, but I am not aware that people ever used this system
+for literate programming.  That is, I never saw the practice
+or recommendation to extract just the code for further processing.
+Most often vgrind is simply run on original code files without
+any additional text or [[.vS]]/[[.vE]] delimiters, with the
+pretty-printed output directly sent to the printer.  This use is
+not much different from "HTML Publish".
+
+<h3>The J Project Manager</h3>
+
+The J Project Manager is not a tool concerned with documentation
+in any way.  There is a reason why I am including it in this short
+list of comparisons: both the Project Manager and noweb can be used
+to create J scripts to be shipped to a customer.
+
+The Project Manager usually takes the J script files belonging to
+the project and merges them together with the required standard
+library scripts into one single J script executable by a J Runtime
+system.  Even when the code is not encrypted, the customer will
+have a hard time to exploit the code on his own:  All comments have
+been stripped off, and the organisation as one huge script doesn't
+exactly invite you to make any changes.  If you want to convince
+yourself, try to modify one of the PM-generated scripts in the
+standard library distributed with the system.  You will quickly
+recognise that this is no fun at all.
+
+Noweb's [[notangle]] can be used to the same effect:  As a developer,
+you can maintain the code nicely organised and including excellent
+documentation.  When you ship it off-site, you have the option
+whether you want to include the documentation (converted into classic
+[[NB.]] comments) and whether you want to keep the script organisation
+modular or not.
+
+Another typical task of the PM is to compile a number of source
+scripts and referenced library scripts into a single runtime script.
+With noweb, you have some freedom how noweb input files relate to
+extracted J scripts.  It is up to you which nodes you will extract
+into a script file.  You could distil several script files from
+one noweb file, keep a one-to-one relationship, or collect the code
+from different noweb files into a single script.
+
+<h2>Summary</h2>
+
+Using noweb with J was simple to arrange, easy to learn, and
+straightforward to use.  What I appreciate most of noweb is its
+minimal-fuzz approach to switching between code and documentation.
+I fell in love with the [[[[embedded code]]]] markers which are so
+much less obtrusive to my eyes than the [[\verb'foo']] or
+[[<code>bar</code>]] or [[\fIbaz\fP]] markups known from other
+systems I used before to write articles.
+
+I am a bit unsure at this moment where to draw the line between
+[[NB.]] comments as part of the code as opposed to comments
+as part of the additional documentation.  My gut feeling is that
+only little paragraph headers and small hints "at the coding level"
+would remain as [[NB.]] comments.
+
+I didn't use noweb beyond the toy level yet.  My biggest nowebbed
+project has a whopping three J scripts.
+It yet remains to be seen whether programmers with Real Projects
+benefit from noweb.  Would a developer team be happier one day
+with jumping around in the HTML rendition than with, say, traditional
+"tags" in the editor?  The functionality is the same, but many
+people value a visually nice appearance highly.  Other topics
+of my future investigations will be noweb's interaction with other
+supporting tools.  For example, this article is written with
+noweb, too.  [<i>Ed: to produce HTML: the HTML-to-World conversion
+was done the old-fashioned way...</i>].
+It is also version-controlled, and its most current
+HTML rendition as well as its output scripts should be available
+at the juggle server any time.
+
+One thing is certainly clear:  noweb is fine for writing articles
+on J.  I always have to improve or fix my code when writing an
+article.  With noweb, I am doing the corrections in a single place
+and I can be sure that the code printed in the article will actually
+run and not be ruined by any transcription errors.
+
+<h2>Acknowledgements</h2>
+
+I thank Gill Smith and Christian Lindig for very helpful comments on drafts
+of this article.
+
+

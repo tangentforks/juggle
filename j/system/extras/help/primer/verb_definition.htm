@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Verb definition </title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="monad_dyad_def.htm">&gt&gt;</a>&nbsp;
+<a href="order_of_eval.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Verb definition</h1><TR><TD>
+
+<P>The art of programming lies not so much in using the primitives, as in defining your own verbs, tailored to your requirements. In defining your own verbs you are extending the language to build an application that solves a particular set of problems.</P>
+
+<P>Let's assume that the problem is to convert temperatures between Fahrenheit and centigrade.  You need to define a verb that does that.</P>
+
+<P>The following is a definition of the verb centigrade that will convert its argument from a Fahrenheit value to a centigrade value.</P>
+
+<PRE>   centigrade =. 3 : 0
+t1 =. y. - 32
+t2 =. t1 * 5
+t3 =. t2 % 9
+) 
+</PRE>
+<P>The font size in the above has been upped a bit to make it easier for you to type it exactly into the ijx window. At this point you want to do something that works, rather than deal with problems arising from typos, so transcribe it carefully.</P>
+
+ 
+<P>In the ijx window enter the first line:
+</P>
+<P><TT>   centigrade =. 3 : 0
+</TT></P>
+<P>Type it exactly as shown. There must be a blank between the 3 and the <TT>:</TT> . The 3 indicates that you are defining a verb and the 0 indicates that the definition is in the subsequent input lines.</P>
+
+<P>After you enter the above line the cursor is at the left margin and has not been indented the three spaces as it normally is. This indicates that the system is waiting for you to enter the rest of the definition.</P>
+
+<P>Type in the lines following the definition of  centigrade as shown. They are at the left margin, and so look like they might have been displayed by the system, but in fact they are your entries of the lines required to define the verb.</P>
+
+<P>The final line that contains just the ) ends this special definition input mode. After you enter this final line, the system again indents the three spaces indicating that it is ready to execute a sentence.</P>
+
+<P>If you entered the definition correctly, you should be able to experiment with your new verb.</P>
+
+<PRE>   centigrade 32	
+0
+
+   centigrade _40
+_40
+
+   centigrade 212
+100
+</PRE>
+<P>Let's look at the definition to understand how it works. The <TT>y.</TT> in the first sentence of the definition you type is the name of the argument of the verb. When you execute the verb with an argument the first line will subtract 32 from the argument and define <TT>t1</TT>. When the first line is finished, execution proceeds to the next line, which defines <TT>t2 </TT>as the result of <TT>t1 </TT>times 5. Execution proceeds to the next line and defines <TT>t3 </TT>as <TT>t2 </TT>divided by 9. There are no more lines, so the execution of the verb is finished. The result of the verb is the last result that was evaluated.</P>
+
+<P>We used <TT>3 : 0</TT> to define the verb. The phrase verb define is equivalent and some find it easier to read. However, it hides information and we will use the <TT>3 : 0</TT> form.</P>
+
+<PRE>   centrigrade =. verb define
+. . .
+)
+</PRE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="monad_dyad_def.htm">&gt&gt;</a>&nbsp;
+<a href="order_of_eval.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

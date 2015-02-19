@@ -1,0 +1,123 @@
+<html>
+<head><title>q: Prime Factors  -  Prime Exponents</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="drdot.htm">&gt&gt;</a>&nbsp;
+<a href="dpco.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Prime Factors</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>q: &nbsp;0 0 0</font></td>
+<td align=right  width=33%><b><font size=+2>Prime Exponents</font></b>
+</tr></table>
+<br>
+
+<table width=100% border=0><tr>
+<td valign=top width=49% bgcolor=#eeeeee>
+<tt>q: y </tt>is the list of prime factors of a positive integer 
+argument<tt> y</tt> .<tt> </tt>For example:<br>
+
+<pre>
+   y=: 105600
+   q: y
+2 2 2 2 2 2 2 3 5 5 11
+   */q: y
+105600
+   $ q: 1
+0
+   */q: 1
+1
+   q: b. _1
+*/
+</td>
+
+<td width=2%>&nbsp;</td>
+
+<td valign=top width=49% bgcolor=#eeeeee>
+If<tt> x </tt>is positive and finite,<tt> x q: y </tt>
+is the list of exponents in the prime decomposition of positive 
+integer<tt> y</tt>,<tt> </tt>based upon the first<tt> x </tt>primes; 
+if<tt> x </tt>is<tt> _</tt> ,<tt> </tt>a sufficient number 
+of primes is used.<br><br>
+
+If<tt> x </tt>is negative and finite,<tt> x q: y </tt>
+is a 2-row table of the last<tt> |x </tt>primes and exponents 
+in the prime factorization of<tt> y</tt> ;<tt> </tt>if<tt> x </tt>is
+<tt> __</tt> ,<tt> </tt>a sufficient number of primes is used.  
+For example:<br><br>
+
+<pre>
+   2 q: 700
+2 0
+   10 q: 700
+2 0 2 1 0 0 0 0 0 0
+   _ q: 700
+2 0 2 1
+</pre>
+</td>                                                         
+</tr></table><br>
+
+<pre>
+   ~.@q: 700                            <font face=Times size=+1>Distinct prime factors</font>
+2 5 7
+
+   +/"1@=@q: 700                        <font face=Times size=+1>Exponents in prime factorization</font>
+2 2 1
+
+   __ q: 700
+2 5 7
+2 2 1
+
+   _q: !20x
+ 2 3 5 7 11 13 17 19
+18 8 4 2  1  1  1  1
+
+   y=: 100
+   e=: _&q:                             <font face=Times size=+1>Completed list of exponents</font>
+   (e ; +:&.e ; -:&.e ; %&3&.e)y        <font face=Times size=+1>Exponents, square, sqrt, cube root</font>
++-----+-----+--+-------+
+|2 0 2|10000|10|4.64159|
++-----+-----+--+-------+
+
+   V=: /@,:                             <font face=Times size=+1>For vectors of disparate lengths</font>
+
+   12 (+V&.e; -V&.e; >.V&.e; &lt;.V&.e) y  <font face=Times size=+1>Product, quotient, LCM, GCD</font>
++----+----+---+-+
+|1200|0.12|300|4|
++----+----+---+-+
+
+   totient=: * -.@%@~.&.q:              <font face=Times size=+1>Euler's totient function</font>
+   totient 700
+240
+
+   +/ 1 = 700 +. i.700
+240
+</pre>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="drdot.htm">&gt&gt;</a>&nbsp;
+<a href="dpco.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

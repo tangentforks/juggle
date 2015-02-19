@@ -1,0 +1,656 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 3: Defining Functions</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 3: Defining Functions</H1>
+<p>
+J comes with a collection of functions built-in; we have seen a few, such as <TT>*</TT> and <TT>+</TT>. 
+In this section we take a first look at how to put together these built-in functions,  
+in various ways, for the purpose of defining our own functions. 
+<H2>3.1  Renaming</H2>
+<p>
+The simplest way of defining a function is to give a name of our own choice to a built-in function.  
+The definition is an assignment.   
+For example, to define <TT>square</TT> to mean the  
+same as the built-in <TT>*:</TT> function:  
+<PRE>
+   square =: *:
+   
+   square 1 2 3 4
+1 4 9 16
+</PRE>
+<p>
+The point here is that we might prefer our own name as more memorable.  
+ We can use different names for the monadic and dyadic cases of the same built-in function: 
+<PRE>
+   Ceiling =: >.
+   Max     =: >.
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>Ceiling 1.7</TT></TD> 
+<TD><TT>3 Max 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>4</TD> 
+</PRE></TABLE> 
+<H2>3.2  Inserting</H2>
+<p>
+Recall that <TT>(+/ 2 3 4)</TT> means <TT>2+3+4</TT>,  
+and similarly  <TT>(*/ 2 3 4)</TT> means <TT>2*3*4</TT>.  
+We can define a function and give it a name, say <TT>sum</TT>, with an assignment: 
+<PRE>
+   sum =: + /
+   
+   sum 2 3 4
+9
+</PRE>
+<p>
+Here, <TT>(sum =: +/)</TT> shows us that <TT>(+/)</TT> is by itself an expression 
+which denotes a function. 
+<p>
+This expression <TT>(+/)</TT> can be understood as: "Insert" <TT>(/)</TT> 
+applied to the function <TT>(+)</TT> to produce a list-summing function. 
+<p>
+That is, <TT>/</TT> is itself a kind of function. It takes one argument, 
+on its left. Both its argument and its result are functions.  
+<H2>3.3  Terminology: Verbs, Operators and Adverbs</H2>
+<p>
+We have seen functions of two kinds. Firstly, there are "ordinary" functions, such as <TT>+</TT> and <TT>*</TT>, 
+which compute numbers from numbers.   
+In J these are called "verbs". 
+<p>
+Secondly, we have functions, such as <TT>/</TT>, which compute functions from functions. 
+Functions of this kind will here be called "operators", to distinguish them from verbs. 
+<p>
+(The word "operator" is not used in the official J literature. However, in this book, for the purpose 
+of explanation, it will be convenient to have a single word, "operator",  
+to describe any kind of function which is not a verb.  
+Then we may say that every function in J is either a verb or an operator.) 
+<p>
+Operators  which take one argument are called "adverbs".  An adverb always takes its 
+ argument on the left.  Thus we say that in the expression <TT>(+ /)</TT> the adverb <TT>/</TT> is applied to 
+the verb <TT>+</TT> to produce a list-summing verb. 
+<p>
+The terminology comes from the grammar of English sentences: verbs act upon things and 
+ adverbs modify verbs.  
+<H2>3.4  Commuting</H2>
+<p>
+Having seen one adverb, <TT>(/)</TT>, let us look at another. 
+The adverb <TT>~</TT> has the effect of exchanging 
+left and right arguments.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>'a' , 'b'</TT></TD> 
+<TD><TT>'a' ,~ 'b'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>ab</TD> 
+<TD><PRE>ba</TD> 
+</PRE></TABLE> 
+<p>
+The scheme is that for a dyad <TT>f</TT> with arguments <TT>x</TT> and <TT>y</TT> 
+<PRE>
+x f~ y      means    y f x 
+</PRE>
+<p>
+For another example, recall the residue verb 
+<TT>|</TT> where <TT>2 | 7</TT> means, in conventional notation,  
+"7 mod 2". We can define a <TT>mod</TT> verb: 
+<PRE>
+   mod =: | ~
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>7 mod 2</TT></TD> 
+<TD><TT>2 | 7</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+Let me draw some pictures.  
+Firstly, here is a diagram of function <TT>f</TT> 
+applied to an argument <TT>y</TT> to produce a result <TT>(f y)</TT>.  In the diagram 
+the function <TT>f</TT> is drawn as a rectangle and the arrows  
+are arguments flowing into, or results  
+flowing out of, the function. Each arrow is labelled 
+with an expression.  
+<p>
+<IMG SRC="diag01.gif" ALT="diagram 01" WIDTH=240 HEIGHT=200> 
+<p>
+Here is a similar diagram for a dyadic 
+<TT>f</TT> applied to arguments <TT>x</TT> and <TT>y</TT> to 
+produce <TT>(x f y)</TT>. 
+<p>
+<IMG SRC="diag02.gif" ALT="diagram 02" WIDTH=240 HEIGHT=200> 
+<p>
+Here now is a diagram for the function <TT>(f~)</TT>, which can be pictured as containing 
+inside itself the function <TT>f</TT>, together 
+with a crossed arrangement of arrows.  
+<p>
+<IMG SRC="diag03.gif" ALT="diagram 03" WIDTH=240 HEIGHT=200> 
+<H2>3.5  Bonding</H2>
+<p>
+Suppose we wish to define a verb <TT>double</TT> such that <TT>double x</TT> means <TT>x * 2</TT> .  
+That is, <TT>double</TT> is to mean "multiply by 2".   We define it like this: 
+<PRE>
+   double =: * & 2
+   
+   double 3
+6
+</PRE>
+<p>
+Here we take a dyad, <TT>*</TT>, and produce from it a monad by fixing  
+one of the two arguments at a chosen value (in this case, 2).   
+The <TT>&</TT> operator forms a bond between a function and a value for one argument.  
+The bonding operation is also known as "currying". 
+  
+Instead of fixing the right argument we could fix the left.  
+For example, suppose that the rate of sales tax is 10%,  
+then a function to compute the tax, from the purchase-price is: 
+<PRE>
+   tax =: 0.10 & *
+   
+   tax 50
+5
+</PRE>
+<p>
+Here is a diagram illustrating function <TT>k&f</TT>. 
+<p>
+<IMG SRC="diag04.gif" ALT="diagram 04" WIDTH=240 HEIGHT=200> 
+<H2>3.6  Terminology: Conjunctions and Nouns</H2>
+<p>
+The expression <TT>(*&2)</TT> can be described by 
+saying that the <TT>&</TT> operator is a function which is applied  
+to two arguments   
+(the verb <TT>*</TT> and the number <TT>2</TT>), and the result is 
+the "doubling" verb. 
+<p>
+A two-argument operator such as <TT>&</TT> is called in J a "conjunction", because 
+it conjoins its two arguments.  
+By contrast, recall that adverbs are operators with only one argument. 
+<p>
+Every function in J, whether built-in or user-defined, 
+ belongs to 
+exactly one of the four classes: 
+monadic verbs, 
+dyadic verbs, 
+adverbs or conjunctions. 
+Here we regard an ambivalent symbol such as <TT>-</TT> 
+as denoting two different verbs: monadic negation 
+or dyadic subtraction. 
+<p>
+Every expression in J has a value of some type. 
+All values which are not functions 
+are data (in fact, arrays, as we saw in the previous section). 
+<p>
+In J, data values, that is, arrays, are called "nouns",  
+in accordance with the English-grammar analogy.   
+We can call something a noun to emphasize that it's not a verb, 
+or an array to emphasize that it may have several dimensions. 
+<H2>3.7  Composition of Functions</H2>
+<p>
+Consider the English language expression: 
+the sum of the squares of the numbers <TT>1 2 3</TT>, 
+that is, <TT>(1+4+9)</TT>, or <TT>14</TT>.  Since we defined above 
+verbs for <TT>sum</TT> and <TT>square</TT>, we are in a position to write the J expression as: 
+<PRE>
+   sum square 1 2 3
+14
+</PRE>
+<p>
+A single sum-of-the-squares function can be written as a composite of <TT>sum</TT> and <TT>square</TT>: 
+<PRE>
+   sumsq =: sum @: square
+   
+   sumsq 1 2 3
+14
+</PRE>
+<p>
+The symbol <TT>@:</TT> (at colon) is called a "composition" operator.  
+The scheme is that if <TT>f</TT> and <TT>g</TT> are verbs, 
+then for any argument <TT>y</TT> 
+<PRE>
+(f @: g) y    means  f (g y) 
+</PRE>
+<p>
+Here is a diagram for the scheme: 
+<p>
+<IMG SRC="diag05.gif" ALT="diagram 05" WIDTH=240 HEIGHT=200> 
+<p>
+At this point, the reader may be wondering why we write <TT>(f @: g)</TT> and not simply <TT>(f g)</TT> to denote 
+composition. The short answer is that <TT>(f g)</TT> means something else, which we will come to. 
+<p>
+For another example of composition, a temperature in degrees Fahrenheit can be converted to Celsius by 
+composing together functions to subtract <TT>32</TT> and multiply by <TT>5%9</TT>. 
+<PRE>
+   s32     =: - & 32
+   m59     =: * & (5%9)
+   convert =: m59 @: s32
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>s32 212</TT></TD> 
+<TD><TT>m59 s32 212</TT></TD> 
+<TD><TT>convert 212</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>180</TD> 
+<TD><PRE>100</TD> 
+<TD><PRE>100</TD> 
+</PRE></TABLE> 
+<p>
+For clarity, these examples showed composition of named functions.  
+We can of course compose expressions denoting functions: 
+<PRE>
+   conv =: (* & (5%9)) @: (-& 32) 
+   conv 212
+100
+</PRE>
+<p>
+We can apply an expression denoting a function, without giving it a name: 
+<PRE>
+   (* & (5%9)) @: (-& 32)  212
+100
+</PRE>
+<p>
+The examples above showed composing a monad with a monad. The next example shows we can compose a monad with a dyad. 
+The general scheme is: 
+<PRE>
+            x (f @: g) y   means    f (x g y) 
+</PRE>
+<p>
+For example, the total cost of an order for several items is given by multiplying quantities 
+by corresponding unit prices, and then summing the results.  
+To illustrate: 
+<PRE>
+   P =:  2 3        NB. prices
+   Q =:  1 100      NB. quantities 
+   
+   total =: sum @: *
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>P</TT></TD> 
+<TD><TT>Q</TT></TD> 
+<TD><TT>P*Q</TT></TD> 
+<TD><TT>sum P * Q</TT></TD> 
+<TD><TT>P total Q</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>1 100</TD> 
+<TD><PRE>2 300</TD> 
+<TD><PRE>302</TD> 
+<TD><PRE>302</TD> 
+</PRE></TABLE> 
+<p>
+For more about composition, see  <A HREF="08.htm">Chapter 08</A>. 
+<H2>3.8  Trains of Verbs</H2>
+<p>
+Consider the expression "no pain, no gain". This is a compressed idiomatic form, quite comprehensible 
+even if not grammatical in construction - it is not a sentence, having no main verb.  J has a similar notion: 
+a compressed idiomatic form, based on a scheme for giving meaning to 
+short lists of functions.   
+We look at this next.  
+<H3>3.8.1  Hooks</H3>
+<p>
+Recall the verb <TT>tax</TT> we defined above to compute the amount of tax on 
+a purchase, at a rate of 10%. The definition is repeated here: 
+<PRE>
+   tax =: 0.10 & *
+</PRE>
+<p>
+The amount payable on a purchase is the purchase-price plus the computed tax.  
+A verb to compute the amount payable can be written: 
+<PRE>
+   payable =: + tax
+</PRE>
+<p>
+If the purchase price is, say, <TT>$50</TT>, we see: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>tax 50</TT></TD> 
+<TD><TT>50 + tax 50</TT></TD> 
+<TD><TT>payable 50</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>5</TD> 
+<TD><PRE>55</TD> 
+<TD><PRE>55</TD> 
+</PRE></TABLE> 
+<p>
+In the definition <TT>(payable =: + tax)</TT> we have a sequence of two verbs 
+<TT>+</TT> followed by <TT>tax</TT>.  
+This sequence is isolated, by being on the right-hand side of the assignment. 
+Such an isolated sequence of verbs is called a "train", and a train of 2 verbs 
+is called a "hook". 
+<p>
+We can also form a hook just by isolating the two verbs inside parentheses: 
+<PRE>
+   (+ tax) 50
+55
+</PRE>
+<p>
+The general scheme for a hook is that if <TT>f</TT> is a dyad and <TT>g</TT> is a monad,  
+then for any argument <TT>y</TT>: 
+<PRE>
+    (f g) y       means   y f (g y) 
+</PRE>
+<p>
+Here is a diagram for the scheme: 
+<p>
+<IMG SRC="diag06.gif" ALT="diagram 06" WIDTH=240 HEIGHT=200> 
+<p>
+For another example, recall that the "floor" verb <TT>&lt;.</TT> computes the 
+ whole-number part of its argument. Then to test whether a number is a  
+whole number or not, we can ask whether it is equal to its floor. 
+A verb meaning "equal-to-its-floor" is the hook <TT>(= &lt;.)</TT> : 
+<PRE>
+   wholenumber  =:  = &lt;.
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 3 2.7</TT></TD> 
+<TD><TT>&lt;. y</TT></TD> 
+<TD><TT>y = &lt;. y</TT></TD> 
+<TD><TT>wholenumber y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 2.7</TD> 
+<TD><PRE>3 2</TD> 
+<TD><PRE>1 0</TD> 
+<TD><PRE>1 0</TD> 
+</PRE></TABLE> 
+<H3>3.8.2  Forks</H3>
+<p>
+The arithmetic mean of a list of 
+numbers <TT>L</TT> is given by the sum of <TT>L</TT> divided by  
+the number of items in <TT>L</TT>. (Recall that number-of-items is given by the monadic verb <TT>#</TT>.) 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>L =: 3 5 7 9</TT></TD> 
+<TD><TT>sum L</TT></TD> 
+<TD><TT># L</TT></TD> 
+<TD><TT>(sum L) % (# L)</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 5 7 9</TD> 
+<TD><PRE>24</TD> 
+<TD><PRE>4</TD> 
+<TD><PRE>6</TD> 
+</PRE></TABLE> 
+<p>
+A verb to compute the mean as the sum divided by the number of items 
+can be written as a sequence of three verbs: 
+<TT>sum</TT> followed by <TT>%</TT> followed by <TT>#</TT> . 
+<PRE>
+   mean =: sum % #
+   
+   mean L
+6
+</PRE>
+<p>
+An isolated sequence of three verbs is 
+called a fork.  The 
+ general scheme is that if 
+<TT>f</TT> is a monad,  <TT>g</TT> is a dyad and <TT>h</TT> is a monad 
+then for any argument y, 
+<PRE>
+     (f g h) y     means   (f y) g (h y) 
+</PRE>
+<p>
+Here is a diagram of this scheme: 
+<p>
+<IMG SRC="diag08.gif" ALT="diagram 08" WIDTH=240 HEIGHT=200> 
+<p>
+Hooks and forks are sequences of verbs, 
+also called "trains" of verbs. 
+For more about trains, see  <A HREF="09.htm">Chapter 09</A>. 
+<H2>3.9  Putting Things Together</H2>
+<p>
+Let us now try a longer example which puts together several of the ideas we saw above. 
+<p>
+The idea is to define a verb to produce a simple display of a  
+given list of numbers, showing for each number what it is as a percentage of the total.   
+<p>
+Let me begin by showing you a complete program for this example, so you can see  
+clearly where we are going. I don't expect you to study this in detail now, because 
+explanation will be given below. Just note that we are looking at a 
+a program of 8 lines, defining a verb called <TT>display</TT> and  
+its supporting functions. 
+<PRE>
+   NB. display verb: tabulate as percentages
+   
+   percent  =: (100 & *) @: (% +/)
+   round    =: &lt;. @: (+&0.5)
+   comp     =: round @: percent
+   br       =: ,.  ;  (,. @: comp)
+   tr       =: ('Data';'Percentages') & ,
+   reshape  =: 2 2 & $
+   display  =: reshape @: tr @: br
+   
+</PRE>
+<p>
+To illustrate that this verb displays the data 
+as given and as computed percentages: 
+<PRE>
+   display 15 30 15
++----+-----------+
+|Data|Percentages|
++----+-----------+
+|15  |25         |
+|30  |50         |
+|15  |25         |
++----+-----------+
+</PRE>
+<p>
+The verb <TT>percent</TT> computes the percentages, dividing each 
+number by the total, with the hook <TT>(% +/)</TT> 
+and then multiplying by <TT>100</TT>.  
+To save you looking backwards and forwards,  
+the definition of <TT>percent</TT> 
+is repeated here: 
+<PRE>
+   percent  =: (100 & *) @: (% +/)
+</PRE>
+<p>
+To illustrate with simple data: 
+<PRE>
+   data =: 3 5
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>data % +/ data</TT></TD> 
+<TD><TT>(% +/) data</TT></TD> 
+<TD><TT>percent data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 5</TD> 
+<TD><PRE>0.375 0.625</TD> 
+<TD><PRE>0.375 0.625</TD> 
+<TD><PRE>37.5 62.5</TD> 
+</PRE></TABLE> 
+<p>
+Let us round the percentages to the nearest whole number, 
+by adding <TT>0.5</TT> to each and then taking the floor (the integer part) 
+with the verb <TT>&lt;.</TT> The verb <TT>round</TT> is: 
+<PRE>
+   round    =: &lt;. @: (+&0.5)
+</PRE>
+<p>
+Then the verb to compute the displayed values from the data is: 
+<PRE>
+   comp     =: round @: percent
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>comp data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 5</TD> 
+<TD><PRE>38 63</TD> 
+</PRE></TABLE> 
+<p>
+Now we want to show the data and computed  
+values in columns. To make a 1-column table out of a list, 
+we can use the built-in verb <TT>,.</TT> (comma dot, called "Ravel Items"). 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>,. data</TT></TD> 
+<TD><TT>,. comp data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 5</TD> 
+<TD><PRE>3 
+5</TD> 
+<TD><PRE>38 
+63</TD> 
+</PRE></TABLE> 
+<p>
+To make the bottom row of the display, we define 
+verb <TT>br</TT> as a fork which links together 
+the data and the computed values, both as columns: 
+<PRE>
+   br  =: ,.  ;  (,. @: comp)
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>br data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 5</TD> 
+<TD><PRE>+-+--+ 
+|3|38| 
+|5|63| 
++-+--+</TD> 
+</PRE></TABLE> 
+<p>
+To make the top row of the display (the column headings), here is one possible way. 
+The bottom row will be a list of two boxes. On the 
+front of this list we stick two more boxes 
+for the top row, giving a list of 4 boxes. To do this we define a verb <TT>tr</TT>: 
+<PRE>
+   tr  =: ('Data';'Percentages') & ,
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>data</TT></TD> 
+<TD><TT>br data</TT></TD> 
+<TD><TT>tr br data</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 5</TD> 
+<TD><PRE>+-+--+ 
+|3|38| 
+|5|63| 
++-+--+</TD> 
+<TD><PRE>+----+-----------+-+--+ 
+|Data|Percentages|3|38| 
+|    |           |5|63| 
++----+-----------+-+--+</TD> 
+</PRE></TABLE> 
+<p>
+All that remains is to reshape this list of 4 boxes into a 2 by 2 table, using the <TT>reshape</TT> 
+verb defined as: 
+<PRE>
+   reshape   =: 2 2 & $
+   
+   reshape tr br data
++----+-----------+
+|Data|Percentages|
++----+-----------+
+|3   |38         |
+|5   |63         |
++----+-----------+
+</PRE>
+<p>
+and so we put everything together: 
+<PRE>
+   display =: reshape @: tr @: br
+   
+   display data
++----+-----------+
+|Data|Percentages|
++----+-----------+
+|3   |38         |
+|5   |63         |
++----+-----------+
+</PRE>
+<p>
+This <TT>display</TT> verb has two aspects:  
+the function <TT>comp</TT> which computes the values  
+(the rounded percentages), and 
+the remainder which is concerned to present the results. 
+By changing the definition of <TT>comp</TT>, we can <TT>display</TT> a tabulation of the values of  
+other functions. Suppose we define <TT>comp</TT> to be the built-in square-root verb <TT>(%:)</TT> . 
+<PRE>
+   comp =: %:
+</PRE>
+<p>
+We would also want to change the column-headings in the top row, specified by the <TT>tr</TT> verb: 
+<PRE>
+   tr   =: ('Numbers';'Square Roots') & ,
+   
+   display 1 4 9 16
++-------+------------+
+|Numbers|Square Roots|
++-------+------------+
+| 1     |1           |
+| 4     |2           |
+| 9     |3           |
+|16     |4           |
++-------+------------+
+</PRE>
+<p>
+In review, we have seen a small J program with some characteristic features of J: 
+bonding, composition and a fork. As with all J programs, this is only one 
+of the many posible ways to write it. 
+  
+This is the end of Chapter 3. 
+  </tr> </table>
+
+<HR> 
+
+<p ALIGN=LEFT>
+<A HREF="04.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p><FONT SIZE=-2>Copyright &copy; Roger Stokes 1999. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 10 September 1999</p>
+</BODY>
+</HTML>

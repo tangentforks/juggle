@@ -1,0 +1,73 @@
+<html>
+<head><title>continue.</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="cfor.htm">&gt&gt;</a>&nbsp;
+<a href="cbreak.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<b><font face="Courier New" size=+3>continue.</font></b><br><br>
+
+<table width=100%><tr><td bgcolor=#eeeeee>
+<tt>continue. </tt>may be used within 
+a<tt> <a href="cfor.htm">for.</a></tt> ,<tt> </tt>
+<tt> <a href="cwhile.htm">while.</a></tt> ,<tt> </tt>
+or<tt> <a href="cwhile.htm">whilst.</a> </tt>
+control structure, and goes to the top of 
+the innermost such enclosing structure.  See 
+also<tt> <a href="cbreak.htm">break.</a></tt> .
+<br>&nbsp;</td>
+</tr></table><br>
+
+For example:<br>
+
+<pre>
+sumeven=: 3 : 0
+ s=.0
+ for_j. i.y. do.
+  if. 2|j do. continue. end.
+  s=.j+s
+ end.
+)
+
+   sumeven 9
+20
+
+   +/ (* -.@(2&amp;|)) i.9
+20
+
+   sumeven 1000
+249500
+
+   +/ (* -.@(2&amp;|)) i.1000
+249500
+
+   (sumeven = 2&amp;!@&gt;.&amp;.-:) 1000
+1
+</pre>
+
+<br>
+<!--bottom jump start--><hr><a href="cfor.htm">&gt&gt;</a>&nbsp;
+<a href="cbreak.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

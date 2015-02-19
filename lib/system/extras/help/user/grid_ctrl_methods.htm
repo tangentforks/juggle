@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>Methods</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="grid_ctrl_prop.htm">&gt&gt;</a>&nbsp;
+<a href="grid_ctrl_classes.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Method</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+The following are the public methods of the base jzgrid class.
+
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+<B>Method</B>
+<TD VALIGN="TOP" WIDTH=497><P>
+<B>Description</B>
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+create
+<TD VALIGN="TOP" WIDTH=497><P>
+resets grid globals
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+destroy
+<TD VALIGN="TOP" WIDTH=497><P>
+destroy object (cover for codestroy)
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+get
+<TD VALIGN="TOP" WIDTH=497><P>
+get data for grid, returns 1 if new data was required
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+gridselect
+<TD VALIGN="TOP" WIDTH=497><P>
+selects grid control (cover for glsel)
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+init
+<TD VALIGN="TOP" WIDTH=497><P>
+initialize grid. Argument is:<br>
+<p>dataname name of grid data<br>
+gridid  id of grid control<br>
+sbarid  id of scrollbar<br>
+sbarvid  id of scrollbarv<br>
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+setdata
+<TD VALIGN="TOP" WIDTH=497><P>
+set new data in grid
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+setfont0
+<TD VALIGN="TOP" WIDTH=497><P>
+set font 0
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+setfont1
+<TD VALIGN="TOP" WIDTH=497><P>
+set font 1
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+setheights
+<TD VALIGN="TOP" WIDTH=497><P>
+set heights for range
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+setwidths
+<TD VALIGN="TOP" WIDTH=497><P>
+set widths for range
+</TR></TABLE>
+
+<P>
+<B>Event handler methods</B>
+
+The following methods handle events for the grid control and are defined in jzgrid.
+<br><br>
+
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+<B>Method</B>
+<TD VALIGN="TOP" WIDTH=497><P>
+<B>Description</B>
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+char
+<TD VALIGN="TOP" WIDTH=497><P>
+character event handler
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mbldbl
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button left double click
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mbldown
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button left down
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mblup
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button left up
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mbrdbl
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button right double click
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mbrdown
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button right down
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mbrup
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button right up
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+mmove
+<TD VALIGN="TOP" WIDTH=497><P>
+mouse button move
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+scrollbar
+<TD VALIGN="TOP" WIDTH=497><P>
+scroll horizontal bar
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+scrollbarv
+<TD VALIGN="TOP" WIDTH=497><P>
+scroll vertical bar
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+size
+<TD VALIGN="TOP" WIDTH=497><P>
+size event handler<br>
+</TR></TABLE>
+
+<P>
+<B>Watch Methods</B>
+
+The following are the public methods of the watch class jwgrid. In some cases, the watch class method overrides the base method.
+
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+<B>Method</B>
+<TD VALIGN="TOP" WIDTH=497><P>
+<B>Description</B>
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+copy
+<TD VALIGN="TOP" WIDTH=497><P>
+copy selected cells to clipboard
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+create
+<TD VALIGN="TOP" WIDTH=497><P>
+resets grid globals
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+destroy
+<TD VALIGN="TOP" WIDTH=497><P>
+destroy method
+</tr><TR>
+<TD VALIGN="TOP" WIDTH=110><P>
+paste
+<TD VALIGN="TOP" WIDTH=497><P>
+paste clipboard into grid
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=110><P>
+setdata
+<TD VALIGN="TOP" WIDTH=497><P>
+set new data in grid
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=110><P>
+sethightlight
+<TD VALIGN="TOP" WIDTH=497><P>
+show highlights in grid<br><br>
+</TR></TABLE>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="grid_ctrl_prop.htm">&gt&gt;</a>&nbsp;
+<a href="grid_ctrl_classes.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>J Commands &amp; Events</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="comm_protocol.htm">&gt&gt;</a>&nbsp;
+<a href="dde_conversations.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>J Commands and Events</h1>
+<TR><TD colspan="2"> 
+
+
+
+<p>
+The following summarizes the Window Driver commands and event types. Here:
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=55><P>
+<pre>S</pre>
+<TD VALIGN="TOP" WIDTH=200><P>
+is the service name
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+<pre>T</pre>
+<TD VALIGN="TOP" WIDTH=200><P>
+is a topic
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+<pre>I</pre>
+<TD VALIGN="TOP" WIDTH=200><P>
+is an item
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+<pre>D</pre>
+<TD VALIGN="TOP" WIDTH=200><P>
+is some data
+</tr></table>
+
+<i>Server commands</i>:
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddename S</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+set service name <code>S</code>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddereqd D</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+provide data <code>D</code> to a ddereq event. It must be the first command given after a ddereq event is received.
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddeadvise T I D</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+provides data <code>D</code> to advise loops with given topic and item. It returns 0 if the loop is no longer active.
+</tr></table>
+
+<i>Server events:</i>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddepoke</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+data has been sent
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddeex</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+execute command string
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddereq</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+request for data
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddestart</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+request to start advise loop
+</tr></table>
+
+<i>Client commands:</i>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddecons</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+return conversation names (service and topic)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddedis [S [T]]</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+disconnect
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddeex S T D</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+execute command in server 
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddepoke S T I D</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+poke data to server
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddereq S T I</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+request data from server
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddestart S T I</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+start advise loop
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddestop S T I</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+top advise loop
+</tr></table>
+
+<i>Client events:</i>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>result</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+answer to ddereq query
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=100><P>
+<pre>ddeadvise</pre>
+<TD VALIGN="TOP" WIDTH=500><P>
+new data from advise loop
+</tr></table>  
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="comm_protocol.htm">&gt&gt;</a>&nbsp;
+<a href="dde_conversations.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

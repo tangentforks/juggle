@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Project Conventions</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="inti_scripts.htm">&gt&gt;</a>&nbsp;
+<a href="build_apps.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Project Conventions</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+The project facilities require that you adhere to the following conventions:
+
+<P>
+<li>File extensions must be:
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=139><P>
+ordinary scripts
+<TD VALIGN="TOP" WIDTH=42><P>
+<code>ijs</code>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=139><P>
+locked scripts
+<TD VALIGN="TOP" WIDTH=42><P>
+<code>ijl</code>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=139><P>
+runtime scripts
+<TD VALIGN="TOP" WIDTH=42><P>
+<code>ijr</code>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=139><P>
+project files
+<TD VALIGN="TOP" WIDTH=42><P>
+<code>ijp</code>
+</TR></TABLE>
+
+<P>
+<li>Dependencies must be given in script files with lines of the form:
+
+<pre>
+   load 'dates regex strings'
+</pre>
+
+<P>
+where the verb is either <code>load</code>, <code>require</code> or <code>corequire</code>, and the files are given in a text string. Specifically, the first word on the line must be one of the allowed verbs, and this must be followed by a character string. Blank separators are ignored.
+
+<P>
+Note that where dependencies are given in the right form, the project system will automatically include the required files in the project.
+
+<P>
+There are no requirements as to project directories. However, it makes for easier searching if you group the project subdirectories in a small number of directories. For example, the recommended project directory is user\projects, and you might then create subdirectories such as user\projects\mywork, user\projects\utils etc. Also, you may wish to name project files with the same name as the directory, since this simplifies the display in the Look In list box.
+
+<P>
+Since directories are searched for project files when you use the Project Manager, you should avoid using directories where there are a large number of subdirectories not being used for projects. For example, you would typically not include projects under the J system subdirectory. 
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="inti_scripts.htm">&gt&gt;</a>&nbsp;
+<a href="build_apps.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,14 @@
+The material here is considered to be not even alpha-quality.  Use
+at your own risk.  Everything here should be eventually moved to
+some other place in the repository once it is deemed usable by
+other persons by just the authors of the code.
+
+The only reason to provide this non-public material in this public
+space is to allow coders and beta-testers easy access to the code.
+Once the material has "gone public" in some other directory, it
+will be removed here.  Don't be surprised by empty directories with
+all files in the CVS "attic".  One example was the genesis of the
+"jmf" Unix support.
+
+Release engineering and beta-testing will be based on tags and
+branches if needs be.  Needs be.

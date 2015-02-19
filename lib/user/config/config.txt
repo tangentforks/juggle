@@ -1,0 +1,11 @@
+directory:  user/config
+
+This is an empty directory created when J is
+installed, and is intended for configuration files.
+
+Typically, when you change the J configuration,
+for example using Edit|Configure... the new
+configuration files are written here.
+
+If this directory is deleted, the files are written
+in the system directory extras\config.

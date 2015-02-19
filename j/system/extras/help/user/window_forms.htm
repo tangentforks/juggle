@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>Window Forms</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="event_handlers.htm">&gt&gt;</a>&nbsp;
+<a href="wd.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+<TR valign="baseline"><TD><H1>Windows Forms</h1>
+<TR><TD colspan="2"> 
+<P>
+<code>wd</code> is used to create the forms (windows and controls) in a user interface. The easiest way to do this is to use the Form Editor, which builds the appropriate <code>wd</code> calls for you. 
+
+<P>
+For a tutorial introduction to the Form Editor, see lab <I> Form Editor</I>.
+
+<P>
+The following example creates a window <code>mywin</code>, adds a push button named <code>pressme</code>, then shows it as a topmost window (i.e. it stays on top of any other window):
+
+<pre>
+   wd 'pc mywin;cc pressme button;pshow;ptop'
+</pre>
+
+<P>
+Once it is displayed, you can move the window away from the J session, so that you can see both the session and the window. You can set focus on the J session or in the window, by clicking on them.
+
+<P>
+If you now click on the button, it depresses, but otherwise nothing seems to happen. In fact, the click on the button causes an <I> event</I>. If a corresponding <I>event handler</I> is defined, then it is invoked, otherwise the event is ignored.
+
+<P>
+The following example is an event handler for the button. To try this out, enter the following definition:
+
+<pre>
+   mywin_pressme_button=: wdinfo bind 'button pressed'
+</pre>
+
+<P>
+Now when you click on the button, this event handler is run, and an information box pops up.
+
+<P>
+The event handler <code>mywin_pressme_button</code> is an ordinary J verb. It was defined using the standard utility <code>wdinfo</code> that displays an information message box, together with a specific argument '<code>button pressed</code>'. For example, you can run this program from the J session, by entering:
+
+<pre>
+   mywin_pressme_button''
+</pre>
+
+</TD></tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="event_handlers.htm">&gt&gt;</a>&nbsp;
+<a href="wd.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

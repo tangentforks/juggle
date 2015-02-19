@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>Entering Information</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="form_locales.htm">&gt&gt;</a>&nbsp;
+<a href="wdhandler.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Entering Information</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+We next look at a simple example of creating a form to enter information. This example is in a script file included with the J system. 
+
+<P>
+First, clear out any existing definitions with:
+
+<pre>
+   clear''
+</pre>
+
+<P>
+Then open the script file:
+
+<pre>
+   open 'system\examples\demo\name.ijs'
+</pre>
+
+<P>
+You may find it helpful to print out the script file; to do so, with the script window in focus, select the menu item File/Print. The relevant definitions are as follows:
+
+<pre>
+NAME=: 'Jemima Puddle Duck'
+
+EDITNAME=: 0 : 0
+pc editname;
+xywh 5 5 70 10;cc name edit;
+xywh 85 5 32 12;cc OK button;
+xywh 85 20 32 12;cc Cancel button;
+pas 6 6;pcenter;pshow;ptop;
+)
+
+NB. this creates and initializes the form:
+editname=: 3 : 0
+wd EDITNAME
+wd 'set name *',NAME
+wd `'''''pshow'
+)
+
+NB. this handles the Cancel button:
+editname_Cancel_button=: wd bind 'pclose'
+
+NB. this handles the OK button:
+editname_OK_button=: 3 : 0
+
+NAME=: name
+wd 'pclose'
+)
+
+NB. run the form:
+editname''
+</pre>
+
+<P>
+The script defines a global variable, <code>NAME</code>, and a form, <code>EDITNAME</code>, with an edit field and OK and Cancel buttons. The following verbs are also defined:
+<p>
+<li><code>editname</code> is used to create the form. It first resets the Window Driver, then sends the form definition <code>EDITNAME</code> to the Window Driver to create the form, then sets the value of the global <code>NAME</code> into the name field.
+<p>
+<li><code>editname_Cancel_button</code> is used to handle a click on the Cancel button. It simply closes the form.
+<p><li><code>editname_OK_button</code> is used to handle a click on the OK button. It redefines the global <code>NAME</code> with the current value of the name field, then closes the form.
+
+<P>
+Try this out by running the script (select menu option  Run/Window):
+
+<P>
+Change the value of the name field, press  OK, and check the value of the global, <code>NAME</code>.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="form_locales.htm">&gt&gt;</a>&nbsp;
+<a href="wdhandler.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Plot</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="plot_locale.htm">&gt&gt;</a>&nbsp;
+<a href="more_primitives.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Plot</h1><TR><TD>
+
+<P>To use the plot facility you need to load it.
+</P>
+<PRE>   load 'plot'
+</PRE>
+<P>Try a simple plot.
+</P>
+<PRE>   plot 5 10 23 45 8
+</PRE>
+ <img src="plot.gif">
+
+<P>The plot is in a separate window that stays on top of your session. Close the plot window to get rid of it.</P>
+
+<P>Now that you can plot data, let's take a look at some of the data you were generating in the previous section.</P>
+<PRE>   plot 2 ^ i. 5
+   plot ? 5 $ 100
+   plot ? 50 $ 100
+   plot ? 100 $ 100
+   plot ? 1 + i. 50
+   plot ? 1 + i. 100</PRE>
+
+<P>A left argument customizes the plot.
+</P>
+<PRE>   'TITLE myplot;TYPE bar' plot i.5	
+</PRE>
+<P>Or try the sine values you calculated earlier.
+</P>
+<PRE>   plot 1 o. i. 16   
+</PRE>
+<P>There is a family of utilities defined in script trig.ijs you could make use of here. Use load to load that script.</P>
+
+<PRE>   load 'trig'
+   plot sin i. 16   
+</PRE>
+<P>To produce a finer plot you need to provide more results over a similar range.</P>
+
+<PRE>   plot sin 0.2 * i.60
+   plot cos 0.2 * i.60
+</PRE>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="plot_locale.htm">&gt&gt;</a>&nbsp;
+<a href="more_primitives.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

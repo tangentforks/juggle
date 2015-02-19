@@ -1,0 +1,52 @@
+N Part III: Definitions
+T
+ Each main entry in the body of the dictionary is
+ headed by a line beginning with the informal name of
+ the monadic case of the function, and ending with the
+ informal name of the dyadic case.  The line also
+ contains the formal name of the function, consisting
+ of one character or two, the last of which is a period
+ or a colon.  In the case of a conjunction, the formal
+ name is preceded by [[m]] or [[u]] (denoting a noun or
+ verb argument) and is followed by [[n]] or [[v]].  An
+ adverb has no symbol to its right.
+ 
+ The three ranks (in the order _(monadic)_, _(left)_,
+ and _(right)_) are also indicated, using the symbol
+ [[_]] for an infinite (unbounded) rank, and with ranks
+ dependent on the ranks of argument verbs shown as
+ [[mu]], [[lv]], etc.
+ 
+ Examples are provided with each definition, and the
+ more complex of them may use auxiliary functions as
+ yet unfamiliar.  These examples may be approached by
+ ignoring all but the immediately relevant aspects of
+ such auxiliaries, and by examining (and perhaps
+ entering for execution) component phrases that can be
+ used to build up the final result.
+ 
+ For example, in the discussion of the adverb [[/]],
+ the sentences below display various uses of it for
+ convenient comparison:
+E
+ x=: 1 2 3 4 5 [ y=: 7 5 3
+ (,.x);(x+/y);y;(x*/y);(+/y);(*/y)
+T
+ Even if the auxiliary functions [[;]] and [[,.]] are
+ unfamiliar, their relevant effects are probably
+ evident; if not, they may be clarified by the
+ following experiments:
+E
+ x;y
+ ,.7 8
+ $,.7 8
+T
+ Although a name (such as _(foreign)_ for [[!:]]) is
+ suggested for each word, others can be used in
+ addition to or instead of them.  Thus, _(joy)_ might
+ be used for [[!]] since the exclamation mark derives
+ from an I placed above an o, an abbreviation of the
+ Latin _(io)_.  Similarly, _(iota)_ might be used
+ instead of _(integers)_ and _(index of)_ for [[i.]].
+
+# vim:tw=55:ai:ic:inf

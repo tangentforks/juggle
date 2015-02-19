@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>Runtime Overview</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="runtime_scripts.htm">&gt&gt;</a>&nbsp;
+<a href="runtime.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Runtime Overview</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+A runtime application:<br><br>
+
+<LI>can be distributed royalty-free to run on other computers<br>
+<LI>may use window driver forms for the user interface<br>
+<LI>has no session manager<br>
+<LI>shows only the application interface, the J system is invisible<br>
+<LI>uses <code>ijs</code> scripts as well as encoded <code>ijr</code> and locked <code>ijl</code> scripts
+
+<P>
+A J runtime system uses the same executable as the development system, but with an<B>  /rt </B>command line parameter. A runtime system may be freely distributed. 
+
+<P>
+A runtime application starts by loading the script file given on the command line following the <B> /rt</B> parameter The application terminates normally if it is ready for events and there are no forms or if it executes <code>2!:55''</code>. Session manager output is ignored, but a request for session manager input is an error. If there is an error, the application displays a message box and then terminates.
+
+<P>
+Your application can have its own icon to use when its forms are minimized. The icon must be in the same directory as the script file given on the command line and must have the same name as the script, but with an <code>ico</code> suffix. You can use that same icon as the Program Manager icon for starting the application.
+
+<P>
+Directory <code>system\system\examples\demo</code> contains example files <code>runtime.ijs</code> and <code>runtime.ico.</code> Run that application with a command line:<br>
+
+<pre>
+   c:\j401\j.exe /rt system\examples\demo\runtime.ijs
+</pre>
+
+<P>
+Add an icon for starting the application and select <code>runtime.ico</code> as the icon.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="runtime_scripts.htm">&gt&gt;</a>&nbsp;
+<a href="runtime.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

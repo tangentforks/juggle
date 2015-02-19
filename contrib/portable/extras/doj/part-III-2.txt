@@ -1,0 +1,2246 @@
+
+N Rank
+C m"n
+R 3 $&.|. n
+T
+ The verb [[m"n]] produces the constant result [[m]]
+ for each cell to which it applies.  The rank used is
+ [[3 $&.|. n]].  For example, if [[n=:2]], the three
+ ranks are [[2 2 2]], and if [[n=: 2 3]], they are
+ [[3 2 3]].  A negative rank is complementary:
+ [[m"(-r) y]] is equivalent to [[m"(0>.(#$y)-r) y]].
+H
+ Thus:
+E
+ v=: 2 3 5 7
+ m=: i. 2 3
+ 
+ m ; (m"0 v) ; (m"1 v) ; (m"1 m)
+ 
+ v m" 1 2 m
+H
+ The verbs [[_9:]] through [[9:]] are _(constant)_
+ verbs, equivalent to [[_9"_]] through [[9"_]].  For
+ example:
+E
+ odds=: 1: + 2: * i.
+ odds 5
+
+N Rank
+C u"n
+R 3$&.|.n
+T
+ The verb [[u"n]] applies to each cell as specified by
+ the rank [[n]].  The full form of the rank used is
+ [[3 $&.|. n]].  For example, if [[n=:2]], the three
+ ranks are [[2 2 2]], and if [[n=: 2 3]], they are
+ [[3 2 3]].  A negative rank is complementary:
+ [[u"(-r) y]] is equivalent to [[u"(0>.(#$y)-r) y]].
+H
+E
+ (] ; , ; ,"2) y=: a. {~ (a.i.'A') + i. 2 3 4
+ 
+ (<"0 ; <"1 ; <"3 ,&< <"_1) y  NB. Boxing of ranks 0, 2, 3, _1
+ 
+ ('*#' ,"0 1 ' abcde') ; (+/"2 i. 2 3 4) ; (+/"_1 i. 2 3 4)
+
+N Assign Rank
+C m"v u"v
+R mv lv rv
+T
+ The verbs [[m"v]] and [[u"v]] are equivalent to
+ [[m"r]] and [[u"r]], where [[r]] is the list of ranks
+ of [[v]].  The results may be examined by using the
+ _(basic characteristics)_ adverb [[b.]] to obtain
+ ranks.
+H
+ For example:
+E
+ , b. 0
+ %. b. 0
+ ravel=: , " %.
+ ravel b. 0
+ 
+ ]y=: a. {~ (a. i. 'A') + i. 2 3 4
+ ,y
+ ravel y
+
+N Do
+M ".
+R 1
+T
+ [[".y]] executes the sentence [[y]].  If the execution
+ results in a noun, the result of [[".y]] is that noun;
+ if the execution result is is a verb, adverb, or
+ conjunction, the result is an empty vector.
+H
+ For example:
+E
+ ". s=: '5 * a=: 3 + i. 6'
+ a
+ 
+ do=: ".
+ do t=: '3 % 5'
+ do |. t
+ $ do ''
+ 
+ ]program=: 'a=: 2^3' ,: '5*a'
+ do program
+ do 'sum=: +/'
+ sum 1 2 3 4
+
+N Numbers
+D ".
+R _ _
+T
+ [[x".y]] converts character array [[y]] into numbers.
+ The shape of the result is [[(}:$y),n]] where [[n]] is
+ the maximum number of numbers in any row.  [[x]] is a
+ scalar number used to replace illegal numbers and to
+ pad narrow rows.  In the conversion, the normal rules
+ for numeric constants are relaxed as follows:
+ 
+# bullets rewritten as enumeration:
+ (1) the negative sign can be [[-]] or [[_]]
+ 
+ (2) commas within numbers are ignored
+ 
+ (3) fractions need not have a digit 0 before the
+ decimal point
+H
+ For example:
+E
+ s ; _999". s=: '1 2 3','-4 .5',:'bad 3,141'
+
+N Default Format
+M ":
+R _
+T
+ Default output is identical to this monadic case,
+ providing a minimum of one space between columns.
+ For example:
+E
+ ]text=: ": i. 2 5
+ $ text
+ 3 + text
+ '*#' ,. text
+ 
+ ": 'abcd'
+ $ ": ''
+H
+ The fit conjunction and [[9!:10]] specify the number
+ of digits for floating-point numbers.  For example:
+E
+ (": ; ":!.6 ; ":!.4 ; ":!.15) %7
+H
+ For the default display of a boxed right argument, see [[9!:15]] and
+ [[9!:16]] for the positioning inside the boxes and
+ [[9!:6]] and [[9!:7]] for the box-drawing characters
+ used.
+
+N Format
+D ":
+R 1 _
+T
+ [[x":y]] produces a literal representation of [[y]] in
+ a format specified by [[x]].  Each element of [[x]] is 
+ a complex number [[w j. d]], controlling the
+ representation of the corresponding column of [[y]] as
+ follows
+ 
+ [[|w]] specifies the width allocated; if this space is
+ inadequate, the entire space is filled with asterisks.
+ If [[w]] is zero, enough space is allocated.
+ 
+ [[|d]] specifies the number of digits following the
+ decimal point (itself included only if [[d]] is not
+ zero).
+ 
+ Any negative sign is placed just before the leading
+ digit.  If [[w>:0]] and [[d>:0]], the result is
+ right-justified in the space.  Otherwise (if [[w<0]]
+ or [[d<0]]), the result is put in exponential form
+ (with one digit before the decimal point) and is
+ left-justified except for two fixed spaces on the left
+ (including one for a possible negative sign).
+ 
+ The format [[w+d%10]] (or its negation) is
+ obsolescent; e.g. [[_7.2]] instead of [[_7j2]].
+ 
+ See below for boxed arguments.
+E
+ n ; 6j2 ": n=: i. 2 4
+ (7j2 ": -n) ; (3j2 ": n)
+ 6j3 0j_6 ": 1r2 ^ 1 1000 *"1 i. 5 2
+H
+ For a boxed right argument, a two-element left
+ argument specifies position in the display, using
+ [[0]], [[1]], and [[2]] for top/center/bottom, and
+ left/center/right.  (See [[9!:15]] and [[9!:16]]
+ for default displays.)  Moreover, a third element
+ selects the box-drawing characters used.  See
+ [[9!:6]] and [[9!:7]].
+E
+ x=: 2 3 $ (2 #&.> 1+i.6) $&.> 'abcdef'
+ (": x) ,. (2 1 ": x)
+
+N Tie
+C m`n m`v u`n u`v
+R n.a. (produces noun)
+T
+ In English, a gerund is a noun that carries the force
+ of a verb, as does the noun _(cooking)_ in
+ _(the art of cooking)_.
+# What about m/n in the following?:
+ The tie applies to two verbs to produce a gerund.
+ Gerunds are commonly used with _(insert)_ ([[/]]) and
+ with _(agenda)_ ([[@.]]):
+# Re-adjusted end of reference section to include
+# examples and general case.
+E
+ ]g=: +`*
+ (g/1 2 3 4 5) ; (1+2*3+4*5)
+T
+ More generally, tie produces gerunds as follows:
+ [[u`v]] is [[au,av]], where [[au]] and [[av]] are the
+ (boxed noun) _(atomic representations)_ ([[5!:1]]) of
+ [[u]] and [[v]].  Moreover, [[m`n]] is [[m,n]] and
+ [[m`v]] is [[m,av]], and [[u`n]] is [[au,n]].
+ See Bernecky and Hui [12].
+H
+ Gerunds may also be produced directly by boxing.
+ Thus:
+E
+ ]h=: '+' ; '*'
+ h/1 2 3 4 5
+H
+ The atomic representation of a noun (used to
+ distinguish a noun such as [['+']] from the verb
+ [[+]]) is given by the following function:
+E
+ (ar=: [: < (,'0')"_ ; ]) '+'
+ *`(ar '+')
+
+N Evoke Gerund
+C `:
+R _ _ _
+T
+# was: "This adverb":
+ This conjunction is defined for three cases:
+ 
+ [[m `: 0]] _(Append)_:  Appends the results of the
+ individual verbs;
+# historical remnant?:
+ the ranks are the maxima over their ranks.
+ 
+ [[m `: 3]] _(Insert)_:  Inserts verbs between items.
+ Equivalent to [[m/]].
+ 
+ [[m `: 6]] _(Train)_:  Result is the train of the
+ individual verbs.
+H
+ For example:
+E
+ <+:`-:`% `: 0 a=: 1 2 3 4 5
+ 
+ (+ b. 0) ; (%. b. 0) ; (+`%.`:0 b. 0)
+ 
+ (+`* `:3 a) ; (+`*/a) ; (1+2*3+4*5)
+ 
+ (+`*`- `: 6 a) ; ((+ * -) a)
+
+N Atop
+C u@v y
+R mv
+T
+ [[u@v]] <=> [[u v y]].  For example, [[+:@- 7]] is
+ [[_14]] (double the negation).  Moreover, the monadic
+ uses of [[u@v]] and [[u&v]] are equivalent.
+H
+ Because adverbs and conjunctions are (as stated more
+ precisely in Section II E) executed before verbs,
+ phrases involving them are commonly used in trains
+ without parentheses.  For example:
+E
+ mean=: +/ % #
+ mean 1 2 3 4
+ 
+ f=: +:@*: +/ -:@%:	NB. Addition table of doubled square and halved sqrt
+ f 1 2 3 4
+H
+ Because a conjunction applies to the entity
+ immediately to its right, expressions to the right of
+ conjunctions commonly require parenthesization.  For
+ example:
+E
+ g=: *:@(+/)
+ h=: *:@+/
+ g 1 2 3 4
+ h 1 2 3 4
+ 
+ k=: *:@+
+ k/ 1 2 3 4
+H
+ Compare the behaviour of [[@]] with that of [[@:]].
+ They differ only in the ranks of the verbs that they
+ produce.
+
+N Atop
+C x u@v y
+R lv rv
+T
+ [[x u@v y]] <=> [[u x v y]].  For example,
+ [[3 +:@- 7]] is [[_8]] (double the difference).
+# none of the examples below uses the dyad of u@v,
+# but the remarks still apply.  Perhaps change the
+# examples?
+H
+ Because adverbs and conjunctions are (as stated more
+ precisely in Section II E) executed before verbs,
+ phrases involving them are commonly used in trains
+ without parentheses.  For example:
+E
+ mean=: +/ % #
+ mean 1 2 3 4
+ 
+ f=: +:@*: +/ -:@%:	NB. Addition table of doubled square and halved sqrt
+ f 1 2 3 4
+H
+ Because a conjunction applies to the entity
+ immediately to its right, expressions to the right of
+ conjunctions commonly require parenthesization.  For
+ example:
+E
+ g=: *:@(+/)
+ h=: *:@+/
+ g 1 2 3 4
+ h 1 2 3 4
+ 
+ k=: *:@+
+ k/ 1 2 3 4
+H
+ Compare the behaviour of [[@]] with that of [[@:]].
+ They differ only in the ranks of the verbs that they
+ produce.
+
+N Agenda
+C m@.n m@.v
+# added ranks for m@.n:
+R _ _ _ / mv lv rv
+T
+ [[m@.n]] is a verb defined by the gerund [[m]] with an
+ _(agenda)_ specified by [[n]]; that is, the verb
+ represented by the train selected from [[m]] by the
+ indices [[n]].  If [[n]] is boxed, the train is
+ parenthesized accordingly.
+ 
+ The case [[m@.v]] uses the result of the verb [[v]] to
+ perform the selection.
+H
+ For example:
+# There is no example for simple m@.n
+E
+ dorh=: +: ` -: @. (]>9:)	NB. Double or halve (Case statement)
+ dorh " 0 primes=: 2 3 5 7 11 13 17 19
+ 
+# Redundant rank 0 spec:
+ _:`%:`*: @. * "0 a=: 2 1 0 _1 _2
+ 
+ g=: +`-`* [. x=: 1 2 3 [ y=: 6 5 4
+ (x g@.2: y)
+ 
+ (] * <:) y=: 5 4 3 2 1 0	NB. Basis of factorial
+ 
+ 1:`(] * <:)    @. (1: < ])"0 y	NB. Case statement
+ 1:`(] * $:@<:) @. (1: < ])"0 y	NB. Self-reference for recursion
+ 
+ +`-`*`% @. (1 0 3;2 0)
+ 3 +`-`*`% @. (1 0 3;2 0) 4
+
+N At
+C u@:v
+R _ _ _
+T
+ [[@:]] is equivalent to [[@]] except that its ranks
+ are infinite.
+H
+ For example:
+E
+ x=: 1 2 3 4
+ y=: 7 5 3 2
+ x */ @: + y		NB. Applies product over sums to the entire lists
+ x */ @ + y		NB. Applies product over sums to each item of the list
+ 
+ + b. 0
+ */@:+ b. 0
+ */@+ b. 0
+
+N Bond
+C m&v u&n
+R _
+T
+ [[m&v y]] is defined as [[m v y]]; that is, the left
+ argument [[m]] is bonded with the dyad [[v]] to
+ produce a monadic function.  For example:
+E
+ 10&^. 2 3 10 100 200
+ 
+ base10log=: 10&^.
+ base10log 2 3 10 100 200
+ 
+ sine=: 1&o.
+ sine o. 0 0.25 0.5 1.5 2
+T
+ Similarly, [[u&n y]] is defined as [[y u n]]; in other
+ words, as the dyad [[u]] provided with the right
+ argument [[n]] to provide a monadic function (that is,
+ a function whose dyadic case has an empty domain).
+ For example:
+E
+ ^&3 (1 2 3 4 5)
+ 
+ ^&2 3"0 (1 2 3 4 5)
+H
+ Use of the bond conjunction is often called
+ _(Currying)_ in honor of Haskell Curry.
+
+N Compose
+C u&v
+R mv mv mv
+T
+ [[u&v y]] <=> [[u v y]].  Thus [[+:&- 7]] is [[_14]]
+ (double the negation).  Moreover, the monads [[u&v]]
+ and [[u@v]] are equivalent.
+ 
+ [[x u&v y]] <=> [[(v x) u (v y)]].  For example,
+ [[3 +&! 4]] is [[30]], the sum of factorials.
+H
+ The monadic case is equivalent to the composition in
+ mathematics, but the dyadic case opens up other
+ possibilities.  For example:
+E
+ 3 +&^. 4		NB. Sum of natural logarithms
+ ^ 3 +&^. 4		NB. Multiplication using natural logs
+ 3 +&(10&^.) 4		NB. Sum of base ten logarithms
+ 10 ^ 3 +&(10&^.) 4	NB. Multiplication using base ten logs
+ 3 +&.^. 4		NB. See the related conjunction "under" (&.)
+ 3 +&.(10&^.) 4
+H
+ Compare the behaviour of [[&]] with that of [[&:]].
+ They differ only in the ranks of the verbs that they
+ produce.
+
+N Under
+C u&.v
+R mv mv mv
+T
+ The verb [[u&.v]] is equivalent to the composition
+ [[u & v]] except that the verb obverse to [[v]] is
+ applied to the result for each cell.  The obverse is
+ normally the inverse, as discussed more fully under
+ the power conjunction [[^:]].
+H
+E
+ 3 +&.^. 4		NB. Inverse of natural log is the exponential
+ (^.^:_1) (^.3)+(^.4)
+ 
+ (<b), <|. b=: 1 2 3 ; 2 3 5 7 ; 'abcde'
+ each=: &.>			NB. An adverb
+ (<|. &. > b),(<|. each b)	NB. Reversal under open
+H
+ In mathematics, certain cases of _(under)_ are called
+ _(dual)_ or _(dual with respect to)_:
+E
+ f=: +. &. -.		NB. Dual with respect to boolean negation
+ f/~ d=: 0 1
+ 
+ D=: &. -.		NB. The adverb dual with respect to negation
+ (+.D/~d);(*./~d);(=D/~d);(~:/~d)
+ 
+ DWL=: &.^.		NB. Dual with respect to natural logarithm
+ DAN=: &. -		NB. Dual with respect to arithmetic negation
+ (3 + DWL 4),(3*4),(3 <. DAN 4) , (3 >. 4)
+
+N Appose
+C u&:v
+R _ _ _
+T
+ [[&:]] is equivalent to [[&]] except that the ranks of
+ the resulting function are infinite; the relation is
+ similar to that between [[@:]] and [[@]].
+H
+ For example:
+E
+ a=: 'abcd' ; 'efgh'
+ b=: 'ABCD' ; 'EFGH'
+ a
+ b
+ a ,&:> b
+ a ,&> b
+ 
+ > b. 0
+ ,&> b. 0
+ ,&:> b. 0
+
+N Roll
+M ?
+R 0
+T
+ [[? y]] yields a uniform random selection from the
+ population [[i. y]].  The _(random seed)_ used begins
+ at [[7^5]] (16807);
+ it is unaffected by the use of [[?.]].
+H
+ Use of the fixed seed function [[?.]] makes examples
+ reproducible.
+E
+ ?. 6
+ ?. 6 6 6 6 6 6 6 6
+ 
+ mean=: +/ % #
+ mean ?. 1000 # 6
+ 
+ m=: ?. 4 4 $ 9		NB. A random matrix for experimentation
+ m
+ -/ . * m		NB. The determinant of [[m]]
+ 
+ f=: ?.@$ % ] - 1:
+ <3 6 f 9	NB. Random 3 by 6 table in range zero to one with resolution 9
+H
+ The _(random seed)_ (a beginning value for the
+ pseudo-random number generator) is set by the foreign
+ conjunction using [[9!:1]], and queried with [[9!:0]].
+
+N Deal
+D ?
+R 0 0
+T
+ [[x ? y]] is a list of [[x]] items randomly chosen
+ *(without repetition)* from [[i.y]].  The
+ corresponding use of [[?.]] does not affect the random
+ seed.
+H
+ Use of the fixed seed function [[?.]] makes examples
+ reproducible:
+E
+ 6 ?. 6		NB. A random permutation
+H
+ The _(random seed)_ (a beginning value for the
+ pseudo-random number generator) is set by the foreign
+ conjunction using [[9!:1]], and queried with [[9!:0]].
+
+N Roll (fixed seed)
+M ?.
+R 0
+T
+ [[?.]] is like [[?]], but always uses the same
+ starting seed; its results are therefore reproducible.
+
+N Deal (fixed seed)
+D ?.
+R 0 0
+T
+ [[?.]] is like [[?]], but always uses the same
+ starting seed; its results are therefore reproducible.
+
+N Alphabet
+U a.
+T
+ [[a.]] is the list of the elements of the alphabet; it
+ determines the _(collating)_ sequence used in grading
+ and sorting ([[/:]] and [[\:]]).  The content of
+ [[a.]] as well as the ordering of its elements may
+ differ on different computing systems.
+ 
+ The number of elements in the alphabet is given by
+ [[$a.]], and a 32-column display is given by an
+ expression such as [[8 32$a.]].  The inclusion of
+ certain _(control)_ characters (such as the carriage
+ return) and _(non-printing)_ characters make such
+ display difficult to decipher, but the major alphabet
+ is usually given by:
+E
+ 1 2 3 { 8 32 $ a.
+T
+ The index of the carriage return is commonly 13 (as
+ may be tested by [[13{a.]], and the indices of the
+ space and other characters may be determined as
+ illustrated below:
+E
+ a. i. 'aA +-*%'
+T
+ Certain of the characters in the ASCII alphabet are
+ designated as _(national use)_ characters because they
+ are, on typewriters in various countries, displaced by
+ certain other symbols such as the pound currency sign.
+ These may be entered (on any keyboard) according to
+ the following scheme:
+E
+ characters=:   ;:'@  \  ^  `  [  {  #  ]  }  $  |  ~'
+ replacements=: ;:'AT BS CA GR LB LC NO RB RC SH ST TI'
+ clist=: [: , ,.&('  ','. ',:': ')
+ rlist=: [: , ,.&('.  ','1. ',:'2. ')
+ < (clist@> characters) ,. (rlist@> replacements)
+
+N Ace
+U a:
+T
+ The _(ace)_ (a unit, from Latin _(as)_) is denoted by
+ [[a:]].  It is the boxed empty list [[<$0]].
+
+N Anagram Index
+M A.
+R 1
+T
+ If [[T]] is the table of all [[!n]] permutations of
+ order [[n]] arranged in lexical order (i.e., [[/:T]]
+ is [[i.!n]]), then [[k]] is said to be the
+ _(anagram index)_ of the permutation [[k{T]].
+ 
+ [[A.]] applied to a cycle or direct permutation yields
+ its anagram index: [[A. 0 3 2 1]] is [[5]], as are
+ [[A. 3 2 1]] and [[A.<3 1]] and [[A.0;2;3 1]].
+H
+ For example:
+E
+ (A. 0 3 2 1) , (A. <3 1)
+ A. |. i.45
+ <: ! 45x
+
+N Anagram
+D A.
+R 0 _
+T
+ The expression [[k A. b]] permutes items of [[b]] by
+ the permutation of order [[#b]] whose anagram index is
+ [[k]].
+H
+ For example:
+E
+ tap=: i.@! A. i.	NB. Table of all permutations
+ (tap 3);(/: tap 3);({/\ tap 3);(/:{/\ tap 3)
+H
+ In particular, [[1 A. b]] transposes the last two
+ items of [[b]], and [[_1 A. b]] reverses the list of
+ items, and [[3 A. b]] and [[4 A. b]] rotate the last
+ three items of [[b]].  For example:
+E
+ b=: 'ABCD' ; 'EFGH'
+ (0 3 2 1{b);(0 3 2 1 C.b);((<3 1)C.b);(3 4 A.b)
+ (_19 5 A. b) ; (_19 |~ ! # b)
+
+N Boolean
+A m b.
+R _ 0 0
+T
+ If [[f]] is a dyadic boolean function and [[d=: 0 1]],
+ then [[d f/ d]] (or [[f/~ d]]) is its complete table.
+ For example the tables for _(or)_, _(nor)_, _(and)_,
+ and _(not-and)_ (followed by their ravels) appear as
+ follows:
+E
+ (+./~ ; +:/~ ; *./~ ; *:/~) d=: 0 1
+ ,&.> (+./~ ; +:/~ ; *./~ ; *:/~) d
+H
+ If ordered by their ravels, each of the sixteen
+ possible boolean dyads can be characterized by its
+ index [[k]]; the phrase [[k b.]] produces the
+ corresponding function.  Moreover, negative indexing
+ may be used.  For example:
+E
+ (7 b./~;8 b./~;1 b./~;14 b./~;_2 b./~) d
+H
+ The adverb [[b.]] also applies to array arguments.
+ For example:
+E
+ (<"2) 2 0 1 |: 7 8 1 15 b./~ d
+H
+ The monad (as in [[m b. y]]) is equivalent to a zero
+ left argument (as in [[0 m b. y]]).
+
+N Basic Characteristics
+A u b.
+R _
+T
+ [[u b. y]] gives the obverse of [[u]] if [[y]] is
+ [[_1]]; its ranks if [[y]] is [[0]]; and its identity
+ function if [[y]] is [[1]].
+H
+ For example:
+E
+ ^ b. _1
+ ^ b. 0
+ ^ b. 1
+ 
+ g=: +&2@(*&3@*:)
+ ]y=: g 5
+ 
+ g ^:_1 y
+ g b. _1
+ %:@(%&3)@(-&2) y
+ 
+ g b. 0
+
+N Characteristic or Eigenvalues
+M c.
+R 2
+T
+ [[c. y]] yields the _(characteristic)_, _(own)_, or
+ _(eigen)_ values of its argument, arranged in
+ ascending order on imaginary part within real within
+ magnitude.  An atom or list [[y]] is treated as the
+ table [[,.y]].
+H
+ Not implemented in Release 4.01.
+
+N Characteristic or Eigenvalues
+D c.
+R 0 2
+T
+ [[0 c. y]] is a diagonal matrix with the eigenvalues
+ [[c. y]] on the diagonal.  Also, [[_1 c. y]] and
+ [[1 c. y]] are the left and right eigenvectors.
+ If [[i=: _1 0 1]], then [[+/ . */ i c. y]] is [[y]].
+H
+ Not implemented in Release 4.01.
+
+N Cycle
+M C.
+R 1
+# The first sentence was outside of the reference box,
+# and applies to both the monad and the dyad.
+# Since (1) the format of this file should stay simple,
+# (2) the sentence would be belated in the H section,
+# and (3) it used to be in the reference section of the
+# monad in earlier editions anyway, it is done here,
+# too.
+T
+ If [[p]] is a permutation of the atoms of [[i.n]],
+ then [[p]] is said to be a permutation vector of order
+ [[n]], and if [[n=#b]], then [[p{b]] is a permutation
+ of the items of [[b]].
+ 
+ [[C.p]] yields a list of boxed lists of the atoms of
+ [[i.#p]], called the _(standard)_ cycle representation
+ of the permutation [[p]].
+ Thus, if [[p=:4 5 2 1 0 3]], then [[C.p]] is
+ [[(,2);4 0;5 3 1]] because the permutation [[p]] moves
+ to position [[2]] the item [[2]], to [[4]] the item [[0]],
+ to [[0]] the item [[4]], to [[5]] the item [[3]], to
+ [[3]] the item [[1]], and to [[1]] the item [[5]].
+ The monad [[C.]] is self-inverse; applied to a
+ standard cycle it gives the corresponding direct
+ representation.
+ 
+ A given permutation could be represented by cycles in
+ a variety of ways; the standard form is made unique by
+ the following restrictions: the cycles are disjoint
+ and exhaustive (i.e., the atoms of the boxed elements
+ together form a permutation vector); each boxed cycle
+ is rotated to begin with its largest element; and the
+ boxed cycles are put in ascending order on their
+ leading elements.
+ 
+ [[C.]] is extended to non-negative non-standard cases
+ by treating any argument [[q]] as a representation of
+ a permutation of order [[1+>./; q]].
+#mixed examples:
+H
+E
+ q=: C. p=: 1 2 3 0 4 [ a=: 'abcde'
+ q ; (q C. a) ; p ; (p C. a) ; (p { a)
+ a ; (<0 _1) C. a
+ 
+ ]p=: 22 ?. 22		NB. A random permutation of order 22
+ C. p			NB. Its cycles
+ *./ #&> C. p		NB. LCM of the cycle lengths
+ # ~. p&{^:(i.200) i#.p
+
+N Permute
+D C.
+R 1 _
+T
+ If [[p]] and [[c]] are standard cycle representations
+ of order [[#b]], then [[p C. b]] and [[c C. b]]
+ produce the permutation of [[b]].
+ The arguments [[p]] and [[c]] can be _(non-standard)_
+ in ways to be defined.  In particular, negative
+ integers down to [[-#b]] may be used, and are treated
+ as their residues modulo [[#b]].
+ 
+ If [[q]] is not boxed, and the elements of [[(#b)|q]]
+ are distinct, then [[q C. b]] is equivalent to
+ [[p C. b]], where [[p]] is the standard form of [[q]]
+ that is given by [[p=:((i.n)-.n|q),n|q)]], for
+ [[n=:#b]].
+ 
+ In other words, positions occurring in [[q]] are moved
+ to the tail end.  If [[q]] is boxed, the elements of
+ [[(#b)|>j{q]] must be distinct for each [[j]], and the
+ boxes are applied in succession.
+ For example:
+E
+ (2 1;3 0 1) C. i.5
+ (<2 1) C. (<3 0 1) C. 5
+#mixed examples:
+H
+E
+ q=: C. p=: 1 2 3 0 4 [ a=: 'abcde'
+ q ; (q C. a) ; p ; (p C. a) ; (p { a)
+ a ; (<0 _1) C. a
+ 
+ ]p=: 22 ?. 22		NB. A random permutation of order 22
+ C. p			NB. Its cycles
+ *./ #&> C. p		NB. LCM of the cycle lengths
+ # ~. p&{^:(i.200) i#.p
+
+N Derivative
+C u d. n
+R 0
+T
+ [[u d. n]] is like [[u D. n]] except that [[u]] is
+ treated as a rank-0 function.
+H
+E
+ *: d. 1
+ *: d. 2
+ (1: + _3&* + *:) d. 1
+ (1: + _3&* + *:) d. 2
+ (1: + _3&* + *:) d. 3
+ 
+ ^. d. 1
+ (^. * *:) d. 1
+ (^. % *:) d. 1
+ (^. @ *:) d. 1
+ 
+ *: d. _1
+ % d. _1
+ 
+ *: d. _1 x=: _3 _2 _1 0 1 2 3
+ +: x
+
+N Derivative
+C m D. n  u D. n
+R mu
+T
+ [[u D. n]] is the [[n]]-th derivative of [[u]], and
+ [[u`v D. n]] is [[u]] with an assigned [[n]]-th
+ derivative [[v]].  For example:
+E
+ (cube D.1;cube D.2; (cube=: ^&3"0) D.3)y=: 2 3 4
+H
+ The derivative applies to constant functions,
+ polynomials, the exponential [[^]], the integral
+ powers [[^&n]], and those assigned by [[u`v D. n]].
+ It also applies to functions derived from these by
+ addition, subtraction, multiplication, and division
+ ([[u+v]], etc.); by the composition [[u@v]]; and by
+ the inverse [[u^:_1]].  Since functions such as [[j.]]
+ and [[-]] (negation) and [[%:]] (square root) and
+ [[1&o.]] (sin) and [[6&o.]] (cosh) may all be so
+ derived, they are also in the domain of the
+ derivative.  The derivative of arbitrary function may
+ also be treated by a polynomial approximation,
+ (provided by the matrix divide), or by approximations
+ using the secant slope [[D:]].
+ 
+ If the argument rank of [[u]] is [[a]] and the result
+ rank is [[r]], then the argument rank of [[u D.1]] is
+ also [[a]], but its result rank is [[r+a]]: the result
+ of [[u D.1]] is the derivative of each atom of the
+ result of [[u]] with respect to each element of its
+ argument, giving what is commonly referred to as the
+ _(partial derivatives)_.  For example:
+E
+ volume=: */"1 [. VOLUMES=: */\"1
+ (volume;volume D.1;VOLUMES;VOLUMES D.1) y
+ 
+ determinant=: -/ . * [. permanent=: +/ . *
+ (];(determinant D.1);(permanent D.1))m=:*:i.3 3
+H
+ The adverbs [[D=:("0)(D.1)]] and [[VD=:("1)(D.1)]]
+ assign ranks to their arguments, then take the first
+ derivative; they are convenient for use in scalar and
+ vector calculus:
+E
+ D=:("0)(D.1) [. VD=:("1)(D.1)
+ sin=: 1&.o [. x=: 0.5p1 _0.25p1
+# conflict between math and J conventions of the use of x as left/sole
+# argument:
+ (*/\ VD y);(sin x);(sin D x);(sin D D x)
+
+N Secant Slope
+C u D: n
+R mu mu
+T
+ [[x u D: 1 y]] is the _(secant slope)_ of the function
+ [[u]] through the points [[y]] and [[y+x]].
+ The secant slope is generalized to the case
+ [[x u D. n y]] in the manner of the derivative [[D.]].
+ The argument [[x]] may be a list, giving several
+ slopes.
+ 
+ In the general case, each item of [[x]] has the shape
+ [[{. $$"r y]], where [[r]] is the rank of [[u]],
+ therefore specifying the increment in each possible
+ direction.  An argument [[x]] of lower rank is
+ extended in the usual manner.  For example,
+ [[x=: 1e_8]] provides the same increment in each
+ direction and, because of the small magnitude, yields
+ an approximation to the derivative.
+H
+E
+ log=: ^. [. y=: 2 3 4
+ 1 log D:1 y
+ 
+ incr=: 1 0.1 0.01 1e_8
+ incr log D:1/ y
+ 
+ log D.1 y
+ %y
+ 
+ f=: +/@:*:"1 [. g=: +/@:*:\"1
+ (f y) ; (1 f D:1 y) ; (1 0.1 1e_8 f D:1 y)
+ (g y) ; (1 g D:1 y)
+
+N Raze In
+M e.
+R _
+T
+ [[e.y]] produces a boolean result that determines for
+ each atom of [[y]] whether its open contains an item
+ of the raze of [[y.]].
+# mixed examples
+H
+ For example:
+E
+ ]y=:'abc';'dc';'a'
+ ;y
+ e. y
+ 
+ f=: ] e.~&>/ ;
+ f y
+ 
+ 'cat' e. 'abcd'
+ ]z=: 2 3$'catdog'
+ 'cat' e. z
+
+N Member (In)
+D e.
+R _ _
+T
+ If [[x]] has the shape of an item of [[y]], then
+ [[x e. y]] is [[1]] if [[x]] matches an item of
+ [[y]].  In general, [[x e. y]] <=> [[(#y)>y i. x]].
+ 
+ The fit conjunction provides tolerant comparison, as
+ in [[e.!.t]].
+H
+ For example:
+E
+ ]y=:'abc';'dc';'a'
+ ;y
+ e. y
+ 
+ f=: ] e.~&>/ ;
+ f y
+ 
+ 'cat' e. 'abcd'
+ ]z=: 2 3$'catdog'
+ 'cat' e. z
+
+N Member (In)
+D e.
+R _ _
+T
+ If [[x]] has the shape of an item of [[y]], then
+ [[x e. y]] is [[1]] if [[x]] matches an item of
+ [[y]].  In general, [[x e. y]] <=> [[(#y)>y i. x]].
+ 
+ The fit conjunction provides tolerant comparison, as
+ in [[e.!.t]].
+H
+ For example:
+E
+ ]y=:'abc';'dc';'a'
+ ;y
+ e. y
+ 
+ f=: ] e.~&>/ ;
+ f y
+ 
+ 'cat' e. 'abcd'
+ ]z=: 2 3$'catdog'
+ 'cat' e. z
+
+N Member of Interval
+D E.
+R _ _
+T
+ The *(ones)* in [[x E. y]] indicate the beginning
+ points of occurrences of the pattern [[x]] in [[y]].
+H
+ For example:
+E
+ 'co' E. 'cocoa'
+ 
+ s #~ -. '**' E. 'Remove***multiple**stars.'
+ 
+ ] x =: 0 1 2 ,: 2 3 4
+ ] y =: 5 | i. 5 7
+ x E. y
+ ($x) x&-: ,. 3 y
+
+N Fix
+A m f.  u f.
+R um ul ur
+T
+ If [[x]] is a proverb, then [[y=: x f.]] is equivalent
+ to it, except that any names that occur in the
+ definition of [[x]] are (recursively) replaced by
+ their referents.  Consequently, any subsequent change
+ in these referents that might change the definition of
+ [[x]] will not affect the definition of [[y]].
+ 
+ If [[x]] is the name of any entity (that is, a
+ pronoun, proverb, pro-adverb, or pro-conjunction),
+ then [['x' f.]] is equivalent, but with all names in
+ its definition recursively replaced by their
+ referents.
+H
+ For example:
+E
+ sum=: +/
+ mean=: sum % #
+ norm=: - mean
+ norm a=: 2 3 4 5
+ 
+ N=: norm f.
+ N a
+ 
+ norm
+ mean
+ 
+ sum=: -/
+ norm a
+ N a
+ 
+ adv=: norm@
+ *: adv
+ adv
+ 'adv' f.
+ 'a' f.
+
+N Hypergeometric
+C m H. n
+R 0 0 0
+T
+ The conjunction [[H.]] applies to two numeric lists to
+ produce a monad which is the hypergeometric function
+ defined in Section 15 of Abramowitz and Stegun [13];
+ it is the limit of the dyadic case, whose left
+ argument restricts the number of terms of the
+ approximating series.
+ 
+ As discussed in Iverson [14], the conjunction is
+ defined as follows:
+E
+ rf=: 1 : '(,x.)"_ ^!.1/ i.@]'		NB. Rising factorial
+ L1=: 2 : 'x.rf %&(*/) y.rf'
+ L2=: (i.@[ ^~ ]) % (!@i.@[)
+ H=: L1 (+/ . *) L2
+H
+ For example:
+E
+ 'a b'=: 2 3 5; 6 5
+ a L1 b
+ 
+ t=: 4 [ z=: 7
+ t a L1 b z
+ 
+ t (a H b , a H. b) z
+ 
+ f=: 1 H. 1
+ 8 f i. 6
+ f i. 6
+ ^ i. 6
+
+N Integers
+M i.
+R 1
+T
+ The shape of [[i.y]] is [[|y]], and its atoms are the
+ first [[*/|y]] non-negative integers.  A negative
+ element in [[y]] causes reversal of the atoms along
+ the corresponding axis.
+ For example:
+E
+ i. 5
+ i 2 _5
+H
+E
+ (i.4);(i._4);(i.2 3 4);(i.2 _3 4);(i.'')
+
+N Index Of
+D i.
+R _ _
+T
+ If [[rix]] is the rank of an item of [[x]], then the
+ shape of the result of [[x i. y]] is [[(-rix)}.$y]].
+ Each atom of the result is either [[#x]] or the index
+ of the first occurrence among the items of [[y]] of
+ the corresponding [[rix]]-cell of [[y]].
+ 
+ The comparison in [[x i. y]] is tolerant, and _(fit)_
+ can be used to specify the tolerance, as in
+ [[i.!.t]].
+H
+E
+ A=: 'abcdefghijklmnopqrstuvwxyz'
+ (A i. 'Now');(A i. 'now');(A {~ A i. 'now')
+ 
+ m=: 5 4 $ 12{. A
+ m;(m i. 'efgh');(1{m);(4{m)
+
+N Index Of Last
+D i:
+R _ _
+T
+ [[i:]] is like [[i.]] but gives the index of the
+ *(last)* occurrence.
+H
+ For example:
+E
+ 1 2 3 4 1 2 3 i: 1 2 2 3 3 3 4 4 5
+ 1 2 3 4 1 2 3 i. 1 2 2 3 3 3 4 4 5
+ 
+ (i.~ ,: i:~) 'boustrophedonic'
+ 
+ (3 # i.3 4) i: (i.2 4)
+ (3 # i.3 4) i. (i.2 4)
+
+N Imaginary
+M j.
+R 0
+T
+ [[j. y]] <=> [[0j1 * y]]
+# mixed examples
+H
+ For example:
+E
+ j. 4
+ 3 j. 4
+ 
+ a=: i. 3 3
+ a;(j. 2*a);(a j. 2*a)
+ (+ a j. 2*a);(|a j. 2*a)
+ 
+ 1 2 3 j./ 4 5 6 7
+ j./?. 2 3 4$1000	NB. A table of random complex numbers
+
+N Complex
+D j.
+R 0 0
+T
+ [[x j. y]] <=> [[x + j. y]]
+# mixed examples
+H
+ For example:
+E
+ j. 4
+ 3 j. 4
+ 
+ a=: i. 3 3
+ a;(j. 2*a);(a j. 2*a)
+ (+ a j. 2*a);(|a j. 2*a)
+ 
+ 1 2 3 j./ 4 5 6 7
+ j./?. 2 3 4$1000	NB. A table of random complex numbers
+
+N Level
+M L.
+R _
+T
+ If [[y]] is open or empty, [[L. y]] is [[0]];
+ if it is boxed and non-empty, the level is one plus
+ the maximum of the levels of the opened elements.
+H
+ For example:
+E
+ ]y=: (<<2 3 4);<(5 6; <<i. 2 3)
+ L. y
+ L."0 y
+
+N Level
+C u L: n
+R _ _ _
+T
+ The conjunction [[L:]] applies the verb [[u]] at the
+ levels specified by [[n]].  The right argument [[n]]
+ behaves like the rank conjunction in several respects:
+
+# Enumeration replaces bulleting:
+ (1) It may have three elements, specifying the levels
+ for the monadic, left and right cases.
+ 
+ (2) The full form of the levels used is [[3$&.|.n]].
+ For example, a 2-element list [[p,q]] is equivalent to
+ [[p,q,p]].
+ 
+ (3) Negative values are complementary:
+ [[u L:(-r) y]] <=> [[u L:(0>.(L.y)-r) y]]
+H
+ For example:
+E
+ ] y=: (<<2 3 4),<(5 6 ; <<i. 2 3)
+ +: L: 0 y	NB. The adverb L:0 may be called "leaf"
+ 2 # L: 0 y
+ 2 # L: 1 y
+
+N Explicit Arguments
+U m.  n.
+T
+ The name [[m.]] denotes a *(noun)* left argument in an
+ explicitly-defined adverb or conjunction, and the name
+ [[n.]] denotes a *(noun)* right argument in an
+ explicitly-defined conjunction.
+ See the names [[u. v. x. y.]] and Explicit Definition
+ ([[:]]).
+H
+ For example:
+E
+ pow=: 2 : 0
+   i=.0
+   t=.]
+   while. n.>i do.	NB. Uses n. (noun right argument)
+     i=.1+i
+     t=.u.@t f.		NB. Uses u. (verb left argument)
+   end.
+ )
+ 
+ o. pow 2
+ o. pow 3
+ o. pow 3 x=: 1
+ o.^:3 x
+ o. pow +
+
+N Comment
+U NB.
+T
+ The rest of the line following [[NB.]] is ignored.
+H
+ For example:
+E
+ text=: 'i. 3 4 NB. 3-by-4 table'
+ ;: text
+ ". text		NB. execute text
+
+N Pi Times
+M o.
+R 0
+T
+# Greek symbol pi ahead:
+ [[o. y]] yields _(pi)_ times [[y]].
+ Thus, [[o. 1]] is approximately [[3.14159]].
+H
+E
+ rfd=: %&180 @ o.	NB. radians from degrees
+
+N Circle Function
+D o.
+R 0 0
+T
+ The function [[x&o.]] is even or odd as [[x]] is even
+ or odd; [[(-x)&o.]] is its inverse.
+ 
+ [[x o. y]] -- [[x]] -- [[(-x) o. y]]  (remarks):
+ 
+ Sqrt 1-(Sqr y) -- [[0]] -- Sqrt 1-(Sqr y)
+ ([[0&o.@(1&o.)]] <=> [[2&o.]])
+ 
+ Sine y -- [[1]] -- Arcsine y  (Radian arg/result)
+ 
+ Cosine y -- [[2]] -- Arccos y  (Radian arg/result)
+ 
+ Tangent y -- [[3]] -- Arctan y  (Radian arg/result)
+ 
+ Sqrt (Sqr y)+1 -- [[4]] -- Sqrt (Sqr y)-1
+ ([[4&o.@(5&o.)]] <=> [[6&o.]])
+ 
+ Sinh y -- [[5]] -- Arcsinh y  (Sinh is hyperbolic sine)
+ 
+ Cosh y -- [[6]] -- Arccosh y
+ 
+ Tanh y -- [[7]] -- Arctanh y
+ 
+ Sqrt-(1+Sqr y) -- [[8]] -- -Sqrt-(1+Sqr y)
+ 
+ RealPart y -- [[9]] -- y
+ 
+ Magnitude y -- [[10]] -- Conjugate y ([[+y]])
+ 
+ ImaginaryPart y -- [[11]] -- [[j. y]]
+ 
+ AngleOf y -- [[12]] -- [[^j. y]]
+H
+ Examples:
+E
+ rfd=: %&180 @ o.	NB. Radians from degrees
+ sin=: 1&o.
+ SIN=: sin@rfd
+ (rfd 0 90 180);(sin 0 1.5708);(SIN 0 90)
+H
+ The principal domain of the inverse of a non-monotonic
+ function is restricted.  The limits on real domains of
+ arcsine and arccos may be obtained as follows (as
+ multiples of _(pi)_:
+E
+ 1p_1 * _1 _2 o./ _1 1
+
+N Roots
+M p.
+R 1
+T
+ [[p. c]] <=> [[(m;r)]]
+ 
+ [[p.p.c]] <=> [[c]]
+ 
+ If [[e]] is a vector whose elements are all
+ non-negative integers, then [[p.<c,.e]] gives the
+ coefficients of the equivalent polynomial:
+ 
+ [[(p. <c,.e)&p.]] <=> [[(<,.e)&p.]]
+# mixed examples
+H
+E
+ p. 1 0 0 1
+ ]mr=: p. c=: 0 16 _12 2	NB. Multiplier/roots from Coefficients
+ 
+ x=: 0 1 2 3 4 5
+ (c p. x), ((<c,i.4)p. x), (mr p. x),: 2*(x-4)*(x-2)*(x-0)
+ 
+ c=: 1 3 3 1
+ c p. x
+ (x+1)^3
+ 
+ bc=: !~/~i.5		NB. Binomial coefficients
+ bc;(bc p./ x);((i.5) ^~/ x+1)
+ 
+ c&p. d. 1 x		NB. First derivative of polynomial
+ 
+ (<1 _1 ,. 5 0) p. 3	NB. Coefficients/Exponents
+ _1 0 0 0 0 1 p. 3
+ p. 1 _1 ,. 5 0		NB. Coefficients/Exponents to Coefficients
+ 
+ c=: _1 1 2 3 [ e=: 4 2$2 1 1 1 1 2 0 2
+ c,.e			NB. Coefficients/Exponents
+ (<c,.e) p. <y=:2.5 _1	NB. Multinomial
+ c+/ .* e */ .(^~) y
+H
+ Note that [[(<c,.e)p.<y]] is a "proper" multinomial
+ only if the elements of [[e]] are all non-negative
+ integers.  In general the powers are not so limited,
+ as in the weighted sum of square root and 4-th root:
+E
+ ] t=: <2 ,.1r2 1r4
+ (t p. 16), +/ 2 3 * 16 ^ 1r2 1r4
+H
+ The variant [[p.!.s]] is a _(stope)_ polynomial; it
+ differs from [[p.]] in that its definition is based
+ upon the stope [[^!.s]] instead of on [[^]] (power).
+
+N Polynomial
+D p.
+R 1 0
+T
+ There are three cases -- coefficients; multiplier and
+ roots; multinomial (boxed matrix of coefficients and
+ exponents):
+ 
+ [[c p. x]] <=> [[+/c*x^i.#c]]
+ 
+ [[(m;r) p. x]] <=> [[m * */x-r]]
+ 
+ [[(<r)&p.]] <=> [[(1;r)&p.]]
+ 
+ [[<c.,e)p.<y]] <=> [[c+/ .*e*/ .(^~)y]]
+ 
+ where [[m]] is a scalar; [[c]] and [[r]] are scalars
+ or vectors; and [[e]] is a vector or matrix such that
+ [[($e)-:(#c),(#y)]].  A scalar [[y]] is extended
+ normally.
+# mixed examples
+H
+E
+ p. 1 0 0 1
+ ]mr=: p. c=: 0 16 _12 2	NB. Multiplier/roots from Coefficients
+ 
+ x=: 0 1 2 3 4 5
+ (c p. x), ((<c,i.4)p. x), (mr p. x),: 2*(x-4)*(x-2)*(x-0)
+ 
+ c=: 1 3 3 1
+ c p. x
+ (x+1)^3
+ 
+ bc=: !~/~i.5		NB. Binomial coefficients
+ bc;(bc p./ x);((i.5) ^~/ x+1)
+ 
+ c&p. d. 1 x		NB. First derivative of polynomial
+ 
+ (<1 _1 ,. 5 0) p. 3	NB. Coefficients/Exponents
+ _1 0 0 0 0 1 p. 3
+ p. 1 _1 ,. 5 0		NB. Coefficients/Exponents to Coefficients
+ 
+ c=: _1 1 2 3 [ e=: 4 2$2 1 1 1 1 2 0 2
+ c,.e			NB. Coefficients/Exponents
+ (<c,.e) p. <y=:2.5 _1	NB. Multinomial
+ c+/ .* e */ .(^~) y
+H
+ Note that [[(<c,.e)p.<y]] is a "proper" multinomial
+ only if the elements of [[e]] are all non-negative
+ integers.  In general the powers are not so limited,
+ as in the weighted sum of square root and 4-th root:
+E
+ ] t=: <2 ,.1r2 1r4
+ (t p. 16), +/ 2 3 * 16 ^ 1r2 1r4
+H
+ The variant [[p.!.s]] is a _(stope)_ polynomial; it
+ differs from [[p.]] in that its definition is based
+ upon the stope [[^!.s]] instead of on [[^]] (power).
+
+N Primes
+M p:
+R 0
+T
+ The result of [[p: i]] is the [[i]]-th prime.
+ For example:
+E
+ p: 0
+H
+E
+ p: i. 15
+H
+ The inverse of [[p:]] is the number of primes less
+ than the argument, often denoted by _(pi)_ (n):
+E
+ pi=: p:^:_1
+ pi i. 15
+ 
+ (] , pi ,: p:@pi) i.15
+ 
+ y=: (2^31)-1
+ ]a=: pi y
+ ]b=: p: a
+ b=y
+
+N Prime Factors
+M q:
+R 0
+T
+ [[q: y]] is the list of prime factors of a positive
+ integer argument [[y]].  For example:
+E
+ y=: 105600
+ q: y
+ */q: y
+ $ q: 1
+ */q: 1
+ q: b. 1
+H
+E
+ ~.@q: 700		NB. Distinct prime factors
+ +/"1@=@q: 700		NB. Exponents in prime factorization
+ __ q: 700
+
+N Prime Exponents
+D q:
+R 0 0
+T
+ If [[x]] is positive and finite, [[x q: y]] is the
+ list of exponents in the prime decomposition of
+ positive integer [[y]], based upon the first [[x]]
+ primes; if [[x]] is [[_]], a sufficient number of
+ primes is used.
+ 
+ If [[x]] is negative and finite, [[x q: y]] is a
+ 2-row table of the last [[|x]] primes and exponents in
+ the prime factorization of [[y]]; if [[x]] is [[__]],
+ a sufficient number of primes is used.
+ For example:
+E
+ 2 q: 700
+ 10 q: 700
+ _ q: 700
+H
+E
+ __ q: 700
+ _ q: !20x
+ 
+ y=: 100
+ e=: _&q:
+ (e ; +:&.e ; -:&.e ; %&3&.e) y		NB. Exponents,square,sqrt,cube root
+ 
+ V=: /@,:		NB. For vectors of disparate lengths
+ 12 (+V&.e; -V&.e; >.V&.e; <.V&.e) y	NB. Product,quotient,LCM,GCD
+ 
+ totient=: * -.@%@~.&.q:	NB. Euler's totient function
+ totient 700
+ +/ 1 = 700 +. i. 700
+
+N Angle
+M r.
+R 0
+T
+ [[r.y]] <=> [[^j.y]]
+H
+ The result of [[r. y]] is a complex number of
+ magnitude [[1]], whose real and imaginary parts are
+ coordinates of the point on the unit circle at an
+ angle of [[y]] radians.  For example:
+E
+ r. 2
+ +. r. 2
+ | r. 2
+ 
+ y=: 1r4 * o. i.7	NB. Multiples of one-quarter pi
+ format=: 8j3&":
+ (format ,.y);(format +. r.y);(format +. 2 r.y)
+
+N Polar
+D r.
+R 0 0
+T
+ [[x r. y]] <=> [[x*r. y]]
+H
+E
+ y=: 1r4 * o. i.7	NB. Multiples of one-quarter pi
+ format=: 8j3&":
+ (format ,.y);(format +. r.y);(format +. 2 r.y)
+ 
+ r. 2
+ 3 r. _2
+ *. 3 r. _2
+
+N Spread
+C u S: n
+R _ _ _
+T
+ [[u S: n]] produces the list resulting from applying
+ [[u]] to the argument(s) at levels [[n]] (which has
+ the same interpretation as the right argument of
+ [[L:]]).  For example, [[#0:S:0 y]] is the number of
+ leaves (level 0 arrays) in [[y]].
+H
+ For example:
+E
+ fetch=: >@({&>/)@(<"0@|.@[ , <@]) " 1
+ ] t=: 5!:2 <'fetch'		NB. An array with an interesting structure
+ 
+ < S: 0 t		NB. The boxed leaves of t
+ 11 {. t (; <@;) S: 0 1 {:: t	NB. A 2-column table of leaves and paths
+
+N Assign Taylor
+A m t.
+R 0 0 0
+T
+ The function [[h=: u`v t.]] is equivalent to [[u]]
+ except that the function produced by [[h t.]] is
+ [[v]].  For example, an explicit definition (such as
+ the definition of [[exp]] below) has no associated
+ Taylor series, but one can be assigned.
+H
+E
+ y=:i. 5
+ ^y
+ ^ t. y
+ 
+ exp=: 3 : '^ y.'
+ exp y
+ exp t. y
+ 
+ e=: exp`(%@!) t.
+ e y
+ e t. y
+ %@e t. y
+ %@^ t. y
+
+N Taylor Coefficient
+A u t. y
+R 0
+T
+ [[u t. y]] is the [[y]]th coefficient in the Taylor
+ series approximation to the function [[u]].  The
+ domain of the adverb [[t.]] is the same as the left
+ domain of the derivative [[D.]].
+ See the case [[m t.]].
+H
+ For example:
+E
+ f=: 1 2 1&p. [. g=: 1 3 3 1&p. [. x=: 10%~i=: i.8
+ ]c=: (f*g) t. i
+# replaced obsolescent format "6.2":
+ 6j2 ":(c p. x),:(f*g) x
+ (c p. x)=(f*g) x
+ 
+ ]d=: f@g t. i
+ (d p. x)=(f g x)
+ 
+ sin=: 1&o. [. cos=: 2&o.
+# replaced obsolescent format "8.4":
+ 8j4":t=: (^ t. i),(sin t. i),:(cos t. i)
+ *t
+ ((sin*sin)+(cos*cos)) t. i
+ 
+ rf=: n%d [. n=: 0 1&p. [. d=: 1 _1 _1&p.
+ ]fibonacci=: rf t. i. 20
+ 2 +/\ fibonacci
+
+N Taylor Coefficient
+A x u t. y
+R 0 0
+T
+ [[x u t. y]] is the product of [[(x^y)]] and
+ [[u t. y]].
+
+N Weighted Taylor
+A u t:
+R 0 0 0
+T
+ The result of [[u t: k]] is [[(!k) * u t. k]].
+ In other words, the coefficients produced by [[t:]]
+ are the Taylor coefficients *(weighted)* by the
+ factorial.  As a consequence, the coefficients
+ produced by it when applied to functions of the
+ exponential family show simple patterns.  For this
+ reason it is sometimes called the
+ _(exponential generating function)_.
+# There is no reference box provided.
+# The cut made here is arguable.
+H
+ For example:
+E
+ k=: i. 12
+ ^ t: k
+ %@^t: k		NB. Decaying exponential
+ 
+ sin=: 1&o. [. cos=: 2&o.
+ sinh=: 5&o. [. cosh=:6&o.
+ exp=: ^ [. dec=: %@^
+ 
+ (exp t:,dec t:,sinh t:,cosh t:,sin t:,cos t:) k
+
+N Taylor Approximation
+C u T. n
+# check this (no spec in the dictionary):
+R please ask
+T
+ [[u T. n]] is the [[n]]-term Taylor approximation to
+ the function [[u]].
+H
+ For example:
+E
+# all format specs rewritten to complex format:
+ 6j2 ": ^ T. 8 x=: 2 %~ i. 8
+ 6j2 ": ^ x
+ ^ T. _
+ (^ = ^T._) i. 5
+H
+ Compare the *(conjunction)* [[T.]] with the *(adverb)*
+ [[t.]].
+
+N Explicit Arguments
+U u. v.
+T
+ The name [[u.]] denotes a *(verb)* left argument in an
+ explicitly-defined adverb or conjunction, and the name
+ [[v.]] denotes a *(verb)* right argument in an
+ explicitly-defined conjunction.
+ See the names [[m. n. x. y.]] and Explicit Definition
+ ([[:]]).
+H
+ For example:
+E
+ pow=: 2 : 0
+   i=.0
+   t=.]
+   while. n.>i do.	NB. Uses n. (noun right argument)
+     i=.1+i
+     t=.u.@t f.		NB. Uses u. (verb left argument)
+   end.
+ )
+ 
+ o. pow 2
+ o. pow 3
+ o. pow 3 x=: 1
+ o.^:3 x
+# changed to refer to u. :
+ 3 pow 2
+
+N Explicit Arguments
+U x. y.
+T
+ The names [[x.]] and [[y.]] denote the left and right
+ arguments in an explicit definition,
+ See the names [[m. n. u. v.]] and Explicit Definition
+ ([[:]]).
+H
+ For example:
+E
+# misaligned colon in printed book fixed:
+ info=: 3 : 0
+   (3!:0 y.);(#$y.);($y.);5!:5 <'y.'
+ :
+   (info x.) ,&< (info y.)
+ )
+ 
+ info i.12
+ info o.i.3 4
+ 'x' info ;:'Cogito ergo sum.'
+
+N Extended Precision
+M x:
+R _
+T
+ [[x:]] applies to real numbers and produces extended
+ precision rational numbers.  It applies to integers
+ and produces extended integers.  The implied
+ comparison in [[x:]] is tolerant.  The inverse
+ [[x:^:_1]] converts rationals, including extended
+ integers, into finite precision numbers (floating
+ point or integer).
+H
+E
+ x: 1.2
+ 2 x: 1.2
+ x: 1.2 _1.2 0 0.07
+ x: 3j4
+ ] pi =: o.1
+ x: pi
+ pi - 1285290289249 % 409120605684
+ x:!.0 pi
+ pi - 8844279719003555 % 281474976710656
+ 2 x: 1r2 3r4 5r6 _7r8
+H
+ See also Section II G.
+
+N Extended Precision
+D x:
+R _ _
+T
+ [[1 x: y]] is the same as [[x: y]];
+ and [[2 x: y]] produces the two extended integers of
+ the numerator and denominator of the argument.
+H
+E
+ x: 1.2
+ 1 x: 1.2
+ 2 x: 1.2
+ 2 x: 1r2 3r4 5r6 _7r8
+H
+ See also Section II G.
+
+N Constants
+T
+ The form of a numeric constant defined and illustrated
+ in Part I is elaborated by the use of further letters,
+ as in [[2r3]] for two-thirds, [[2p1]] for two _(pi)_,
+ and [[2e3p1]] for 2000 _(pi)_.  The complete scheme of
+ constants obeys the following hierarchy:
+ 
+ [[.]]: the decimal point is obeyed first
+ 
+ [[_]]: the negative sign is obeyed next
+ 
+ [[e]]: exponential (scientific) notation
+ 
+ [[ad ar j]]: complex (magnitude and angle) in degrees
+ or radians; complex number
+ 
+ [[p x]]: numbers based on _(pi)_ ([[o. 1]]) and on
+ Euler number (the exponential [[^1]]).
+ 
+ [[b]]: base value (using [[a]] to [[z]] for [[10]] to
+ [[35]]
+ 
+ Moreover, digits with a trailing [[x]] denote an
+ extended precision integer, and digits followed by an
+ [[r]] followed by further digits denote a rational
+ number.  See Section II G.
+ 
+ For example, [[2.3]] denotes two and three-tenths and
+ [[_2.3]] denotes its negation; but [[_2j3]] denotes a
+ complex number with a real part [[_2]] and imaginary
+ part [[3]], *(not)* the negation of the complex number
+ [[2j3]].  Furthermore, symbols at the same level of
+ the hierarchy cannot be used together:  [[1p2x3]] is
+ an ill-formed number.
+ 
+ The following lists illustrate the main points:
+E
+ 2.3e2 2.3e_2 2j3
+ 2p1 1p_1
+ 1x2 2x1 1x_1
+ 2e2j_2e2 2e2j2p1 2ad45 2ar0.785398
+ 16b1f 10b23 _10b23 1e2b23 2b111.111
+T
+ Negative integers following [[p]] and [[x]] indicate
+ the use of reciprocals.  For example, 2p_2 is two
+ divided by _(pi)_ squared, and 2x_2 is two divided by
+ the square of Euler's number.
+
+N Constant Functions
+M _9: to 9:
+R _
+T
+ The results are [[_9]] and [[_8]] and so on to [[9]].
+H
+ For example:
+E
+ y=: 4 5 6
+ 2: y
+H
+ The rank conjunction [["]] applies to any noun to make
+ a constant function of specified rank.  The particular
+ constant functions illustrated above are therefore
+ special cases of the form [[i"_]].  For example:
+E
+ 2"_ y
+ 2"0 y
+ 2"1 i. 2 3 4
+ 2p1"0 y
+ 
+ 1p1 1p_1 1x1"0 y	NB. A constant function with a vector result
+ 0 0 0"1 y		NB. The zero vector in a space of three dimensions
+ 
+ a=:'abcdefghijklmnopqrstuvwxyz'"_
+ A=:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"_
+ s=: ' '"_
+ f=: { a
+ f 5 8 6
+ g=: { a,:A
+ g 1 5;0 8;0 6
+
+N Constant Functions
+D _9: to 9:
+R _ _
+T
+ The results are [[_9]] and [[_8]] and so on to [[9]].
+H
+ For example:
+E
+ x=: 1 2 3 [ y=: 4 5 6
+ x 9: y
+H
+ The rank conjunction [["]] applies to any noun to make
+ a constant function of specified rank.  The particular
+ constant functions illustrated above are therefore
+ special cases of the form [[i"_]].  For example:
+E
+ x 2"_ y
+ x 2"0 y
+ 
+ x 1p1 1p_1 1x1"0 y	NB. A constant function with a vector result
+ x 0 0 0"1 y		NB. The zero vector in a space of three dimensions
+
+N Control Structures
+T
+ Control words are punctuation that determine the
+ sequence of execution in an explicit definition.
+ Matching control words and the enclosed sentences make
+ up a control structure.  The following control words
+ and control structures are available:
+ 
+ [[break.]]
+ 
+ [[continue.]]
+ 
+ [[for.     T do. B end.]]
+ 
+ [[for_xyz. T do. B end.]]
+ 
+ [[goto_name.]]
+ 
+ [[label_name.]]
+ 
+ [[if. T do. B end.]]
+ 
+ [[if. T do. B else. B1 end.]]
+ 
+# The following long structures wont make it through
+# our simplistic layout techniques too well:
+ [[if. T do. B]]
+ [[elseif. T1 do. B1.]]
+ [[elseif. T2 do. B2.]]
+ [[end.]]
+ 
+ [[return.]]
+ 
+ [[select. T]]
+ [[case. T0 do. B0]]
+ [[fcase. T1 do. B1]]
+ [[case. T2 do. B2]]
+ [[end.]]
+ 
+ [[try. B catch. B1 end.]]
+ 
+ [[while. T do. B end.]]
+ 
+ [[whilst. T do. B end.]]
+ 
+ Words beginning with [[B]] or [[T]] denote blocks,
+ comprising zero or more simple sentences and control
+ structures.  The last last sentence executed in a [[T]]
+ block is tested for a non-zero value in its leading
+ atom, and determines the block to be executed next.
+ (An empty [[T]] block result or an omitted [[T]] block
+ tests true.)
+ 
+ These control words and control structures are further
+ detailed in the following pages.
+# should be here:  "in their own pages"
+
+N break.
+P break.
+T
+ The [[break.]]
+ control word is used in Explicit Definition ([[:]]).
+ It may be used within a [[for.]], [[while.]], or
+ [[whilst.]] control structure,
+ and goes to the end of the smallest such enclosing
+ structure.
+ See also [[continue.]].
+H
+ For example:
+E
+ itn=: 3 : 0		NB. Inverse triangular number
+   s=.0
+   for_j.
+     i.2e4
+   do.
+     if. s>:y. do. j break. end.
+     s=.j+s
+   end.
+ )
+ 
+ x=:10 100 1000 10000
+ itn"0 x
+ 
+ ]y=: 2&!^:_1 x
+ 2!y
+
+N continue.
+P continue.
+T
+ The [[continue.]]
+ control word is used in Explicit Definition ([[:]]).
+ It may be used within a [[for.]], [[while.]], or
+ [[whilst.]] control structure,
+ and goes to the top of the smallest such enclosing
+ structure.
+ See also [[break.]]
+H
+ For example:
+E
+ sumeven=: 3 : 0
+   s=.0
+   for_j. i.y. do.
+     if. 2|j do. continue. end.
+     s=.j+s
+   end.
+ )
+ 
+ sumeven 9
+ 
+ +/ (* -.@(2&|)) i.9
+ 
+ sumeven 1000
+ +/ (* -.@(2&|)) i.1000
+ 
+ (sumeven = 2&!@>.&.-:) 1000
+
+N for.
+P for.
+T
+ The [[for.]]
+ control structure is used in Explicit Definition ([[:]]).
+ 
+ [[for.     T do. B end.]]
+ 
+ [[for_xyz. T do. B end.]]
+ 
+ The [[B]] block is evaluated for each item of the
+ array [[A]] that results from evaluating the [[T]]
+ block.  In the [[for_xyz.]] form, the local name
+ [[xyz]] is set to the value of an item on each
+ evaluation and [[xyz_index]] is set to the index of
+ the item.
+ 
+ [[break.]] goes to the end of the [[for.]] control
+ structure, and [[continue.]] goes to the evaluation of
+ [[B]] for the next item.
+H
+ For example:
+E
+ f0=: 3 : 0
+   s=. 0
+   for. i. y. do. s=.>:s end.
+ )
+ 
+ f1=: 3 : 0
+   s=.0
+   for_j. i.y. do.
+     if. 2|j do. continue. end.
+     s=.j+s
+   end.
+ )
+ 
+ comb=: 4 : 0	NB. All size x. combinations of i.y.
+   z=.1 0$k=.i.#c=.1,~(y.-x.)$0
+   for. i.x. do. z=.;k,.&.>(-c=.+/\.c){.&.><1+z end.
+ )
+ 
+ (f0 = ])"0 ?5$100
+ 
+ (f1 = 2&!@>.&.-:)"0 ?5$100
+ 
+ 3 comb 5
+
+N goto_name.
+P goto_name.
+T
+ The [[goto_name.]]
+ control word is used in Explicit Definition ([[:]]),
+ and goes to the matching [[label_name.]].
+ These control words are included to facilitate
+ modelling of certain processes.
+H
+ For example:
+E
+# fixed name mismatch def/use of fc:
+ fc=: 3 : 0
+   if. y. do. goto_true. else. goto_false. end.
+   label_true.  'true'  return.
+   label_false. 'false' return.
+ )
+ 
+ fc 0
+ fc 1
+ fc ''
+
+N if.
+P if.
+T
+ The [[if.]]
+ control structure is used in Explicit Definition ([[:]]).
+ 
+ [[if. T do. B end.]]
+ 
+ [[if. T do. B else. B1 end.]]
+ 
+ [[if. T do. B elseif. T1 do. B1 elseif. T2 do. B2 end.]]
+ 
+ The last sentence executed in a [[T]] block is tested
+ for a non-zero value in its leading atom, determining
+ whether the [[B]] block after the [[do.]] or the rest
+ of the sentence is executed.
+ An empty [[T]] block result or omitted [[T]] block
+ tests true.
+ 
+ See also the [[select.]] structure.
+H
+ For example:
+E
+ plus=: 4 : 0		NB. Addition of non-negative integers
+   if. y. do. >: x. plus <: y. else x. end.
+ )
+ 
+ plus"0/~ i.5
+ 
+ sel=: 1 : 'x. # ]'
+ 
+ qsort=: 3 : 0
+   if. 1 >: #y. do. y.
+   else.
+     (qsort e >sel y.),(e =sel y.),(qsort e <sel y.) [ e=.y.{~?#y.
+   end.
+ )
+ qsort 15 2 9 10 4 0 13 13 18 7
+ 
+ test=: 3 : 0
+   if.     0<y. do. 'positive'
+   elseif. 0>y. do. 'negative'
+   elseif.      do. 'zero'
+   end.
+ )
+ 
+ test&.> 5 _2.71828 0
+ test&.> '' ; 0 1 _2 ; _3 9
+
+N return.
+P return.
+T
+ The [[return.]]
+ control structure is used in Explicit Definition
+ ([[:]]), and exits the verb, adverb, or conjunction.
+ 
+ The result of an explicit definition is the result of
+ the last executed sentence that was not in a test
+ block.  If there is no such executed sentence, the
+ result is [[i. 0 0]].
+H
+ For example:
+E
+ f=: 3 : 0
+   try.
+     if. 0<:y. do. 'positive' return. else. t=.'negative' end.
+   catch.
+     t=.'caught'
+   end.
+   'it is ',t
+ )
+ 
+ f 7
+ f _12
+ f 'deipnosophist'
+ 
+ (i.0 0) -: 3 : 'return.' 999
+ 
+ g=: 3 : 'if. 13=|y. do. ''triskaidekaphobia'' end.'
+ g 13
+ g 5
+ (i.0 0) -: g 5
+
+N select.
+P select.
+T
+ The [[select.]]
+ control structure is used in Explicit Definition ([[:]]).
+ 
+ [[select. T]]
+ [[case.  T0 do. B0]]
+ [[case.  T1 do. B1]]
+ [[fcase. T2 do. B2]]
+ [[case.  T3 do. B3]]
+ [[end.]]
+ 
+ The result [[R]] of [[T]] is compared to the elements
+ of the result [[Ri]] of [[Ti]], and the [[Bi]] block
+ of the first [[case.]] or [[fcase.]] with a match is
+ evaluated.  Evaluation of the [[select.]] control
+ structure the terminates for a [[case.]], or continues
+ with the next [[B(i+1)]] block for an [[fcase.]]
+ (and further continues if *(it)* is an [[fcase.]]).
+ 
+ The comparison is [[R e.&boxopen=:<^:(L.=0:)]],
+ and a case with an omitted [[Ti]] is considered to
+ match.
+H
+ For example:
+E
+ f0=: 3 : 0
+   select. y.
+     case. 1;2 do. 'one two'
+     case. 3   do. 'three'
+     case. 4;5 do. 'four five'
+     case. 6   do. 666
+   end.
+ )
+ 
+ f0&.> 1 2 3 4 5 6
+ (i.0 0) -: f0 7
+ 
+ f1=: 3 : 0
+   select. y.
+     case. 'a' do. i.1
+     case. 'b' do. i.2
+     case.     do. i.3
+   end.
+ )
+ (i.1) -: f1 'a'
+ (i.1) -: f1 'a';'b'
+ (i.2) -: f1 'b'
+ (i.3) -: f1 'x'
+ 
+ f2=: 3 : 0
+   t=. ''
+   select. y.
+     case.  1 do. t=.t,'one '
+     fcase. 2 do. t=.t,'two '
+     case.  3 do. t=.t,'three '
+     fcase. 4 do. t=.t,'four '
+   end.
+ )
+ f2 1
+ f2 2
+ f2 3
+ f2 4
+ '' -: f2 5
+
+N try.
+P try.
+T
+ The [[try.]]/[[catch.]]
+ control structure is used in Explicit Definition ([[:]]).
+ 
+ [[try. B0 catch. B1 end.]]
+ 
+ The [[B0]] block is executed and if an error occurs,
+ the [[B1]] block is executed.
+H
+ For example:
+E
+ f=: 4 : 0
+   try.
+     try. 3+y. catch. +:x. end.
+   catch.
+     'x and y are both bad'
+   end.
+ )
+ 13 f 7
+ 13 f 'primogeniture'
+ 'sui' f 'generis'
+
+N while.
+P while.
+T
+ The [[while.]] and [[whilst.]]
+ control structures are used in Explicit Definition ([[:]]).
+ 
+ [[while.  T do. B end.]]
+ 
+ [[whilst. T do. B end.]]
+ 
+ The last sentence executed in the [[T]] block is
+ tested for a non-zero value in its leading atom.
+ If true, the [[B]] block is executed.  The [[T]] block
+ is then retested, and so on, continuing until the
+ [[T]] block tests false.  (An empty [[T]] block result
+ or omitted [[T]] block tests true.)
+ 
+ [[whilst.]] differs from [[while.]] only in that it
+ *(s)*kips *(t)*est the first time.
+ 
+ [[break.]] goes to the end of the [[while.]] or
+ [[whilst.]] control structure and [[continue.]] goes
+ to the top.
+H
+ For example:
+E
+ exp=: 4 : 0	NB. Exponentiation by repeated squaring
+   z=.1
+   a=.x
+   n=.y
+   while. n do.
+     if. 2|n do. z=.z*a end.
+     a=.*:a
+     n=.<.-:n
+   end.
+   z
+ )
+ 3 exp 7
+ 3 ^ 7
+ 1.1 exp 0
+ 2x exp 128
+
+I
+# vim:tw=55:ai:ic:inf

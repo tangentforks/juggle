@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>Common Dialog Boxes</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="fonts.htm">&gt&gt;</a>&nbsp;
+<a href="win_ctrl_toolbar.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Common Dialog Boxes</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+Windows provides several built-in dialog boxes called <I>Common Dialog Boxes</I> that perform useful functions.
+
+<P>
+The <I>color</I> dialog box allows selection of colors. The result is a list of the RGB values for 17 colors, of which the first is chosen in the standard color dialog box, and the rest in the custom color dialog box. Try:
+
+<pre>
+   _3[\ &quot;. wd 'mbcolor'
+</pre>
+
+<P>
+This returns a matrix of the 17 values, one row per color.
+
+<P>
+The <I>font</I> dialog box allows selection of a logical font. The result describes the font chosen (in this case the font used in the J logo):
+
+<pre>
+   wd 'mbfont'
+&quot;Bookman Old Style&quot; 24
+</pre>
+
+<P>
+The <I>message box</I> dialog box displays a message and waits for a user response. For example:
+
+<pre>
+   wd 'mb title text'
+   wd 'mb title text mb_iconstop mb_retrycancel'
+</pre>
+
+<P>
+To list all message box styles:
+
+<pre>
+   list wd 'qs mb'
+mb_abortretryignore mb_defbutton2       mb_defbutton3 
+mb_iconasterisk     mb_iconexclamation  mb_iconhand   
+mb_iconinformation  mb_iconquestion     mb_iconstop   
+mb_ok               mb_okcancel         mb_retrycancel
+mb_yesno            mb_yesnocancel
+</pre>
+
+<P>
+The <I>open filename</I> dialog box allows the user to select a fully qualified file name:
+
+<pre>
+   wd 'mbopen'
+   wd 'mbopen title &quot;&quot; &quot;&quot; Write(*.wri)|*.wri| Word(*.doc) |*.doc&quot;
+ofn_filemustexist'
+</pre>
+
+<P>
+To list all open filename styles:
+
+<pre>
+   list wd 'qs mbopen'
+ofn_createprompt    ofn_filemustexist...
+ofn_overwriteprompt ofn_pathmustexist
+</pre>
+
+<P>
+The <I>save filename</I> dialog box is similar to the open filename dialog box:
+
+<pre>
+   wd 'mbsave'
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="fonts.htm">&gt&gt;</a>&nbsp;
+<a href="win_ctrl_toolbar.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

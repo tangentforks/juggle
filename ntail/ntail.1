@@ -1,0 +1,31 @@
+.TH ntail 1 "Feb 1996"
+.SH NAME
+ntail \- Nase's tail \-f for multiple files
+.SH SYNOPSIS
+.BI ntail " -f [-F <filter1>] <file1> [-F <filter2>] ...
+.SH DESCRIPTION
+ntail allows to monitor multiple files in the manner of 
+.B "tail -f".
+Every
+.B "file"
+may be prepended by a 
+.B "filter"
+ option. A filter may be specified as a regular expression and the lines
+matching the expression are suppressed.
+.SH BUGS
+The last
+.B n
+lines are not printed as done by
+.B "tail".
+.br
+And therfore: Without
+.B "-f"
+option nothing interesting happens...
+.br
+More bugs and errors are to be encountered...
+.SH "SEE ALSO"
+tail(1),ed(1),grep(1)
+.SH AUTHOR
+.B "ntail"
+is written by Bert Nase (schoenfr@gaertner.de). The bugs are
+introduced by Bert Becks ;-)

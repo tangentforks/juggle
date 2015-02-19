@@ -1,0 +1,8 @@
+#!/bin/sh
+
+grep -o -n '\]\]$' midi.nw &&
+	echo "Warning -- line ends cause autodefs.ijs trouble -- reformat"
+
+noweave -html -filter autodefs.ijs -index  midi.nw | autodefs-clean > midi.html
+noweave -html -filter autodefs.ijs midi.nw | autodefs-clean > midi-vector.html
+notangle -t8 -Rmidi.ijs -filter emptydefn  midi.nw > midi.ijs

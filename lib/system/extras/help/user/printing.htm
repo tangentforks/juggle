@@ -1,0 +1,181 @@
+<html>
+<head>
+<title>Printing</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="debugs.htm">&gt&gt;</a>&nbsp;
+<a href="find_in_files.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Printing</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+Printing from J is handled by the print package. Load with:
+
+<pre>
+   load 'print'
+</pre>
+
+<P>
+This defines utilities in the jprint locale, plus the following user definitions:
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=130><P>
+print    
+<TD VALIGN="TOP" WIDTH=257><P>
+print text
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=130><P>
+printfile 
+<TD VALIGN="TOP" WIDTH=257><P>
+print file
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=130><P>
+print2   
+<TD VALIGN="TOP" WIDTH=257><P>
+print text in 2-up mode
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=130><P>
+printfile2
+<TD VALIGN="TOP" WIDTH=257><P>
+print file in 2-up mode
+</TR></TABLE>
+
+<P>
+<B>verb: print</B>
+
+<P>
+form: <code>opt print data</code>
+
+<P>
+  where opt is an optional list separated by semicolons:
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+ascii [1|0]
+<TD VALIGN="TOP" WIDTH=385><P>
+set ascii box-drawing characters on|off
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+font fontspec
+<TD VALIGN="TOP" WIDTH=385><P>
+set font
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+fontsize points
+<TD VALIGN="TOP" WIDTH=385><P>
+set fontsize
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+filename
+<TD VALIGN="TOP" WIDTH=385><P>
+set filename text
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+fit
+<TD VALIGN="TOP" WIDTH=385><P>
+fit text to page width
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+header text
+<TD VALIGN="TOP" WIDTH=385><P>
+set header text
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+footer text
+<TD VALIGN="TOP" WIDTH=385><P>
+set footer text
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+land | landscape
+<TD VALIGN="TOP" WIDTH=385><P>
+set landscape mode (default is portrait)
+</TR><TR>
+<TD VALIGN="TOP" WIDTH=175><P>
+ruler
+<TD VALIGN="TOP" WIDTH=385><P>
+add ruler to top of each page (use with fixed pitch font)
+</TR></TABLE>
+
+<P>
+<B>verb: printfile</B>
+
+<P>
+form: <code>opt printfile files</code>
+
+<P>
+Options are as for print, except the filename is set automatically
+
+<P>
+<B>verbs : print2  printfile2</B>
+
+<P>
+These verbs are the same as print and printfile, except that the page is printing in landscape mode, 2 pages per sheet. For example, this is good for printing script files.
+
+<P>
+Options are as for print, except that fit, land and landscape are ignored, and there is a new option:
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=85><P>
+cols
+<TD VALIGN="TOP" WIDTH=280><P>
+set columns, default 80
+</TR></TABLE>
+
+<P>
+Default fonts and options can be set in menu Edit|Configure|Print.
+
+<P>
+The font for 2-up printing should be fixed pitch and around 7-7.5 point. &quot;Lucida Console&quot; 7.25 bold is good if available - use oem if your printer supports it, else ansi.
+
+<P>
+The ruler option uses the current session box-drawing characters. Choose a box-drawing font, or include the 'ascii' option.
+
+<P>
+Examples:
+
+<pre>
+  'font arial 12;land;footer just testing' print i.3 4 5
+  
+  'ascii;font &quot;courier new&quot; 14' print ;/i.3 4 5
+  
+  'fontsize 7.5;land;ruler' printfile 'system\examples\data\orders.prn'
+  
+  printfile2 'system\main\pack.ijs'
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="debugs.htm">&gt&gt;</a>&nbsp;
+<a href="find_in_files.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,88 @@
+#!/bin/sh
+
+spooldir=/var/spool/mail		# watched mail boxes
+tolerance=30				# days
+bigsize=4000000				# warn about bigger mboxes
+notify="$USER"				# Whom to mail
+# outbox=$spooldir/ISsecretary		# failsafe box
+
+# process options to overwrite the defaults above
+
+while [ -n "$1" ] ; do case "$1" in
+-d)	spooldir=$2; shift 2;;
+-t)	tolerance=$2; shift 2;;
+-s)	bigsize=$2; shift 2;;
+-n)	notify=$2; shift 2;;
+*)	echo "Unknown option '$1'."; bailout='yes, commander!';;
+esac; done
+
+[ -n "$bailout" ] && exit 1
+
+tf=/tmp/mailwatch.$$
+trap "rm -f $tf ; exit 0" 0 1 2 3 15
+
+# GETDATE=/usr/local/bin/getdate	# REAL PoPs use cnews for date parsing
+GETDATE="date +%s -d"			# GNU date 1.15
+
+now=`$GETDATE now`
+maxage=$(( $tolerance * 60*60*24 ))
+
+# For each mailbox, look at the very first (oldest) "From" line
+# and extract the date digestable for getdate.
+#
+# We don't look at -name '.*' files which are most likely lock files
+# of either the MTA, a MUA, or the POP3 daemon.
+# 
+# Nuke the hh:mm:ss with a comma because getdate would ignore the
+# final year spec.  (We were very lucky to develop this script
+# in January and notice this trap.)
+
+cd $spooldir
+
+inboxes=`find . -type f  ! -name '.*' | sort`
+awk '
+FNR==1 && ($0 ~ /^From /) {
+	# extract the first date to be converted below.
+	# Sometimes, a misconfigured local mailer might not create
+	# the required "From " line.  We protect against this with the
+	# regex above.
+	$1=$2=""; $6=","; print FILENAME, $0
+}' $inboxes |
+while read fn date ; do
+	age=$((now - `$GETDATE "$date"`))
+	if [ $age -gt $maxage ] ; then
+		cnt=`grep -c '^From .*[0-9]$' $fn`
+		echo "oldest mail from $date,    $cnt mails total:"
+		ls -l $fn
+		echo ""
+		# forward & trunc:
+		# cat $fn >> $outbox
+		# > $fn
+	fi
+done > $tf
+
+if [ -s $tf ] ; then
+	cat - $tf <<-. | mail -s "$0 detected orphaned mail" $notify
+	$0 detected the some anomalies in `hostname`:$spooldir.
+
+	Mailboxes not read for more then $tolerance days now:
+
+	.
+fi
+
+# cleanup:
+# Without doing the proper mbox locking, this is hazardous.
+# Uncomment at your own risk:
+# find . -type f -empty  ! -name '.*' | xargs -r rm
+
+ls -l | awk '$5 > '"$bigsize"  > $tf
+
+if [ -s $tf ] ; then
+	cat - $tf <<-. | mail -s "$0 detected huge mailboxes" $notify
+
+	Mailboxes which appear extraordinary big:
+
+	.
+fi
+
+exit 0

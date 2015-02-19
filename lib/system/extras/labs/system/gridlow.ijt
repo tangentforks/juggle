@@ -1,0 +1,1120 @@
+LABTITLE=: 'Grid Low Level Programming'
+LABWINDOWED=: 0
+
+NB. =========================================================
+Lab Chapter Introduction
+NB. =========================================================
+Lab Section overview
+A grid is a display of data in cells in an isigraph control.
+
+A grid is implemented in J code that uses gl commands that are implemented in C. As much as possible is implemented in J. The C code is used to make the grid painting as fast and flicker free as possible.
+
+This lab discusses the gl commands used to program a grid.
+)
+SCRIPT
+coclass 'pgrid'
+
+PGRID=: 0 : 0
+pc pgrid;
+xywh 6 6 128 120;cc grid isigraph ws_border rightmove bottommove;
+pas 6 6;pcenter;
+rem form end;
+)
+
+create=: 3 : 0
+wd PGRID
+formhwnd=: wd'qhwndp'
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+codestroy''
+)
+
+pgrid_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+SCRIPT
+PREPARE
+require'gl2'
+pgridscript=:'temp/pgrid.ijs'
+(toHOST SCRIPT_jlab_) 1!:2 <pgridscript
+load pgridscript
+
+pgridinit=: 3 : 0
+try.
+ sel''
+catch.
+ pgrid=: ''conew'pgrid'
+ wd'ptop'
+ sel''
+end.
+glclear''
+glmapraw ''
+glmap MM_TEXT
+glnoerasebkgnd 1
+glgrid''
+glshowx''
+erase'pgrid_grid_mbldown_pgrid_'
+empty''
+)
+
+pgriddata=: 3 : 0
+glgridrc 6 4
+setheights 6$20
+setwidths 4$50
+glgridfill 15 10 0 0
+glgridtext celldata 1+i.6 4
+empty''
+)
+
+pgridatts=: 3 : 0
+glgridatt ,atts''
+glgridfix 1 1
+glgridrchw 1 1 5 3
+glgridtype ,5 3$1
+glgridrchw 0 0 1 1  NB. upper left corner
+glgridtext ''
+glgridrchw 0 1 1 3
+glgridtext celldata >:i.3
+glgridrchw 1 0 5 1
+glgridtext celldata >:i.5
+empty''
+)
+
+pgridlabs=:3 : 0
+glgridrchw 0 1 1 3
+glgridtext celldata >:i.3
+glgridrchw 1 0 5 1
+glgridtext celldata >:i.5
+)
+resetpgrid=: 3 : 0
+try.
+ wd 'smsel *',pgridscript
+ wd 'smclose'
+catch.
+end.
+try.
+ formselect__pgrid''
+ destroy__pgrid''
+catch.
+end.
+)
+sel=: 3 : 0
+formselect__pgrid''
+glsel'grid'
+)
+
+celldata=: 3 : ';(":each y.),each 0{a.'
+scroll=: 3 : 'glpaintx [ glgridscroll y.'
+setwidths=: 3 : 'glgridw gridws=:y.'
+setheights=: 3 : 'glgridh gridhs=:y.'
+
+resetpgrid''
+
+AQUA=:      0 255 255
+BLACK=:     0   0   0
+SILVER=:  192 192 192
+WHITE=:   255 255 255
+
+atts=: 3 : 0
+j=.   <WHITE,  SILVER, BLACK, 1  2 _1
+j=. j,<SILVER, WHITE,  BLACK, 0 _1  1
+j=. j,<SILVER, AQUA,   BLACK ,0 _1  1
+j=. j,<WHITE,  WHITE,  BLACK, 0 _1  1
+20&{. &> j
+)
+
+attsx=: 3 : 0
+j=.   <WHITE,  SILVER, BLACK,  1  2 _1
+j=. j,<SILVER, WHITE,  BLACK, _1 _1  1
+j=. j,<SILVER, AQUA,   BLACK , 0 _1  1
+j=. j,<WHITE,  WHITE,  BLACK,  0 _1  1
+20&{. &> j
+)
+
+PREPARE
+
+NB. =========================================================
+Lab Section
+Most of the J code required to implement a grid is in class jzgrid. The code to customize for particular requirements is implemented in classes that extend the jzgrid class. The jwgrid, jtgrid, and jfgrid classes used in the jwatch, jtable, and jfreport classes are extensions of jzgrid.
+
+The jzgrid class uses gl commands to implement the grid. In general, classes that extend jzgrid do not use gl commands, and instead use jzgrid methods.
+
+This lab discusses the gl commands used in jzgrid. This lab  provides a deeper understanding of how jzgrid and its extended classes work. It also provides the basis for implementing a class that has quite different behavior than jzgrid.
+)
+
+NB. =========================================================
+Lab Section
+This lab is organized in chapters. Use Studio|Chapters.. to jump to the start of any chapter in the lab.
+
+The first section in each Chapter sets the environment (definitions, scripts, windows, etc.) for running the sections in the chapter.
+)
+
+NB. =========================================================
+Lab Section
+The next step defines a script.
+)
+
+NB. =========================================================
+Lab Section
+)
+open'temp/pgrid.ijs'
+load'temp/pgrid.ijs'
+
+NB. =========================================================
+Lab Section
+Take a look at the script. It defines a pgrid class that has a form with an isigraph control.
+
+You can leave the pgrid script open, but you can close it at any time to reduce screen clutter.
+)
+
+NB. =========================================================
+Lab Section pgrid class
+Create a pgrid object and mark the form as ptop.
+
+Click the ijx window so that Ctrl+a will advance the lab.
+)
+pgrid=: '' conew 'pgrid'
+wd'ptop'
+
+NB. =========================================================
+Lab Section
+The gl 2d commands are required, so be sure they are loaded.
+)
+require 'gl2'
+
+NB. =========================================================
+Lab Section wd and gl targets
+gl commands have a target of the selected isigraph control in the selected form.
+
+formselect method selects the form as the wd target.
+
+glsel selects the isigraph control as the gl target.
+
+sel is defined to select our form and isigraph control as the wd and gl targets.
+)
+sel=: 3 : 0
+formselect__pgrid''
+glsel'grid'
+)
+
+NB. =========================================================
+Lab Section default isigraph
+A quick refresher on the default isigraph:
+ drawing area is 1000 by 1000
+ x coordinates go from left to right
+ y from bottom to top
+
+Size the form and note how the drawing scales.
+)
+sel''
+glclear ''      NB. clear drawing
+glmove 0 0      NB. move to location 0 0 (left bottom)
+glline 200 200  NB. line to point (over and up)
+glshow ''       NB. show the drawing
+
+NB. =========================================================
+Lab Section grid isigraph
+With a grid we want to work with pixel addressing, not a logical 1000 by 1000 area.
+
+glmapraw indicates we don't want the default behavior.
+
+glmap sets the mapping mode. MM_TEXT has little to do with text. It means that x addressing is from left to right and y addressing is from top to bottom.
+)
+sel ''
+glclear ''
+glmapraw ''    
+glmap MM_TEXT
+NB. addressing in pixels with y going top to bottom
+
+NB. =========================================================
+Lab Section
+The coordinates are pixels from left to right and top to bottom.
+)
+sel''
+glclear ''
+glmapraw ''
+glmap MM_TEXT
+glmove 0 0       NB. 0 0 is now the left upper corner
+glline 200 200   NB. line to point 200 pixels over and down
+glshow ''
+
+NB. =========================================================
+Lab Section
+Size the form and note that the drawing does not scale.
+)
+
+NB. =========================================================
+Lab Section
+glgrid requests the painting of a grid.
+)
+sel''
+glgrid ''
+glshow ''
+
+NB. =========================================================
+Lab Section
+You should see a grid of tiny cells.
+
+The grid has no data so only draws default cells.
+)
+
+NB. =========================================================
+Lab Section
+Size  the form and see how much flicker there is.
+
+An isigraph paints its background before drawing. This is necessary if the drawing doesn't cover everything, as otherwise you'd see bits of other windows.
+)
+
+NB. =========================================================
+Lab Section
+The grid paints everything. Moreover, because it isn't scaling and is quite reqular, the old area has the same information, so repainting it would look quite smooth if it weren't erased first.
+
+glnoerasebkgnd turns background painting on and off.
+
+Size the form and notice how much smoother the drawing is.
+)
+sel''
+glnoerasebkgnd 1
+
+NB. =========================================================
+Lab Section
+The original line in the background is a bit of a nuisance, so lets get rid of it.
+)
+sel''
+glclear ''
+glmapraw ''
+glmap MM_TEXT
+glnoerasebkgnd 1
+glgrid ''
+glshow ''
+
+NB. =========================================================
+Lab Section
+glgridfill gives information for cells that don't have data.
+
+glgridfill width, height, fixtype, filltype.
+
+We'll come to the type information later,
+
+Set cell width and height (in pixels) and give types of 0.
+)
+sel''
+glgridfill 40 20 0 0
+
+NB. =========================================================
+Lab Section
+Commands like glgridfill set state information for the grid. This state information is used to draw the grid when the isigraph paint routine processes the glgrid command in its command buffer.
+
+If you cause the isigraph to repaint you will see the new cell size.
+
+Size the form to cause a repaint.
+)
+
+NB. =========================================================
+Lab Section
+glpaintx indicates the grid should be repainted. This repaint is not immediate. Rather, the grid will be asked to repaint itself when the system has a chance. In general this is the next time the system is idle.
+)
+sel''
+glgridfill 20 10 0 0
+glpaintx ''
+
+NB. =========================================================
+Lab Chapter Grid Data
+NB. =========================================================
+Lab Section grid data
+Set some data cells for the grid. You should see the array of data cells in the upper left.
+)
+pgridinit''           NB. initialize pgrid grid
+sel ''
+glgridrc 6 4          NB. rows and columns of data
+glgridh 6$20          NB. row heights
+glgridw 4$30          NB. col widths
+glgridfill 15 10 0 0  NB. fill width and height
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Put data in cells.
+
+The C code requires cell data as text strings. Text for successive cells are delimited by the NULL character.
+
+celldata converts a numeric matrix into a character string suitable for grid data.
+)
+sel''
+celldata=: 3 : ';(":each y.),each 0{a.'
+glgridtext celldata i.6 4
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Let's make the grid data larger and set data in it.
+
+Covers are defined for glgridw and glgridh. They save the widths and heights in globals gridws and gridhs as these will be required later.
+)
+sel''
+setwidths=: 3 : 'glgridw gridws=:y.'
+setheights=: 3 : 'glgridh gridhs=:y.'
+glgridrc 10 4
+setwidths 4$40
+setheights 10$20
+glgridtext celldata i.10 4
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+In the grid established by glgridrc it is possible to specify a subarray and then other commands affect only that portion.
+
+Set new data in the second row.
+)
+sel''
+glgridrchw 1 0 1 4  NB. row 1, col 0, height 1, width 4
+glgridtext celldata 100+i.4
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Set the third column to new data.
+)
+sel''
+glgridrchw 0 2 10 1
+glgridtext celldata 300+i.10
+glpaintx ''
+
+NB. =========================================================
+Lab Section
+Set new data in the middle of the grid.
+)
+sel''
+glgridrchw 3 1 2 2
+glgridtext celldata 500+i.2 2
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Set a single cell.
+)
+sel''
+glgridrchw 3 1 1 1
+glgridtext 'abc'
+glpaintx''
+
+NB. =========================================================
+Lab Section
+We can make the abc cell wider and higher.
+)
+sel''
+setwidths 40 80 40 40
+setheights 20 20 20 35 , 6$20
+glpaintx''
+
+NB. =========================================================
+Lab Section
+A cell can have multiple lines.
+)
+sel''
+glgridrchw 3 1 1 1
+glgridtext 'abc',LF,'def'
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Reset the height and put just a single line in the cell.
+)
+sel''
+setheights 10$20
+glgridrchw 3 1 1 1
+glgridtext 'abc'
+glpaintx''
+
+NB. =========================================================
+Lab Section
+The abc is left justified whereas numbers are right justified,
+
+This is the default behavior, and like almost everything it can be modified.
+)
+sel''
+setwidths 40 80 40 40
+glpaintx''
+
+NB. =========================================================
+Lab Chapter Types and Attributes
+NB. =========================================================
+Lab Section types and attributes
+A cell has a type that is an index into a set of attributes.
+
+A set of attributes is a list of 20 integers:
+ pen, brush, text, font, align, edit, unused
+
+pen, brush, and text are 3 integers with RGB values. There are 8 unused fields at the end. The length of a set of attributes is 20.
+)
+pgridinit''  NB. initialize grid
+pgriddata''  NB. initialize grid data
+glpaintx''
+
+NB. =========================================================
+Lab Section
+atts returns 4 sets of of attributes.
+)
+atts
+WHITE
+atts''
+
+NB. =========================================================
+Lab Section
+ 0 - WHITE rectangle pen, SILVER brush, BLACK text pen
+ 1 - SILVER rectangle pen, WHITE brush, and BLACK pen
+ 2 - SILVER rectangle pen, AQUA brush, and BLACK pen
+ 3 - WHITE rectangle pen, WHITE brush and BLACK pen
+)
+
+NB. =========================================================
+Lab Section
+glgridatt sets the attributes in the grid.
+
+The default cell type is 0, so when the grid repaints all cells use the type 0 attributes.
+)
+sel''
+glgridatt ,atts''  NB. note ravel!
+glpaintx''
+
+NB. =========================================================
+Lab Section
+The argument to glgridatt must be a vector. That is, it must be the ravel of the n by 20 matrix.
+
+All gl commands are rank 1. This is usually convenient, but does require the ravel for commands such as glgridatt.
+
+If you don't ravel, glgridatt is called successively for each row of the matrix and you end up setting only one attribute set with values from the last row of the matrix.
+)
+
+NB. =========================================================
+Lab Section
+Now that there are attributes to choose from, we can set the types of cells.
+
+glgridtype, like glgridatt, requires a list argument.
+)
+sel''
+glgridrchw 1 1 5 3  NB. all but the 1st row and 1st column
+glgridtype ,5 3$1   NB. type 1 (ravel!)
+glpaintx''
+
+NB. =========================================================
+Lab Section
+A set of attributes with the cell rectangle the same color as the brush displays without visible grid lines.
+
+Type 3 has a WHITE rectangle with a WHITE brush.
+)
+sel''
+glgridtype ,5 3$3
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Show the grid lines and highlight one of the cells.
+)
+sel''
+glgridtype ,5 3$1
+glgridrchw 2 2 1 1
+glgridtype 2
+glpaintx''
+
+NB. =========================================================
+Lab Chapter Scroll and Fix (labels)
+NB. =========================================================
+Lab Section scroll
+You can set scroll information in the grid.
+
+You set the number of rows and columns that are scrolled out of view.
+)
+pgridinit''
+pgriddata''
+pgridatts''
+sel''
+glgridscroll 0 1  NB. scroll left one column
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Scroll the column back.
+
+Experiment with various arguments.
+)
+sel''
+scroll=: 3 : 'glpaintx [ glgridscroll y.'
+scroll 0 0
+
+NB. =========================================================
+Lab Section fix
+Very often a grid has one or more rows and columns that are labels and are not intended to scroll.
+
+glgridfix sets the number of rows and columns that are fixed.
+)
+sel''
+scroll 0 0
+glgridfix 1 1
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Now, when you scroll, the fixed rows and columns stay.
+
+Experiment with different scroll values.
+)
+sel''
+scroll 2 2
+
+NB. =========================================================
+Lab Section
+It's starting to look a little more like a grid.
+
+Let's give it better row and column headings.
+)
+sel''
+scroll 0 0
+glgridrchw 0 0 1 1  NB. upper left corner
+glgridtext ''
+glgridrchw 0 1 1 3
+glgridtext celldata >:i.3
+glgridrchw 1 0 5 1
+glgridtext celldata >:i.5
+glpaintx''
+
+NB. =========================================================
+Lab Chapter Logical, Data, and Visible Grid
+NB. =========================================================
+Lab Section logical, data, and visible
+The 'logical grid' is the entire grid. The logical grid could have a small number of rows and columns, a large number, or even, as in the case of a mathematical table, an infinite number. The number of rows and columns can even change dynamically.
+
+The 'data grid' is the data from the logical grid that has been set in the grid with commands such as glgridtext.
+
+The 'visible grid' is the part of the data grid, which in turn is part of the logical grid, that is visible on the screen.
+)
+
+NB. =========================================================
+Lab Section
+glgridfix gives the rows and columns of the logical grid that are fixed. These rows and columns are often thought of as labels.
+
+glgridscroll gives the rows and columns that are in the data grid, but are scrolled out of view in the visible grid.
+)
+
+NB. =========================================================
+Lab Section
+glgridskip gives the rows and columns in the logical grid that are not in the grid data. The skipped rows and columns are between the fixed rows and columns and other rows and columns that are in the data grid.
+
+A sketch might help.
+)
+
+NB. =========================================================
+Lab Section
+
+   1.+2*-     fixed rows
+   ......     skipped rows
+   +.+++-     scrolled rows
+   3.+4*-     visible rows (after fixed)
+   *.+**-     data rows (not visible)
+   -.----     logical data not in grid data
+
+ 1 2 3 4 are visible cells
+ . are cells skipped by glgridskip
+ + are cells scrolled by glgridscroll
+ * are data grid cells that are off the right or bottom
+
+ Everything is the logical grid.
+ 1 2 3 + 4 * are the data grid.
+ 1 2 3 4 are the visible grid.
+)
+
+NB. =========================================================
+Lab Section
+We won't show an example of glgridskip. It is used in jzgrid to allow commands to use row and column addresses in the logical grid, even though only a part of the logical grid is in the data grid.
+)
+
+NB. =========================================================
+Lab Chapter Fonts, Fill Type, Borders and Merge
+NB. =========================================================
+Lab Section fonts
+No fonts were set for the grid so all types used the system default font.
+
+A grid can have two different fonts. Typically font 0 is a fixed pitch font used for numeric display and font 1 is a proportional font used for text display.
+
+The different types of different cells choose the appropriate font.
+)
+pgridinit''
+pgriddata''
+pgridatts''
+sel''
+glgridfont0 '"courier new" 20 bold'
+glgridfont1 'arial 14'
+glpaintx''
+
+NB. =========================================================
+Lab Section
+)
+sel''
+glgridrchw 3 1 1 1
+glgridtext 'abc'   NB. text in cell 3 1
+glpaintx''
+
+NB. =========================================================
+Lab Section
+The text abc is in font 0. This is because of the attributes for its type,
+
+glgridgettype returns a cell's type and attributes.
+)
+sel''
+t=: glgridgettype 3 1  NB. type and attributes of abc cell
+{.t                    NB. type
+}.t                    NB. attributes
+9{}.t                  NB. font attribute
+
+NB. =========================================================
+Lab Section
+The font attribute is 0.
+
+A font attribute of 0 picks font 0 and 1 picks font 1.
+
+A font attribute of _1 picks font 0 or 1 depending on whether the data starts with a digit, -, or _ character.
+)
+
+NB. =========================================================
+Lab Section
+attsx is the same as atts except it has a font attribute of _1 for type 1.
+
+Now abc is in font 1.
+)
+sel''
+atts''
+attsx''
+glgridatt ,attsx''
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Let's set font 0 to be a bit smaller and not so bold.
+)
+sel''
+glgridfont0 '"courier new" 14'
+glpaintx''
+
+NB. =========================================================
+Lab Section fill type
+glgridfill was used earlier to give the widths, heights and types of cells that weren't in the cells defined by gridrc.
+
+glgridfill width height fixtype filltype
+
+The fixtype is the type used for cells that are in fixed rows or columns. The filltype is used for other cells.
+)
+sel''
+glgridfill 40 40 0 1
+glpaintx''
+
+NB. =========================================================
+Lab Section borders
+You can draw borders around a range of cells. A border is specified as:
+ row, col, rows, cols, left b, top b, right b, bottom b
+
+The b field for each side is a type and RGB color.
+
+The type is 0 to 3 for none, thin, medium, fat. Type 11 is for a double line.
+
+A border is 20 integers in all.
+)
+
+NB. =========================================================
+Lab Section
+Put a red, double line border around a range of cells.
+)
+sel''
+DR=: 11 255 0 0           NB. double red line
+border=: 2 2 3 2, 16$DR
+glgridborder border
+glpaintx''
+
+NB. =========================================================
+Lab Section
+glgridborder sets a complete new set of borders.
+)
+sel''
+DR=: 11 255 0   0   NB. double red line
+MB=:  2   0 0 255   NB. medium blue line
+border1=: 1 1 2 2, 16$MB
+border2=: 4 2 2 2, (12$MB),DR
+glgridborder border1,border2
+glpaintx''
+
+NB. =========================================================
+Lab Section
+)
+sel''
+glgridborder '' NB. no borders
+glpaintx''
+
+NB. =========================================================
+Lab Section merge
+You can merge cells together to logically create a single wider cell.
+
+This is typically used when there several rows used as labels and there is a hierarchy of the labels.
+
+A cell with a type of _1 is treated as if its display area was part of the cell to its left.
+
+Cells only merge horizontally, they do not currently merge vertically.
+)
+
+NB. =========================================================
+Lab Section
+Merge the column labels together so that a single cell labels the 3 columns.
+)
+sel''
+glgridrchw 0 2 1 2
+glgridtype _1 _1     NB. merge type
+glpaintx''
+
+NB. =========================================================
+Lab Chapter Marking Cells
+NB. =========================================================
+Lab Section marking cells
+A cell or range of cells can be marked as selected.
+
+glgridmark sets the range of cells that are marked.
+)
+pgridinit''
+pgriddata''
+pgridatts''
+sel''
+glgridmark 3 2 1 1
+glpaintx''
+
+NB. =========================================================
+Lab Section
+Mark a range of cells.
+)
+sel''
+glgridmark 3 1 2 2
+glpaintx''
+
+NB. =========================================================
+Lab Section
+You may notice a bit of flicker when you set the mark and call glpaintx.
+
+glpaintx requests a repaint of the entire grid. The cells are redrawn, and mostly they draw the same stuff and you don't see any change. However, drawing the cells overwrites borders and the mark. Then at the very end the borders and mark are redrawn.
+)
+
+NB. =========================================================
+Lab Section
+glgriddrawmark is a special grid update. Unlike glpaintx it does not request an entire repaint. Instead it immediately removes the mark from its current location and draws it at the new location.
+)
+sel''
+mm=: 3 : 'glgriddrawmark [ glgridmark y.'
+mm 2 2 3 3
+
+NB. use mm to move the mark around
+
+NB. =========================================================
+Lab Chapter Events and Editing
+NB. =========================================================
+Lab Section events
+It's time to hook up some events.
+
+We'll start with a handler for a left mouse button click.
+)
+pgridinit''
+pgriddata''
+pgridatts''
+sel''
+glpaintx''
+
+NB. =========================================================
+Lab Section
+A mouse left button handler has a name of the form:
+ formid_controlid_mbldown
+
+So the name of the handler is:
+ pgrid_grid_mbldown
+
+This handler is called in the form locale, which is a pgrid object.
+
+So the handler we need to define is:
+ pgrid_grid_mbldown_pgrid_
+)
+
+NB. =========================================================
+Lab Section
+To make this easier for experiments we will define the handler in the pgrid locale to call an mbldown verb in the base locale. The argument to the handler is the sysdata value with the mouse information.
+)
+pgrid_grid_mbldown_pgrid_ =: 3 : 'mbldown_base_ sysdata'
+
+NB. =========================================================
+Lab Section
+Click the grid and you should get a wdhandler message box telling you there is an error.
+)
+
+NB. =========================================================
+Lab Section
+Now we can make mbldown_base_ do something more interesting.
+
+Now when you click the grid you should see the mouse info displayed in the ijx window.
+)
+mbldown=: smoutput  NB. display sysdata mouse info in ijx
+
+NB. =========================================================
+Lab Section
+We need to convert the mouse coordinates to a cell index.
+
+Click cells to display the row and column information.
+)
+mbldown=: 3 : 0
+d=. (0{d),-/3 1{d=. ".y.
+rc=. (+/(1{d)>:+/\gridhs) , +/(0{d)>:+/\gridws
+smoutput rc
+)
+
+NB. =========================================================
+Lab Section
+Add code to mark the cell that is clicked.
+
+Click cells in the grid to move the mark.
+)
+mbldown=: 3 : 0
+d=. (0{d),-/3 1{d=. ".y.
+rc=. (+/(1{d)>:+/\gridhs) , +/(0{d)>:+/\gridws
+glgridmark rc,1 1
+glgriddrawmark''
+)
+
+NB. =========================================================
+Lab Section editing
+The next thing is editing cells.
+
+glgridedit with a string argument creates an edit box at the marked cell and allows user input.
+
+glgridgetedit returns the contents of the edit box.
+
+glgridedit 0 - closes the edit box
+)
+
+NB. =========================================================
+Lab Section
+Study the following definitions.
+)
+editflag=: 0
+
+mbldown=: 3 : 0
+if. editflag do. doedit'' end.
+d=. (0{d),-/3 1{d=. ".y.
+mark=: (+/(1{d)>:+/\gridhs) , +/(0{d)>:+/\gridws
+glgridmark mark,1 1
+glgriddrawmark''
+glgridedit ''          NB. create edit box
+editflag=: 1
+)
+
+doedit=: 3 : 0
+d=. glgridgetedit''    NB. get contents of edit box
+glgridrchw mark,1 1    NB. subarray for gridtext command
+glgridtext d           NB. data from edit box into cell
+glgridedit 0           NB. close edit box
+editflag=:0
+)
+
+NB. =========================================================
+Lab Section
+Clicking a cell does the following:
+
+  If an edit box has been created:
+    data from the edit box is put in the cell
+    the edit box is closed
+
+  an edit box is created on the new marked cell
+)
+
+NB. =========================================================
+Lab Section
+Click a cell and type in new data.
+
+Click another cell to end the previous edit and start editing  the new cell.
+)
+
+NB. =========================================================
+Lab Section
+Sometimes you want to edit the contents of the cell, rather than start out with an empty edit box.
+
+mbldown is changed to get the contents of a cell and use it as the initial text in the edit box.
+)
+mbldown=: 3 : 0
+if. editflag do. doedit'' end.
+d=. (0{d),-/3 1{d=. ".y.
+mark=: (+/(1{d)>:+/\gridhs) , +/(0{d)>:+/\gridws
+glgridmark mark,1 1
+glgriddrawmark''
+d=. glgridgettext mark  NB. get cell contents
+glgridedit toHOST d     NB. create edit box
+editflag=: 1
+)
+
+NB. =========================================================
+Lab Section
+If you click once on a cell, the edit box is created with the contents of the cell.
+
+The arrow keys are treated as grid events (currently without handlers) and do not move the caret in the edit box.
+
+A click in the edit box positions the caret in the edit box and also requests that the arrow keys move the caret in the edit box.
+
+Try double clicking a cell and moving the caret.
+)
+
+NB. =========================================================
+Lab Section
+You can request that the edit box support the arrow keys without having to do a mouse click in the box.
+
+This new version of mbldown uses glgridedit with an argument of 1 to request edit caret arrow keys.
+)
+mbldown=: 3 : 0
+if. editflag do. doedit'' end.
+d=. (0{d),-/3 1{d=. ".y.
+mark=: (+/(1{d)>:+/\gridhs) , +/(0{d)>:+/\gridws
+glgridmark mark,1 1
+glgriddrawmark''
+d=. glgridgettext mark  NB. get cell contents
+glgridedit d            NB. create edit box
+glgridedit 1            NB. caret arrow keys
+editflag=: 1
+)
+
+NB. =========================================================
+Lab Section
+You can use Alt+Enter to enter multiple lines in an edit box.
+
+We'll make a cell higher so you can try entering multiple lines.
+
+Because of the attributes that are set, multi-line text should not start with a digit.
+)
+sel''
+setheights 20 20 20 60 20 20
+glpaintx''
+
+NB. =========================================================
+Lab Section glgridinvalidate
+glgridinvalidate is the only member of the glgrid... family of commands we haven't discussed.
+
+This command allows updating the cells in a grid and having them repainted without having to request a repaint of the entire grid with glpaintx.
+)
+
+NB. =========================================================
+Lab Section
+If we set new data in a cell, the new data isn't painted until a repaint is requested. Sizing the grid, or covering and uncovering it will request a repaint. A glpaintx also requests a repaint.
+
+Size the form to cause the new text to be painted.
+)
+sel''
+glgridrchw 1 1 1 1
+glgridtext 'test'
+
+NB. =========================================================
+Lab Section
+A glpaintx requests the entire control to repaint.
+
+This works, but can be inefficient.
+)
+sel''
+glgridrchw 1 1 1 1
+glgridtext 'new'
+glpaintx''
+
+NB. =========================================================
+Lab Section
+glgridinvalidate 1 - cells changed in subsequent glgridtext and glgridtype commands are marked as invalid. An invalid cell will be repainted when the system has a chance.
+
+glgridinvalidate 0 - turns of this mode
+
+Bracketing a glgridtext command with glgridinvalidate commands that turn this mode on and then off result in just that cell being repainted.
+
+The glpaintx is no longer required.
+)
+sel''
+glgridrchw 1 1 1 1
+glgridinvalidate 1
+glgridtext 'fast'
+glgridinvalidate 0
+
+NB. =========================================================
+Lab Chapter Setting Control Size in Pixels
+NB. =========================================================
+Lab Section setting size in pixels
+Sometimes you want a grid to be a fixed size in pixels. This would allow, for example, a fixed number of cells of a certain size.
+
+The next section creates and loads a script that defines a pgrid2 class that creates a fixed size grid.
+
+You probably should close the pgrid form and the pgrid script before continuing to avoid confusion.
+)
+
+NB. =========================================================
+Lab Section
+Study the pgrid2 class script.
+
+The control will be a fixed size and should not resize itself when the form resizes. It should not have rightmove or bottommove in the cc command in the form definition.
+
+The create method initializes the control as a grid.
+
+qchildxywhx gets position and size in pixels.
+
+setxywhx sets position and size in pixels.
+)
+SCRIPT
+coclass 'pgrid2'
+
+PGRID2=: 0 : 0
+pc pgrid2;
+xywh 6 6 128 120;cc grid isigraph;
+pas 6 6;pcenter;ptop;
+rem form end;
+)
+
+create=: 3 : 0
+wd PGRID2
+formhwnd=: wd'qhwndp'
+
+glsel'grid'
+glmapraw ''
+glmap MM_TEXT
+glnoerasebkgnd 1
+glgrid ''
+glshow''
+t=.". wd'qchildxywhx grid'  NB. current position and size
+wd'setxywhx grid ',": (2{.t),401 61 NB. 61 pixels high, 401 wide
+glgridrc 3 4  NB. 3 rows by 4 columns
+glgridw 4$100
+glgridh 3$20
+glgridtext ;(":each 100+i.3 4),each 0{a.  NB. celldata
+
+wd'pshow'
+)
+
+destroy=: 3 : 0
+wd 'pclose'
+codestroy''
+)
+
+pgrid2_close=:destroy
+
+formselect=: 3 : 'wd''psel '',formhwnd'
+
+SCRIPT
+PREPARE
+(toHOST SCRIPT_jlab_) 1!:2 <'temp/pgrid2.ijs'
+PREPARE
+open'temp/pgrid2.ijs'
+load'temp/pgrid2.ijs'
+
+NB. =========================================================
+Lab Section
+The form is created and the isigraph control is sized to be 61 by 401 pixels. This is divided into a grid with 3 rows and 4 columns.
+)
+pgrid2=: '' conew 'pgrid2'
+
+NB. =========================================================
+Lab Section
+Congratulations! You have covered all the gl commands that are used with grids. Happy grid programming...
+)

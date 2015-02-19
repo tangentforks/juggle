@@ -1,0 +1,251 @@
+NB. do not edit -- created by sym2ijs from -
+sockaddr_sz =: 16
+sa_family_off =: 0
+sa_family_sz =: 2
+sa_data_off =: 2
+sa_data_sz =: 14
+
+sockproto_sz =: 4
+sp_family_off =: 0
+sp_family_sz =: 2
+sp_protocol_off =: 2
+sp_protocol_sz =: 2
+
+sockaddr_in_sz =: 16
+sin_family_off =: 0
+sin_family_sz =: 2
+sin_port_off =: 2
+sin_port_sz =: 2
+sin_addr_off =: 4
+sin_addr_sz =: 4
+
+in_addr_sz =: 4
+s_addr_off =: 0
+s_addr_sz =: 4
+
+hostent_sz =: 20
+h_name_off =: 0
+h_name_sz =: 4
+h_aliases_off =: 4
+h_aliases_sz =: 4
+h_addrtype_off =: 8
+h_addrtype_sz =: 4
+h_length_off =: 12
+h_length_sz =: 4
+h_addr_list_off =: 16
+h_addr_list_sz =: 4
+
+
+SIOCSHIWAT =: -2147192064
+SIOCGHIWAT =: 1074033409
+SIOCSLOWAT =: -2147192062
+SIOCGLOWAT =: 1074033411
+SIOCATMARK =: 1074033415
+SIOCSPGRP =: -2147192056
+SIOCGPGRP =: 1074033417
+
+
+IPPROTO_IP =: 0
+IPPROTO_ICMP =: 1
+IPPROTO_IGMP =: 2
+IPPROTO_ENCAP =: 4
+IPPROTO_TCP =: 6
+IPPROTO_EGP =: 8
+IPPROTO_PUP =: 12
+IPPROTO_UDP =: 17
+IPPROTO_IDP =: 22
+IPPROTO_HELLO =: 63
+IPPROTO_ND =: 77
+IPPROTO_EON =: 80
+IPPROTO_RAW =: 255
+IPPROTO_MAX =: 256
+
+IPPORT_ECHO =: 7
+IPPORT_DISCARD =: 9
+IPPORT_SYSTAT =: 11
+IPPORT_DAYTIME =: 13
+IPPORT_NETSTAT =: 15
+IPPORT_FTP =: 21
+IPPORT_TELNET =: 23
+IPPORT_SMTP =: 25
+IPPORT_TIMESERVER =: 37
+IPPORT_NAMESERVER =: 42
+IPPORT_WHOIS =: 43
+IPPORT_MTP =: 57
+
+IPPORT_TFTP =: 69
+IPPORT_RJE =: 77
+IPPORT_FINGER =: 79
+IPPORT_TTYLINK =: 87
+IPPORT_SUPDUP =: 95
+IPPORT_EXECSERVER =: 512
+IPPORT_LOGINSERVER =: 513
+IPPORT_CMDSERVER =: 514
+IPPORT_CMDSERVER =: 514
+IPPORT_EFSSERVER =: 520
+IPPORT_BIFFUDP =: 512
+IPPORT_WHOSERVER =: 513
+IPPORT_ROUTESERVER =: 520
+ IPPORT_HTTP=: 80
+
+IPPORT_RESERVED =: 1024
+IPPORT_USERRESERVED =: 5000
+
+IMPLINK_IP =: 155
+IMPLINK_LOWEXPER =: 156
+IMPLINK_HIGHEXPER =: 158
+
+INADDR_ANY =: 0
+INADDR_LOOPBACK =: 2130706433
+INADDR_BROADCAST =: -1
+ INADDR_NONE=: _1
+INADDR_UNSPEC_GROUP =: -536870912
+INADDR_ALLHOSTS_GROUP =: -536870911
+INADDR_MAX_LOCAL_GROUP =: -536870657
+IN_LOOPBACKNET =: 127
+
+IP_OPTIONS =: 1
+IP_HDRINCL =: 2
+IP_TOS =: 3
+IP_TTL =: 4
+IP_RECVOPTS =: 5
+IP_RECVRETOPTS =: 6
+IP_RECVDSTADDR =: 7
+IP_RETOPTS =: 8
+IP_MULTICAST_IF =: 16
+IP_MULTICAST_TTL =: 17
+IP_MULTICAST_LOOP =: 18
+IP_ADD_MEMBERSHIP =: 19
+IP_DROP_MEMBERSHIP =: 20
+IP_DEFAULT_MULTICAST_TTL =: 1
+IP_DEFAULT_MULTICAST_LOOP =: 1
+
+ip_mreq_sz =: 8
+imr_multiaddr_off =: 0
+imr_multiaddr_sz =: 4
+imr_interface_off =: 4
+imr_interface_sz =: 4
+
+SOCK_STREAM =: 2
+SOCK_DGRAM =: 1
+SOCK_RAW =: 4
+SOCK_RDM =: 5
+SOCK_SEQPACKET =: 6
+
+SOL_SOCKET =: 65535
+SO_DEBUG =: 1
+SO_ACCEPTCONN =: 2
+SO_REUSEADDR =: 4
+SO_KEEPALIVE =: 8
+SO_DONTROUTE =: 16
+SO_BROADCAST =: 32
+SO_USELOOPBACK =: 64
+SO_LINGER =: 128
+SO_OOBINLINE =: 256
+SO_DONTLINGER =: -129
+
+SO_SNDBUF =: 4097
+SO_RCVBUF =: 4098
+SO_SNDLOWAT =: 4099
+SO_RCVLOWAT =: 4100
+SO_SNDTIMEO =: 4101
+SO_RCVTIMEO =: 4102
+SO_ERROR =: 4103
+SO_TYPE =: 4104
+SO_PROTOTYPE =: 4105
+
+linger_sz =: 8
+l_onoff_off =: 0
+l_onoff_sz =: 4
+l_linger_off =: 4
+l_linger_sz =: 4
+
+TCP_NODELAY =: 1
+
+AF_UNSPEC =: 0
+AF_UNIX =: 1
+AF_INET =: 2
+AF_IMPLINK =: 3
+AF_PUP =: 4
+AF_CHAOS =: 5
+AF_NS =: 6
+AF_NBS =: 7
+AF_ECMA =: 8
+AF_DATAKIT =: 9
+AF_CCITT =: 10
+AF_SNA =: 11
+AF_DECnet =: 12
+AF_DLI =: 13
+AF_LAT =: 14
+AF_HYLINK =: 15
+AF_APPLETALK =: 16
+AF_NIT =: 17
+AF_802 =: 18
+AF_OSI =: 19
+AF_X25 =: 20
+AF_OSINET =: 21
+AF_GOSIP =: 22
+AF_IPX =: 23
+AF_MAX =: 23
+
+PF_UNSPEC =: 0
+PF_UNIX =: 1
+PF_INET =: 2
+PF_IMPLINK =: 3
+PF_PUP =: 4
+PF_CHAOS =: 5
+PF_NS =: 6
+PF_NBS =: 7
+PF_ECMA =: 8
+PF_DATAKIT =: 9
+PF_CCITT =: 10
+PF_SNA =: 11
+PF_DECnet =: 12
+PF_DLI =: 13
+PF_LAT =: 14
+PF_HYLINK =: 15
+PF_APPLETALK =: 16
+PF_NIT =: 17
+PF_802 =: 18
+PF_OSI =: 19
+PF_X25 =: 20
+PF_OSINET =: 21
+PF_GOSIP =: 22
+PF_IPX =: 23
+PF_MAX =: 23
+
+SOMAXCONN =: 5
+MSG_OOB =: 1
+MSG_PEEK =: 2
+MSG_DONTROUTE =: 4
+MSG_MAXIOVLEN =: 16
+
+msghdr_sz =: 24
+msg_name_off =: 0
+msg_name_sz =: 4
+msg_namelen_off =: 4
+msg_namelen_sz =: 4
+msg_iov_off =: 8
+msg_iov_sz =: 4
+msg_iovlen_off =: 12
+msg_iovlen_sz =: 4
+msg_accrights_off =: 16
+msg_accrights_sz =: 4
+msg_accrightslen_off =: 20
+msg_accrightslen_sz =: 4
+
+
+
+
+NETDB_INTERNAL =: -1
+NETDB_SUCCESS =: 0
+HOST_NOT_FOUND =: 1
+TRY_AGAIN =: 2
+NO_RECOVERY =: 3
+NO_DATA =: 4
+NO_ADDRESS =: 4
+MAXHOSTNAMELEN =: 256
+MAXALIASES =: 35
+MAXADDRS =: 35
+
+

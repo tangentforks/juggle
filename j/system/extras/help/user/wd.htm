@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>wd</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="window_forms.htm">&gt&gt;</a>&nbsp;
+<a href="win_driver_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+
+<TR valign="baseline"><TD><H1>wd</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+This is defined as:
+
+<pre>
+   wd=. 11!:0
+</pre>
+
+<P>
+<code>wd</code> is used monadically and takes an argument of a character string of one or more statements, separated by semicolons. These statements are converted by the Window Driver into the appropriate Windows function calls. The result is the result of executing the last statement. Each statement is a command followed by any required parameters. 
+
+<P>
+Commands supported include:
+<P>
+<li>creation and use of Windows controls to allow user input<br>
+<li>instructions to the J session manager<br>
+<li>DDE and OLE links to other Windows software<br>
+<li>access to custom controls
+<li>information queries 
+
+<P>
+For details and a list of commands see the wd Commands help file.
+
+<P>
+The result of <code>wd</code> is the information requested, typically as a character string, or empty if none. For example, the following queries the system metrics used by Windows (screen width, screen height, x logical units and y logical units:
+
+<pre>
+   wd 'qm'
+640 480 8 16
+</pre>
+
+<P>
+This shows a 640 by 480 screen, with the base dialog font (used when creating forms) being 8 pixels wide and 16 pixels high.
+
+<P>
+The next example creates a dialog box that allows the user to select a font. The result is returned after the user closes the dialog box, and contains a string of items that describe the font selected:
+
+<pre>
+   wd 'mbfont'
+&quot;Lucida Console&quot; 10 bold
+</pre>
+
+<P>
+In some cases, the result is a character string delimited by <code>LF</code>, which can be formatted by <code>list</code>. The following displays all control styles:
+
+<pre>
+   list wd 'qs'
+bs_defpushbutton   bs_lefttext        bs_ownerdraw       
+cbs_autohscroll    cbs_sort           es_autohscroll     
+es_autovscroll     es_center          es_lowercase
+...
+</pre>
+
+<P>
+An invalid command is signalled as a domain error:
+
+<pre>
+   wd 'qz'
+|domain error
+|       wd'qz'
+</pre>
+
+<P>
+After an error, you can run command <code>qer</code> to query the error - the result is an error message, following by the index in the command where the error occured:
+
+<pre>
+   wd 'qer'
+invalid command : 0
+</pre>
+
+<P>
+The following example executes Notepad, assuming it is available on your system - if not, try executing another program. 
+
+<pre>
+   wd 'winexec &quot;\windows\notepad.exe&quot;'
+0
+</pre>
+
+<P>
+The next example executes Notepad with the given filename argument (Notepad loads the file).
+
+<pre>
+   wd 'winexec &quot;\windows\notepad.exe system\main\dates.ijs&quot;'
+0</pre>
+
+<P>
+In the case of an instruction, the result is empty. For example, the following sets the session manager to tile open windows (assuming there are two or more windows open), and returns an empty result:
+
+<pre>
+   $ wd 'smtile'
+0 0
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="window_forms.htm">&gt&gt;</a>&nbsp;
+<a href="win_driver_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

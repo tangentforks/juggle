@@ -1,0 +1,41 @@
+directory: system/extras/config
+
+This directory contains scripts used in configuration.
+
+config.ijs
+==========
+This script defines the standard configuration.
+
+profile.ijs
+===========
+This script contains the standard profile.
+
+-------------------------------------------
+
+The standard j configuration is in variable
+CONFIG_j_ and contains:
+
+SMFONT                session manager font
+FONTDEF               forms font
+PRINTERFONT           printer font
+P2UPFONT              2-up print font
+SMPRINT               session manager print function
+
+SMSHOW                active window show value
+SMMFSHOW              session show value
+SMMFMOVE              session window position
+                      (empty=use default)
+
+STATUSBAR             if show statusbar
+
+DISPLAYFORM           output display form
+BOXFORM               box form 0=linedraw, 1=ascii
+BOXES                 boxes
+GENABLE               enable old-style wd 'g' commands
+NEWUSER               if newuser
+
+FORMSIZES             form sizes
+
+FILES                 initial script files
+LIBS                  initial script libs
+TOOLS                 toolbar definitions

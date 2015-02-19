@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# use  ./runme   runme -v  to see the scripts loading.
+
+export JLIB=`pwd`/support/lib
+export JRELEASE=402
+cat > x.gml
+support/jint-402c $* $JLIB/system/extras/config/profile.ijs \
+	src/*.ijs --

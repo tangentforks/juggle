@@ -1,0 +1,945 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 14: Gerunds</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 14: Gerunds</H1>
+<p>
+In this chapter we consider gerunds. What is a gerund, and what is it good for? 
+Briefly, a gerund represents a list of verbs. It is useful, in the main, for supplying  
+a list of verbs as a single  
+argument to an operator. 
+<H2>14.1  The Tie Conjunction</H2>
+<p>
+Recall from  <A HREF="10.htm">Chapter 10</A> how we defined a verb with several cases. 
+Here is a small example as a reminder. 
+To find the absolute value of a number <TT>x</TT> 
+we compute <TT>(+x)</TT>, or <TT>(-x)</TT> if the number is negative. 
+The definitions are repeated here: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>abs =: + ` - @. (&lt; & 0)</TT></TD> 
+<TD><TT>abs _3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+`-@.(&lt;&0)</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+The expression <TT>(+`-)</TT> looks like a  
+list of verbs. Here the two verbs <TT>+</TT> 
+and <TT>-</TT> are tied together with the "Tie" conjunction  (<TT>`</TT>, backquote, different from <TT>'</TT>) 
+to produce a gerund. 
+<PRE>
+   + ` -
++-+-+
+|+|-|
++-+-+
+</PRE>
+<p>
+We see that the gerund <TT>(+ ` -)</TT> 
+is a list of two boxes, each of which contains 
+a representation of a verb.  A gerund is a noun - 
+a list of boxes. Here is another 
+gerund which represents three verbs: 
+<PRE>
+   G =: + ` - ` abs 
+   G
++-+-+---+
+|+|-|abs|
++-+-+---+
+</PRE>
+<p>
+Inside each box there is a data structure which 
+represents, or encodes,  a verb.  
+Here we  
+will not be concerned with the details of  
+this representation, which will be covered in  <A HREF="27.htm">Chapter 27</A>. 
+<H2>14.2  Recovering the Verbs from a Gerund</H2>
+<p>
+The verbs packed into a gerund can be unpacked  
+again with the built-in adverb "Evoke Gerund" 
+which is denoted by the expression <TT>(`: 6)</TT>.  
+Let us call this <TT>EV</TT>.  
+<PRE>
+   EV =: `: 6
+</PRE>
+<p>
+Adverb <TT>EV</TT> applied to a gerund yields a train of all the verbs in the gerund. 
+In the next example, the result <TT>foo</TT> is a 3-train, that is a fork. 
+<PRE>
+   f =: 'f' & ,
+   g =: 'g' & ,
+   H =: f ` , ` g
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>H=: f ` , ` g</TT></TD> 
+<TD><TT>foo =: H EV</TT></TD> 
+<TD><TT>foo 'o'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+-+ 
+|f|,|g| 
++-+-+-+</TD> 
+<TD><PRE>f , g</TD> 
+<TD><PRE>fogo</TD> 
+</PRE></TABLE> 
+<p>
+Individual verbs can be unpacked by indexing the boxed list <TT>H</TT> 
+and then applying <TT>EV</TT>.   
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>H </TT></TD> 
+<TD><TT>2{H</TT></TD> 
+<TD><TT>vb =: (2{H) EV</TT></TD> 
+<TD><TT>vb 'o'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+-+ 
+|f|,|g| 
++-+-+-+</TD> 
+<TD><PRE>+-+ 
+|g| 
++-+</TD> 
+<TD><PRE>g</TD> 
+<TD><PRE>go</TD> 
+</PRE></TABLE> 
+<p>
+Shorter trains can be unpacked from a gerund, again by indexing. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>H </TT></TD> 
+<TD><TT> 1 2 { H</TT></TD> 
+<TD><TT>tr =: (1 2 { H) EV</TT></TD> 
+<TD><TT>tr 'a' </TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+-+ 
+|f|,|g| 
++-+-+-+</TD> 
+<TD><PRE>+-+-+ 
+|,|g| 
++-+-+</TD> 
+<TD><PRE>, g</TD> 
+<TD><PRE>aga</TD> 
+</PRE></TABLE> 
+<p>
+Now we come to the uses of gerunds.   
+<H2>14.3  Gerunds As Arguments to Built-In Operators</H2>
+<p>
+A major use is of gerunds is that they can  be  
+supplied to operators as a single argument  
+containing multiple verbs. 
+We look first at further built-in operators taking gerund arguments,  
+and then at examples of home-made operators. 
+<H3>14.3.1  Gerund as Argument to APPEND Adverb</H3>
+<p>
+There is a built-in adverb called "APPEND", 
+denoted by the expression <TT>(`: 0)</TT>. 
+It applies a list of verbs to a  
+single argument to give a list of results.  
+For example: 
+<PRE>
+   APPEND =: `: 0
+   sum    =: +/
+   count  =: #
+   mean   =: sum % count
+   G1     =: count ` sum ` mean 
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>G1</TT></TD> 
+<TD><TT>foo =: G1 APPEND</TT></TD> 
+<TD><TT>foo 1 2 3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-----+---+----+ 
+|count|sum|mean| 
++-----+---+----+</TD> 
+<TD><PRE>count`sum`mean`:0</TD> 
+<TD><PRE>3 6 2</TD> 
+</PRE></TABLE> 
+<p>
+The adverb is called <TT>APPEND</TT> because the results of the individual verbs in  
+the gerund are appended, that is formed into a list.  
+The general scheme is that for verbs <TT>u</TT>, <TT>v</TT>, <TT>w</TT> , ...  
+then  
+<PRE>
+      (u`v`w...) APPEND y  means  (u y), (v y), (w y) , ...  
+</PRE>
+<p>
+Here is another example, 
+showing that a gerund can be, not just a one-dimensional list,  
+but an array of verbs.  
+The list of verbs <TT>G1</TT> formed by "Tie" can be reshaped into an array,  
+a table say, and the shape of the result is the same.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>G2 =: 2 2 $ G1</TT></TD> 
+<TD><TT>G2 APPEND 4 5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-----+-----+ 
+|count|sum  | 
++-----+-----+ 
+|mean |count| 
++-----+-----+</TD> 
+<TD><PRE>  2 9 
+4.5 2</TD> 
+</PRE></TABLE> 
+<H3>14.3.2  Gerund as Argument to Agenda Conjunction</H3>
+<p>
+Recall the <TT>abs</TT> verb defined above. 
+Here is a reminder: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>abs =: + ` - @. (&lt; & 0)</TT></TD> 
+<TD><TT>abs 6</TT></TD> 
+<TD><TT>abs _6</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+`-@.(&lt;&0)</TD> 
+<TD><PRE>6</TD> 
+<TD><PRE>6</TD> 
+</PRE></TABLE> 
+<p>
+Here, the "Agenda" conjunction <TT>(@.)</TT> takes a verb on the right. 
+As a variation, <TT>(@.)</TT> can also take a noun on the right.  
+The noun consists of a list of numbers,  
+which are indices selecting verbs from the gerund.  
+The selected verbs form a train.  
+This scheme gives us an abbreviation 
+for the unpacking by indexing we saw above.  
+The scheme is, for a gerund G and a list of indices I: 
+<PRE>
+       G @. I   means   (I { G) EV 
+</PRE>
+<p>
+For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>G =: +`-`%</TT></TD> 
+<TD><TT>tr =: G @. 0 2</TT></TD> 
+<TD><TT>tr 4</TT></TD> 
+<TD><TT>(0 2 { G) EV 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+-+ 
+|+|-|%| 
++-+-+-+</TD> 
+<TD><PRE>+ %</TD> 
+<TD><PRE>4.25</TD> 
+<TD><PRE>4.25</TD> 
+</PRE></TABLE> 
+<p>
+Next, we look at how to build trains with more structure. Consider the train <TT>T</TT>: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>T =: * (- 1:)</TT></TD> 
+<TD><TT>T 3</TT></TD> 
+<TD><TT>T 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>* (- 1:)</TD> 
+<TD><PRE>6</TD> 
+<TD><PRE>12</TD> 
+</PRE></TABLE> 
+<p>
+which computes <TT>(T x) = x * (x -1)</TT> . The parentheses mean that <TT>T</TT> is a hook where the   
+second item is also a hook. Trains structured with parentheses in this way can be  
+built with Agenda, by indexing items from a gerund, using boxed indices to indicate  
+the parenthesisation. 
+<PRE>
+   foo =: (* ` - ` 1:) @. (0 ; 1 2)
+      
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>T</TT></TD> 
+<TD><TT>foo</TT></TD> 
+<TD><TT>foo 3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>* (- 1:)</TD> 
+<TD><PRE>* (- 1:)</TD> 
+<TD><PRE>6</TD> 
+</PRE></TABLE> 
+<H3>14.3.3  Gerund as Argument to Insert</H3>
+<p>
+We have previously encountered the insert adverb applied to a single verb:  
+the verb is inserted between successive items of a list.   
+More generally, when insert is applied to a  
+gerund it inserts successive verbs from the gerund between successive items from the  
+list. That is, if <TT>G</TT> is the gerund <TT>(f`g`h`...)</TT> and  
+and <TT>X</TT> is the list <TT>(x0, x1, x2, x3, ...)</TT> then 
+<PRE>
+      G/X    means   x0 f x1 g x2 h x3 ... 
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>ger =: + ` %</TT></TD> 
+<TD><TT>ger / 1 2 3</TT></TD> 
+<TD><TT> 1 + 2 % 3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+-+-+ 
+|+|%| 
++-+-+</TD> 
+<TD><PRE>1.66667</TD> 
+<TD><PRE>1.66667</TD> 
+</PRE></TABLE> 
+<p>
+If the gerund is too short,  
+it is re-used cyclically to make up the needed number of  
+verbs.  This means that a one-verb gerund, when inserted, behaves the same as a single  
+inserted verb. 
+<H3>14.3.4  Gerund as argument to POWER conjunction</H3>
+<p>
+Recall from Chapter 10 that the POWER conjunction <TT>(^:)</TT> can take, as right argument, a number which  
+specifies the number of iterations of the verb given as left argument.  
+As a brief reminder, 3 doublings of 1 is 8: 
+<PRE>
+   double =: +:  
+   (double ^: 3) 1
+8
+</PRE>
+<p>
+As a variation, the number of iterations can be computed by a verb right-argument.  
+The scheme is, for verbs <TT>u</TT> and <TT>v</TT>: 
+<PRE>
+      (u ^: v) y   means   u ^: (v y) y 
+</PRE>
+<p>
+For example: 
+<PRE>
+   decr =: &lt;:
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>double ^: (decr 3) 3</TT></TD> 
+<TD><TT>(double ^: decr) 3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>12</TD> 
+<TD><PRE>12</TD> 
+</PRE></TABLE> 
+<p>
+More generally, the right argument can be given as a gerund, and the verbs in it do  
+some computations at the outset of the iteration process. The scheme is: 
+<PRE>
+      u ^: (v1 ` v2) y   means    u ^: (v1 y) (v2 y) 
+</PRE>
+<p>
+To illustrate, we define a verb to compute a Fibonacci sequence.  Here each term is the  
+sum of the preceding two terms.   The verb will take an argument to specify the  
+number of terms, so for example we want <TT>FIB 6</TT>  to give  <TT>0 1 1 2 3 5</TT> 
+<p>
+The verb to be iterated, <TT>u</TT> say, generates the next sequence from the previous sequence  
+by appending the sum of the last two. If we define: 
+<PRE>
+   u        =: , sumlast2
+   sumlast2 =: +/ @ last2
+   last2    =: _2 & {.
+</PRE>
+<p>
+then the iteration scheme beginning with the sequence 0 1 is shown by 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>u 0 1</TT></TD> 
+<TD><TT>u u 0 1</TT></TD> 
+<TD><TT>u u u 0 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0 1 1</TD> 
+<TD><PRE>0 1 1 2</TD> 
+<TD><PRE>0 1 1 2 3</TD> 
+</PRE></TABLE> 
+<p>
+Now we define the two verbs of the gerund.  We see that to produce a sequence with <TT>n</TT>  
+terms the verb <TT>u</TT> must be applied <TT>(n-2)</TT> times, so the verb <TT>v1</TT>, which computes the  
+number of iterations from the argument <TT>y</TT> is: 
+<PRE>
+         v1 =: -&2
+</PRE>
+<p>
+The verb <TT>v2</TT>, which computes the starting value from the argument <TT>y</TT>, we want to be  
+the constant function which computes <TT>0 1</TT> whatever the value of <TT>y</TT>. 
+<PRE>
+         v2 =: 3 : '0 1'
+</PRE>
+<p>
+Now we can put everything together:     
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>FIB =: u ^: (v1 `v2)</TT></TD> 
+<TD><TT>FIB 6</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>u^:(v1`v2)</TD> 
+<TD><PRE>0 1 1 2 3 5</TD> 
+</PRE></TABLE> 
+<p>
+This example showed a monadic verb <TT>(u)</TT> with the two verbs in the gerund (<TT>v1</TT> and <TT>v2</TT>)  
+performing some computations at the outset of the iteration.  What about dyadic verbs? 
+<p>
+Firstly, recall that with an iterated dyadic verb the left argument is bound at the outset  
+to give a monad which is what is actually iterated, so that the scheme is: 
+<PRE>
+  x  u ^: k  y    means    (x&u) ^: k y  
+</PRE>
+<p>
+Rather than constant <TT>k</TT>, we can perform pre-computations with  
+three verbs <TT>U</TT> <TT>V</TT> and <TT>W</TT> presented as a gerund.  
+The  scheme is: 
+<PRE>
+     x u ^: (U`V`W) y  
+  
+                means   
+ 
+                  (((x U y)&u) ^: (x V y))  (x W y) 
+</PRE>
+<p>
+Example to be supplied     
+<p>
+The scheme above can also be written equivalently as a fork: 
+<PRE>
+	 u ^: (U`V`W)   means   U (u ^: V) W 
+</PRE>
+<p>
+For example: 
+<PRE>
+   U =: [
+   V =: 2:
+   W =: ]
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>p =:  + ^: (U`V`W)</TT></TD> 
+<TD><TT>3 p 4</TT></TD> 
+<TD><TT>q =: U (+ ^: V) W</TT></TD> 
+<TD><TT>3 q 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+^:(U`V`W)</TD> 
+<TD><PRE>10</TD> 
+<TD><PRE>U +^:V W</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<H3>14.3.5  Gerund as Argument to Amend</H3>
+<p>
+Recall the "Amend" adverb from  <A HREF="06.htm">Chapter 06</A> .  
+The expression <TT>(new index } old)</TT>  
+produces an amended version of <TT>old</TT>,  
+having <TT>new</TT> as items at <TT>index</TT>. For example: 
+<PRE>
+      'o'  1 } 'baron'
+boron
+</PRE>
+<p>
+More generally, the "Amend" adverb can take an argument which is 
+a gerund of three verbs, say <TT>U`V`W</TT>. 
+The scheme is: 
+<PRE>
+x (U`V`W) } y  means (x U y) (x V y) } (x W y) 
+</PRE>
+<p>
+That is, the new items, 
+the index(es) and the "old" array  
+are all to be computed from the given <TT>x</TT> and <TT>y</TT>. 
+<p>
+Here is an example (adapted from the Dictionary). 
+Let us define a verb, <TT>R</TT> say, 
+to amend a matrix 
+by multiplying its <TT>i</TT>'th row by a constant <TT>k</TT>. 
+The left argument of <TT>R</TT> is to be the list <TT>i k</TT> 
+and the right argument is to be the original 
+matrix.  <TT>R</TT> is defined as the "Amend" adverb 
+applied to a gerund of 3 verbs.   
+<PRE>
+   i =: {. @ [    NB. i = first of x
+   k =: {: @ [    NB. k = last of x
+   r =: i { ]     NB. i'th row
+   
+   R =: ((k * r) ` i ` ]) }
+</PRE>
+<p>
+For example: 
+<PRE>
+   M =: 3 2 $ 2 3 4 5 6 7
+   z =: 1 10      NB. row 1 times 10
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> z </TT></TD> 
+<TD><TT> M </TT></TD> 
+<TD><TT>z i M</TT></TD> 
+<TD><TT>z k M</TT></TD> 
+<TD><TT>z r M</TT></TD> 
+<TD><TT>z R M</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 10</TD> 
+<TD><PRE>2 3 
+4 5 
+6 7</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>10</TD> 
+<TD><PRE>4 5</TD> 
+<TD><PRE> 2  3 
+40 50 
+ 6  7</TD> 
+</PRE></TABLE> 
+<H2>14.4  Gerunds as Arguments to User-Defined Operators</H2>
+<p>
+Previous sections showed supplying gerunds to the built-in operators (adverbs or  
+conjunctions). Now we look at defining our  
+own operators taking gerunds as arguments. We begin 
+with explicit operators and then go on to tacit operators. 
+<p>
+The main consideration with an explicit operator is  
+how to recover individual verbs from the gerund argument.  
+We saw several possibilities above.  Here is a simple one.  
+Let <TT>g Untie i</TT> give the <TT>i</TT>'th verb in gerund <TT>g</TT>. 
+We index <TT>g</TT> to get the <TT>i</TT>'th representation, 
+and then apply adverb <TT>EV</TT> to turn the representation into a verb: 
+<PRE>
+   Untie =: 2 : '(y. { x.) EV'
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>plus =: (*`-` +) Untie 2</TT></TD> 
+<TD><TT>2 plus 3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+</TD> 
+<TD><PRE>5</TD> 
+</PRE></TABLE> 
+<p>
+Now for the operator. Let us define an adverb <TT>A</TT>, say, to produce a fork-like 
+verb, so that <TT>x (u`v`w A) y</TT>  is to mean <TT>(u x) v (w y)</TT>.   
+<PRE>
+   A =: 1 : 0
+u =. x. Untie 0
+v =. x. Untie 1
+w =. x. Untie 2
+((u @ [) v (w @ ])) f.
+)
+</PRE>
+<p>
+To illustrate <TT>A</TT>, here is a verb to join the first item of <TT>x</TT> to the last of <TT>y</TT>. 
+The first and last items are yielded by the built-in verbs  
+<TT>{.</TT> (left-brace dot, called 
+"Head") and <TT>{:</TT> (left-brace colon, called "Tail"). 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>g =: {. ` , ` {: </TT></TD> 
+<TD><TT>zip =: g A</TT></TD> 
+<TD><TT>'abc' zip 'xyz'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+--+-+--+ 
+|{.|,|{:| 
++--+-+--+</TD> 
+<TD><PRE>{.@[ , {:@]</TD> 
+<TD><PRE>az</TD> 
+</PRE></TABLE> 
+<H3>14.4.1  The Abelson and Sussman Accumulator</H3>
+<p>
+Here is another example of a user-defined explicit operator with a gerund argument. 
+Abelson and Sussman, (reference ...), describe how  
+a variety of computations all 
+conform to the following general plan, called the "accumulator": 
+<p>
+Items from the argument (a list) are selected with a "filtering" function. 
+For each selected item, a value is computed from it with a "mapping" function. 
+The results of the separate mappings are combined into the overall result  
+with a "combining" function. 
+This plan can readily be implemented in J as an adverb, <TT>ACC</TT> say, as follows.  
+<PRE>
+      ACC =: 1 : 0
+'com map fil' =. &lt;"0 x.
+((com EV /)  @:  (map EV)  @:  (#~ fil EV))  f.
+)
+</PRE>
+<p>
+<TT>ACC</TT> takes as argument a gerund of three verbs, in order, the combiner,  
+the map and the filter.   
+For an example, we compute the sum of the squares of the odd  
+numbers in a given list. Here the filter, to test for an odd number, is <TT>(2&|)</TT> 
+<PRE>
+      (+ ` *: ` (2&|)) ACC 1 2 3 4   
+10
+</PRE>
+<p>
+The first line of <TT>ACC</TT> splits up the gerund argument into three 1-item gerunds,  
+<TT>com</TT> <TT>map</TT> and <TT>fil</TT>.  The boxing <TT>(&lt;"0)</TT> is needed because the multiple assignment 
+automatically strips off one layer of boxing. 
+In the second line, <TT>EV</TT> is applied to each 1-item gerund to yield 
+its verb.  
+<H2>14.5  Gerunds in Train-Making</H2>
+<p>
+In this section we look at how gerunds can play a role 
+in tacit operators, in particular in 
+operators which build trains.   
+<p>
+What we will see (eventually!) is how  
+a tacit operator can work by building 
+a gerund from its arguments and then doing something 
+with the gerund.  
+<H3>14.5.1  Review</H3>
+<p>
+We begin with a simple example (not involving gerunds), just to remind ourselves how the  
+bidents or tridents of  <A HREF="13.htm">Chapter 13</A> can be used to define  
+tacit operators. Suppose we aim to define an adverb, <TT>B</TT> say, to generate a hook according to 
+the scheme : 
+<PRE>
+       x B   =    (x A) V
+</PRE>
+<p>
+where <TT>x</TT> is the argument-verb, <TT>A</TT> is a given adverb and <TT>V</TT> a given verb. 
+From  <A HREF="13.htm">Chapter 13</A> we recall the bident <TT>AV</TT> with the scheme: 
+<PRE>
+            x (A V)   =   (x A) V
+</PRE>
+<p>
+and thus <TT>B</TT> is straightforwardly written as a bident of the form <TT>(A V)</TT>. To illustrate, 
+if for <TT>A</TT> we take <TT>~</TT>,  
+and for <TT>V</TT> we take the built-in verb <TT>>:</TT> (increment)  
+then we have:   
+<PRE>
+   B =: ~ >:   NB. adverb verb
+</PRE>
+<p>
+Suppose for the schematic argument <TT>x</TT> we take the verb (<TT>,</TT>)  
+then we see that <TT>(, B)</TT> is a hook: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>B</TT></TD> 
+<TD><TT>hook =: , B</TT></TD> 
+<TD><TT>hook 2</TT></TD> 
+<TD><TT>2 (,~) >: 2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>~ >:</TD> 
+<TD><PRE>,~ >:</TD> 
+<TD><PRE>3 2</TD> 
+<TD><PRE>3 2</TD> 
+</PRE></TABLE> 
+<H3>14.5.2  Problem</H3>
+<p>
+In the last example it was straightforward to arrive at the definition 
+of <TT>B</TT> because in  <A HREF="13.htm">Chapter 13</A> we found a bident (AV) with a right-hand side <TT>(x A) V</TT> which was just right for our purpose. 
+  
+Now, how can we define a hook-generating conjunction, <TT>T</TT> say, as a bident or trident according to the scheme 
+<PRE>
+      x T y     =   (x C y) V
+</PRE>
+<p>
+where <TT>C</TT> is a given conjunction 
+and <TT>V</TT> is a given verb?  The problem is that there   
+ is no bident or trident in  <A HREF="13.htm">Chapter 13</A> with  
+a scheme which looks like this: 
+<PRE>
+         x (???) y   = (x C y)  V
+</PRE>
+<p>
+Here is a scheme which will in fact do the job: 
+<PRE>
+            x (C (`V) EV) y   =  (x C y) V
+</PRE>
+<p>
+(where <TT>EV</TT> we defined above as <TT>`: 6</TT>, "Evoke Gerund"). Two questions arise immediately:  
+how did we arrive at this, and how does it work? 
+We will come back to these questions, but first let us  
+make sure it does work. 
+<p>
+For conjunction <TT>C</TT> and verb <TT>V</TT> suppose we take: 
+<PRE>
+   C =: "
+   V =: >: 
+</PRE>
+<p>
+Now we write our conjunction <TT>T</TT> as a trident, matching the  
+pattern of the left-hand side of the scheme, 
+<PRE>
+   T =: C (`V) EV  
+</PRE>
+<p>
+If we take for the schematic arguments <TT>x</TT> and <TT>y</TT>  
+the verb <TT>,</TT> and the noun <TT>1</TT> then we see 
+that <TT>(, T 1)</TT> is a hook of the required form <TT>(x C y) V</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>h =: , T 1</TT></TD> 
+<TD><TT>h 2</TT></TD> 
+<TD><TT>2 ,"1 >: 2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>,"1 V</TD> 
+<TD><PRE>2 3</TD> 
+<TD><PRE>2 3</TD> 
+</PRE></TABLE> 
+<H3>14.5.3  How did we arrive at this scheme?</H3>
+<p>
+There is an easy way to find a scheme like this.  
+The J system itself can automatically  
+generate a tacit form by 
+translating an explicit definition.  
+(See  <A HREF="15.htm">Chapter 15</A> ). 
+<p>
+Recall the scheme we wanted for <TT>T</TT>,  which was: 
+<PRE>
+       x T  y   =  (x C y)  V
+</PRE>
+<p>
+We want to find a tacit expression for <TT>T</TT>,  that is, we want to find a tacit equivalent to the explicit definition 
+<PRE>
+   E =: 2 : '(x. C y.) V'
+</PRE>
+<p>
+where we intend <TT>C</TT> and <TT>V</TT> to be: 
+<PRE>
+   C =: "
+   V =: >:
+</PRE>
+<p>
+we find the tacit equivalent of <TT>E</TT> by writing <TT>12 :</TT>  
+rather than  <TT>2 :</TT> and otherwise the same as <TT>E</TT> 
+<PRE>
+   T =: 12 : '(x. C y.) V'
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>T</TT></TD> 
+<TD><TT>, T 1</TT></TD> 
+<TD><TT>(, C 1) V</TT></TD> 
+<TD><TT>, E 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>C (`V) (`:6)</TD> 
+<TD><PRE>,"1 V</TD> 
+<TD><PRE>,"1 V</TD> 
+<TD><PRE>,"1 V</TD> 
+</PRE></TABLE> 
+<p>
+Notice that the automatically-generated form of <TT>T</TT> 
+has <TT>`: 6</TT> where we earlier wrote <TT>EV</TT> (but of course 
+we defined <TT>EV</TT> to be <TT>`: 6</TT>) 
+<p>
+These automatically-generated expressions  
+may sometimes appear unfamiliar. Hence our purpose in this section has been, in part,  
+to become acquainted  
+with expressions of this kind before we come to the next chapter. 
+<H3>14.5.4  How does this scheme work?</H3>
+<p>
+Recall that the scheme was: 
+<PRE>
+          x (C (`V) EV) y   =  (x C y) V
+</PRE>
+<p>
+On the left-hand side, <TT>`</TT> and  
+<TT>EV</TT> are tell-tale signs of introducing 
+and using a gerund.   
+<p>
+To see in more detail how the scheme works  
+we can start from the left-hand side and, step by step, 
+derive the right-hand side, at each step showing an expression equivalent to the previous. 
+The derivation is more convincing if we evaluate each expression to show that  
+it computes the same result as the previous.   
+<p>
+To make the expressions evaluatable,  
+schematic variables <TT>x</TT> <TT>y</TT> and <TT>V</TT> can appear 
+as themselves if we erase the names beforehand,  
+so they are treated as unknown verbs.  
+However, for <TT>C</TT> we must 
+have a definite evaluatable conjunction.  
+For this we choose <TT>@</TT>  
+since <TT>x@y</TT> always evaluates to <TT>x@y</TT> for unknown <TT>x</TT> and <TT>y</TT>. Hence the preparations we need are: 
+<PRE>
+   erase 'x';'y';'V'    
+1 1 1
+   C =: @               
+</PRE>
+<p>
+Here now is a derivation.  
+<p>
+<TABLE> 
+<TR VALIGN=TOP> <TD> 
+<PRE>
+   x (C (`V) EV) y        
+x@y V
+</PRE>
+<p>
+<TD> 
+This is the left-hand side. We see that 
+it is of the form  
+<TT>x (conjunction adverb adverb) y</TT> 
+<TR VALIGN=TOP> <TD> 
+<PRE>
+   ((x C y) (`V)) EV 
+x@y V
+</PRE>
+<p>
+<TD> 
+Obtained from previous by applying trident CAA, for which the 
+scheme is <TT>x (C A A) y  = ((x C y) A) A</TT>.  Now we see that <TT>(`V)</TT> is 
+of the form <TT>conjunction adverb</TT> 
+<TR VALIGN=TOP><TD> 
+<PRE>
+   ((x C y) ` V) EV      
+x@y V
+</PRE>
+<p>
+<TD> 
+Obtained from previous by applying by bident CV,  
+for which the scheme is <TT>x (C V) = (x C V)</TT>. 
+Now we see that <TT>((x C y) ` V)</TT> is a gerund. 
+<TR VALIGN=TOP><TD> 
+<PRE>
+   (x C y) V
+x@y V
+</PRE>
+<p>
+<TD> 
+Obtained from previous by applying adverb <TT>EV</TT> to  
+the gerund, according to the scheme 
+<TT>u`v`w... EV = (u v w... )</TT>. Now we have the right-hand side.  
+</TABLE> 
+<H3>14.5.5  Another Example</H3>
+<p>
+Suppose we aim to define tacitly an  
+adverb, <TT>Q</TT> say,   
+which generates a hook according to the scheme: 
+<PRE>
+      x Q    =   V (x A)
+</PRE>
+<p>
+where <TT>V</TT> is a given verb and <TT>A</TT> a given adverb. In the absence of a directly suitable bident or  
+trident in  <A HREF="13.htm">Chapter 13</A>, we say <TT>Q</TT> is to be a tacit equivalent of the explicitly-defined <TT>E</TT>: 
+<PRE>
+   E =: 1 : 'V (x. A)'
+</PRE>
+<p>
+We get the tacit equivalent by taking <TT>A</TT> to be <TT>/</TT>  
+and <TT>V</TT> to be <TT>%</TT>,  
+then defining <TT>Q</TT> as the same as <TT>E</TT> but  
+writing <TT>11 :</TT> rather than <TT>1 :</TT> 
+<PRE>
+   A =: /
+   V =: %
+   
+   Q =: 11 : 'V (x. A)'
+</PRE>
+<p>
+We see that <TT>+ Q</TT> is a hook 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>Q</TT></TD> 
+<TD><TT>+ Q</TT></TD> 
+<TD><TT>+ Q 1 2 1</TT></TD> 
+<TD><TT>+ E 1 2 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>A (V`) (`:6)</TD> 
+<TD><PRE>V +/</TD> 
+<TD><PRE>0.25 0.5 0.25</TD> 
+<TD><PRE>0.25 0.5 0.25</TD> 
+</PRE></TABLE> 
+<p>
+and that this scheme is valid:  
+<PRE>
+          x (A (V`) EV)  =  V (x  A)
+</PRE>
+<p>
+This scheme can be derived as follows. 
+By way of preparations, <TT>A</TT> must be a definite adverb (it is) and <TT>x</TT> 
+must be an unknown name (it is). Our derivation is: 
+<p>
+ <TABLE> 
+<p>
+<TR VALIGN=TOP><TD> 
+<PRE>
+   x (A (V`) EV)       
+V x/
+</PRE>
+<p>
+<TD>  
+<p>
+Beginning with the left-hand side, which is of the form 
+<TT>x (adverb adverb adverb)</TT> 
+<p>
+<TR VALIGN=TOP> <TD> 
+<PRE>
+   ((x A) (V`)) EV    
+V x/
+</PRE>
+<p>
+<TD> 
+<p>
+Obtained by applying trident AAA, for which the scheme 
+is <TT>x (A A A)  =  ((x A) A) A</TT>.  Now we notice that <TT>V`</TT> is of the form 
+<TT>verb conjunction</TT>.   
+<p>
+<TR VALIGN=TOP><TD> 
+<PRE>
+   (V ` (x A)) EV 
+V x/
+</PRE>
+<p>
+<TD> 
+<p>
+Obtained by applying bident VC for which the scheme is 
+<TT>x (V C) =  V C x</TT>. Now we notice that V ` (x A) 
+is of the form <TT>verb`verb</TT>, that is a gerund. 
+<p>
+<TR VALIGN=TOP><TD> 
+<PRE>
+   V (x A) 
+V x/
+</PRE>
+<p>
+<TD> 
+<p>
+Obtained by applying adverb <TT>EV</TT> for which the scheme is 
+<TT>u`v`w...EV  = (u v w ...)</TT>. We get the right-hand side. 
+<p>
+</TABLE> 
+<p>
+This brings us to the end of chapter 14. 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="15.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2001. 
+This material may be freely reproduced,
+provided that this copyright notice is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 27 Jan 01</p>
+</BODY>
+</HTML>
+

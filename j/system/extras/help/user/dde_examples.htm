@@ -1,0 +1,270 @@
+<html>
+<head>
+<title>Examples</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="dlls.htm">&gt&gt;</a>&nbsp;
+<a href="comm_protocol.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Examples</h1>
+<TR><TD colspan="2"> 
+
+
+
+<p>
+The following examples illustrate. First we set up a J to J connection manually:
+
+<p>
+Load two copies of J, and arrange the windows so that both are visible at the same time. 
+You may find it helpful to minimize Program Manager to reduce screen clutter.
+
+<p>
+In one window (the server), define the service name as <i>jserver</i>:
+
+<pre>
+   wd 'ddename jserver'
+</pre>
+
+<p>
+In the other window (the client), use the ddepoke command to send data to the server:
+
+<pre>
+   wd 'ddepoke jserver abc xyz mydata'
+</pre>
+
+<p>
+In the server, check the value of <code>wdq</code>
+
+<pre>
+   wdq
++----------+-----------+
+|syshandler|sys_handler|
++----------+-----------+
+|sysevent  |sys_ddepoke|
++----------+-----------+
+|sysdefault|sys_default|
++----------+-----------+
+|systopic  |abc        |
++----------+-----------+
+|sysitem   |xyz        |
++----------+-----------+
+|sysdata   |mydata     |
++----------+-----------+
+</pre>
+
+<p>
+This indicates the character string <code>mydata</code> was sent to the J server, with topic <code>abc</code> and 
+item <code>xyz</code>. 
+
+<p>
+Now terminate the connection from the client:
+
+<pre>
+   wd 'ddedis'
+</pre>
+
+<p>
+In practice, you will want to set up a protocol that will enable client and server to 
+communicate back and forth. To illustrate this we describe typical hot and cold links that 
+use J as an execution server.
+
+<p>
+J to J Hot Link<br>
+
+The script <b>system\packages\dde\server1.ijs</b> implements the server side of a DDE hot 
+link. The protocol is as follows:
+<p>
+<li>the server defines its service name to be:  <i>jserver</i><br>
+
+<li>the client issues a ddestart command, using any topic and item<br>
+
+<li>the client issues a ddepoke for this topic and item, with the data being an executable 
+J sentence<br>
+
+<li>the server executes the sentence, and returns the result with a ddeadvise command<br>
+
+<li>the client can issue a ddepoke repeatedly. If the data is <code>close</code> the topic and item 
+are closed. If the data is <code>exit</code> the J server program is exited. If the data is <code>off</code> 
+the J server task is terminated.
+
+<p>
+If you have not already done so, load 2 copies of J and minimize Program Manager to 
+reduce screen clutter. In one copy of J (the server), enter:
+
+<pre>
+   load 'system\packages\dde\server1.ijs'
+</pre>
+
+<p>
+If you wish, you could load one copy of J, and enter the following command to load the 
+second copy as a server (change the directory reference as appropriate):
+
+<pre>
+   wd 'winexec &quot;\j3\j.exe system\packages\dde\server1.ijs&quot;'
+</pre>
+
+<p>
+You could also create a new Shortcut or Program Manager item, which loads J with this 
+script file as its profile file.
+
+<p>
+The server displays a Windows dialog box, which will be used to illustrate the 
+conversation. If you wish, you can also minimize the server window.
+
+<p>
+In the other copy of J (the client), enter the following to initialize the client
+
+<pre>
+   load'system\examples\dde\client1.ijs'
+</pre>
+
+<p>
+You should see some J code executed in the server window, and the result in the client 
+session. 
+
+<p>
+You can now send J sentences to be evaluated:
+
+<pre>
+   cmd 'i.4 5'   
+ 0  1  2  3  4
+ 5  6  7  8  9
+10 11 12 13 14
+15 16 17 18 19
+</pre>
+
+<p>
+<code>cmd</code>   sends its argument using ddepoke:
+
+<pre>
+cmd=: 3 : 0
+wd 'ddepoke jserver top item *',y.
+)
+</pre>
+
+<p>
+The server window shows the conversation.
+
+<p>
+Try other expressions,  for example, to create and use names:
+	
+<pre>
+   cmd 'mydata=: 2 3 5 7'
+2 3 5 7
+
+   cmd '#mydata&quot;'
+4
+</pre>
+
+<p>
+To close the server, enter:
+
+<pre>
+   cmd 'off'
+</pre>
+
+<p>(The server does not respond.)
+
+<p>
+J to J  Cold Link<br>
+The script <b>system\packages\dde\server2.ijs</b> implements the server side of a DDE cold 
+link. The protocol is as follows:
+<p>
+<li>the server defines its service name to be:  <i>jserver</i><br>
+
+<li>the client issues a ddepoke for any topic and item, with the data being an executable 
+J sentence <br>
+
+<li>the server executes the sentence, and saves the result with the topic and item<br>
+
+<li>the client issues a ddereq command for the topic and item<br>
+
+<li>the server responds with the corresponding result<br>
+
+<li>the client can issue a ddepoke and ddereq repeatedly. If the ddepoke data is <code>exit</code> <br>
+the J server program is exited. If the data is <code>off</code> the J server task is terminated. 
+
+<p>
+As before, load 2 copies of J and minimize Program Manager. In the server copy of J, 
+enter:
+
+<pre>
+   load 'system\packages\dde\server2.ijs'
+</pre>
+
+<p>
+then minimize the server window.
+
+<p>
+To initialize the client copy of J:
+
+<pre>
+   load'system\examples\dde\client1.ijs'
+</pre>
+
+<p>
+Use cmd to set expressions:
+
+<pre>
+   cmd 'i.4 5'
+ 0	 1	 2	 3	 4
+ 5	 6	 7	 8	 9
+10	11	12	13	14
+15	16	17	18	19
+</pre>
+
+<code>cmd</code> sends its argument using ddepoke, and retrieves the result using ddereq: 
+
+<pre>
+cmd=: 3 : 0
+wd 'ddepoke jserver top item *',y.
+wd 'ddereq jserver top item'
+)
+</pre>
+
+<p>
+Try other expressions, then to close the server, send:
+
+<pre>
+   cmd 'off'
+</pre>
+
+<p>
+(The server does not respond.)
+
+<p>
+Note that the hot link protocol is simpler than the cold link protocol, since once it is set 
+up, the client need only issue one command to send a sentence and retrieve the result. 
+Also, the ddereq command used with the cold link may time out if the server is not ready 
+to send the data item requested.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="dlls.htm">&gt&gt;</a>&nbsp;
+<a href="comm_protocol.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

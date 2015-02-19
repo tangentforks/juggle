@@ -1,0 +1,6 @@
+directory:  system\extras\labs
+
+This directory contains the lab system.
+
+For more information, select J menu item Studio|Labs...
+and run the lab "Intro to Labs".

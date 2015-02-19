@@ -1,0 +1,301 @@
+<<*>>=
+<<c2j-data.ijs>>
+<<session trace>>
+
+@
+<h1>A Very Simple Structure Compiler for J</h1>
+
+<address>
+Martin Neitzel
+<br>G&auml;rtner Datensysteme
+<br>Braunschweig, Germany
+<br><a href=mailto:neitzel@gaertner.de>neitzel@gaertner.de</a>
+</address>
+
+<h2>Motivation</h2>
+
+J programmers can use external libraries written in any language.  Simple
+scalar values are easy to pass between J and the external function.  The DLL
+interface knows about a handful of simple data types and does both a bit of
+conformance checking as all the necessary conversion work.
+
+However, very often one has to deal with more complex data types
+such as C structures.  This article describes one possible approach
+to analyze such structures conveniently.
+
+The need to solve this problem came up when I wanted to write
+some J code to control a MIDI soundcard.  More on this in another
+article.  The first step was very easy:
+
+<<session trace>>=
+   require 'dll'
+   midiOutGetNumDevs =:'mmsystem midiOutGetNumDevs n' & cd
+   midiOutGetNumDevs ''
++-+
+|3|
++-+
+@
+
+OK, so there are 3 MIDI devices on this machine, numbered 0, 1, and 2.
+But which is which?  The Windows Multimedia API provides the function
+<dfn>midiOutGetDevCapsA</dfn> to identify them and get information on
+their capabilities.  Its C prototype is:
+
+<pre>
+int midiOutGetDevCapsA (int deviceNumber, MIDIOUTCAPSA *buf, int buflen);
+</pre>
+
+After reading the MIDIOUTCAPSA type definition and arriving
+at a rough ball-park figure that 100 bytes would
+be on the safe side to hold the entire data,
+we could do the following to check out MIDI device number 0:
+
+<<>>=
+   midiOutGetDevCapsA =: 'winmm midiOutGetDevCapsA i i *c i' & cd
+   r=.midiOutGetDevCapsA 0 ; (100#' ') ; 100
+   4 25 $ a. i. caps =. > 2 { r
+ 46   0  9  0   4   4   0   0  69 83
+ 83  32 77 80  85  45  52  48  49  0
+168 139  0  0 132 235 109   0 108 12
+  0   0  7  0   0   0 128  15   0  0
+  1   0  0  0   0   0 255 255   0  0
+  0   0 32 32  32  32  32  32  32 32
+ 32  32 32 32  32  32  32  32  32 32
+ 32  32 32 32  32  32  32  32  32 32
+ 32  32 32 32  32  32  32  32  32 32
+ 32  32 32 32  32  32  32  32  32 32
+@
+Well, more complex data types such as structures or arrays require a bit more
+work, obviously.  The J DLL interface and [[memr/memw]] treat such
+structures only as character vectors.  It remains to us to deal with those bytes
+properly.
+
+To do so, one has to take care of the exact offsets and field lengths, and
+after extraction of the relevant bytes, some conversion into a J data type is
+usually wanted.  For example, the 4 bytes encoding a signed or unsigned
+integer should be properly converted to a single J number.  Likewise,
+null-terminated C strings in fixed-size character arrays are only interesting
+up to the null character -- nobody would usually be interested in the trailing
+garbage.
+
+Rather than doing these things manually over and over again, it is
+much more convenient (and safer!) to let J do the extraction of a
+structure's fields.  The following code demonstrates one approach
+based on type declarations specifying the conversion of a C structure
+to a boxed J table.  In fact, we are not really focused on the C
+language here.  If you are concerned with, say, Delphi record types,
+this method will help you, too.
+
+Two different kinds of declarations are used:
+
+<ol>
+<li>a global table of base types and associated converters
+<li>one table for each structure type declaring all the fields
+</ol>
+
+Here is the original type definition of this example's structure.
+It is the C declaration from the Microsoft Windows' multimedia API
+describing MIDI output devices:
+
+<<c2j-data.ijs>>=
+
+NB. typedef struct tagMIDIOUTCAPSA {
+NB.     WORD    wMid;                  /* manufacturer ID */
+NB.     WORD    wPid;                  /* product ID */
+NB.     MMVERSION vDriverVersion;      /* version of the driver */
+NB.     CHAR    szPname[MAXPNAMELEN];  /* product name (NULL terminated string) */
+NB.     WORD    wTechnology;           /* type of device */
+NB.     WORD    wVoices;               /* # of voices (internal synth only) */
+NB.     WORD    wNotes;                /* max # of notes (internal synth only) */
+NB.     WORD    wChannelMask;          /* channels used (internal synth only) */
+NB.     DWORD   dwSupport;             /* functionality supported by driver */
+NB. } MIDIOUTCAPSA
+
+@ %def MIDIOUTCAPSA
+
+<h2>Adapting Foreign Structure Types to J</h2>
+
+Different C base types should show up differently in J, too.
+Our type declarations will associate a converter expression
+with each C type.  Here are some auxiliary converter verbs.
+They all take a series of bytes (i.e., a J character list)
+as input.
+
+<<>>=
+
+char=:{.				NB. character (singleton to salar)
+ctoi =: 3 : '256 #. a. i. |. y.'	NB. C bytes to J integer.
+NUL=.0{a.
+zerocut =: {.~ i.&NUL			NB. C string to J string.
+@
+
+Now our type declarations.  The first, [[TypeTable]], is an initial table of Type
+Converters for the base types as used in C.  Each row of the table is a boxed
+triple of
+
+<ol>
+<li>the name of the type (a string)
+<li>the memory usage for a single value of this type in bytes (a number)
+<li>the name of a converter from memory bytes to a J value
+	(suitable to be evoked later)
+</ol>
+
+A full table would of course contain many more rows.
+
+Structure Declarations define the fields of a structure we are
+interested in.  They have the the following three columns:
+<ol>
+<li>the type name of the field (referring to a TypeTable entry)
+<li>repeat count (for arrays)
+<li>name of the field
+</ol>
+
+Both tables are written as plain text nouns using tabs(!) and newlines
+to delimit rows and columns.  The cutting of the fields happens on-the-fly,
+as does the text to number version of the middle fields.
+
+<<>>=
+
+NB.  (I wish I knew a more elegant mapping than the complicated Amend here:)
+middlenum =. ".&.>@(1&{)@]`1:`]}~ "1
+
+NB.  Type definitions for:
+NB.  short word, long word, character, null-terminated string, version type
+TypeTable =: middlenum <;._1 ;._2 noun define
+	w	2	ctoi
+	W	4	ctoi
+	c	1	char
+	s	1	zerocut
+	v	4	ctoi
+)
+
+NB. Description corresponding to MIDIOUTCAPSA:
+MOCAPS_SD =: middlenum <;._1 ;._2 noun define
+	w	1	wMid
+	w	1	wPid
+	v	1	vDriverVersion
+	s	32	szPname
+	w	1	wTechnology
+	w	1	wVoices
+	w	1	wNotes
+	w	1	wChannelMask
+	W	1	dwSupport
+)
+@
+
+The definition [[MOCAPS_SD]] contains all what is necessary to know to define
+a structure, provided you also have the knowledge about the base type as
+encoded in [[TypeTable]].  The utility [[expand_structure]] will interpolate this
+information and pre-compute some additional information such as the
+individual offset and size of each field.
+A thusly compiled Expanded Structure Definition has altogether
+seven columns:
+<ul>
+<li>basetype
+<li>arraycnt
+<li>name
+<li>typelen
+<li>conv
+<li>length
+<li>offset
+</ul>
+
+<<>>=
+
+expand_field =: monad define "1
+	i=.({."1 TypeTable) i. {. y.
+	y. , }. i { TypeTable
+)
+
+expand_structure =: monad define
+	y. =. expand_field y.
+	sizes =. */"1 > 1 3 { "1 y.
+	offsets =. 0, }: +/\ sizes
+	y. ,. <"0 sizes ,. offsets
+)
+@
+
+The [[cutter]] utility finally takes the memory and one or more
+rows of the Expanded Structure Description (one row for each field
+you are interested in).  It extracts the data from the byte vector,
+passes it to the appropriate converter, and associates it with the
+field name.  One would typically use the entire ESD and get a nice
+association table.
+
+<<>>=
+
+cutter =: dyad define "1 1
+	'basetype arraycnt name typelen conv length offset' =. x.
+	datachars =. (offset + i. length) { y.
+	name ; conv~ datachars
+)
+@
+
+Now, we can have a proper look at our cryptic structure:
+
+<<session trace>>=
+   ] MOCAPS_ESD =. expand_structure MOCAPS_SD
++-+--+--------------+-+-------+--+--+
+|w|1 |wMid          |2|ctoi   |2 |0 |
++-+--+--------------+-+-------+--+--+
+|w|1 |wPid          |2|ctoi   |2 |2 |
++-+--+--------------+-+-------+--+--+
+|v|1 |vDriverVersion|4|ctoi   |4 |4 |
++-+--+--------------+-+-------+--+--+
+|s|32|szPname       |1|zerocut|32|8 |
++-+--+--------------+-+-------+--+--+
+|w|1 |wTechnology   |2|ctoi   |2 |40|
++-+--+--------------+-+-------+--+--+
+|w|1 |wVoices       |2|ctoi   |2 |42|
++-+--+--------------+-+-------+--+--+
+|w|1 |wNotes        |2|ctoi   |2 |44|
++-+--+--------------+-+-------+--+--+
+|w|1 |wChannelMask  |2|ctoi   |2 |46|
++-+--+--------------+-+-------+--+--+
+|W|1 |dwSupport     |4|ctoi   |4 |48|
++-+--+--------------+-+-------+--+--+
+   MOCAPS_ESD cutter caps
++--------------+-----------+
+|wMid          |46         |
++--------------+-----------+
+|wPid          |9          |
++--------------+-----------+
+|vDriverVersion|1028       |
++--------------+-----------+
+|szPname       |ESS MPU-401|
++--------------+-----------+
+|wTechnology   |1          |
++--------------+-----------+
+|wVoices       |0          |
++--------------+-----------+
+|wNotes        |0          |
++--------------+-----------+
+|wChannelMask  |65535      |
++--------------+-----------+
+|dwSupport     |0          |
++--------------+-----------+
+@
+
+<h2>Possible and Necessary Extensions</h2>
+
+Enter derived types into the TypeTable, along the
+lines of
+[[TypeTable=:TypeTable,'MOCAPS';(sizeof MOCAPS_ESD);'MOCAPS_ESD&cutter']]
+
+The [[expand_structure]] compiler should automatically take alignment into
+account as appropriate for the machine.  If you have a structure
+declared as [[struct {char c; int i;}]], the C standard will require
+that the memory layout has [[c]] and [[i]] in this order, but the
+hardware architecture may require one or even more bytes padding
+between them to align [[i]] properly.
+
+A marriage with the standard J fields.ijs utility.
+
+Code to <em>write</em> structures/fields, probably based on just associating
+proper obverses with each converter.
+
+<h2>Acknowledgments</h2>
+
+I'm indebted to Eric Iverson and Uwe Faustmann for helping me with this text.
+
+<h2>Cross-Reference of Scripts and Symbols</h2>

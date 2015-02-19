@@ -1,0 +1,271 @@
+#!/bin/sh
+#
+# rfc  takes  as its argument a number of a rfc. If it finds a
+# matching rfc in the local file system, it displays its  con-
+# tents,    otherwise    it    tries    to    get    it   from
+# ftp.ietf.org/rfc/, saves it and  then  displays  the contents.
+
+# required tools:
+#	ff, the Fast Formatter from comp.sources.unix Volume 3
+#	wget or any other command line tool to fetch a via via ftp.
+
+wget() {
+	# ignore the -N/-S option argument and just fetch the URL.
+	docname=`basename $2`
+	if lynx -source ftp://$2 > $docname
+	then
+		return 0
+	else
+		rm $docname
+		return 1
+	fi
+}
+
+# function for output of errormessage, then exit
+usage (  ) {
+cat << 'EOM' >&2
+Usage:
+
+rfc rfc-number   takes as its argument a number of a rfc;
+                 if that rfc exists then it is paged (if interactive)
+                 or copied to stdout (if piped or redirected).
+
+rfc -i [rfc|std|bcp|fyi]
+                 shows rfc-, std-, bcp- or fyi-index respectively
+                 default is rfc
+
+rfc -k keyword   looks keyword up in the rfc-index and
+                 outputs matching lines
+
+rfc -r [rfc|std|bcp|fyi]
+                 refreshes rfc-, std-, bcp- or fyi-index respectively
+                 default is rfc
+
+rfc -v           shows version number
+EOM
+	exit 2
+}
+
+n=${1-"-index"}
+p=${PAGER-"less -s"}
+rfcdir=${RFCDIR:-/var/rfc}
+tmp=/tmp/rfctmp.$$
+trap "rm -f $tmp ; exit" 0 1 2 15
+
+if [ ! -d "$rfcdir" ] ; then
+	cat <<- EOM 1>&2
+		The directory $rfcdir for RFCs does not exist.
+		Ask your admin to create it, preferably with write
+		permissions for all users.
+		You can set the environment variable RFCDIR to another
+		directory where the RFC indexes and downloaded RFCs
+		should be stored.
+	EOM
+	exit 1
+fi
+
+cd $rfcdir
+
+# erstmal checken, ob optionen angegeben wurden
+
+case "$1"
+in
+       -i)
+	    # option i : index zeigen
+	    shift
+	    val=$1
+
+	    if [ "$1" = "" ]
+	    then
+		# default bei option i ist rfc, wenn nix angegeben ist
+		val=rfc
+	    else
+		# naechstes argument ansehen, wenn es eines gibt
+		shift
+	    fi
+
+	    # wenn danach noch argumente kommen -> falsch
+	    if [ $# -gt 0 ]
+	    then
+		usage
+	    fi
+
+	    # wenn der parameter fuer die option falsch angegeben wurde
+	    file="`ls $rfcdir/$val-index.* 2>/dev/null`"
+	    if [ "$file" = "" ]
+	    then
+		echo "No $val index found.  An  rfc -r $val  may help."
+                exit 1
+	    fi
+
+	    # wenn alles geklappt hat, dann den gewuenschten index ausgeben
+	    for i in $file
+	    do
+		case $i
+		in
+		    *gz | *Z) 	zcat $i > $tmp ; $p $tmp ; exit 0;;
+		    *) 		$p $i ; exit 0;;
+		esac
+	    done;;
+       -k)
+	    # option k : den index nach einem keyword durchsuchen
+	    shift
+	    keyword="$1"
+
+	    # checken, ob die option einen parameter bekommen hat
+	    if [ "$1" = "" ]
+	    then
+		# -k muss ein argument haben
+		usage 
+	    else
+		# naechstes argument ansehen, wenn es eines gibt
+		shift
+	    fi
+
+	    # wenn danach noch argumente kommen -> falsch
+	    if [ $# -gt 0 ]
+	    then
+		usage
+	    fi
+
+	    # alle index-files durchsehen, ob das keyword gefunden werden kann
+	    # verschiedene schreibweisen beruecksichtigen
+
+
+	    for i in rfc-index.txt
+	    do
+		case $i in
+		     # falls das dokument gezippt ist
+		     *gz|*Z) zcat $rfcdir/${i} >> $tmp;;
+     
+		     # wenn das dokument nicht gezippt ist
+		     *) cat $rfcdir/${i} >> $tmp;;
+		esac
+	    done
+
+	    awk -v key="$keyword" '
+	    BEGIN	{ 
+		    RS = ""
+		    FS = " "
+		    gsub( /	/, " ", key )
+		    gsub( /  +/, " ", key )
+		    key1 = tolower( key )
+		}
+		    { 
+		    gsub( /\n/, " " )
+		    gsub( /	/, " " )
+		    gsub( /  +/, " " )
+		    key2 = tolower( $0 )
+		}
+		key2 ~ key1 { 
+			for ( i = 1; i <= NF; i++ ) {
+			    if ( $i ~ /^[0-9][0-9][0-9][0-9]+$/ ) {
+				printf( "\n\n%s\t", $i )
+				l = 8
+			    } 
+			    else {
+			    	if ( $i ~ /\(Status|\(Format|\(Also/ ) {
+					printf( "\n\t" )
+					l = 8
+				}
+				l = l + length( $i ) + 1
+				if ( l >= 70 ) {
+					printf( "\n\t" )
+					l = 8
+				}
+				printf( "%s ", $i )
+			    }
+			}
+		}' $tmp | $p 
+	    exit 0;;
+
+	-r)
+	    # option r : refresh index 
+	    shift
+	    val=$1
+
+	    if [ "$1" = "" ]
+	    then
+		# default option r is rfc, if nothing else is given
+		val=rfc
+	    else
+		# get next argument, if given
+		shift
+	    fi
+
+	    # wrong if other arguments follow
+	    if [ $# -gt 0 ]
+	    then
+		usage
+	    fi
+
+	    echo
+	    echo  to be refreshed: $val-index.txt 
+	    echo
+
+	    if ! wget -N ftp.ietf.org/rfc/$val-index.txt
+	    then
+		echo An error occured while trying to retrieve $val-index.txt:
+		echo
+		echo "$error" | grep $val-index.txt | ff -i 8
+		echo
+		echo If necessary try manually: 
+		echo "wget -N ftp.ietf.org/rfc/$val-index.txt"
+	    fi
+	    echo
+	    exit;;
+
+	-v) # show version number
+	    id='$Revision: 1.22 $ $Date: 2013/02/21 07:33:12 $ $Author: neitzel $'
+	    echo "$id" | awk ' { 
+	    	sub( /.Revision./, "Version " ) 
+		sub( /...Date.*/, "" )
+		print $0 "\n"
+	    }'
+	    exit;;
+
+       -*) usage ;;
+
+	# checken, ob statt option eine rfc-nummer angegeben wurde
+       *)  rfc=$1
+           rfc=`expr $rfc + 0 2>/dev/null`
+
+	   # wenn keine nummer angegeben wurde -> falsch
+       	   if [ "$rfc" = "" ]
+	   then
+	        usage
+	   fi;;
+esac
+
+# ohne option :  
+#
+# checken, ob das dokument hier auf dem server liegt
+
+file=""
+for suff in .txt.gz .gz .txt.Z .Z .txt ""
+do
+	[ -r $rfcdir/rfc$n$suff ] && file=$rfcdir/rfc$n$suff && break 2
+	[ -r $rfcdir/$n$suff ] && file=$rfcdir/$n$suff && break 2
+done
+
+case $file in
+    "")		# document was not found in local archive, try getting it
+    		file=`echo "rfc$n.txt"` 
+    		echo "Looking for $file, please wait.."
+
+		wget -S ftp.ietf.org/rfc/$file
+
+		# if document exists, show it
+		if [ -e "$rfcdir/$file" ]
+		then
+			$p $rfcdir/$file ; exit 0
+		else
+			echo Problems while trying to retrieve document.
+			exit 2
+		fi;;
+
+    *.gz|*.Z)	# dokument existiert und ist gezippt
+    		zcat $file > $tmp ; $p $tmp ; exit 0 ;;
+    *)		# dokument existiert und ist nicht gezippt
+    		$p $file ; exit 0 ;;
+esac

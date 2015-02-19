@@ -1,0 +1,48 @@
+N Part I: Alphabet and Words
+T
+ The alphabet is standard ASCII, comprising _(digits)_,
+ _(letters)_ (of the English alphabet), the
+ _(underline)_ (used in names and numbers), the (single)
+ _(quote)_, and others (which include the space) to be
+ referred to as _(graphics)_.  Alternative spellings for
+ the _(national use)_ characters (which differ from
+ country to country) are discussed under _(Alphabet)_
+ ([[a.]]).
+ 
+ Numbers are denoted by digits, the underbar (for
+ negative signs and for infinity and minus infinity --
+ when used alone or in pairs), the period (used for
+ decimal points and *(necessarily)* preceded by one or
+ more digits), the letter e (as in [[2.4e3]] to
+ signify [[2400]] in exponential form), and the letter
+ j to separate the real and imaginary parts of a complex
+ number, as in [[3e4j_0.56]].  Also see the discussion
+ of _(Constants)_.
+ 
+ A numeric _(list)_ or _(vector)_ is denoted by a list
+ of numbers separated by spaces.  A list of ASCII
+ characters is denoted by the list enclosed in single
+ quotes, a pair of adjacent single quotes signifying the
+ quote itself: [['can''t']] is the five-character
+ abbreviation of the six-character word [['cannot']].
+ The _(ace)_ [[a:]] denotes the boxed empty list
+ [[<$0]].
+ 
+ _(Names)_ (used for pronouns and other surrogates, and
+ assigned referents by the copula, as in
+ [[prices=: 4.5 12]]) begin with a letter and may
+ continue with letters, underlines, and digits.  A name
+ that ends with an underline or that contains two
+ consecutive underlines is a _(locative)_, as discussed
+ in Section II.I.
+ 
+ A _(primitive)_ or _(primary)_ may be denoted by a
+ single graphic (such as [[+]] for _(plus)_) or by a
+ graphic modified by one or more following
+ _(inflections)_ (a period or a colon), as in [[+.]] and
+ [[+:]] for _(or)_ and _(nor)_.  A primary may also be
+ an inflected name, as [[e.]] and [[o.]] for
+ _(membership)_ and _(pi times)_.  A primary cannot be
+ assigned a referent.
+
+# vim:tw=55:ai:ic:inf

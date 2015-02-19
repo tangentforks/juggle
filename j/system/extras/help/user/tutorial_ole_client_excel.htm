@@ -1,0 +1,453 @@
+<html>
+<head>
+<title>Tutorial: J OLE Client to Excel</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="labs.htm">&gt&gt;</a>&nbsp;
+<a href="tutorial_ole_server_excel.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Tutorial: J OLE Client to Excel</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+This tutorial has been created with Excel 97 and J401. Expect different behavior with other versions! 
+
+<P>
+It will help to have the Excel VBA help file VBAXL8.HLP (or similar) readily available. 
+
+<P>
+When you create a new book in Excel, by default the book has 16 worksheets. Since we will experiment with adding worksheets under program control, we suggest that you change the default to 1 worksheet (use the Tools|Options|General dialog).
+
+<P>
+Introduction<br>
+In theory, any Excel function can be called directly from J. In practice, some Excel functions have an unusual syntax that is either awkward or impossible to call from J, for example the ChartWizard method. However, you can always get around this by creating a corresponding Excel macro that you can call from J. Moreover it makes sense to use Excel macros anyway - there is no point in trying to duplicate in J a series of Excel function calls that could be just as easily, or more easily, programmed in Excel.
+
+<P>
+Thus you typically program with a mixture of J functions and Excel macros.
+
+<P>
+<B>Excel Hierarchy</B><br>
+The various parts of Excel such as the Workbooks, Worksheets and Charts (all known as <I>objects</I>) are organized in a hierarchy. Objects have <I>methods</I> (functions<I>)</I> and <I>properties</I> (variables). References to Excel objects, methods and properties must include their position in the hierarchy, for example:
+
+<P>
+Application.Workbooks(&quot;Book1&quot;).Worksheets(&quot;MySheet&quot;).ChartObjects.Item(1).Chart.PlotArea.Width
+
+<P>
+Now this naming convention gets a little tedious to enter, so Excel allows you to simplify it a little. For example, if  MySheet happens to be the active sheet, you could instead use:
+
+<P>
+Activesheet.ChartObjects.Item(1).Chart.PlotArea.Width
+
+<P>
+J does not support this method of referencing names. Instead, for each reference you provide two names - the first being the position in the object hierarchy. Thus if the name <code>abc</code> represented Activesheet.ChartObjects.Item(1).Chart.PlotArea then the equivalent J reference would be: 
+
+<pre>abc width</pre>
+
+How do you assign names in J to positions in the object hierarchy? To start off with, there are two reserved names. The name <code>base</code> represents the root of the hierarchy, equivalent to Application in Excel. Thus the following are equivalent:
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=192>
+<pre>base visible</pre>
+<TD VALIGN="TOP" WIDTH=162>
+<P>J
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=192><P>
+Application.Visible
+<TD VALIGN="TOP" WIDTH=162><P>
+Excel
+</TR></TABLE>
+
+<P>
+The name <code>temp</code> is assigned to the current position in the hierarchy. For example, if you have just created a new worksheet Sheet1, then the following are equivalent:
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=297>
+<pre>temp activate</pre>
+<TD VALIGN="TOP" WIDTH=177>
+<P>J
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=297>
+<P>Worksheets(&quot;Sheet1&quot;).Activate
+<TD VALIGN="TOP" WIDTH=177>
+<P>Excel
+</TR></TABLE>
+
+<P>
+Next, at any point, you can assign a name to the <code>temp</code> position. Thus if you assigned the name <code>sh1</code> to <code>temp</code> at this point, you could then use:
+
+<pre>sh1 activate</pre>
+
+The idea is that you assign names to positions that you expect to revisit, while <code>temp</code> can be used for positions that you are just passing through.
+
+<P>
+Note that Excel names are not case-sensitive, but when programming, Excel automatically converts your entries to its standard capitalization. From J, you can use any case, and here we use lowercase throughout.
+
+<P>
+Troubleshooting<br>
+You are going to be working with both J and Excel sessions active. It will be helpful to close down other applications to minimize screen clutter.
+
+<P>
+As you use OLE, commands sent from J may change the active focus to Excel. To enter new commands in J, click on the J session to change the active focus back to J.
+
+<P>
+If the OLE link goes wrong somewhere, you can simply close down the Excel session, and reset the J session. The J OLE interface uses the Window Driver, so you should enter <code>wd'reset'</code> to reset it. Of course, normally you would shut down Excel and reset J under program control.
+
+<P>
+Sometimes you send a command to Excel that appears to hang up, while the Excel session flashes. This happens when Excel displays a dialog box that requires user intervention, for example an error message or a prompt to save changes on exit. In such cases, switch to Excel and respond to the dialog box before continuing.
+
+<P>
+At other times, Excel will hang up when it is waiting for user entry to be completed. For example, if you highlight a cell and start editing its contents, then switch to J and try an OLE command, the system will hang until you go back to Excel and complete the cell editing.
+
+<P>
+While Excel is fairly efficient at the tasks you are likely to use it for, you might inadvertently give it a task that takes a long time. For example, suppose you create a chart from data in a spreadsheet, then send a command from J to update that data. After each cell is updated, Excel will re-draw the chart - as many times as there are cells! While this happens, everything is locked up, and you will have to wait, or shut Excel down. (This particular problem is solved by erasing the chart before you update the data, then re-creating it after the update.)
+
+<P>
+Tutorial<br>
+Start by unloading all applications, then loading J. Maximize the ijx window in the J session, then arrange the J session window so it covers only about half the screen.
+
+<P>
+<B>Opening up Excel</B><br>
+Create a parent to hold the Excel OLE Automation control:
+
+<pre>wd 'pc xlauto'</pre>
+
+<P>
+Create the Excel OLE Automation control. This may take a few seconds, because it loads Excel into memory (it will not be visible).
+
+<pre>wd 'cc xl oleautomation:excel.application'</pre>
+
+<P>
+All J OLE commands from now on will refer to the <code>xl</code> control. Note that the names <code>xlauto</code> and <code>xl</code> used here are not required <code>-</code> you can use your own names. However, the utilities included with J also use these names, so it is recommended that you stick with them. Note also that <code>xl</code> is short for Excel and not `x',`one'.
+
+<P>
+At this point, Excel has been loaded, but is not visible. Excel has a Visible property that can be set to display it. This property is part of the Application object, and hence the Excel call to use it would be:
+
+<P>
+Application.Visible = 1
+
+<P>
+In J, the Application object is named <code>base</code>, therefore to set it, enter:
+
+<pre>wd 'oleset xl base visible 1'</pre>
+
+<P>
+This means: execute <code>oleset</code> on control <code>xl</code>, setting the <code>visible</code> property of <code>base</code> to <code>1</code>.
+
+<P>
+If Excel opens full screen, shrink it down so that both the J and Excel windows are visible.
+
+<P>
+Now Excel is visible, but has no workbook open. To create a new workbook in Excel, you use the Add method of the Workbooks object. Note that Add is a method of the Workbooks object (as well as several other objects), but is it not a method of the Application object - Application.Add will not work!  Therefore the first step in J is to get access to the Workbooks object. To do so, enter:
+
+<pre>wd 'oleget xl base workbooks'</pre>
+
+<P>
+This command should complete successfully, but display no result. However, internally, J has assigned the Workbooks object to <code>temp</code>, and this can now be used to invoke the Add method:
+
+<pre>wd 'olemethod xl temp add'</pre>
+
+<P>
+This should have created a new workbook. Try entering it again to add another workbook:
+
+<pre>wd 'olemethod xl temp add'
+|domain error
+|       wd'olemethod xl temp add'
+</pre>
+
+<P>
+This time you get a domain error - try: <code>wd'qer'</code>. What happened is that the <code>temp</code> name really is temporary - it refers to the current position in the Excel hierarchy, which is constantly changing as you move about Excel. In this case, when you added the new workbook, <code>temp</code> changed to that workbook - which does not have an Add method!
+
+<P>
+Therefore, in order to add another workbook, you have to assign <code>temp</code> to Workbooks again:
+
+<pre>
+wd 'oleget xl base workbooks'
+wd 'olemethod xl temp add'
+</pre>
+
+<P>
+Of course, this quickly becomes tedious - therefore the proper treatment here is to assign a name to the Workbooks object, so that you can just use that name in future. To do so, use the <code>oleid</code> command:
+
+<pre>
+wd 'oleget xl base workbooks'
+wd 'oleid xl wb'
+</pre>
+
+<P>
+Now you can use <code>wb</code> to create several books:
+
+<pre>
+wd 'olemethod xl wb add'
+wd 'olemethod xl wb add'
+wd 'olemethod xl wb add'
+</pre>
+
+<P>
+<B>Closing Excel</B><br>
+Now lets try closing down Excel. The Application object in Excel has the Quit method to close down. Quit will prompt, should there be any unsaved changes. Try switching to Excel, then entering some values into one of the spreadsheets. Ensure that you have completed your entries (press Enter if Excel is waiting for you to complete the entry of a cell), then switch back to J and enter:
+
+<pre>wd 'olemethod xl base quit'</pre>
+
+<P>
+Excel will start flashing, and if you try to enter anything in the J window, it eventually displays a &quot;Server Busy&quot; dialog box. Click on Excel, and respond to the &quot;Save changes in `Book'?&quot; prompt. Eventually, Excel will close. You should now reset the J Window Driver with:
+
+<pre>wd'reset'</pre>
+
+<P>
+<B>Utilities</B><br>
+This is a good time to look at the Excel OLE utilities, to do so enter:
+
+<pre>
+load 'system\examples\ole\excel\xlutil.ijs'
+names ''
+</pre>
+
+<P>
+This defines several utilities, the main ones being:
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlopen
+<TD VALIGN="TOP" WIDTH=415><P>
+create Excel OLE automation object
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlshow
+<TD VALIGN="TOP" WIDTH=415><P>
+show/hide Excel OLE automation object
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlexit
+<TD VALIGN="TOP" WIDTH=415><P>
+exit Excel OLE automation object (saves)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlget
+<TD VALIGN="TOP" WIDTH=415><P>
+cover for oleget - get object
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlset
+<TD VALIGN="TOP" WIDTH=415><P>
+cover for oleset - set object parameter
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlcmd
+<TD VALIGN="TOP" WIDTH=415><P>
+cover for olemethod - invoke method
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlid
+<TD VALIGN="TOP" WIDTH=415><P>
+cover for oleid - assign id to current position
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlread
+<TD VALIGN="TOP" WIDTH=415><P>
+read cell
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlreadr
+<TD VALIGN="TOP" WIDTH=415><P>
+read range
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlwrite
+<TD VALIGN="TOP" WIDTH=415><P>
+write cell
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlwriter
+<TD VALIGN="TOP" WIDTH=415><P>
+write range
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=92><P>
+xlsetchart
+<TD VALIGN="TOP" WIDTH=415><P>
+set chart range
+</TR></TABLE>
+
+<P>
+The verb <code>xlopen</code> opens up Excel. It:<br>
+<br>
+<li>creates the parent window <code>xlauto</code><br>
+<li>creates the Excel OLE automation control <code>xl</code><br>
+<li>names <code>wb</code> as the Workbooks object<br>
+<li>loads the macro file examples\ole\excel\jmacros.xls (which is hidden)<br>
+<P>
+Try:
+
+<pre>xlopen''</pre>
+
+<P>
+Note that Excel is not shown, indeed you may want to use Excel without it ever being visible. To make it visible, enter:
+
+<pre>xlshow''</pre>
+
+<P>
+Verb <code>xlcmd</code> runs an OLE method. Since <code>wb</code> has been named in <code>xlopen</code>, it can be used directly. To add a workbook:
+
+<pre>xlcmd 'wb add'</pre>
+
+<P>
+Take a look at the workbook name:
+
+<pre>
+   xlget 'temp name'
+Book1
+</pre>
+
+<P>
+Try changing the workbook name:
+
+<pre>
+   xlset 'temp name Mybook'
+|domain error
+| xlset'temp name Mybook'
+
+   wd 'qer'
+ole - Workbook does not have writeable Name property : 12
+</pre>
+
+<P>
+What is happening is that in Excel, you can only change the name of a workbook by saving it. Thus, the following saves the workbook, and also renames it:
+
+<pre>
+   xlcmd 'temp saveas Mybook'
+</pre>
+
+<P>
+This may return -1, which really is the result from Excel!
+
+<P>
+(If you already have saved Mybook, Excel will prompt you to overwrite it.)
+
+<P>
+<B>Accessing the Worksheet</B><br>
+To access the worksheet, we first have to get the Worksheets object, which belongs to the workbook. We will use the Worksheets object a few times, so will give it a name:
+
+<pre>
+   xlget 'temp worksheets'
+   xlid 'ws'
+</pre>
+
+<P>
+We can try adding new worksheets:
+<pre>
+   xlcmd 'ws add'
+   xlcmd 'ws add'
+   xlcmd 'ws add'
+</pre>
+
+<P>
+Next we access the first sheet using the Item method, and assign the name <code>sh1</code>:
+<pre>
+   xlget 'ws item sheet1'
+   xlid 'sh1'
+   xlget 'sh1 name'
+Sheet1
+</pre>
+
+<P>
+Be careful to distinguish <code>sh1</code> which is the name used by J for a position in the Excel object hierarchy, from <code>Sheet1</code>, which is the name used by Excel for the current worksheet. You can change the worksheet name:
+
+<pre>
+   xlset 'sh1 name Mysheet'
+</pre>
+
+<P>
+If this worksheet is hidden behind another (which will be the case if you followed the above steps exactly) you can activate it with:
+
+<pre>
+   xlcmd 'sh1 activate'
+</pre>
+
+<P>
+Now lets try writing to a specific cell. In Excel you can use cell references of the form 2 3 or old-style alphanumeric references such as B3; the former are easier to program. First reference a cell, using the Cells property:
+
+<pre>
+   xlget 'sh1 cells 2 3'
+</pre>
+
+<P>
+Then set the value of <code>temp</code> as required. The new value should appear in the spreadsheet:
+
+<pre>
+   xlset 'temp value 123'<br>
+   xlget 'temp value'
+123
+</pre>
+
+<P>
+<B>Reading and Writing Ranges</B><br>
+In practice, you will typically want to read and write a range of cells. It would be tedious to do so one cell at a time; unfortunately, the form in which Excel reads and writes range data is not available to J. The solution is to use the utilities <code>xlreadr</code> (read range) and <code>xlwriter</code> (write range) that call appropriate macros from jmacros.xls. The right argument is the workbook, worksheet, topleft cell position and number of rows and columns. The left argument of <code>xlwriter</code> is the data to be written. Try:
+
+<pre>
+   (i.3 4) xlwriter 'mybook.xls mysheet 2 2'
+</pre>
+
+<P>
+Verb <code>xlreadr</code> returns data as a boxed array of character strings:
+
+<pre>
+   xlreadr 'mybook.xls mysheet 3 3 2 3'  
++-+--+--+
+|5|6 |7 |
++-+--+--+
+|9|10|11|
++-+--+--+
+</pre>
+
+<pre>
+   &quot;. &amp;&gt; xlreadr 'mybook.xls mysheet 3 3 2 3'  
+5  6  7
+9 10 11
+</pre>
+
+<P>
+Finally, use <code>xlexit</code> to close Excel (you may be prompted to save):
+
+<pre>
+   xlexit''
+</pre>
+
+<P>
+<B>Data passing</B><br>
+Data parameters sent using these utilities are limited to 65K, which suffices for most purposes. The best way to pass data longer than this is via a temporary file. Thus J can write a file then send an OLE command to Excel to read it. 
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="labs.htm">&gt&gt;</a>&nbsp;
+<a href="tutorial_ole_server_excel.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

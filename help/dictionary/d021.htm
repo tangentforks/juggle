@@ -1,0 +1,104 @@
+<html>
+<head><title>>. Ceiling  -  Larger of (Max)</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="d022.htm">&gt&gt;</a>&nbsp;
+<a href="d020.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Ceiling</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>&gt;. 0 0 0</font></td>
+<td align=right  width=33%><b><font size=+2>Larger Of (Max)</font></b>
+</tr></table>
+<br>
+
+<table width=100% border=0><tr>
+<td valign=top width=49% bgcolor=#eeeeee>
+<tt>&gt;.y </tt>gives the <i>ceiling</i> of<tt> y</tt> ,<tt> </tt>that is, 
+the smallest integer greater than or equal to <tt>y</tt> .<tt> </tt>Thus:<br>
+
+<pre>
+   >. 4.6 4 _4 _4.6
+5 4 _4 _4
+</pre>
+
+The implied comparison with integers is tolerant, as discussed under 
+Equal<tt> </tt>(<tt>=</tt>),<tt> </tt>and is controlled 
+by<tt> >.!.t</tt> .<tt> </tt>
+See Floor<tt> </tt>(<tt>&lt;.</tt>)<tt> </tt>and 
+<a href="ref.htm#10">McDonnell [10]</a> for complex arguments.
+<br>&nbsp;</td>
+
+<td width=2%>&nbsp;</td>
+
+<td valign=top width=49% bgcolor=#eeeeee>
+<tt>x>.y </tt>is the larger of<tt> x </tt>and<tt> y</tt> .<tt> </tt>
+For example:<br>
+
+<pre>
+   3>.4 _4
+4 3
+
+   >./7 8 5 9 2
+9
+    
+   >./\7 8 5 9 2
+7 8 8 9 9
+</pre>
+</td>                                                         
+</tr></table><br>
+
+The comparison<tt> x = >. x </tt>determines whether<tt> x </tt>is an integer.  
+Thus:<br>
+
+<pre>
+   Integer_test=: ] = >.      <font face=Times size=+1>See the definition of fork in <a href="dictf.htm">Section II F</a>.</font>
+   Integer_test 3 3.14 _5
+1 0 1
+
+   f=: = >.                   <font face=Times size=+1>The same function may be defined by a hook.</font>
+   f 3 3.14 _5
+1 0 1
+</pre>
+
+The <i>ceiling</i><tt> >. y </tt>is equivalent to<tt> -&lt;.-y</tt> .<tt> </tt> 
+In other words, it is the dual of <i>floor</i> with respect to 
+(that is, <i>under</i>) arithmetic 
+negation:<tt> >. </tt><font face=Symbol>&#171;</font><tt> &lt;.&.- </tt>
+and<tt> &lt;. </tt><font face=Symbol>&#171;</font><tt> >.&.- </tt> .<tt> </tt>For example:<br>
+
+<pre>
+   (&lt;.&.- ; >.) 4.6 4 _4 _4.6
++---------+---------+
+|5 4 _4 _4|5 4 _4 _4|
++---------+---------+
+</pre>
+
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="d022.htm">&gt&gt;</a>&nbsp;
+<a href="d020.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

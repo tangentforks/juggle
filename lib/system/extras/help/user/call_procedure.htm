@@ -1,0 +1,230 @@
+<html>
+<head>
+<title>Calling DLLs</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="cd_domain_error.htm">&gt&gt;</a>&nbsp;
+<a href="dlls.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+<TR valign="baseline"><TD><H1>Calling Procedures in Dynamic-link Libraries (DLLs)</h1>
+<TR><TD colspan="2"> 
+
+
+<b>Calling procedures incorrectly can crash your system or corrupt memory.</b>
+
+<p>
+To learn how to call DLLs,  run Labs 'DLL: Writing and Using a DLL' and 'DLL: Using System DLLs (file examples)'.
+
+<p>
+A DLL is a file (usually with extension .dll) that contains procedures. J can call DLL procedures. 
+
+<p>
+Win32 API system services are provided by system DLLs such as <i>kernel32</i>. You can also use 3rd party DLLs or DLLs you write yourself.
+
+<p>
+Script main\dll.ijs ( <code>load 'dll' </code>) defines utilities for working with DLLs.
+
+<p>
+Verb <code>cd</code> calls a procedure. The form is:
+<pre>
+   'filename procedure [+][%] declaration' cd parameters.
+</pre>
+
+<li><b>filename</b> is the name of the DLL. If a suffix is not provided, .dll is used. The search path for finding a filename that is not fully qualified involves many directories and is different on each platform. Except for system DLLs, a fully qualified filename is recommended.<br><br>
+
+<li><b>procedure</b> is the case-sensitive name of the procedure to call. A procedure name that is a number is specified by # followed by digits. Win32 API procedures that take string parameters are documented under a name, but are implemented under the name with an A suffix for 8 bit characters and a W suffix for 16 bit characters. For example, CreateFile is documented, but the procedures you call are CreateFileA or CreateFileW.
+A procedure returns a scalar result and takes 0 or more parameters. Parameters are passed by value or by a pointer to values. Pointer parameters can be read and set.<br><br>
+
+<li><b>+</b> option selects the alternate calling convention. The calling convention is the rules for how the result and parameters are passed between the caller and the procedure. Using the wrong one can crash or corrupt memory. J supports two: __stdcall and __cdecl. __stdcall is used by the Win32 API and most procedures. __cdecl is the standard C calling convention and is used for some procedures. __stdcall is the standard cd calling convention and __cdecl is the alternate.<br><br>
+
+<li><b>%</b> option does an fpreset (floating-point state reset) after the call. Some procedures leave floating-point in an invalid state that causes a crash at some later  time. DLL's built with Delphi likely have this problem. If J crashes on simple expressions after calling a procedure, try adding the % option.<br><br>
+
+<li><b>declaration</b> is a set of blank delimited codes describing result and parameter types:
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=55><P>
+c
+<TD VALIGN="TOP" WIDTH=350><P>
+character (1 byte)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+s
+<TD VALIGN="TOP" WIDTH=350><P>
+short integer (2 byte)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+i
+<TD VALIGN="TOP" WIDTH=500><P>
+integer (4 byte)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+f
+<TD VALIGN="TOP" WIDTH=500><P>
+short floating-point (4 byte)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+d
+<TD VALIGN="TOP" WIDTH=500><P>
+floating point (8 byte)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+j
+<TD VALIGN="TOP" WIDTH=500><P>
+complex (16 byte) (not as result)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+*
+<TD VALIGN="TOP" WIDTH=500><P>
+pointer
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+n
+<TD VALIGN="TOP" WIDTH=500><P>
+no result (result, if any, is ignored and 0 is returned)
+</tr></table>
+
+<p>
+The first declaration type describes the result and the remaining ones describe the parameters in the <code>cd</code> right argument.
+
+<p>
+The c i d and j types are native J types and the s and f types are not. Scalar s and f values are handled as i and d types. Pointer s and f parameters are handled as character data.
+
+<p>
+The * type is a pointer to values. A * can be followed by c s i f d or j to indicate the type of values. The DLL can read from this memory or write to it.
+
+<p>
+A scalar type (c s i f d j) must have a scalar parameter. A pointer type (* *c *s *i *f *d *j) must have either a non-scalar parameter of the right type, or a boxed scalar integer that is a memory address.
+
+<p>
+J boolean data is stored as 1 byte values. Boolean parameters are automatically converted to integers.
+
+<p>
+The mema result (<a href="memory_management.htm">Memory Management</a>) can be used as a * type parameter.  A memory address parameter is a boxed scalar. The NULL pointer is &lt;0 .
+
+<p>
+The <code>cd</code> right argument is a list of enclosed parameters. An empty vector is treated as 0 parameters and a scalar is treated as a single parameter.
+
+<p>
+The cd result is the procedure result catenated with its possibly modified right argument.
+
+<p>
+For example, the Win32 API procedure GetProfileString in kernel32 gets the value of the windows/device keyword.
+
+<pre>
+   a=: 'kernel32 GetProfileStringA s *c *c *c *c s'
+   b=: 'windows';'device'; 'default'; (32$'z');32
+   a cd b
++--+-------+------+-------+--------------------------------+--+
+|31|windows|device|default|HP LaserJet 4P/4MP,HPPCL5MS,LPT |32|
++--+-------+------+-------+--------------------------------+--+
+</pre>
+
+<p>
+The first type s indicates that the procedure returns a short integer. The first pointer names a section. The second pointer names a keyword. The third pointer is the default if the keyword is not found. The fourth parameter is where the keyword text is put. The fifth parameter is the length of the fourth parameter.
+
+<p>
+If the GetProfileStringA declaration was wrong, say a d result instead of s, it would crash your system. If the fifth parameter was 64 and the keyword was longer than the 32 characters allocated by the fourth parameter, the extra data would overwrite memory.
+
+<p>
+Procedures are usually documented with a C prototype or a Visual Basic declaration.  The C prototype and VB declaration for GetProfileString are:
+
+<pre>
+DWORD GetProfileString(
+LPCTSTR lpAppName,      // address of section name
+LPCTSTR lpKeyName,      // address of key name
+LPCTSTR lpDefault,      // address of default string
+LPTSTR lpReturnedString,// address of destination buffer
+DWORD nSize             // size of destination buffer
+);
+
+Declare Function GetProfileString Lib &quot;kernel32&quot;
+Alias GetProfileStringA&quot;
+ByVal lpAppName As String,
+ByVal lpKeyName As String,
+ByVal lpDefault As String,
+ByVal lpReturnedString As String,
+ByVal nSize As Long)
+As Long</pre>
+
+<p>
+J declaration types and some corresponding C and VB types are:
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=55><P>
+J
+<TD VALIGN="TOP" WIDTH=350><P>
+C/Visual  Basic
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+c
+<TD VALIGN="TOP" WIDTH=350><P>
+char, byte, bool
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+s
+<TD VALIGN="TOP" WIDTH=500><P>
+short int, word, %
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+i
+<TD VALIGN="TOP" WIDTH=500><P>
+int, long int, dword, &amp;
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+f
+<TD VALIGN="TOP" WIDTH=500><P>
+float, !
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+d
+<TD VALIGN="TOP" WIDTH=500><P>
+double, #
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+*
+<TD VALIGN="TOP" WIDTH=500><P>
+char*, int*, LP..., void*, $
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=55><P>
+n
+<TD VALIGN="TOP" WIDTH=500><P>
+void
+</tr></table>
+
+<p><code>cdf''</code> unloads all DLLs that <code>cd</code> has loaded. A loaded DLL is in use and attempts to modify it will fail. If you are developing and testing a DLL you must run <code>cdf''</code> before you can build and save a new version.
+
+<p>
+Release J4.02 introduced some incompatible changes:<br>
+1. scalar error results are now domain errors (<code>cder''</code> provides details)<br>
+2. *m no longer supported<br>
+3. fpreset no longer always done (explicit % flag)<br>
+4. * memory address must be boxed scalar, not a scalar
+
+
+</TD></tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="cd_domain_error.htm">&gt&gt;</a>&nbsp;
+<a href="dlls.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

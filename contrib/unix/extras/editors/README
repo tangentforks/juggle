@@ -1,0 +1,14 @@
+The files here support various Unix editors.
+
+VIM:
+
+ijs.vim		is a file describing J's syntax including a colouring scheme
+		for the VIM (Vi IMproved) vi(1) clone, and
+mysyntax.vim	is the file taking care of its activation.  See the "syntax"
+		chapter in the vim documentation.
+
+
+Emacs:		ijs- and ijx-major-modes would be great.  Any takers?
+		The upcoming J release will have a J binary _without_
+		built-in readline, so it wouldn't get into the way
+		with emacs' line editing facilities.

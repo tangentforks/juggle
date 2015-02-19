@@ -1,0 +1,78 @@
+<unistd.h>
+<fcntl.h>
+<sys/mman.h>
+<regex.h>
+<sys/time.h>
+<sys/types.h>
+<errno.h>
+
+; unistd.h:
+i F_OK R_OK W_OK X_OK
+i SEEK_CUR SEEK_END SEEK_SET
+i STDIN_FILENO STDOUT_FILENO STDERR_FILENO
+; Defining NULL is problematic in various ways.
+; Most notably, it's unclear whether it should be boxed or not.
+
+; fcntl:
+i O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK
+i O_RDONLY O_RDWR O_TRUNC O_WRONLY
+i FD_CLOEXEC
+i F_DUPFD F_GETFD F_SETFD F_GETFL F_SETFL
+i F_SETLK F_SETLKW F_GETLK F_UNLCK F_WRLCK
+st struct flock
+f	l_len
+f	l_pid
+f	l_start
+f	l_type
+f	l_whence
+
+; mmap:
+i PROT_READ PROT_WRITE PROT_EXEC PROT_NONE
+i MAP_SHARED MAP_PRIVATE MAP_FIXED
+
+; Regex stuff:
+i REG_EXTENDED REG_ICASE REG_NOSUB REG_NEWLINE
+
+st regex_t
+f	re_nsub
+st regmatch_t
+f	rm_so
+f	rm_eo
+
+; select(2) support.
+; This is beyond posix.1, but the following definitions are pretty
+; universal now.  Linux apparently requires some special treatment.
+#if defined(linux) && defined(__fds_bits)
+#define fds_bits __fds_bits
+#endif
+st fd_set
+f	fds_bits
+i FD_SETSIZE
+st struct timeval
+f	tv_sec
+f	tv_usec
+
+; POSIX error constants, according to Zlotnick:
+i E2BIG		EFAULT		ENFILE		ENOTTY
+i EACCES	EFBIG		ENODEV		ENXIO
+i EAGAIN	EINPROGRESS	ENOENT		EPERM
+i EBADF		EINTR		ENOEXEC		EPIPE
+i 		EINVAL		ENOLCK		ERANGE
+i EBUSY		EIO		ENOMEM		EROFS
+i 		EISDIR		ENOSPC		ESPIPE
+i ECHILD	EMFILE		ENOSYS		ESRCH
+i EDEADLK	EMLINK		ENOTDIR		ETIMEDOUT
+i EDOM		EMSGSIZE	ENOTEMPTY	EXDEV
+i EEXIST	ENAMETOOLONG
+;
+; Some more POSIX error constants, according to IEEE 1003.1.
+; Alas, different systems have different defects with the following:
+#ifdef EBADMSG
+i EBADMSG
+#endif
+#ifdef ECANCELED
+i ECANCELED
+#endif
+#ifdef ENOTSUP
+i ENOTSUP
+#endif

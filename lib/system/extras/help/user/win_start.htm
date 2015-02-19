@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>Windows Startup</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="mac_start.htm">&gt&gt;</a>&nbsp;
+<a href="start.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+<H2>Windows Startup</TD></TR>
+<TR><TD colspan="2"> </H2> 
+<P>
+<B>The J Shortcut </B>
+<P>
+The J installation creates a Shortcut for loading J.</P>
+<P>
+You can customize properties in the J Shortcut if you wish. 
+The Target should include the full path name of the J.EXE file, followed by any of the optional parameters below.</P>
+<P>The form is: [filename] [ /command [parameter] ]</P>
+
+<TABLE>
+<tr>
+<TD VALIGN="top" WIDTH=87><P>
+filename</P>
+<TD VALIGN="top" WIDTH=525><P>
+is the initial file loaded when J is loaded.<BR>
+</P></TD></tr>
+<TR>
+<TD VALIGN="top" WIDTH=87><P>
+/ddename  </P>
+<TD VALIGN="top" WIDTH=525><P>
+sets the ddename on start up<BR>
+     </P></TD></TR>
+<!-- 
+<TR><TD VALIGN="top" WIDTH=87><P>
+/max<br>
+/min</P>
+<TD VALIGN="top" WIDTH=525><P>
+start maximized / minimized. Note that the 
+standard profile configures the session windows, therefore /min and 
+ /max are useful only when this is not loaded.<BR>
+                        </P></TD></TR>
+ -->						
+						
+<!-- <TR><TD VALIGN="top" WIDTH=87><P>
+/n</P>
+<TD VALIGN="top" WIDTH=525><P>
+noisy - set this if you wish to see the 
+ output from running the initial file.<BR>
+               </P></TD></TR>
+ -->			   
+ 
+ <TR>
+<TD VALIGN="top" WIDTH=87><P>
+/jnoprofile</P>
+<TD VALIGN="top" WIDTH=525><P>
+do not load the standard profile. 
+<BR>
+      </P></TD></TR>
+<TR>
+<TD VALIGN="top" WIDTH=87><P>
+/jrt</P>
+
+<TD VALIGN="top" WIDTH=525><P>
+runtime system. When this is given, J runs 
+            as a runtime system only, with no development session 
+            manager.<BR>
+                 </P></TD></TR>
+<TR>
+<TD VALIGN="top" WIDTH=87><P>
+/temp</P>
+
+<TD VALIGN="top" WIDTH=525><P>
+file path for temporary ijx and ijs files. This specifies the directory to use for temporary ijx and ijs 
+            files required by J. This is useful for LAN installations where the 
+            J system is installed in a read-only directory. The temporary 
+            directory can be on a writeable LAN directory, a directory on the 
+            local machines hard drive, or on a floppy drive on the local 
+            machine. The path must already exist up to the last directory. The 
+            last directory will be made if necessary. For example: 
+            /temp=d:\temp</P></TD></TR>
+</TABLE>
+<P>
+If /jnoprofile is not given, the standard profile is loaded, before any other initial filename. 
+This is in script:
+      <PRE>   system\extras\config\profile.ijs</PRE>
+
+<P><b>Examples:</b></P>
+      <P>Standard load, shows J session, loads standard profile
+	  <pre>   c:\j.exe</pre>
+<P></P>
+      <P>Shows J&nbsp;session, loads standard profile, runs&nbsp;foo.ijs
+	  <pre>   c:\j.exe user\foo.ijs</pre>
+<P></P>
+      <P>Hides J session, loads standard profile, runs foo.ijs
+	  <pre>   c:\j.exe user\foo.ijs /jrt</pre>
+<P></P>
+      <P>Hides J session, runs&nbsp;foo.ijs, does not load standard profile
+	  <pre>   c:\j.exe app.ijs /jnoprofile /jrt</pre>
+<P></P>
+
+<b>Other Parameters<BR><BR> </b>
+
+<TABLE>
+<tr>
+<TD VALIGN="top" WIDTH=160><P>
+/register (or /regserver)</P>
+<TD VALIGN="top" WIDTH=440><P>
+register JEXEServer and JDLLServer</P></TD></tr>
+<tr>
+<TD><P>
+/unregister (or /unregserver)</P>
+<TD><P>
+unregister JEXEServer and JDLLServer</P></TD></tr>
+<tr>
+<TD><P>
+/embedding</P>
+<TD><P>
+start as Automation server for COM client J 
+      startup</P></TD></tr>
+</TABLE>
+<br>
+      <P><STRONG>Notes<BR></STRONG>When you load J, the working directory is 
+      automatically set to the directory in which J.EXE is stored. </P>
+
+<P>
+You need only one copy of J.EXE on your system. If you want to store your application in a different directory, it is recommended that you load the one copy of J.EXE and then reference files in the application directory using their full pathname, rather than making copies of J.EXE for each application directory.</P></TD></TR>
+<TR><TD><!--bottom jump start--><hr><a href="mac_start.htm">&gt&gt;</a>&nbsp;
+<a href="start.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></TD></TR></TABLE></body>
+</html>

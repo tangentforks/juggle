@@ -1,0 +1,436 @@
+<html>
+<head><title>13!: Debug</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dx015.htm">&gt&gt;</a>&nbsp;
+<a href="dx011.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=50%><b><font size=+2>Debug</font></b></td>
+<td align=right  width=50%><b><font face="Courier New" size=+3>13!:</font></b></td>
+</tr></table>
+<br>
+
+See <a href="dictj.htm">Section II.J</a> and the 
+script<tt> system\main\debug.ijs</tt>.<br><br>
+
+<table>
+<tr>
+<td valign=top width=120>
+<tt>13!:0 y</tt>
+</td>
+<td>
+<b>Reset</b>.  Reset stack and disable (<tt>0</tt>) or enable 
+(<tt>1</tt>) suspension.  Nearly all the facilities in the<tt> 13!: </tt>
+family require that suspension enabled; all the examples below 
+assume that suspension is enabled:<tt> 13!:0 ]1</tt>
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top><tt>13!:1 y </tt></td>
+<td>
+<b>Display Stack</b>. See also<tt> 13!:18</tt>.
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top><tt>13!:2 y </tt></td>
+<td>
+<b>Query Stops</b>.
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top><tt>13!:3 y </tt></td>
+<td>
+<b>Set Stops</b>. Explicit stops are requested by name and 
+line number in the argument<tt> y</tt>,<tt> </tt>which contains zero 
+or more stop specifications separated by semicolons.  
+Each stop specification indicates a name, line numbers (if any) 
+for the monadic case, a colon, and line numbers (if any) for 
+the dyadic case.  An asterisk indicates "all", and a tilde indicates 
+"except for".  For example:<br>
+
+<table>
+<tr><td><tt>13!:3 'f 0'</tt></td>
+<td><tt>f </tt>monadic line 0</td></tr>
+<tr><td><tt>13!:3 'f :2'</tt></td>
+<td><tt>f </tt>dyadic line 2</td></tr>
+<tr><td><tt>13!:3 'f 0 2:1'</tt></td>
+<td><tt>f </tt>monadic<tt> 0 2</tt>,<tt> </tt>dyadic<tt> 1</tt></td></tr>
+<tr><td><tt>13!:3 'f 0; g :*'</tt></td>
+<td><tt>f </tt>monadic<tt> 0 </tt>and<tt> g </tt>all dyadic</td></tr>
+<tr><td><tt>13!:3 '* 0:0'</tt></td>
+<td>monadic<tt> 0 </tt>and dyadic<tt> 0</tt></td></tr>
+<tr><td valign=top nowrap><tt>13!:3 'a* *:*; ~ab* *:*' &nbsp;</tt></td>
+<td>All monadic and dyadic whose names begin with<tt> a</tt>,<tt> </tt> 
+except for any beginning with<tt> ab</tt></td></tr>
+</table>
+
+<pre>
+   f=: 3 : 0
+10
+11
+:
+20
+)
+   13!:3 'f 1:0'               <FONT FACE=Times size=+1>Stop at</font> f <FONT FACE=Times size=+1>monad line 1, dyad line 0</font>
+   f ''
+|stop: f
+|       11
+|f[1]
+      13!:0 ]1                 <FONT FACE=Times size=+1>Clear stack and enable suspension</font>
+   3 f 4
+|stop: f
+|       20
+|f[:0]
+</pre>
+</td></tr>
+
+<tr>
+<td valign=top><tt>13!:4 y </tt></td>
+<td><b>Run Again</b>.  Resume execution at the current line.  For example:<br>
+
+<pre>
+   g=: 3 : ('t=. 2*y.'; '1+t')
+   3 4,g 'abc'
+|domain error: g
+|   t=.2    *y.
+|g[0]
+      y.                       <FONT FACE=Times size=+1>six-space indent indicates suspension</font>
+abc                            <FONT FACE=Times size=+1>Local value of</font> y.
+      y.=. 25                  <FONT FACE=Times size=+1>Redefine local value of</font> y.
+      13!:4 ''                 <FONT FACE=Times size=+1>Run again</font>
+3 4 51
+</pre>
+</td></tr>
+
+<tr>
+<td valign=top><tt>13!:5 y</tt></td>
+<td>
+<b>Run Next</b>. Resume execution at the next line.  
+For example:<br>
+
+<pre>
+   h=: 3 : ('t=. 2 3*y.'; '1+t')
+   3 4,h 5 6 7
+|length error: h
+|   t=.2 3    *y.
+|h[0]
+      t=. 99                   <FONT FACE=Times size=+1>six-space indent indicates suspension</font>
+      13!:5 ''                 <FONT FACE=Times size=+1>Run next</font>
+3 4 100
+</pre>
+</td></tr>
+
+<tr>
+<td valign=top><tt>13!:6 y</tt></td>
+<td>
+<b>Exit and Return</b>.  Exit the verb/adverb/conjunction at the top 
+of the stack, returning result<tt> y</tt> .  For example:<br>
+
+<pre>
+<tt>   g=: 3 : ('t=. 2*y.'; '1+t')</tt>
+   3 4,g 'abc'
+|domain error: g
+|   t=.2    *y.
+|g[0]
+      13!:6 [9                 <FONT FACE=Times size=+1>Exit</font> g <FONT FACE=Times size=+1>with result</font> 9
+3 4 9
+   h=: 2&*
+   3 4,h 'abc'
+|domain error: h
+|h[0]
+      13!:6 [97                <FONT FACE=Times size=+1>Exit</font> h <FONT FACE=Times size=+1>with result</font> 97
+3 4 97
+</pre>
+</td></tr>
+
+<tr>
+<td valign=top><tt>13!:7 y</tt></td>
+<td><b>Continue</b>. Resume execution at line number<tt> y</tt>
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top>
+<tt>[x] 13!:8 y</tt></td>
+<td><b>Signal</b>.  Signal error number</tt><tt> {.,y </tt>
+(see<tt> 9!:8</tt>)<tt> </tt>with optional text<tt> x</tt>
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top>
+<tt>[x] 13!:9 y</tt></td>
+<td><b>Rerun</b>.  Resume execution by rerunning the verb/adverb/conjunction 
+on the top of the stack with the specified arguments.  Thus:<br>
+
+<pre>
+   plus=: +
+   plus/'abc'
+|domain error: plus
+|plus[:0]
+      13!:13 ''                <FONT FACE=Times size=+1>See below re interpretation of stack</font>
++----+-+-+-+-++-----+--+
+|plus|3|0|3|+||+-+-+|  |
+|    | | | | |||b|c||  |
+|    | | | | ||+-+-+|  |
++----+-+-+-+-++-----+--+
+      2 (13!:9) 3              <FONT FACE=Times size=+1>Rerun, getting another error</font>
+|domain error: plus
+|plus[:0]
+      13!:13 ''                <FONT FACE=Times size=+1>Note left and right args (</font>'a' <FONT FACE=Times size=+1>and</font> 5<FONT FACE=Times size=+1>)</font>
++----+-+-+-+-++-----+--+
+|plus|3|0|3|+||+-+-+|  |
+|    | | | | |||a|5||  |
+|    | | | | ||+-+-+|  |
++----+-+-+-+-++-----+--+
+      1 (13!:9) 5              <FONT FACE=Times size=+1>Rerun </font>
+6
+</pre>
+</td></tr>
+
+<tr>
+<td valign=top><tt>[x]13!:10 y</tt></td>
+<td>
+<b>Rerun Execute</b>.  Rerun with specified executed arguments
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top>
+<tt>13!:11 y</tt>
+</td>
+<td>
+<b>Error Number</b>.  Last error number
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top>
+<tt>13!:12 y</tt>
+</td>
+<td>
+<b>Error Message</b>.  Last error message
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td valign=top><tt>13!:13 y </tt></td>
+<td>
+<b>Stack</b>. If suspension is enabled,<tt> 13!:13 '' </tt>
+produces an 8-column matrix of information on the verbs/adverbs/conjunctions 
+on the stack: <br><br>
+
+<table>
+<tr><td valign=top>0 &nbsp;</td><td>Name</td></tr>
+<tr><td valign=top>1</td><td>Error number or 0 if not in error</td></tr>
+<tr><td valign=top>2</td><td>Line number</td></tr>
+<tr><td valign=top>3</td><td>Name class: 3, 1, or 2, denoting verb, adverb, or conjunction</td></tr>
+<tr><td valign=top>4</td><td>Linear representation of the entity</td></tr>
+<tr><td valign=top>5</td><td>The name of the defining script</td></tr>
+<tr><td valign=top>6</td><td>Argument(s) individually boxed</td></tr>
+<tr><td valign=top>7</td><td>Locals as a 2-column matrix of name and value</td></tr>
+</table>
+
+<br>
+In the last two columns, nouns are included <I>per se</I>, and verb, 
+adverb, and conjunction are represented by linear forms.  For example:<br>
+
+<pre>
+   mean=: sum % #
+   sum=: plus/
+   plus=: 4 : 'x.+y.'
+   mean 'abcd'
+|domain error: plus
+|   x.    +y.
+|plus[:0]
+
+      13!:13 ''                <FONT FACE=Times size=+1>Note tacit definitions have no locals</font>
++----+-+-+-+-----------++------+------+
+|plus|3|0|3|4 : 'x.+y.'||+-+-+ |+--+-+|
+|    | | | |           |||c|d| ||x.|c||
+|    | | | |           ||+-+-+ |+--+-+|
+|    | | | |           ||      ||y.|d||
+|    | | | |           ||      |+--+-+|
++----+-+-+-+-----------++------+------+
+|sum |0|0|3|plus/      ||+----+|      |
+|    | | | |           |||abcd||      |
+|    | | | |           ||+----+|      |
++----+-+-+-+-----------++------+------+
+|mean|0|0|3|sum % #    ||+----+|      |
+|    | | | |           |||abcd||      |
+|    | | | |           ||+----+|      |
++----+-+-+-+-----------++------+------+</pre></td></tr>
+
+<tr><td valign=top><tt>13!:14 y</tt></td>
+<td><b>Query Latent Expression</b>.
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr>
+<td valign=top>
+<tt>13!:15 y</tt>
+</td>
+<td>
+<b>Set Latent Expression</b>. The latent expression is executed 
+when execution is about to be suspended; error messages are suppressed; 
+any continuation must be programmed in the latent expression. 
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td valign=top><tt>13!:16 y</tt></td>
+<td><b>Trace</b>.  See below.
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td valign=top><tt>13!:17 y</tt></td>
+<td>
+<b>Query</b>. Is suspension enabled?  (Set by<tt> 13!:0</tt>)
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><td><tt>13!:18 y</tt></td>
+<td valign=top>
+<b>Stack Text</b>. Like<tt> 13!:1</tt>,<tt> </tt>but gives the stack 
+as a literal matrix.
+</td></tr>
+</table>
+<br>
+
+<hr width=75%>
+<br>
+
+The conjunction<tt> 13!:16 </tt>controls tracing.<br>
+<pre>
+u     13!:16 n
+(r,c) 13!:16 n
+</pre>
+
+The right argument<tt> n </tt>specifies the maximum level of 
+function call to be traced:<tt> 0 </tt>means no trace;<tt> 1 </tt>
+means immediate execution only;<tt> _ </tt>means trace everything; etc.  
+The left argument can be a verb to be used for displaying arrays 
+in the trace (and is not itself traced during tracing).  
+It may also be integers<tt> r,c</tt>,<tt> </tt>whence the system 
+default display is used, clipped to<tt> r </tt>rows and<tt> c </tt>
+columns.  (Two numbers suffice as clipping parameters because 
+the output of an n-dimensional array is 2-dimensional on the screen.)  
+Finally, it may be the empty vector, whence the current trace 
+level and display controls are shown.  The result 
+is<tt> i.0 0</tt>.<tt> </tt>For example:<br><br>
+
+<table>
+<tr><td><tt>trace=: 13!:16</tt></td></tr>
+<tr>
+<td valign=top><tt>lr   =: 3 : '5!:5&lt;''y.''' &nbsp;</tt></td>
+<td>Linear display of an array</td></tr>
+<tr>
+<td valign=top><tt>_ _ trace _</tt></td>
+<td>Trace everything; display everything</td></tr>
+<tr>
+<td valign=top><tt>9 trace 1</tt></td>
+<td>Trace immediate execution only; display maximum of 9 rows</td></tr>
+<tr>
+<td valign=top><tt>": trace n</tt></td>
+<td>Same as</tt><tt> _ _ trace n</tt></td></tr>
+<tr>
+<td valign=top><tt>lr trace n</tt></td>
+<td>Linear display of trace output</td></tr>
+</table>
+
+<br>
+Tracing provides information on results <I>within</I> a line; 
+the action labels<tt> 0 monad</tt>,<tt> 1 monad</tt>,<tt> 9 paren</tt>,<tt> </tt>
+etc., are from the parse table in 
+<a href="dicte.htm">Section II.E</a>, 
+and reflect the activities of the interpreter with high fidelity.<br>
+
+<pre>
+   _ _ (13!:16) _                    <font face=Times size=+1>Trace everything; display everything</font>
+
+   i.4                               <font face=Times size=+1>input sentence</font>
+ --------------- 0 monad ------      <font face=Times size=+1>action</font>
+ i.                                  <font face=Times size=+1>verb</font>
+ 4                                   <font face=Times size=+1>argument</font>
+ 0 1 2 3                             <font face=Times size=+1>result</font>
+ ==============================      <font face=Times size=+1>end of parse</font>
+0 1 2 3                              <font face=Times size=+1>result of input sentence</font>
+
+   (i.2 4) +/ .* *: 5 * 10 20 30 40  <font face=Times size=+1>input sentence</font>
+ --------------- 2 dyad -------
+ 5                                   <font face=Times size=+1>left argument</font>
+ *                                   <font face=Times size=+1>verb</font>
+ 10 20 30 40                         <font face=Times size=+1>right argument</font>
+ 50 100 150 200                      <font face=Times size=+1>result</font>
+ --------------- 0 monad ------
+ i.                                  <font face=Times size=+1>verb</font>
+ 2 4                                 <font face=Times size=+1>argument</font>
+ 0 1 2 3                             |<font face=Times size=+1>result</font>
+ 4 5 6 7                             |
+ --------------- 9 paren ------
+ 0 1 2 3
+ 4 5 6 7
+ --------------- 3 adverb -----
+ +
+ /
+ +/
+ --------------- 4 conj -------
+ +/
+  .
+ *
+ +/ .*
+ --------------- 1 monad ------      <font face=Times size=+1>Words to the left of</font> *: <font face=Times size=+1>are parsed</font>
+ *:                                  <font face=Times size=+1>first because an operator may "grab"</font>
+ 50 100 150 200                      <font face=Times size=+1>a verb.</font>
+ 2500 10000 22500 40000
+ --------------- 2 dyad -------
+ 0 1 2 3                             |<font face=Times size=+1>left argument</font>
+ 4 5 6 7                             |
+ +/ .*                               <font face=Times size=+1>verb</font>
+ 2500 10000 22500 40000              <font face=Times size=+1>right argument</font>
+ 175000 475000                       <font face=Times size=+1>result</font>
+ ==============================      <font face=Times size=+1>end of parse</font>
+175000 475000                        <font face=Times size=+1>result of input sentence</font>
+</pre>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dx015.htm">&gt&gt;</a>&nbsp;
+<a href="dx011.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

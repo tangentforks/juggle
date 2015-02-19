@@ -1,0 +1,9 @@
+directory:  user/projects
+
+This is an empty directory created when J is
+installed, and is intended for project
+subdirectories.
+
+Typically, you might create directories under
+here to store projects. See the Project Manager
+help.

@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Complex Numbers</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="matrix_algebra.htm">&gt&gt;</a>&nbsp;
+<a href="arithmetic.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Complex Numbers</h1>
+<TR><TD colspan="2"> 
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0=: cnj=: +</TT></TD>	<TD>Conjugate</TD>
+  </TR><TR><TD><TT>m1=: mag=: |</TT></TD>	<TD>Magnitude</TD>
+  </TR><TR><TD><TT>m2=: %:@(cnj*])</TT></TD>		<TD ALIGN="center">"</TD>
+  </TR><TR><TD><TT>m3=: rai=: +.</TT></TD>	<TD>Real and imaginary parts</TD>
+  </TR><TR><TD><TT>m4=: maa=: *.</TT></TD>	<TD>Magnitude and angle</TD>
+  </TR><TR><TD><TT>m5=: irai=: rai^:_1  </TT></TD>	<TD>Inverse <TT>rai</TT></TD>
+  </TR><TR><TD><TT>m6=: imaa=: maa^:_1</TT></TD>	<TD>Inverse <TT>maa</TT></TD>
+  </TR><TR><TD><TT>m7=: rou=: [:^ 0j2p1&amp;% * i.	</TT></TD><TD>Roots of unity</TD>
+  </TR><TR><TD><TT>m8=: rpg=: rai@rou</TT></TD>	<TD>Regular polygon</TD>
+  </TR><TR><TD><TT>d9=: zero=: ] * 10&amp;^@-@[ &lt; |</TT></TD>	<TD>Zero any real y less than 10^-x in mag</TD></TR>
+  <TR><TD><TT>m10=: z=:({.,{:*1e_6"_&lt;%~/@:|)&amp;.rai</TT></TD>	<TD>Zero imaginary if relatively small</TD></TR>
+  <TR><TD NOWRAP><TT>m11=: (1e_10&amp;$:) : (j./"1@((] *<BR>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;:|)) +.))</TT></TD>	<TD>Clean y</TD></TR>
+</TABLE>
+
+
+<P>The function <TT>z</TT> may be used to zero any imaginary part that is relatively small compared to the corresponding real part. For example:</P></TD></TR></TABLE>
+
+<PRE>   (] ,: z) a=:3+j.10^-2*i. 5
+3j1 3j0.01 3j0.0001 3j1e_6 3j1e_8
+3j1 3j0.01 3j0.0001      3      3
+
+   z a
+3j1 3j0.01 3j0.0001 3 3</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>Complex numbers can be scaled by multiplication by a real number, and shifted and rotated by addition and multiplication by complex numbers. For example:</P></TD></TR></TABLE>
+
+<PRE>   ]a=: rou 3	Third roots of unity
+1 _0.5j0.866025 _0.5j_0.866025
+
+   |a	Lie on the unit circle
+1 1 1
+
+   1ad30	Complex of mag 1 and angle of 30 degrees
+0.866025j0.5
+
+   6&amp;zero@rai&amp;.&gt; (] ; 3j4&amp;+ ; 1ad30&amp;* ; 2ad60&amp;*) a
++---------------------------------------------------+
+&brvbar;   1        0&brvbar;  4       4&brvbar; 0.866025 0.5&brvbar; 1  1.73205&brvbar;
+&brvbar; 0.5 0.866025&brvbar;2.5 4.86603&brvbar;_0.866025 0.5&brvbar;_2        0&brvbar;
+&brvbar;_0.5 0.866025&brvbar;2.5 3.13397&brvbar;        0  _1&brvbar; 1 _1.73205&brvbar;
++---------------------------------------------------+
+  Coordinates of	Shift by 3,4	Rotate by	Rotate by
+  triangle 	30 degrees	60 degrees</PRE>
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="matrix_algebra.htm">&gt&gt;</a>&nbsp;
+<a href="arithmetic.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

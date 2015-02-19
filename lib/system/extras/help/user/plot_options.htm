@@ -1,0 +1,411 @@
+<html>
+<head>
+<title>Plot Options</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="plot_data.htm">&gt&gt;</a>&nbsp;
+<a href="plot_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+<TR valign="baseline"><TD><H1>Plot Options</H1>
+<TR><TD colspan="2"> 
+<P>
+Plot options and their defaults are shown below. The defaults are set whenever you use the 'reset' or 'new' commands and are defined in script system\classes\plot\plotdefs.ijs.
+<P>
+Options are specified by providing the option name followed by its argument. Several options can be given at one time, separated by semicolons. Option values are stored as uppercase global variables.
+<P>
+Options whose names begin with 'x' apply to the x-axis; corresponding options apply to the y and z axes.
+<P>
+"Isigraph units" are based on graphics window size of 1000 by 1000.
+<P>
+Some of these options refer to "gl" commands which are documented in the wd Commands online help.
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>Options</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center><B>Type</B></P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center><B>Default</B></P>
+<TD VALIGN="top" WIDTH=377><P>
+<B>Description</B></P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>aspect</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>2r3</P>
+<TD VALIGN="top" WIDTH=377><P>
+ratio of graphics window height to width. Used to 
+      adjust ticmark lengths, and graph boxes for a pie chart.</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>axes</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1 1</P> 
+<TD VALIGN="top" WIDTH=377><P>
+if x,y axes are shown</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>backcolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>color</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>WHITE</P>
+<TD VALIGN="top" WIDTH=377><P>
+background color</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>bandcolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>colors</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>see Plot Colors</P>  
+<TD VALIGN="top" WIDTH=377><P>
+band color scheme</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>border</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0</P>
+<TD VALIGN="top" WIDTH=377><P>
+if a border is drawn</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>bordersize</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>8</P>
+<TD VALIGN="top" WIDTH=377><P>
+size of border (isigraph units)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>boxed </B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1</P>
+<TD VALIGN="top" WIDTH=377><P>
+if drawn in a box (3D only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>captionfont</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>font</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Arial 40</P> 
+<TD VALIGN="top" WIDTH=377><P>
+font for x and y captions</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>clear </B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1</P>
+<TD VALIGN="top" WIDTH=377><P>
+if clear the background before drawing plot</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>color</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>colors</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>see Plot Colors</P>  
+<TD VALIGN="top" WIDTH=377><P>
+plot colors</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>edgecolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>colors</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>BLACK</P>
+<TD VALIGN="top" WIDTH=377><P>
+edge color (ellipse, pie, poly, rect)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>forecolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>color</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>BLACK</P>
+<TD VALIGN="top" WIDTH=377><P>
+foreground color (for axes, text)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>frame</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0</P>
+<TD VALIGN="top" WIDTH=377><P>
+if plot is framed</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>gridcolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>color</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>GRAY</P>
+<TD VALIGN="top" WIDTH=377><P>
+grid line color</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>grids</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0 0</P>  
+<TD VALIGN="top" WIDTH=377><P>
+if x, y grids are shown</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>itemcolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>colors</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>see Plot Colors</P>  
+<TD VALIGN="top" WIDTH=377><P>
+item color scheme</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>key</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+key names (legend identifying plot items)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>keyfont</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>font</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Courier New 25</P>  
+<TD VALIGN="top" WIDTH=377><P>
+font for key names</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>keystyle</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0 2</P> 
+<TD VALIGN="top" WIDTH=377><P>
+0=horizontal 1=vertical style 0-3 positions from 
+      top left</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>labelfont</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>font</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Courier New 40</P>  
+<TD VALIGN="top" WIDTH=377><P>
+font for labels</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>labels</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1 1</P> 
+<TD VALIGN="top" WIDTH=377><P>
+if x,y labels shown</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>mesh</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1</P>
+<TD VALIGN="top" WIDTH=377><P>
+if a mesh is drawn (3D only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>orientation</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1</P>
+<TD VALIGN="top" WIDTH=377><P>
+1=portrait, 2=landscape (printing only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>penpattern</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>see plotdefs</P> 
+<TD VALIGN="top" WIDTH=377><P>
+patterns used by pen styles</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>pensize</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1</P>
+<TD VALIGN="top" WIDTH=377><P>
+pensize (see definition of glpen)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>penstyle</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>solid</P>
+<TD VALIGN="top" WIDTH=377><P>
+pen style (see definition of glpen)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>plotbox</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0 0 1000 1000</P>   
+<TD VALIGN="top" WIDTH=377><P>
+position and size of plotting window.</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>plotcaption</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Plot</P>
+<TD VALIGN="top" WIDTH=377><P>
+plot caption</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>polar</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0</P>
+<TD VALIGN="top" WIDTH=377><P>
+if a polar plot, data is r;theta (2D only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>rtic</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+r tics (#major,#minor) (radar plot only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>separator</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>|</P>
+<TD VALIGN="top" WIDTH=377><P>
+separator for char matrix entries</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>symbolfont</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>font</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Symbol 40 bold</P>  
+<TD VALIGN="top" WIDTH=377><P>
+symbol font used in point plots</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>textcolor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>color</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>BLACK</P>
+<TD VALIGN="top" WIDTH=377><P>
+text color</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>textfont</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Arial 40</P> 
+<TD VALIGN="top" WIDTH=377><P>
+text font</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>ticmajor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>12</P>
+<TD VALIGN="top" WIDTH=377><P>
+size of major tic marks (isigraph units)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>ticminor</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>8</P>
+<TD VALIGN="top" WIDTH=377><P>
+size of minor tic marks (isigraph units)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>tics</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1 1</P> 
+<TD VALIGN="top" WIDTH=377><P>
+if x, y tic marks shown</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>title</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+title text</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>titlefont</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>Arial 60</P> 
+<TD VALIGN="top" WIDTH=377><P>
+title font</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>type</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>line</P>
+<TD VALIGN="top" WIDTH=377><P>
+plot type (see Plot Types)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>viewcenter</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0 0 0</P>  
+<TD VALIGN="top" WIDTH=377><P>
+position of plot center (3D only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>viewpoint</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1.6 _2.4 1.5</P>  
+<TD VALIGN="top" WIDTH=377><P>
+position of observer (3D only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>viewsize </B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1 1 0.5</P>  
+<TD VALIGN="top" WIDTH=377><P>
+relative sizes of viewbox</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>viewup</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0 0 1</P>  
+<TD VALIGN="top" WIDTH=377><P>
+upwards direction (3D only)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>visible</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>b</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>1</P>
+<TD VALIGN="top" WIDTH=377><P>
+if plot is displayed</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xcaption</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+x caption</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xgridpattern</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>3 5</P> 
+<TD VALIGN="top" WIDTH=377><P>
+x grid pattern</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xint</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+position of x-intercept</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xlabel</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>c</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+x labels</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xlog</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>n</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>0</P>
+<TD VALIGN="top" WIDTH=377><P>
+if log applied to x values</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xrange</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+range of x data - low,high</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xtic</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+x tic (style)</P></TD><tr>
+<TD VALIGN="top" WIDTH=117><P>
+<B>xticpos</B></P>
+<TD VALIGN="top" WIDTH=62><P ALIGN=center>v</P>
+<TD VALIGN="top" WIDTH=145><P ALIGN=center>{none}</P>
+<TD VALIGN="top" WIDTH=377><P>
+x tic positions</P></TD><tr>
+</TABLE>
+<P>
+<TABLE>
+<tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>Type</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+<B>Description</B></P></TD><tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>b</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+boolean 0 or 1</P></TD><tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>c</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+character string</P></TD><tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>color[s]</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+color or color matrix - given by name or values</P></TD><tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>font</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+font specification</P></TD><tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>n</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+number</P></TD><tr>
+<TD VALIGN="top" WIDTH=90><P>
+<B>v</B></P>
+<TD VALIGN="top" WIDTH=379><P>
+numeric list</P></TD>
+ 
+</tr></TABLE>
+
+
+</TD>
+  </TR>
+<TR><TD><!--bottom jump start--><hr><a href="plot_data.htm">&gt&gt;</a>&nbsp;
+<a href="plot_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></TD></TR></TABLE></body>
+</html>

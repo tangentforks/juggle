@@ -1,0 +1,97 @@
+<html>
+<head><title>? Roll  -  Deal</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="dadot.htm">&gt&gt;</a>&nbsp;
+<a href="d632.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Roll</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>? ?. &nbsp;0 0 0</font></td>
+<td align=right  width=33%><b><font size=+2>Deal</font></b>
+</tr></table>
+<br>
+
+<table width=100% border=0><tr>
+<td valign=top width=49% bgcolor=#eeeeee>
+<tt>? y </tt>yields a uniform random selection from the 
+population<tt> i.y</tt> .<tt> </tt>The <i>random seed</i> used begins 
+at<tt> 7^5 </tt>(16807) and is unaffected by the use of<tt> ?.</tt> .
+<br>&nbsp;</td>
+
+<td width=2%>&nbsp;</td>
+
+<td valign=top width=49% bgcolor=#eeeeee>
+<tt>x ? y </tt>is a list of<tt> x </tt>items randomly chosen 
+<i>without repetition</i> from<tt> i.y</tt> .<tt> </tt>
+The corresponding use of<tt> ?. </tt>does not affect the random seed.
+<br>&nbsp;</td>                                                         
+</tr></table><br>
+
+Use of the fixed seed function<tt> ?. </tt>makes examples reproducible:<br>
+
+<pre>
+   ?. 6 
+0
+                
+   ?. 6 6 6 6 6 6 6 6
+0 4 2 3 1 0 4 4
+
+   6 ?. 6                     <font face=Times size=+1>A random permutation</font>
+5 1 2 4 3 0
+
+   mean=: +/ % #
+   mean ?. 1000 # 6
+2.497
+
+   m=: ?. 4 4 $ 9             <font face=Times size=+1>A random matrix for experimentation</font>
+   m
+1 6 4 4
+1 0 6 6
+8 3 4 7
+0 0 4 6
+          
+   -/ . * m                   <font face=Times size=+1>The determinant of</font> m
+588
+
+   f=: ?.@$ % ] - 1:
+   &lt;3 6 f 9                   <font face=Times size=+1>Random 3 by 6 table in range zero to one with resolution 9</font>
++--------------------------------+
+|0.125 0.75 0.5   0.5 0.125     0|
+| 0.75 0.75   1 0.375   0.5 0.875|
+|    0    0 0.5  0.75     0 0.375|
++--------------------------------+
+</pre>
+
+The <i>random seed</i> (a beginning value for the pseudo-random 
+number generator) is set by the foreign conjunction 
+using<tt> 9!:1</tt>,<tt> </tt>and queried with<tt> 9!:0</tt> .<br>
+<br>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="dadot.htm">&gt&gt;</a>&nbsp;
+<a href="d632.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

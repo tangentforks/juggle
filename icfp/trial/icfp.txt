@@ -1,0 +1,64 @@
+ICFP 2000 Team Juggle Trial Assignment
+
+(This information is also available as http://juggle.gaertner.de/icfp/ )
+
+The city of Braunschweig has a public transsportation system
+with busses and street cars.
+
+Unlike the London bus schedule (which just says: "there might
+come a bus around here, maybe once every hour.  Eventually.  Perhaps.")
+well, UNLIKE the London schedule, the Braunschweig one promises
+service exact to the minute.
+
+The trial contest assignment is to work on the original raw schedule
+data as of 1996.  This is real data.
+
+You should have the data in icfp/trial/bus when checked out via cvs (use
+compression!).  Alternatively, you could get
+http://juggle.gaertner.de/icfp/bus.tar.gz    or
+http://juggle.gaertner.de/icfp/bus.zip
+
+The ".dat" files will contain the real data, the corresponding ".txt" files
+some hints what the columns means.
+
+The assignment has two parts:
+
+Part 1:
+
+The assignment is find the latest (direct or indirect) connections
+going from stop A to stop B, given the date and time of arrival at B.
+
+The program shall read from stdin three lines per query:
+
+1. origin stop A
+2. destination stop B
+3. arrival time at B
+
+Stops are given by their long or short name.
+All dates and times will be encoded as YYYY-MM-DD:HH.MM
+
+Output shall be the up to five latest connections *LEAVING* A still
+coming in time, all of them leaving less than an hour earlier than the
+latest possible connection.
+For each connection, identify when and where to enter and leave
+a bus.
+
+Contest criteria would be first the quality of the 10 results,
+next the CPU time used (as per system(1)).
+
+Part 2:
+
+Devise an info system reading short HTTP GET requests on stdin and answering
+with HTML output.  The output should give an answer to the reqest and
+links and/or forms for further related or unrelated queries.
+The info system should be startable by a
+
+	GET start
+
+request.
+
+Contest criteria would be "usefulness".
+
+Have fun.
+
+

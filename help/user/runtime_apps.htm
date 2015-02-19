@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>Runtime Applications</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="locked_scripts.htm">&gt&gt;</a>&nbsp;
+<a href="runtime_scripts.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Runtime Applications</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+Testing a Runtime Application<br>
+Since runtime applications have no session manager, there is no way to debug using runtime. Therefore to test the application, first create it using only standard <code>ijs</code> script files. Create an icon to load J with the /noprofile parameter, that loads the application, for example:
+
+<pre>
+   c:\j401\j.exe /noprofile system\examples\demo\runtime.ijs
+</pre>
+
+<P>
+Once you are sure the application works correctly, you can then rebuild it into an <code>ijr</code> runtime file.
+
+<P>
+Runtime Enquiry<br>
+Your application can determine if it is executing under the runtime system using the command <code>wd'qrt'</code> which returns a 1 if so, otherwise 0.
+
+<P>
+Packaging a Runtime Application<br>
+Directory system\examples\runtime contains the files required to build a runtime setup. File bldjrt.bat builds a simple runtime setup directory.
+
+<P>
+Macintosh<br>
+The Macintosh doesn't have command line parameters so there is no <B>/rt </B>parameter. If J is started by double-clicking a script file with a suffix of .ijr, then J is started as a runtime application. The ijr file does not have to be an encoded ijr file.
+
+<P>
+There is no system\examples\runtime directory for the Macintosh.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="locked_scripts.htm">&gt&gt;</a>&nbsp;
+<a href="runtime_scripts.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

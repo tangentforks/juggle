@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Local</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="global.htm">&gt&gt;</a>&nbsp;
+<a href="script_file.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Local</h1><TR><TD>
+
+<P>The verb centigrade uses names <TT>t1</TT>, <TT>t2</TT>, and <TT>t3 </TT>in its definition, but if you refer to them outside the verb they are not defined.</P>
+
+<PRE>   centigrade 32
+0
+
+   t1
+¦value error
+
+   t1 =. 123
+   t1
+123
+
+   centigrade 212
+100
+
+   t1
+123</PRE>
+
+<P>The use of <TT>t1 </TT>inside the definition of centigrade has not conflicted with your use of <TT>t1 </TT>outside the definition. The verb centigrade does not define a <TT>t1 </TT>outside of itself, as indicated by the value error, and setting a value into its t1 does not change the value of <TT>t1 </TT>outside the definition.</P>
+
+<P>The <TT>t1 </TT>used inside centigrade is a local name. A local name exists only inside the verb. The <TT>t1 </TT>used outside centigrade is a global name. A name defined in the execution of a verb with the copula <TT>=.</TT> is a local name.</P>
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="global.htm">&gt&gt;</a>&nbsp;
+<a href="script_file.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

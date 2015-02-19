@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>GUI part 2</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="where_to_go.htm">&gt&gt;</a>&nbsp;
+<a href="data_processing.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>GUI</h1><TR><TD>
+
+<P>The GUI part of the application is specified as follows:
+</P>
+<P>The form should have a File button, a Close button, and a multiline edit control. The File button allows the user to select a text file. The report on the selected text file is displayed in the multiline edit control.</P>
+
+<P>You need to design the form and define the event handlers.</P>
+
+<P>The GUI definitions will be in a different script from the DP definitions to keep clear the distinction between the two parts. Create a new script file and save it as user\textgui.ijs. Start the form editor and design the form. The File button should have an id of <TT>file </TT>and the Close button should have an id of <TT>close</TT>. The large edit control is a multiline edit control that has a class of <TT>editm </TT>in the New Control dialog. The multiline edit control should have an id of <TT>editm  </TT>(the default is <TT>cceditm </TT>, so you must specify <TT>editm </TT>). The form should look like the following:</P>
+ 
+
+ <IMG SRC="gui2form.gif" BORDER="0" ALT="">
+
+<P>You need to add event handlers for the Close and File buttons. The code for the event handlers is in the following listing. This listing should be similar to your final textgui.ijs script.</P>
+
+<PRE>FILEREP=: noun define
+pc filerep;
+xywh 9 7 34 14;cc file button;cn "File";
+xywh 47 7 34 14;cc close button;cn "Close";
+xywh 9 27 119 134;cc editm editm ws_border es_autovscroll;
+pas 6 6;pcenter;
+rem form end;
+)
+
+filerep_run=: 3 : 0
+wd FILEREP
+NB. initialize form here
+wd 'pshow;'
+)
+
+filerep_close_button=: 3 : 0
+wd'pclose'
+)
+
+filerep_file_button=: 3 : 0
+p =. '"" "" "" "Text(*.txt)|*.txt" ofn_filemustexist'
+fn =. wd 'mbopen ' , p
+if. 0 ~: #fn do.
+ wd 'set editm *' , report fn end.
+)</PRE>
+
+<P>The only part that is new is the use of the <TT>wd</TT> command <TT>mbopen</TT>. This command brings up the common file open dialog box that allows the user to select a file. Local <TT>p</TT> contains the parameters for the <TT>mbopen </TT>command. These parameters are critical and must be defined properly. If you want to know more about the <TT>mbopen </TT>parameters, you can check in the J Online Documentation.</P>
+
+<P>The result of the <TT>mbopen </TT>command is the file name selected by the user. If the user pressed cancel in the open dialog the result will be an empty string and there is nothing to do. If <TT>fn </TT>is not empty then you execute <TT>report fn</TT> to generate the report and set it into the <TT>editm </TT>control. </P>
+
+<P>The <TT>*</TT> in the line <TT>wd 'set editm *' , report fn end.</TT> indicates that the rest of the string, which is the result of <TT>report fn</TT>, is the data to set into the <TT>editm </TT>multiline edit control.</P>
+
+<P>Run the textdp.ijs and textgui.ijs scripts and then start the application.
+</P>
+<PRE>   filerep_run 0
+</PRE>
+<P>Press the File button and select your user\text.txt file and press OK. Try other text files.</P>
+
+<P>The application uses definitions from four scripts: textdp.ijs, textgui.ijs, files.ijs, and misc.ijs. It makes sense to create a single script that will load all the scripts and then run the application.</P>
+
+<P>Create a new script file, save it as user\textapp.ijs, and add the following lines.</P>
+
+<PRE>NB. this application reports file character frequencies
+load 'files'
+load 'misc'	
+0!:0 < 'user\textdp.ijs'
+0!:0 < 'user\textgui.ijs'
+filerep_run 0</Pre>
+
+<P>Save the script. Close J and restart it to get a clean slate. Run the application by using <B>Run|File</B> to run the script user\textapp.ijs.</P>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="where_to_go.htm">&gt&gt;</a>&nbsp;
+<a href="data_processing.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

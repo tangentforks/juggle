@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>Control structure</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="checkpoint_c.htm">&gt&gt;</a>&nbsp;
+<a href="comparative.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Control structure</h1>	<TR><TD>
+
+<P>In centigrade the sentences in the definition are just executed sequentially, one after the other. To conditionally control which sentences are executed you use control structures.</P>
+
+<P>Control structures are built with control words and sentences. The following is an example of a control structure:</P>
+
+<PRE>if. x. = 'c'
+ do. centigrade y.
+ else. fahrenheit y.
+end. 
+</PRE>
+<P>The<TT> if.</TT> control word starts the control structure and the end. control word ends it. The result of the <TT>x. = 'c'</TT> sentence is the test result and it determines which of the other sentences in the control structure are executed. If the test result is 1, then the sentence after the <TT>do.</TT> control word is executed. If the test result is any other value then the sentence after the <TT>else.</TT> control word is executed. In English: if the left argument equals the letter c, then execute <TT>centigrade</TT>, otherwise execute <TT>fahrenheit</TT>.</P>
+
+<P>Use this capability to add a new verb to your cf.ijs script that will convert a number from Fahrenheit to centigrade or from centigrade to Fahrenheit depending on the value of the left argument. Open your cf.ijs script and add the following definition at the end.</P>
+
+ 
+<PRE>NB. convert f to c if x. is 'c', otherwise c to f
+convert =: dyad : 0
+if. x. = 'c'
+ do. centigrade y.
+ else. fahrenheit y.
+end.
+)</PRE>
+
+<P>This defines the dyadic case of the verb. The dyad has a left argument with the name <TT>x.</TT> and a right argument with the name <TT>y.</TT> . The verb <TT>convert </TT>takes a left argument of <TT>'c'</TT> to convert a Fahrenheit value to centigrade. Any left argument other than <TT>'c'</TT> will convert a centigrade value to Fahrenheit.</P>
+
+<P>Note that you use your verbs <TT>fahrenheit </TT>and <TT>centigrade </TT>just as you would use primitive verbs.</P>
+
+<P>Run the script and test convert.
+</P>
+<PRE>   'c' convert  212
+100
+
+   'f' convert 100
+212</PRE>
+
+<P>Normally a sentence is a line in a script. However, with control words separating a line into several sentences it is possible to have more than one sentence on a line.</P>
+
+<P>The following line is equivalent to the multiple lines used earlier.
+</P>
+<PRE>if. x. = 'c' do. centigrade y. else. fahrenheit y. end.
+</PRE>
+<P>Control structures are only allowed in definitions and you cannot type one directly into the ijx window for execution.</P>
+
+<P>There are nine control structure patterns:
+</P>
+<PRE>if. T do. B end.
+
+if. T do. B else. B1 end.
+
+if. T do. B elseif. T1 do. B1 elseif. T2 do. B2 end.
+
+try. B catch. B1 end.
+
+while. T do. B end.
+
+whilst. T do. B end.
+
+for. T do. B end.
+
+for_i. T do. B end.
+
+select. T
+ case. T0 do. B0
+ case. T1 do. B1
+ fcase.T2 do. B2
+ case. T3 do. B3
+end.</PRE>
+
+<P>A control structure starts with <TT>if.</TT> , <TT>try.</TT> , <TT>while.</TT> , <TT>whilst </TT>, <TT>for.</TT> , <TT>for_i.</TT> , or <TT>select.</TT> and ends with a matching end<TT>.</TT> .</P>
+
+<P>Words beginning with T or B denote a block of 0 or more sentences and can contain nested control structures.</P>
+
+<P>The result of the last sentence in a T block determines which block is executed next and whether execution in the control structure is finished.</P>
+
+<P>Often the T block is a single sentence that makes a simple test like the one in the example.</P>
+
+<P>The <TT>try</TT>. control structure is an interesting one. It executes the B block of sentences, and if there are no errors it skips to the end of the structure. However, if there is an error, then the B1 block is executed.</P>
+
+<P>The <TT>while.</TT> control structure executes the T block and if its result is not 0 then it executes the B block and continues this until the T block has a 0 result. If the T block is 0 the first time, then the B block is not executed.</P>
+
+<P>The <TT>whilst.</TT> control structure is the same as while. except that the T block is skipped the first time. This means that the B block is always executed at least once.</P>
+
+<P>See the J Dictionary for more information on control structures.
+</P>
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="checkpoint_c.htm">&gt&gt;</a>&nbsp;
+<a href="comparative.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

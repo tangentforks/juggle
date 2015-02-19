@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>DDE Conversations</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="j_commands_events.htm">&gt&gt;</a>&nbsp;
+<a href="server_client.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>DDE Conversations</h1>
+<TR><TD colspan="2"> 
+
+
+<p>There are three types of DDE conversations, known as <i>hot</i>, <i>warm</i> and <i>cold</i>: 
+<p>
+<li>in a hot link, the client asks that whenever some data changes, the server send it 
+the new data.<br><br>
+
+<li>in a warm link, the client asks that whenever some data changes, the server send it 
+an indication that the data has changed (but not the new data itself). <br><br>
+
+<li>in a cold link, the server never notifies the client whenever data has changed. 
+<p>
+Programs to handle each of these will be slightly different, and you will need to know what type of conversation the other application supports.
+
+<p>
+Hot and warm links are also known as <i>advise loops</i>.
+
+<p>
+A warm link is essentially a combination of a hot and cold link - the hot link advises 
+of a change in the data item, the cold link is used to send the data item.
+
+<p>
+A conversation uses three identifiers: <i>service</i>, <i>topic</i> and <i>item</i>. A conversation may also 
+move <i>data</i>:
+<p> 
+<li><b>service</b> 	identifies the server application, and is typically set by the server<br>
+<li><b>topic</b> 	is a high level identifier of the information being exchanged<br>
+<li><b>item</b> 	is a low level identifier of the information being exchanged<br>
+<li><b>data</b> 	is the data being exchanged (as character data)
+
+<p>
+Service, topic, and item names are case-insensitive.
+
+<p>
+Some applications require specific topic and item names be used; others do not care. A 
+commonly used topic is the <i>system</i> topic, which may also have a <i>sysitems</i> item, both are 
+used to provide information about a server application to a client. For example, Lotus 
+123 for Windows has a system topic:
+
+<pre>
+   wd 'ddereq 123w system sysitems'
+SysItems Topics Formats RangeNames Selection Status
+
+   wd 'ddereq 123w system status'
+Ready
+</pre>
+
+<p>
+Some applications such as spreadsheets allow data to be exchanged in clipboard 
+format. The utility <code>clipfmt</code> in script <b>format.ijs</b> will convert a list or table into clipboard 
+format.
+
+<p>
+With spreadsheets, it is typical for the topic to be the worksheet name, and the item to 
+be the cell or range name. For example, suppose <code>data</code> is a table of shape two by three, 
+then this could be written to an Excel worksheet <code>sheet1</code> as follows:
+
+<pre>
+   txt=. clipfmt data
+   wd 'ddepoke excel sheet1 r1c1:r2c3 *',txt
+</pre>
+
+<p>
+Some servers support a DDE <i>execute</i> command, allowing the client to use the server's 
+command language directly. However, servers that support execute usually do so only in 
+the system topic, and then only in a limited fashion, for example to run menu commands 
+such as File/Open. For non-trivial tasks it is usually best to create a macro in the 
+application and then use the execute command to run the macro. Most applications 
+follow the conventions for execute expressions indicated in the following:
+
+<pre>
+   [open(&quot;sample.xlm&quot;)]
+   [run(&quot;r1c1&quot;)]
+   [connect][download(query1,results.txt)][disconnect]
+</pre>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="j_commands_events.htm">&gt&gt;</a>&nbsp;
+<a href="server_client.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

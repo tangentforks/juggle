@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Running Labs</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="lab_author.htm">&gt&gt;</a>&nbsp;
+<a href="lab_sections.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Running Labs</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+A lab is invoked from menu item Studios|Labs, which runs the verb <code>lab</code> in the j locale. See <a href="program_access.htm">Lab Program Access</a>.
+
+<P>
+The Lab Select form has an Intro to Labs button, which runs the lab system\extras\labs\labintro.txt, not listed with the other labs.
+
+<P>
+The Category selection box allows you to select labs in specific directories. These are defined in script system\extras\labs\labdir.ijs, which you can modify as needed to include your own lab directories. Subdirectories of system\extras\lab are automatically included in the list of categories.
+
+<P>
+You can step through a lab by pressing Ctrl+A, when the J session has focus. A lab that creates a form may allow stepping through when the form has focus, by defining a handler for Ctrl+A, such as:
+
+<pre>
+<code>   myform_actrl_fkey_z_=: 3 : 'lab_j_ 0 [ wd''smselout;smfocus'''</code>
+</pre>
+
+<P>
+You can also jump to other chapters of the lab from menu item Studios|Jump.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="lab_author.htm">&gt&gt;</a>&nbsp;
+<a href="lab_sections.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,99 @@
+<html>
+<head><title>assert.</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="cbreak.htm">&gt&gt;</a>&nbsp;
+<a href="ctrl.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<b><font face="Courier New" size=+3>assert.</font></b><br><br>
+
+<table width=100%><tr><td valign=top bgcolor=#eeeeee>
+<pre>
+assert. T
+</pre>
+
+An assertion failure is signalled if the single sentence<tt> T </tt>
+is not an array of all 1s.  Assertions are evaluated or not according
+to the flag controlled by<tt> <a href="dx009.htm#34">9!:34</a> </tt>
+and<tt> <a href="dx009.htm#34">9!:35</a> </tt>.
+<br>&nbsp;</td>
+</tr></table><br>
+
+For example:<br>
+
+<pre>
+cfi=: 4 : 0 " 0                <font face=Times size=+1>The</font> y.<font face=Times size=+1>-th combination of</font> i.x
+ assert. 0<:y.
+ assert. y.=<.y.
+ assert. y.<2^x.
+ v=. +/\(i.x.)!x.
+ m=. (y.&lt;v)i. 1
+ (m,x.) ci (y.-m{0,v)
+)
+
+ci=: 4 : 0 " 1 0     
+ 'm n'=. x.
+ if. 0=m do.
+  i.0
+ else.
+  v=. +/\ (m-1)!(1-m)}.i.-n
+  k=. (v>y.) i. 1
+  k,(1+k)+(x.-1,1+k)ci(y.-k{0,v)
+ end.
+)
+
+   5 cfi 6
+0 1
+
+   5 cfi 6+i.10
+0 1
+0 2
+0 3
+0 4
+1 2
+1 3
+1 4
+2 3
+2 4
+3 4
+
+   (i.100) -: 100x cfi <:2^100x
+1
+
+   5 cfi 33
+|assertion failure: cfi
+|       y.&lt;2^x.
+   5 cfi 6.2
+|assertion failure: cfi
+|       y.=&lt;.y.
+   5 cfi 'a'
+|domain error: cfi
+|   y.=    &lt;.y.
+</pre>
+
+<br>
+<!--bottom jump start--><hr><a href="cbreak.htm">&gt&gt;</a>&nbsp;
+<a href="ctrl.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

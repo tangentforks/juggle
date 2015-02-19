@@ -1,0 +1,406 @@
+<!-- this file was generated automatically by noweave --- better not edit it-->
+<html><head><title>midi.nw</title></head><body><pre><a name="NWmid7-*-1" href="#NWmid7-*-1"><dfn>&lt;*&gt;=</dfn></a>
+<a name="NWmid7-*-1-u1" href="#NWmid7-mid8-1"><i>&lt;midi.ijs&gt;</i></a>
+<a name="NWmid7-*-1-u2" href="#NWmid7-sesD-1"><i>&lt;session trace&gt;</i></a>
+
+</pre><pre><a name="NWmid7-mid8-1" href="#NWmid7-mid8-1"><dfn>&lt;midi.ijs&gt;=</dfn></a> <b>(<a href="#NWmid7-*-1">&lt;-U</a>)</b>
+<a name="NWmid7-mid8-1-u1" href="#NWD1"><i>&lt;midi.ijs required files&gt;</i></a>
+<a name="NWmid7-mid8-1-u2" href="#NWmid7-midI-1"><i>&lt;midi.ijs dll calls&gt;</i></a>
+<a name="NWmid7-mid8-1-u3" href="#NWD2"><i>&lt;midi.ijs short message routines&gt;</i></a>
+<a name="NWmid7-mid8-1-u4" href="#NWD3"><i>&lt;midi.ijs play verb&gt;</i></a>
+<a name="NWmid7-mid8-1-u5" href="#NWD6"><i>&lt;midi.ijs initialization code&gt;</i></a>
+<a name="NWmid7-mid8-1-u6" href="#NWD7"><i>&lt;midi.ijs exports&gt;</i></a>
+
+</pre><p><p>
+<h1>Sending MIDI Messages to a Sound-card with J</h1>
+<p>
+<address>
+Martin Neitzel
+<br>neitzel@gaertner.de
+</address>
+<p>
+Today's PCs are usually equipped with a sound-card which is
+MIDI-capable, that is, it will understand the protocol defined by
+the Musical Instrument Data Interchange standard.  Here is some
+simple code to interface to a MIDI device using J.
+<p>
+<h2>The MIDI utility definitions</h2>
+<p>
+<a name="NWD1">The Microsoft Windows system already contains all the basic</a>
+routines to deal with MIDI devices.  There are actually to sets of
+routines: The high-level "multimedia player" routines allow you to
+run prepared MIDI files.  MIDI files typically have several voices
+and contain timing information.  The other set of routines, and
+these will be our topic, are the low-level routines.  They allow
+us to send tiny protocol units directly to the sound-card which is
+just fine in an interpreter's interactive environment:
+<p>
+<pre><a name="NWmid7-midN-1" href="#NWD1"><dfn>&lt;midi.ijs required files&gt;=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b>
+
+require 'dll format'
+coclass 'midi'
+
+NB. The winapi declarations have moved around a bit historically,
+NB. and its not always possible just to say 'require winapi'.  So:
+winapi_path =. monad define
+        select. ({.~  i.&amp;'/') 9!:14''
+        case. '4.01';'4.02'     do. 'system/examples/winapi/winapi'
+        case.                   do. 'system/packages/winapi/winapi'
+        end.
+)
+
+'z' load winapi_path''
+
+</pre><pre><a name="NWmid7-midI-1" href="#NWmid7-midI-1"><dfn>&lt;midi.ijs dll calls&gt;=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b> <b>[D<a href="#NWD4">-&gt;</a>]</b>
+
+<a href="#NWmid7-midI-1">midiOutGetNumDevs</a> =:'midiOutGetNumDevs' win32api
+NB. Two are buggy in the J system distribution:
+<a href="#NWmid7-midI-1">midiOutGetDevCapsA</a>  =: 'winmm <a href="#NWmid7-midI-1">midiOutGetDevCapsA</a> i i *c i'&amp;cd
+<a href="#NWmid7-midI-1">midiOutOpen</a> =: 'winmm <a href="#NWmid7-midI-1">midiOutOpen</a> i *i i i i i'&amp;cd
+<a href="#NWmid7-midI-1">midiOutShortMsg</a> =: 'midiOutShortMsg' win32api
+<a href="#NWmid7-midI-1">midiOutReset</a> =: 'midiOutReset' win32api
+<a href="#NWmid7-midI-1">midiOutClose</a> =: 'midiOutClose' win32api
+
+</pre>
+<p>
+Two of the DLL calls are incorrectly declared in the supplied API
+specs for <code>win32api</code>, so we have to do it ourselves.
+<p>
+Alas, to find these routines and their documentation, you still
+have to acquire some Microsoft products:  A "Microsoft Developer's
+Network" CD-ROM is essential for the documentation -- but still not
+enough.  In addition, you'll need the C header files to find all
+the actual values of the symbolic constants mentioned in the
+documentation.
+<p>
+Almost all of the functionality of a MIDI device can be controlled
+by "MIDI short messages".  They consist of a command byte followed
+by up to three parameters.  Our work horse for the experiments
+will therefor be <code><a href="#NWmid7-midI-1">midiOutShortMsg</a></code>, disguised by a simple J
+utility <code><a href="#NWD2">sm</a></code> which takes care of the message encoding and the
+currently opened MIDI device.  
+<p>
+The "General MIDI" standard assigns various piano, string, or wind
+instruments to numbers ranging from 0 to 127, and sometimes the
+whole 8-bit-byte range is supported by a MIDI device.  Note
+numbers are simply a chromatic numbering, using 60 for the middle
+C, 61 for middle sharp C, and so on.  Loudness (or, more
+accurately, "velocity") uses 127 as medium loud and 255 as
+"fortissimo".  (Mind you: effective loudness is depends on your
+volume settings.  Check them in case you hear nothing during your
+<a name="NWD2">experiments.)</a>
+<p>
+In the <code><a href="#NWD2">sm</a></code> definition below, <code>&quot;.@('moh'&quot;_)</code> will cause a
+deferred evaluation of the variable <code>moh</code>, the current Midi Output
+Handle as returned from the last <code><a href="#NWmid7-midI-1">midiOutOpen</a></code>.  The sub-clause
+<code>256&amp;#.@|.</code> is a neat way to put the up two three Short Message
+codes into the proper byte order and merge them into
+the <code>int</code> required by the Windows API.
+<p>
+<pre><a name="NWmid7-midV-1" href="#NWD2"><dfn>&lt;midi.ijs short message routines&gt;=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b>
+
+<a href="#NWD2">sm</a>=: <a href="#NWmid7-midI-1">midiOutShortMsg</a> @ (&quot;.@('moh'&quot;_) ; 256&amp;#.@|.)
+
+<a href="#NWD2">chprg</a>   =: <a href="#NWD2">sm</a> @ (192&amp;,)                         NB. cmd192  instr-nr(y.)
+<a href="#NWD2">noteon</a>  =: <a href="#NWD2">sm</a> @ ((1})&amp; 144 0 125) &quot; 0           NB. cmd144  note(y.)  loudness
+<a href="#NWD2">noteoff</a> =: <a href="#NWD2">sm</a> @ ((1})&amp; 128 0 125) &quot; 0           NB. cmd128  note(y.)  loudness
+
+</pre>
+<p>
+<p>
+To play a note, you have to send a "note on" message, wait a bit,
+and then send a "note off" message.  With a piano sound, one might
+think a "note on" message would suffice, since the note will decay
+naturally.  However, until you finally emit the "note off"
+message, precious resources might still be tied up in your
+sound-card.  Also, switching to an "organ" type sound will make
+the purpose of "note off" messages drastically clear.
+<p>
+To ease the three steps of on/wait/off for each note, the <code><a href="#NWD3">dp</a></code> verb
+<a name="NWD3">will play a note with a given duration.  It uses the </a><code>6!:3</code> delay
+foreign with sub-second resolution.  Unit time here is a
+tenth of a second, and the default duration is set at 2 tenths.
+Of course nobody is prevented to use a duration of <code>0.1</code>, resulting
+in a milli-second note -- very quick!
+<p>
+Exercise here:  Make a prediction just from looking at the definition
+what <code><a href="#NWD3">dp</a></code> would do with non-scalar or boxed arguments.
+<p>
+<pre><a name="NWmid7-midI.2-1" href="#NWD3"><dfn>&lt;midi.ijs play verb&gt;=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b>
+
+<a href="#NWD3">dp</a> =: verb define &quot;0 0
+        2 <a href="#NWD3">dp</a> y.
+:
+        <a href="#NWD2">noteon</a> y. =. &gt;y.
+        6!:3  x. * 0.1
+        empty <a href="#NWD2">noteoff</a> y.
+)
+
+</pre>
+<p>
+<h2>Initializing the MIDI device</h2>
+<p>
+The above provides a lot of definitions.  As the last step of midi.ijs,
+we will open one of the devices using the low-level routines.
+This way, users can directly proceed with using <code><a href="#NWD3">dp</a></code> and have some
+fun.
+<p>
+Before we present the code going into the midi.ijs script, we start
+with a simpler session trace showing what is involved with opening
+the device, step by step.  We switch a bit back and forth between
+session logs and midi.ijs code, so watch the headers.
+<p>
+First, we have to open the proper MIDI device and to obtain a handle
+for it.  <code><a href="#NWmid7-midI-1">midiOutGetNumDevs</a></code> will return the total number of devices
+in the system able to receive MIDI messages.  Even though my laptop
+used for these experiments has only one physical sound-card, I'll get
+3 MIDI devices reported:
+<ul>
+<li>the MIDI-controlled sound generator of the sound-card
+<li>the external MIDI port of the sound-card (disguised as a game port),
+        possibly leading to one or more connected MIDI synthesizers, drum
+        machines, and similar gizmos
+<li>a software emulated MIDI synthesizer accepting MIDI messages and
+        generating WAV data for any cheap-o sound-card based on
+        high quality instrument samples
+</ul>
+<p>
+Another MIDI output "device" often seen is the "MIDI Mapper" of
+the Windows system.  This is a pure software driver used to
+compensate for some lack of standardization from the early MIDI
+days:  the code numbers for instruments have not always been
+fixed, and the "MIDI mapper" allows you to re-assign instrument
+numbers on-the-fly, before the messages finally reach the true
+device.
+<p>
+<a name="NWD4">The numbering of the devices is </a><em>not</em> fixed.  It can change
+from reboot to reboot on a machine.  In order not to end up with
+speaking to an orphaned game port, you'll have to list the names
+of the reported devices and choose the proper one.
+<p>
+<code><a href="#NWmid7-midI-1">midiOutGetDevCapsA</a></code> returns a rich structure.  We use a bit of
+magic hackery here just to extract the name of a device.  Another
+article describes how the complete story can be uncovered.
+<p>
+<pre><a name="NWmid7-midI-2" href="#NWmid7-midI-1"><dfn>&lt;midi.ijs dll calls&gt;+=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b> <b>[<a href="#NWmid7-midI-1">&lt;-</a>D]</b>
+
+NB. A wrapper to return the device name given a device number:
+
+<a href="#NWD4">midiOutGetDevName</a> =: monad define &quot;0
+        caps=. <a href="#NWmid7-midI-1">midiOutGetDevCapsA</a>  y. ; (100#' ') ; 100
+        NB. The following relies on some &quot;magic knowledge&quot;
+        NB. about the layout of the &quot;capabilities&quot; C structure:
+        name=. ({.~ i.&amp;(0{a.)) (8+i.32) { &gt; 2{caps
+)
+
+</pre>
+<p><pre><a name="NWmid7-sesD-1" href="#NWmid7-sesD-1"><dfn>&lt;session trace&gt;=</dfn></a> <b>(<a href="#NWmid7-*-1">&lt;-U</a>)</b> <b>[D<a href="#NWD5">-&gt;</a>]</b>
+
+   ] ndev =. &gt; <a href="#NWmid7-midI-1">midiOutGetNumDevs</a> ''
+3
+   (; <a href="#NWD4">midiOutGetDevName</a>)&quot;0 i. ndev
++-+-------------------+
+|0|ESS MPU-401        |
++-+-------------------+
+|1|ESFM-Synthese (220)|
++-+-------------------+
+|2|YAMAHA SGMP Driver |
++-+-------------------+
+</pre><p><p>
+<p>
+The "MPU-401" device refers to the external game/midi port of the
+system, whereas "ESFM-Synthese" refers to the on-board FM MIDI
+chipset of the sound-card.  The odds are good you'll find
+something similar in your system, too.  The Yamaha SGMP Driver is
+the software-emulated "sound-card".  Let's use the built-in
+hardware synth, i.e. the device number 1 from the list above.
+(The MPU driver would be useless unless there's a synthesizer
+hooked up to the external port.)
+<p>
+The first argument to <code><a href="#NWmid7-midI-1">midiOutOpen</a></code>, <code>(,9)</code>, is a bit tricky.
+The parameter type is <code>*i</code>, for "a pointer to the space
+receiving the handle of the opened device".  Fortunately, there is
+no need to involve complicated <code>mema/r/w/f</code> calls to get the memory.
+We are not dealing with a structure which will be referenced again
+later on.  Instead a simple temporary
+array will do the the job, therefor the ravel comma.  But a
+<code><a name="NWD5">(,0)</a></code> or <code>(,1)</code> would not be adequate, because that gives only
+a list for one (J) boolean.  We really need an integer like 9 (or
+54321 or 2 or _42) here to create the space capable to hold the
+(integer-like) handle.
+<p>
+The second argument in the list is <code>1</code>, the device number of our
+ESFM-Synthesizer.  Just accept the three remaining zeroes as
+constants for the moment.
+<p>
+<pre><a name="NWmid7-sesD-2" href="#NWmid7-sesD-1"><dfn>&lt;session trace&gt;+=</dfn></a> <b>(<a href="#NWmid7-*-1">&lt;-U</a>)</b> <b>[<a href="#NWmid7-sesD-1">&lt;-</a>D<a href="#NWD8">-&gt;</a>]</b>
+
+   ] r =. <a href="#NWmid7-midI-1">midiOutOpen</a> (,9) ; 1 ; 0 ; 0; 0
++-+-----------+-+-+-+-+
+|0|_2104923004|1|0|0|0|
++-+-----------+-+-+-+-+
+   moh =: 0{1 pick r
+   
+   
+   <a href="#NWD2">chprg</a> 0      NB. acoustic grand piano
++-+-----------+---+
+|0|_2104923004|192|
++-+-----------+---+
+   
+   <a href="#NWD3">dp</a> 60        NB. play a single note (middle C)
+NB. Bing!
+
+</pre><p><p>
+<a name="NWD6">In our script, we are doing just the same.  The only difference</a>
+is that we will pop up a selection dialog and take it from there.
+<p>
+<pre><a name="NWmid7-midS-1" href="#NWD6"><dfn>&lt;midi.ijs initialization code&gt;=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b>
+
+ndev =. &gt; <a href="#NWmid7-midI-1">midiOutGetNumDevs</a> ''
+devlist=. <a href="#NWD4">midiOutGetDevName</a> each i. ndev
+<a href="#NWD6">mo_dev_idx</a>=: 1 pick (&lt;:ndev) wdselect 'Select the MIDI device' ; &lt;devlist
+
+NB. parameters are:
+NB. *device_handle (will be set) ; device_index;
+NB. callback_function; instance; flags (int!)
+] r =: <a href="#NWmid7-midI-1">midiOutOpen</a> (,9) ; <a href="#NWD6">mo_dev_idx</a> ; 0 ; 0; 9-9
+] moh =: 0{1 pick r
+
+<a href="#NWD2">chprg</a> 0         NB. acoustic grand piano
+
+NB. Announce that we are up &amp; running:
+2 2 2 8 <a href="#NWD3">dp</a> 51 51 51 48          NB. yaddadda-dah!
+
+</pre>
+<p>
+<a name="NWD7">The final section of the code makes the high-level functions</a>
+visible to general applications by planting referents into the
+<code>z</code> locale.  Utilities requiring MIDI knowledge remain confined
+to the <code>midi</code> class.
+<p>
+<pre><a name="NWmid7-midG-1" href="#NWD7"><dfn>&lt;midi.ijs exports&gt;=</dfn></a> <b>(<a href="#NWmid7-mid8-1">&lt;-U</a>)</b>
+
+NB. <a href="#NWD7">export</a> major tools:
+<a href="#NWD7">export</a> =: monad define
+        dp_z_           =:dp_midi_
+        chprg_z_        =:chprg_midi_
+        midireset_z_    =:midiOutReset_midi_ bind moh
+        midiclose_z_    =:midiOutClose_midi_ bind moh
+        empty ''
+)
+<a href="#NWD7">export</a> ''
+
+</pre>
+<p>
+This simple set of routines hides all the details of the MIDI system.
+In particular, the output handle <code>moh</code> becomes completely invisible.
+Users of the <code>midi</code> class only have to remember a final call to
+<code>midiclose</code>.
+<p>
+This closes our <code>midi.ijs</code> script.
+<p>
+<h2><a name="NWD8">From MIDI technology to simple music theory</a></h2>
+<p>
+This, finally, is the fruit of our labor: a short sample
+session using just the high-level definitions and concentrating
+on the notes from a musician's perspective.  It does look impressive
+here as it is written: while you can read the J input sentences
+here, the output is "only" audible.  So run the code!
+<p>
+<pre><a name="NWmid7-sesD-3" href="#NWmid7-sesD-1"><dfn>&lt;session trace&gt;+=</dfn></a> <b>(<a href="#NWmid7-*-1">&lt;-U</a>)</b> <b>[<a href="#NWD5">&lt;-</a>D]</b>
+
+   require 'contrib/windows/packages/music/midi'
+
+   maj =: 0 4 7
+   min =: 0 3 7
+   10 10 20 <a href="#NWD3">dp</a> 66 68 69 +each maj;min;maj       NB. box notes for chords
+   
+   NB. Elvis was here:
+   C=:60
+   riff =. 0 12 10 7
+   blues =. 0 0 0 0  5 5 0 0  7 5 0 7
+   (<a href="#NWD3">dp</a>~ # $ 6 3&quot;_) C + 0 ,~,~, blues +/ 2 # riff
+
+   NB. Use midireset whenever you have to reset the device,
+   NB. for example if you experience &quot;hanging notes&quot;.
+   NB. Also, a call is well advised before closing the device:
+   midireset''
++-+-----------+
+|0|_2104923004|
++-+-----------+
+
+   NB. When you are done with everything:
+   midiclose''
++-+-----------+
+|0|_2104923004|
++-+-----------+
+</pre><p><p>
+<p>
+<h2>Where to get this code</h2>
+<p>
+This text is available in a variety of forms.  The true source of
+it is a single file written for a simple literate programming tool.
+This file has been postprocessed into various forms.  You are
+probably looking at one of the following right now:
+<p>
+You might hold it in your hands as a printed Vector article,
+containing both descriptive text and the J code.
+<p>
+You might be browsing though the hypertext version with full blown
+crossreferences, served at
+<code>http://juggle.gaertner.de/bnp/midi.html</code>.
+<p>
+Very likely however, you'd be interested in just the <code>midi.ijs</code> script
+file as extract from this text.  This is available, too,
+along with the original literate programming version and
+a <code>music.ijs</code> script providing simple tools for studying
+simple harmony theory (scales, chords, and all that).
+<p>
+All these files are still evolving, and therefore they are excellent
+candidates for maintainence in the J source repository.  It is the
+module <code>j/contrib/windows/packages/music</code> at the CVS repository
+<code>:pserver:anoncvs@juggle.gaertner.de:/usr/local/cvs</code>.  If this looks
+all Greek to you, turn to
+<code>http://juggle.gaertner.de/cvs/</code>, the repository intro page.
+It provides anything you need to know, including hands-on tutorials
+and references to the software for your system.  If you don't want
+<a name="NWD9">to bother with CVS, however, you can download all the files introduced</a>
+here (and the source of this article) with your web client from
+<code>http://juggle.gaertner.de/cvs/cvsweb.cgi/j/contrib/windows/packages/music</code>.
+<p>
+<h2>Acknowledgements</h2>
+<p>
+I'm indebted to Eric Iverson for explaining the finer
+points of the DLL interface to me and for his comments on this text.
+<p>
+
+
+<ul>
+<li><a href="#NWmid7-*-1"><i>&lt;*&gt;</i></a>: <a href="#NWmid7-*-1">D1</a>
+<li><a href="#NWmid7-mid8-1"><i>&lt;midi.ijs&gt;</i></a>: <a href="#NWmid7-*-1">U1</a>, <a href="#NWmid7-mid8-1">D2</a>
+<li><a href="#NWmid7-midI-1"><i>&lt;midi.ijs dll calls&gt;</i></a>: <a href="#NWmid7-mid8-1">U1</a>, <a href="#NWmid7-midI-1">D2</a>, <a href="#NWD4">D3</a>
+<li><a href="#NWD7"><i>&lt;midi.ijs exports&gt;</i></a>: <a href="#NWmid7-mid8-1">U1</a>, <a href="#NWD7">D2</a>
+<li><a href="#NWD6"><i>&lt;midi.ijs initialization code&gt;</i></a>: <a href="#NWmid7-mid8-1">U1</a>, <a href="#NWD6">D2</a>
+<li><a href="#NWD3"><i>&lt;midi.ijs play verb&gt;</i></a>: <a href="#NWmid7-mid8-1">U1</a>, <a href="#NWD3">D2</a>
+<li><a href="#NWD1"><i>&lt;midi.ijs required files&gt;</i></a>: <a href="#NWmid7-mid8-1">U1</a>, <a href="#NWD1">D2</a>
+<li><a href="#NWD2"><i>&lt;midi.ijs short message routines&gt;</i></a>: <a href="#NWmid7-mid8-1">U1</a>, <a href="#NWD2">D2</a>
+<li><a href="#NWmid7-sesD-1"><i>&lt;session trace&gt;</i></a>: <a href="#NWmid7-*-1">U1</a>, <a href="#NWmid7-sesD-1">D2</a>, <a href="#NWD5">D3</a>, <a href="#NWD8">D4</a>
+</ul>
+<ul>
+<li><a name="NWI-chprg" href="#NWD2">chprg</a>: <a href="#NWD2">D1</a>, <a href="#NWD5">U2</a>, <a href="#NWD6">U3</a>
+<li><a name="NWI-dp" href="#NWD3">dp</a>: <a href="#NWD3">D1</a>, <a href="#NWD5">U2</a>, <a href="#NWD6">U3</a>, <a href="#NWD8">U4</a>
+<li><a name="NWI-export" href="#NWD7">export</a>: <a href="#NWD7">D1</a>
+<li><a name="NWI-midiOutClose" href="#NWmid7-midI-1">midiOutClose</a>: <a href="#NWmid7-midI-1">D1</a>
+<li><a name="NWI-midiOutGetDevCapsA" href="#NWmid7-midI-1">midiOutGetDevCapsA</a>: <a href="#NWmid7-midI-1">D1</a>, <a href="#NWD4">U2</a>
+<li><a name="NWI-midiOutGetDevName" href="#NWD4">midiOutGetDevName</a>: <a href="#NWD4">D1</a>, <a href="#NWmid7-sesD-1">U2</a>, <a href="#NWD6">U3</a>
+<li><a name="NWI-midiOutGetNumDevs" href="#NWmid7-midI-1">midiOutGetNumDevs</a>: <a href="#NWmid7-midI-1">D1</a>, <a href="#NWmid7-sesD-1">U2</a>, <a href="#NWD6">U3</a>
+<li><a name="NWI-midiOutOpen" href="#NWmid7-midI-1">midiOutOpen</a>: <a href="#NWmid7-midI-1">D1</a>, <a href="#NWD5">U2</a>, <a href="#NWD6">U3</a>
+<li><a name="NWI-midiOutReset" href="#NWmid7-midI-1">midiOutReset</a>: <a href="#NWmid7-midI-1">D1</a>
+<li><a name="NWI-midiOutShortMsg" href="#NWmid7-midI-1">midiOutShortMsg</a>: <a href="#NWmid7-midI-1">D1</a>, <a href="#NWD2">U2</a>
+<li><a name="NWI-mo_dev_idx" href="#NWD6">mo_dev_idx</a>: <a href="#NWD6">D1</a>
+<li><a name="NWI-noteoff" href="#NWD2">noteoff</a>: <a href="#NWD2">D1</a>, <a href="#NWD3">U2</a>
+<li><a name="NWI-noteon" href="#NWD2">noteon</a>: <a href="#NWD2">D1</a>, <a href="#NWD3">U2</a>
+<li><a name="NWI-sm" href="#NWD2">sm</a>: <a href="#NWD2">D1</a>
+</ul>
+</body></html>
+

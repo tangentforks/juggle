@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>Amend }</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="select_without_from.htm">&gt&gt;</a>&nbsp;
+<a href="from_scattered_index.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+
+<TR valign="baseline"><TD><H1>Amend } (modify selected)</h1>	<TR><TD>
+
+<P>Amend is an adverb whose result is a dyad that is used to modify an array. The left argument of amend is usually a noun. Let's look at an example:</P>
+
+ 
+<PRE>   change_index_two =. 2}
+</PRE>
+<P>The verb <TT>change_index_two</TT> is used dyadically. Its right argument is the original data and the left argument is a new value for index position <TT>2</TT>.</P>
+
+<PRE>   15 change_index_two 5 6 7 8
+5 6 15 8
+
+   30 change_index_two 23 18 17
+23 18 30
+
+   'b' change_index_two 'cat'
+cab
+
+   15 (2}) 5 6 7 8
+5 6 15 8
+
+   30 (2}) 23 18 17
+23 18 30
+
+   'b' 2} 'cat'
+cab
+</PRE>
+<P>This extends in ways that you might expect.
+</P>
+<PRE>   23 (1 4}) 7 7 7 7 7
+7 23 7 7 23
+
+   23 24 (1 4}) 7 7 7 7 7
+7 23 7 7 24
+
+   'bet' 2 5 8} 'cattumbiz'
+cabtuebit
+
+</PRE><P>In general an amend  <TT>x s} y</TT>  is defined as:
+</P>
+<BLOCKQUOTE><P>The result is formed by replacing by <TT>x</TT> those parts of <TT>y</TT> that are selected by <TT>s</TT>. The <TT>s</TT> argument to <TT>}</TT> is treated the same way as the left argument of the verb <TT>{</TT> .</P></BLOCKQUOTE>
+
+<P>Amend allows us to give selected parts of an array new values. The amend argument gives the indexing information about what data to modify. This selects the same elements to be modified as it would if used as the left argument to the dyad verb <TT>{</TT> .</P>
+
+ 
+<P>If you understand from, then amend is quite simple.
+</P>
+<PRE>   m =. i. 3 4
+   1 { m
+4 5 6 7
+
+   23 23 23 23 (1}) m
+ 0  1  2  3
+23 23 23 23
+ 8  9 10 11
+
+   23 (1}) m
+ 0  1  2  3
+23 23 23 23
+ 8  9 10 11</PRE>
+
+<P>You can first use the selection information to see what data is to be modified.</P>
+
+<PRE>   1 2 { m
+4 5  6  7
+8 9 10 11</PRE>
+
+<P>The selected data is a subarray of shape <TT>2 4 </TT>. So you need a subarray of shape <TT>2 4</TT> to replace the selected data.</P>
+
+<PRE>  (2 4 $ 23 23 23 23 24 24 24 24) (1 2}) m
+ 0  1  2  3
+23 23 23 23
+24 24 24 24</PRE>
+
+<P>Suppose you want to modify the subarray that is selected as rows <TT>1</TT> and <TT>2</TT>, and columns <TT>0</TT> and <TT>3</TT> with the value <TT>12</TT>.</P>
+
+<PRE>   12 ((<1 2;0 3)}) m
+ 0 1  2  3
+12 5  6 12
+12 9 10 12</Pre>
+
+<P>Modify that subarray by replacing it with the array in the left argument.
+</P>
+<PRE>   (2 2 $ 23 24 25 26) ((<1 2;0 3)}) m
+ 0 1  2  3
+23 5  6 24
+25 9 10 26</Pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="select_without_from.htm">&gt&gt;</a>&nbsp;
+<a href="from_scattered_index.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

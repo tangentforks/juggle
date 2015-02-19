@@ -1,0 +1,1452 @@
+000001 00000 00000 1 Abbenrode                      ABBE 000 11 0011 001 000 000
+000001 00000 00000 1 Abbenrode                      ABBE 000 12 0001 001 000 000
+000001 00000 00000 1 Abbenrode                      ABBE 000 13 0001 001 000 000
+000001 00000 00000 1 Abbenrode                      ABBE 000 14 0011 001 000 000
+000002 00000 00000 1 Abzweigung Liedingen           ALIE 000 11 0011 001 000 000
+000002 00000 00000 1 Abzweigung Liedingen           ALIE 000 12 0011 001 000 000
+000003 00000 00000 1 Abzweigung Schulenrode         ABSC 000 11 0011 001 000 000
+000003 00000 00000 1 Abzweigung Schulenrode         ABSC 000 12 0011 001 000 000
+000004 00000 00000 1 Ackerstraﬂe                    ACKE 000 01 0011 001 000 000
+000004 00000 00000 1 Ackerstraﬂe                    ACKE 000 02 0011 001 000 000
+000004 00000 00000 1 Ackerstraﬂe                    ACKE 000 11 0011 001 000 000
+000004 00000 00000 1 Ackerstraﬂe                    ACKE 000 12 0011 001 000 000
+000004 00000 00000 1 Ackerstraﬂe                    ACKE 000 13 0011 001 000 000
+000005 00000 00000 1 Adam-Opel-Straﬂe               ADOP 000 11 0011 001 000 000
+000005 00000 00000 1 Adam-Opel-Straﬂe               ADOP 000 12 0011 001 000 000
+000006 00000 00000 1 Adolfstraﬂe                    ADOL 000 01 0011 001 000 000
+000006 00000 00000 1 Adolfstraﬂe                    ADOL 000 02 0011 001 000 000
+000006 00000 00000 1 Adolfstraﬂe                    ADOL 000 11 0011 001 000 000
+000006 00000 00000 1 Adolfstraﬂe                    ADOL 000 12 0011 001 000 000
+000007 00000 00000 1 Albertstraﬂe                   ALBE 000 11 0011 001 000 000
+000007 00000 00000 1 Albertstraﬂe                   ALBE 000 12 0001 001 000 000
+000008 00000 00000 1 Alsterplatz                    ATPL 000 01 0011 001 000 000
+000008 00000 00000 1 Alsterplatz                    ATPL 000 02 0011 001 000 000
+000008 00000 00000 1 Alsterplatz                    ATPL 000 11 0001 001 000 000
+000008 00000 00000 1 Alsterplatz                    ATPL 000 12 0001 001 000 000
+000009 00000 00000 1 Alte Dorfstraﬂe                ALDO 000 11 0011 001 000 000
+000009 00000 00000 1 Alte Dorfstraﬂe                ALDO 000 12 0011 001 000 000
+000010 00000 00000 1 Alte Waage                     ALWA 000 01 0011 001 000 000
+000010 00000 00000 1 Alte Waage                     ALWA 000 02 0011 001 000 000
+000010 00000 00000 1 Alte Waage                     ALWA 000 11 0001 001 000 000
+000010 00000 00000 1 Alte Waage                     ALWA 000 12 0001 001 000 000
+000011 00000 00000 1 Altenheim Melverode            ALME 000 11 0011 001 000 000
+000011 00000 00000 1 Altenheim Melverode            ALME 000 12 0011 001 000 000
+000012 00000 00000 1 Alter Postweg                  ALPO 000 11 0011 001 000 000
+000012 00000 00000 1 Alter Postweg                  ALPO 000 12 0011 001 000 000
+000013 00000 00000 1 Alter Rautheimer Weg           ALRA 000 11 0011 001 000 000
+000013 00000 00000 1 Alter Rautheimer Weg           ALRA 000 12 0011 001 000 000
+000014 00000 00000 1 Altmarkstraﬂe                  ALTM 000 11 0011 001 000 000
+000014 00000 00000 1 Altmarkstraﬂe                  ALTM 000 12 0011 001 000 000
+000015 00000 00000 1 Altstadtmarkt                  ALTS 000 11 0012 001 000 000
+000015 00000 00000 1 Altstadtmarkt                  ALTS 000 12 0012 001 000 000
+000015 00000 00000 1 Altstadtmarkt                  ALTS 000 13 0012 001 000 000
+000016 00000 00000 1 Alvesse,Gr¸ne Straﬂe           ALGS 000 11 0011 001 000 000
+000016 00000 00000 1 Alvesse,Gr¸ne Straﬂe           ALGS 000 12 0011 001 000 000
+000017 00000 00000 1 Alvesse,K¸hlhausweg            ALKU 000 11 0011 001 000 000
+000017 00000 00000 1 Alvesse,K¸hlhausweg            ALKU 000 12 0001 001 000 000
+000018 00000 00000 1 Am Berge                       ABER 000 11 0011 001 000 000
+000018 00000 00000 1 Am Berge                       ABER 000 12 0011 001 000 000
+000019 00000 00000 1 Am Bruchkamp                   ABRU 000 11 0011 001 000 000
+000019 00000 00000 1 Am Bruchkamp                   ABRU 000 12 0011 001 000 000
+000020 00000 00000 1 Am B¸lten                      ABUL 000 11 0011 001 000 000
+000020 00000 00000 1 Am B¸lten                      ABUL 000 12 0011 001 000 000
+000021 00000 00000 1 Am Brunnen                     ABRN 000 11 0011 001 000 000
+000021 00000 00000 1 Am Brunnen                     ABRN 000 12 0011 001 000 000
+000022 00000 00000 1 Am Dorfplatz                   ADOR 000 11 0002 001 000 000
+000022 00000 00000 1 Am Dorfplatz                   ADOR 000 12 0002 001 000 000
+000023 00000 00000 1 Am Forst                       AFOR 000 11 0011 001 000 000
+000023 00000 00000 1 Am Forst                       AFOR 000 12 0011 001 000 000
+000024 00000 00000 1 Am F¸llerkamp                  AFUL 000 11 0011 001 000 000
+000025 00000 00000 1 Am Grasplatz                   AGRA 000 11 0011 001 000 000
+000025 00000 00000 1 Am Grasplatz                   AGRA 000 12 0011 001 000 000
+000025 00000 00000 1 Am Grasplatz                   AGRA 000 13 0001 001 000 000
+000026 00000 00000 1 Am Hafen                       AHAF 000 11 0011 001 000 000
+000026 00000 00000 1 Am Hafen                       AHAF 000 12 0011 001 000 000
+000027 00000 00000 1 Am Hasselteich                 AHAS 000 11 0011 001 000 000
+000027 00000 00000 1 Am Hasselteich                 AHAS 000 12 0011 001 000 000
+000028 00000 00000 1 Am Jˆdebrunnen                 AJOD 000 01 0011 001 000 000
+000028 00000 00000 1 Am Jˆdebrunnen                 AJOD 000 02 0011 001 000 000
+000028 00000 00000 1 Am Jˆdebrunnen                 AJOD 000 11 0011 001 000 000
+000028 00000 00000 1 Am Jˆdebrunnen                 AJOD 000 12 0011 001 000 000
+000029 00000 00000 1 Am Kalkwerk                    AKAL 000 11 0002 001 000 000
+000029 00000 00000 1 Am Kalkwerk                    AKAL 000 12 0002 001 000 000
+000030 00000 00000 1 Am Kanal                       AKAN 000 11 0011 001 000 000
+000030 00000 00000 1 Am Kanal                       AKAN 000 12 0011 001 000 000
+000031 00000 00000 1 Am Klei                        AKLE 000 11 0011 001 000 000
+000031 00000 00000 1 Am Klei                        AKLE 000 12 0011 001 000 000
+000032 00000 00000 1 Am Klosterkamp                 AKLO 000 11 0011 001 000 000
+000032 00000 00000 1 Am Klosterkamp                 AKLO 000 12 0011 001 000 000
+000033 00000 00000 1 Am Lehmanger                   ALEH 000 01 0011 001 000 000
+000033 00000 00000 1 Am Lehmanger                   ALEH 000 02 0011 001 000 000
+000033 00000 00000 1 Am Lehmanger                   ALEH 000 11 0011 001 000 000
+000033 00000 00000 1 Am Lehmanger                   ALEH 000 12 0011 001 000 000
+000034 00000 00000 1 Am Magnitor                    AMAG 000 01 0011 001 000 000
+000034 00000 00000 1 Am Magnitor                    AMAG 000 02 0011 001 000 000
+000034 00000 00000 1 Am Magnitor                    AMAG 000 11 0011 001 000 000
+000034 00000 00000 1 Am Magnitor                    AMAG 000 12 0011 001 000 000
+000035 00000 00000 1 Am Markt                       AMAR 000 11 0011 001 000 000
+000035 00000 00000 1 Am Markt                       AMAR 000 12 0011 001 000 000
+000036 00000 00000 1 Am Meerbusch                   AMEE 000 11 0002 001 000 000
+000036 00000 00000 1 Am Meerbusch                   AMEE 000 12 0002 001 000 000
+000037 00000 00000 1 Am M¸hlengraben                AMUH 000 11 0011 001 000 000
+000037 00000 00000 1 Am M¸hlengraben                AMUH 000 12 0011 001 000 000
+000038 00000 00000 1 Am Nordbahnhof                 ANOR 000 11 0011 001 000 000
+000038 00000 00000 1 Am Nordbahnhof                 ANOR 000 12 0011 001 000 000
+000039 00000 00000 1 Am ÷lper Holze                 AMOH 000 11 0011 001 000 000
+000039 00000 00000 1 Am ÷lper Holze                 AMOH 000 12 0011 001 000 000
+000040 00000 00000 1 Am Platz                       APLA 000 11 0011 001 000 000
+000040 00000 00000 1 Am Platz                       APLA 000 12 0011 001 000 000
+000041 00000 00000 1 Am Pfingstanger                APFI 000 11 0011 001 000 000
+000041 00000 00000 1 Am Pfingstanger                APFI 000 12 0011 001 000 000
+000042 00000 00000 1 Am Queckenberg                 AQUE 000 01 0011 001 000 000
+000042 00000 00000 1 Am Queckenberg                 AQUE 000 02 0011 001 000 000
+000042 00000 00000 1 Am Queckenberg                 AQUE 000 11 0001 001 000 000
+000043 00000 00000 1 Am Remenhof                    AREM 000 11 0011 001 000 000
+000043 00000 00000 1 Am Remenhof                    AREM 000 12 0011 001 000 000
+000044 00000 00000 1 Am Schwarzen Berge             ASBE 000 11 0011 001 000 000
+000044 00000 00000 1 Am Schwarzen Berge             ASBE 000 12 0011 001 000 000
+000045 00000 00000 1 Am Steinring                   ASTE 000 11 0011 001 000 000
+000045 00000 00000 1 Am Steinring                   ASTE 000 12 0011 001 000 000
+000046 00000 00000 1 Am Wassertor                   AWAS 000 11 0012 001 000 000
+000047 00000 00000 1 Am Wasserwerk                  AWAW 000 11 0011 001 000 000
+000047 00000 00000 1 Am Wasserwerk                  AWAW 000 12 0011 001 000 000
+000049 00000 00000 1 Amalienplatz                   AMAL 000 11 0011 001 000 000
+000049 00000 00000 1 Amalienplatz                   AMAL 000 12 0011 001 000 000
+000049 00000 00000 1 Amalienplatz                   AMAL 000 13 0011 001 000 000
+000049 00000 00000 1 Amalienplatz                   AMAL 000 14 0011 001 000 000
+000050 00000 00000 1 Andreeplatz                    ANDR 000 11 0011 001 000 000
+000050 00000 00000 1 Andreeplatz                    ANDR 000 12 0011 001 000 000
+000051 00000 00000 1 An den G‰rtnerhˆfen            ADGA 000 11 0011 001 000 000
+000051 00000 00000 1 An den G‰rtnerhˆfen            ADGA 000 12 0011 001 000 000
+000052 00000 00000 1 An der Horst                   ADHO 000 11 0011 001 000 000
+000052 00000 00000 1 An der Horst                   ADHO 000 12 0011 001 000 000
+000053 00000 00000 1 An der Kippe                   ADKI 000 11 0011 001 000 000
+000053 00000 00000 1 An der Kippe                   ADKI 000 12 0011 001 000 000
+000054 00000 00000 1 An der Lahwiese                ADLA 000 11 0011 001 000 000
+000054 00000 00000 1 An der Lahwiese                ADLA 000 12 0011 001 000 000
+000055 00000 00000 1 An der Rothenburg              ADRO 000 01 0011 001 000 000
+000055 00000 00000 1 An der Rothenburg              ADRO 000 02 0011 001 000 000
+000055 00000 00000 1 An der Rothenburg              ADRO 000 11 0011 001 000 000
+000055 00000 00000 1 An der Rothenburg              ADRO 000 12 0011 001 000 000
+000056 00000 00000 1 Anklamstraﬂe                   ANKL 000 01 0001 001 000 000
+000056 00000 00000 1 Anklamstraﬂe                   ANKL 000 02 0001 001 000 000
+000057 00000 00000 1 Arndtstraﬂe                    ARND 000 11 0001 001 000 000
+000057 00000 00000 1 Arndtstraﬂe                    ARND 000 12 0001 001 000 000
+000058 00000 00000 1 Zur Wabe                       ZUWA 000 11 0001 001 000 000
+000058 00000 00000 1 Zur Wabe                       ZUWA 000 12 0001 001 000 000
+000059 00000 00000 1 Bahnhof Gliesmarode            BAGL 000 01 0011 001 000 000
+000059 00000 00000 1 Bahnhof Gliesmarode            BAGL 000 02 0011 001 000 000
+000059 00000 00000 1 Bahnhof Gliesmarode            BAGL 000 11 0011 001 000 000
+000059 00000 00000 1 Bahnhof Gliesmarode            BAGL 000 12 0011 001 000 000
+000060 00000 00000 1 Bastholzsiedlung               BAST 000 11 0011 001 000 000
+000060 00000 00000 1 Bastholzsiedlung               BAST 000 12 0011 001 000 000
+000061 00000 00000 1 Bebelhof                       BEBE 000 11 0011 001 000 000
+000061 00000 00000 1 Bebelhof                       BEBE 000 12 0011 001 000 000
+000061 00000 00000 1 Bebelhof                       BEBE 000 13 0011 001 000 000
+000062 00000 00000 1 Bechtsb¸tteler Weg             BECH 000 11 0011 001 000 000
+000062 00000 00000 1 Bechtsb¸tteler Weg             BECH 000 12 0011 001 000 000
+000063 00000 00000 1 Beethovenstraﬂe                BEET 000 11 0001 001 000 000
+000063 00000 00000 1 Beethovenstraﬂe                BEET 000 12 0001 001 000 000
+000064 00000 00000 1 Bei dem Gerichte               BDGE 000 11 0011 001 000 000
+000064 00000 00000 1 Bei dem Gerichte               BDGE 000 12 0011 001 000 000
+000065 00000 00000 1 Berggarten                     BERG 000 11 0011 001 000 000
+000065 00000 00000 1 Berggarten                     BERG 000 12 0001 001 000 000
+000066 00000 00000 1 Bettmar,Ohestraﬂe              BEOH 000 11 0001 001 000 000
+000066 00000 00000 1 Bettmar,Ohestraﬂe              BEOH 000 12 0001 001 000 000
+000067 00000 00000 1 Bettmar,Rosenwinkel            BERO 000 11 0011 001 000 000
+000067 00000 00000 1 Bettmar,Rosenwinkel            BERO 000 12 0011 001 000 000
+000068 00000 00000 1 Biberweg                       BIBE 000 11 0011 001 000 000
+000068 00000 00000 1 Biberweg                       BIBE 000 12 0011 001 000 000
+000069 00000 00000 1 Billrothstraﬂe                 BILL 000 11 0001 001 000 000
+000069 00000 00000 1 Billrothstraﬂe                 BILL 000 12 0001 001 000 000
+000070 00000 00000 1 Bindestraﬂe                    BIND 000 01 0001 001 000 000
+000070 00000 00000 1 Bindestraﬂe                    BIND 000 02 0001 001 000 000
+000070 00000 00000 1 Bindestraﬂe                    BIND 000 11 0001 001 000 000
+000070 00000 00000 1 Bindestraﬂe                    BIND 000 12 0001 001 000 000
+000071 00000 00000 1 Blindenzentrum                 BLIN 000 11 0011 001 000 000
+000071 00000 00000 1 Blindenzentrum                 BLIN 000 12 0011 001 000 000
+000072 00000 00000 1 Bockshornweg                   BOCK 000 11 0002 001 000 000
+000072 00000 00000 1 Bockshornweg                   BOCK 000 12 0002 001 000 000
+000072 00000 00000 1 Bockshornweg                   BOCK 000 13 0002 001 000 000
+000073 00000 00000 1 Bodenstedt,Godehardistr.       BOGO 000 11 0001 001 000 000
+000073 00000 00000 1 Bodenstedt,Godehardistr.       BOGO 000 12 0001 001 000 000
+000074 00000 00000 1 Bodenstedt,Zum Seilbahnberg    BOSE 000 11 0011 001 000 000
+000074 00000 00000 1 Bodenstedt,Zum Seilbahnberg    BOSE 000 12 0011 001 000 000
+000075 00000 00000 1 Bohlweg/Damm                   BODA 000 01 0012 001 000 000
+000075 00000 00000 1 Bohlweg/Damm                   BODA 000 02 0012 001 000 000
+000076 00000 00000 1 Botanischer Garten             BOTA 000 01 0011 001 000 000
+000076 00000 00000 1 Botanischer Garten             BOTA 000 02 0011 001 000 000
+000076 00000 00000 1 Botanischer Garten             BOTA 000 11 0011 001 000 000
+000076 00000 00000 1 Botanischer Garten             BOTA 000 12 0011 001 000 000
+000077 00000 00000 1 Breitenhop                     BREI 000 11 0011 001 000 000
+000077 00000 00000 1 Breitenhop                     BREI 000 12 0011 001 000 000
+000078 00000 00000 1 Brockenblick                   BROC 000 11 0011 001 000 000
+000078 00000 00000 1 Brockenblick                   BROC 000 12 0011 001 000 000
+000079 00000 00000 1 Kath.Friedhof                  KAFR 000 11 0011 001 000 000
+000079 00000 00000 1 Kath.Friedhof                  KAFR 000 12 0011 001 000 000
+000080 00000 00000 1 Broitzemer Straﬂe              BSTE 000 11 0001 001 000 000
+000080 00000 00000 1 Broitzemer Straﬂe              BSTE 000 12 0001 001 000 000
+000081 00000 00000 1 Bruchanger                     BRUC 000 11 0011 001 000 000
+000081 00000 00000 1 Bruchanger                     BRUC 000 12 0011 001 000 000
+000082 00000 00000 1 Bruchweg                       BRUH 000 11 0011 001 000 000
+000082 00000 00000 1 Bruchweg                       BRUH 000 12 0011 001 000 000
+000083 00000 00000 1 Buchhorstblick                 BUCH 000 11 0011 001 000 000
+000083 00000 00000 1 Buchhorstblick                 BUCH 000 12 0011 001 000 000
+000084 00000 00000 1 B¸ltenweg                      BULT 000 11 0011 001 000 000
+000085 00000 00000 1 B¸rgerpark                     BURG 000 01 0001 001 000 000
+000085 00000 00000 1 B¸rgerpark                     BURG 000 02 0001 001 000 000
+000085 00000 00000 1 B¸rgerpark                     BURG 000 11 0011 001 000 000
+000085 00000 00000 1 B¸rgerpark                     BURG 000 12 0011 001 000 000
+000085 00000 00000 1 B¸rgerpark                     BURG 000 13 0001 001 000 000
+000086 00000 00000 1 Burgundenplatz                 BURU 000 01 0011 001 000 000
+000086 00000 00000 1 Burgundenplatz                 BURU 000 02 0011 001 000 000
+000086 00000 00000 1 Burgundenplatz                 BURU 000 11 0001 001 000 000
+000086 00000 00000 1 Burgundenplatz                 BURU 000 12 0001 001 000 000
+000087 00000 00000 1 Butterberg                     BUTT 000 11 0011 001 000 000
+000087 00000 00000 1 Butterberg                     BUTT 000 12 0011 001 000 000
+000088 00000 00000 1 Campestraﬂe                    CAMP 000 01 0001 001 000 000
+000088 00000 00000 1 Campestraﬂe                    CAMP 000 02 0001 001 000 000
+000088 00000 00000 1 Campestraﬂe                    CAMP 000 11 0001 001 000 000
+000088 00000 00000 1 Campestraﬂe                    CAMP 000 12 0001 001 000 000
+000089 00000 00000 1 Carl-Giesecke-Straﬂe           CAGI 000 11 0001 001 000 000
+000089 00000 00000 1 Carl-Giesecke-Straﬂe           CAGI 000 12 0001 001 000 000
+000090 00000 00000 1 Klinikum Celler Straﬂe         KRCE 000 11 0001 001 000 000
+000090 00000 00000 1 Klinikum Celler Straﬂe         KRCE 000 12 0001 001 000 000
+000091 00000 00000 1 Christian-Pommer-Straﬂe        CHPO 000 11 0001 001 000 000
+000091 00000 00000 1 Christian-Pommer-Straﬂe        CHPO 000 12 0001 001 000 000
+000092 00000 00000 1 Clauskamp                      CLAU 000 11 0011 001 000 000
+000092 00000 00000 1 Clauskamp                      CLAU 000 12 0011 001 000 000
+000093 00000 00000 1 Cremlingen,Emil-Berg-Str.      CREB 000 11 0001 001 000 000
+000093 00000 00000 1 Cremlingen,Emil-Berg-Str.      CREB 000 12 0001 001 000 000
+000094 00000 00000 1 Cremlingen,Im Dorfe            CRID 000 11 0011 001 000 000
+000094 00000 00000 1 Cremlingen,Im Dorfe            CRID 000 12 0011 001 000 000
+000095 00000 00000 1 Cyriaksring                    CYRI 000 01 0011 001 000 000
+000095 00000 00000 1 Cyriaksring                    CYRI 000 02 0011 001 000 000
+000095 00000 00000 1 Cyriaksring                    CYRI 000 11 0011 001 000 000
+000095 00000 00000 1 Cyriaksring                    CYRI 000 12 0011 001 000 000
+000096 00000 00000 1 D.L.R.                         DLRR 000 11 0011 001 000 000
+000096 00000 00000 1 D.L.R.                         DLRR 000 12 0011 001 000 000
+000097 00000 00000 1 Daimlerstraﬂe                  DAIM 000 01 0001 001 000 000
+000097 00000 00000 1 Daimlerstraﬂe                  DAIM 000 02 0001 001 000 000
+000098 00000 00000 1 Dammstraﬂe                     DAMM 000 11 0001 001 000 000
+000098 00000 00000 1 Dammstraﬂe                     DAMM 000 12 0001 001 000 000
+000098 00000 00000 1 Dammstraﬂe                     DAMM 000 13 0001 001 000 000
+000099 00000 00000 1 Dammwiese                      DAMW 000 11 0011 001 000 000
+000099 00000 00000 1 Dammwiese                      DAMW 000 12 0011 001 000 000
+000100 00000 00000 1 Danziger Straﬂe                DANZ 000 11 0001 001 000 000
+000100 00000 00000 1 Danziger Straﬂe                DANZ 000 12 0001 001 000 000
+000101 00000 00000 1 Dedekindstraﬂe                 DEDE 000 11 0001 001 000 000
+000101 00000 00000 1 Dedekindstraﬂe                 DEDE 000 12 0001 001 000 000
+000102 00000 00000 1 Denstorf                       DENS 000 11 0011 001 000 000
+000102 00000 00000 1 Denstorf                       DENS 000 12 0011 001 000 000
+000103 00000 00000 1 Destedt,An der Unterburg       DADU 000 11 0011 001 000 000
+000103 00000 00000 1 Destedt,An der Unterburg       DADU 000 12 0011 001 000 000
+000104 00000 00000 1 Destedt,Am Lindenplatz         DEAL 000 11 0001 001 000 000
+000104 00000 00000 1 Destedt,Am Lindenplatz         DEAL 000 12 0001 001 000 000
+000105 00000 00000 1 Destedt,Schulenroder Str.      DESC 000 11 0001 001 000 000
+000105 00000 00000 1 Destedt,Schulenroder Str.      DESC 000 12 0001 001 000 000
+000106 00000 00000 1 Destedt,Kalkofenweg            DEKA 000 11 0001 001 000 000
+000106 00000 00000 1 Destedt,Kalkofenweg            DEKA 000 12 0001 001 000 000
+000107 00000 00000 1 Dierckestraﬂe                  DIER 000 11 0001 001 000 000
+000107 00000 00000 1 Dierckestraﬂe                  DIER 000 12 0001 001 000 000
+000108 00000 00000 1 Dieselstraﬂe                   DIES 000 11 0001 001 000 000
+000108 00000 00000 1 Dieselstraﬂe                   DIES 000 12 0001 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 01 0002 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 02 0002 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 03 0002 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 11 0002 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 12 0002 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 13 0001 001 000 000
+000109 00000 00000 1 Donaustraﬂe                    DONA 000 14 0001 001 000 000
+000110 00000 00000 1 Dorflage                       DORF 000 11 0001 001 000 000
+000110 00000 00000 1 Dorflage                       DORF 000 12 0001 001 000 000
+000111 00000 00000 1 Dreisch                        DREI 000 11 0001 001 000 000
+000111 00000 00000 1 Dreisch                        DREI 000 12 0001 001 000 000
+000112 00000 00000 1 Dresdenstraﬂe                  DRES 000 11 0001 001 000 000
+000112 00000 00000 1 Dresdenstraﬂe                  DRES 000 12 0001 001 000 000
+000113 00000 00000 1 Drosselweg                     DROS 000 11 0001 001 000 000
+000113 00000 00000 1 Drosselweg                     DROS 000 12 0001 001 000 000
+000114 00000 00000 1 Ebertallee                     EBER 000 11 0001 001 000 000
+000114 00000 00000 1 Ebertallee                     EBER 000 12 0001 001 000 000
+000115 00000 00000 1 Eckenerstraﬂe                  ECKE 000 11 0001 001 000 000
+000115 00000 00000 1 Eckenerstraﬂe                  ECKE 000 12 0001 001 000 000
+000115 00000 00000 1 Eckenerstraﬂe                  ECKE 000 13 0001 001 000 000
+000115 00000 00000 1 Eckenerstraﬂe                  ECKE 000 14 0001 001 000 000
+000116 00000 00000 1 Eichhahnweg                    EICH 000 11 0001 001 000 000
+000116 00000 00000 1 Eichhahnweg                    EICH 000 12 0001 001 000 000
+000117 00000 00000 1 Zum Zoll                       ZUZO 000 11 0001 001 000 000
+000117 00000 00000 1 Zum Zoll                       ZUZO 000 12 0001 001 000 000
+000118 00000 00000 1 Ellends Ruhe                   ELLE 000 11 0001 001 000 000
+000118 00000 00000 1 Ellends Ruhe                   ELLE 000 12 0001 001 000 000
+000119 00000 00000 1 Elmblick                       ELMB 000 11 0001 001 000 000
+000119 00000 00000 1 Elmblick                       ELMB 000 12 0001 001 000 000
+000120 00000 00000 1 Emma-Kraume-Straﬂe             EMKR 000 11 0001 001 000 000
+000120 00000 00000 1 Emma-Kraume-Straﬂe             EMKR 000 12 0001 001 000 000
+000121 00000 00000 1 Emsstraﬂe                      EMST 000 01 0001 001 000 000
+000121 00000 00000 1 Emsstraﬂe                      EMST 000 02 0001 001 000 000
+000121 00000 00000 1 Emsstraﬂe                      EMST 000 11 0001 001 000 000
+000121 00000 00000 1 Emsstraﬂe                      EMST 000 12 0001 001 000 000
+000122 00000 00000 1 Ekbertstraﬂe                   EKBE 000 11 0001 001 000 000
+000122 00000 00000 1 Ekbertstraﬂe                   EKBE 000 12 0001 001 000 000
+000123 00000 00000 1 Erfurtplatz                    ERFU 000 01 0001 001 000 000
+000123 00000 00000 1 Erfurtplatz                    ERFU 000 02 0001 001 000 000
+000123 00000 00000 1 Erfurtplatz                    ERFU 000 11 0001 001 000 000
+000123 00000 00000 1 Erfurtplatz                    ERFU 000 12 0001 001 000 000
+000124 00000 00000 1 Ernst-Bˆhme-Straﬂe             ERBO 000 11 0001 001 000 000
+000124 00000 00000 1 Ernst-Bˆhme-Straﬂe             ERBO 000 12 0001 001 000 000
+000125 00000 00000 1 Essehof,Im Altdorf             ESIA 000 11 0001 001 000 000
+000125 00000 00000 1 Essehof,Im Altdorf             ESIA 000 12 0001 001 000 000
+000126 00000 00000 1 Essener Straﬂe                 ESSE 000 11 0001 001 000 000
+000126 00000 00000 1 Essener Straﬂe                 ESSE 000 12 0001 001 000 000
+000127 00000 00000 1 Ess.v.Hardenbergstr.           ESHA 000 11 0001 001 000 000
+000127 00000 00000 1 Ess.v.Hardenbergstr.           ESHA 000 12 0001 001 000 000
+000128 00000 00000 1 Essenrode,Alte Krugstraﬂe      ESAK 000 11 0001 001 000 000
+000128 00000 00000 1 Essenrode,Alte Krugstraﬂe      ESAK 000 12 0001 001 000 000
+000129 00000 00000 1 Essenrode,Kirchring            ESKI 000 11 0001 001 000 000
+000129 00000 00000 1 Essenrode,Kirchring            ESKI 000 12 0001 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 01 0001 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 02 0001 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 11 0002 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 12 0002 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 13 0002 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 14 0002 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 15 0002 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 16 0002 001 000 000
+000130 00000 00000 1 Europaplatz                    EURO 000 17 0002 001 000 000
+000131 00000 00000 1 Eutschenwinkel                 EUTS 000 11 0001 001 000 000
+000131 00000 00000 1 Eutschenwinkel                 EUTS 000 12 0001 001 000 000
+000132 00000 00000 1 F.A.L.                         FALL 000 11 0001 001 000 000
+000132 00000 00000 1 F.A.L.                         FALL 000 12 0001 001 000 000
+000132 00000 00000 1 F.A.L.                         FALL 000 13 0001 001 000 000
+000133 00000 00000 1 Fabrikstraﬂe                   FABR 000 11 0001 001 000 000
+000133 00000 00000 1 Fabrikstraﬂe                   FABR 000 12 0001 001 000 000
+000134 00000 00000 1 Feuerbrunnen                   FEUE 000 11 0001 001 000 000
+000134 00000 00000 1 Feuerbrunnen                   FEUE 000 12 0001 001 000 000
+000134 00000 00000 1 Feuerbrunnen                   FEUE 000 13 0001 001 000 000
+000135 00000 00000 1 Flughafen                      FLUG 000 11 0001 001 000 000
+000135 00000 00000 1 Flughafen                      FLUG 000 12 0001 001 000 000
+000136 00000 00000 1 Friedrich-Seele-Straﬂe         FRSE 000 11 0001 001 000 000
+000136 00000 00000 1 Friedrich-Seele-Straﬂe         FRSE 000 12 0001 001 000 000
+000137 00000 00000 1 Friedrich-Wilhelm-Platz        FRWI 000 01 0001 001 000 000
+000137 00000 00000 1 Friedrich-Wilhelm-Platz        FRWI 000 02 0001 001 000 000
+000137 00000 00000 1 Friedrich-Wilhelm-Platz        FRWI 000 11 0002 001 000 000
+000137 00000 00000 1 Friedrich-Wilhelm-Platz        FRWI 000 12 0002 001 000 000
+000137 00000 00000 1 Friedrich-Wilhelm-Platz        FRWI 000 13 0002 001 000 000
+000137 00000 00000 1 Friedrich-Wilhelm-Platz        FRWI 000 14 0002 001 000 000
+000138 00000 00000 1 Frankenstraﬂe                  FRAN 000 11 0001 001 000 000
+000138 00000 00000 1 Frankenstraﬂe                  FRAN 000 12 0001 001 000 000
+000139 00000 00000 1 Franz-Frese-Weg                FRFR 000 11 0001 001 000 000
+000139 00000 00000 1 Franz-Frese-Weg                FRFR 000 12 0001 001 000 000
+000140 00000 00000 1 Freyastraﬂe                    FREY 000 11 0001 001 000 000
+000140 00000 00000 1 Freyastraﬂe                    FREY 000 12 0001 001 000 000
+000141 00000 00000 1 Gabelsbergerstraﬂe             GABE 000 11 0001 001 000 000
+000141 00000 00000 1 Gabelsbergerstraﬂe             GABE 000 12 0001 001 000 000
+000142 00000 00000 1 Gablonzstraﬂe                  GABL 000 11 0001 001 000 000
+000142 00000 00000 1 Gablonzstraﬂe                  GABL 000 12 0001 001 000 000
+000143 00000 00000 1 Gardessen,Gartenstraﬂe         GAGA 000 11 0001 001 000 000
+000143 00000 00000 1 Gardessen,Gartenstraﬂe         GAGA 000 12 0001 001 000 000
+000144 00000 00000 1 Gardessen,Im Meere             GAIM 000 11 0001 001 000 000
+000144 00000 00000 1 Gardessen,Im Meere             GAIM 000 12 0001 001 000 000
+000145 00000 00000 1 Geiteldestraﬂe                 GEIT 000 11 0002 001 000 000
+000145 00000 00000 1 Geiteldestraﬂe                 GEIT 000 12 0002 001 000 000
+000145 00000 00000 1 Geiteldestraﬂe                 GEIT 000 13 0001 001 000 000
+000145 00000 00000 1 Geiteldestraﬂe                 GEIT 000 14 0001 001 000 000
+000146 00000 00000 1 Georg-Eckert-Straﬂe            GEEC 000 01 0001 001 000 000
+000146 00000 00000 1 Georg-Eckert-Straﬂe            GEEC 000 02 0001 001 000 000
+000147 00000 00000 1 Gesundheitsamt                 GESU 000 01 0002 001 000 000
+000147 00000 00000 1 Gesundheitsamt                 GESU 000 02 0002 001 000 000
+000147 00000 00000 1 Gesundheitsamt                 GESU 000 11 0002 001 000 000
+000147 00000 00000 1 Gesundheitsamt                 GESU 000 12 0002 001 000 000
+000148 00000 00000 1 Gew.-Fr.-Seele-Straﬂe          GGFS 000 11 0001 001 000 000
+000148 00000 00000 1 Gew.-Fr.-Seele-Straﬂe          GGFS 000 12 0001 001 000 000
+000149 00000 00000 1 Gliesmaroder Straﬂe            GLIE 000 01 0001 001 000 000
+000149 00000 00000 1 Gliesmaroder Straﬂe            GLIE 000 02 0001 001 000 000
+000149 00000 00000 1 Gliesmaroder Straﬂe            GLIE 000 11 0001 001 000 000
+000149 00000 00000 1 Gliesmaroder Straﬂe            GLIE 000 12 0001 001 000 000
+000149 00000 00000 1 Gliesmaroder Straﬂe            GLIE 000 13 0001 001 000 000
+000149 00000 00000 1 Gliesmaroder Straﬂe            GLIE 000 14 0001 001 000 000
+000150 00000 00000 1 Glogaustraﬂe                   GLOG 000 11 0001 001 000 000
+000150 00000 00000 1 Glogaustraﬂe                   GLOG 000 12 0001 001 000 000
+000150 00000 00000 1 Glogaustraﬂe                   GLOG 000 13 0001 001 000 000
+000151 00000 00000 1 Gˆrlitzstraﬂe                  GORL 000 11 0001 001 000 000
+000151 00000 00000 1 Gˆrlitzstraﬂe                  GORL 000 12 0001 001 000 000
+000152 00000 00000 1 Goslarsche Straﬂe              GOSL 000 11 0001 001 000 000
+000152 00000 00000 1 Goslarsche Straﬂe              GOSL 000 12 0001 001 000 000
+000153 00000 00000 1 Grabenstraﬂe                   GRAB 000 01 0001 001 000 000
+000153 00000 00000 1 Grabenstraﬂe                   GRAB 000 02 0001 001 000 000
+000153 00000 00000 1 Grabenstraﬂe                   GRAB 000 11 0001 001 000 000
+000153 00000 00000 1 Grabenstraﬂe                   GRAB 000 12 0001 001 000 000
+000154 00000 00000 1 Grassel,Brunnenstraﬂe          GRBR 000 11 0001 001 000 000
+000154 00000 00000 1 Grassel,Brunnenstraﬂe          GRBR 000 12 0001 001 000 000
+000155 00000 00000 1 Grassel,Gartenstraﬂe           GRGA 000 11 0001 001 000 000
+000155 00000 00000 1 Grassel,Gartenstraﬂe           GRGA 000 12 0001 001 000 000
+000156 00000 00000 1 Greifswaldstraﬂe               GREI 000 11 0001 001 000 000
+000156 00000 00000 1 Greifswaldstraﬂe               GREI 000 12 0001 001 000 000
+000157 00000 00000 1 Grenzweg                       GREN 000 01 0001 001 000 000
+000157 00000 00000 1 Grenzweg                       GREN 000 02 0001 001 000 000
+000158 00000 00000 1 Groﬂ Gleidingen                GRGL 000 11 0001 001 000 000
+000158 00000 00000 1 Groﬂ Gleidingen                GRGL 000 12 0001 001 000 000
+000159 00000 00000 1 Grotrian-Steinweg-Straﬂe       GRST 000 11 0001 001 000 000
+000159 00000 00000 1 Grotrian-Steinweg-Straﬂe       GRST 000 12 0001 001 000 000
+000160 00000 00000 1 Gr¸ner J‰ger                   GRJA 000 11 0001 001 000 000
+000160 00000 00000 1 Gr¸ner J‰ger                   GRJA 000 12 0001 001 000 000
+000160 00000 00000 1 Gr¸ner J‰ger                   GRJA 000 13 0001 001 000 000
+000160 00000 00000 1 Gr¸ner J‰ger                   GRJA 000 14 0001 001 000 000
+000161 00000 00000 1 G¸ldenstraﬂe                   GULD 000 11 0001 001 000 000
+000161 00000 00000 1 G¸ldenstraﬂe                   GULD 000 12 0001 001 000 000
+000161 00000 00000 1 G¸ldenstraﬂe                   GULD 000 13 0001 001 000 000
+000161 00000 00000 1 G¸ldenstraﬂe                   GULD 000 14 0001 001 000 000
+000161 00000 00000 1 G¸ldenstraﬂe                   GULD 000 15 0001 001 000 000
+000161 00000 00000 1 G¸ldenstraﬂe                   GULD 000 16 0001 001 000 000
+000162 00000 00000 1 Holzhof                        HOLZ 000 11 0001 001 000 000
+000162 00000 00000 1 Holzhof                        HOLZ 000 12 0001 001 000 000
+000163 00000 00000 1 Hackelkamp                     HACK 000 11 0002 001 000 000
+000163 00000 00000 1 Hackelkamp                     HACK 000 12 0002 001 000 000
+000164 00000 00000 1 Hafen West                     HAWE 000 11 0001 001 000 000
+000164 00000 00000 1 Hafen West                     HAWE 000 12 0001 001 000 000
+000165 00000 00000 1 Hafen                          HAFE 000 11 0001 001 000 000
+000166 00000 00000 1 Hagenmarkt                     HAGE 000 01 0001 001 000 000
+000166 00000 00000 1 Hagenmarkt                     HAGE 000 02 0001 001 000 000
+000166 00000 00000 1 Hagenmarkt                     HAGE 000 03 0001 001 000 000
+000166 00000 00000 1 Hagenmarkt                     HAGE 000 11 0001 001 000 000
+000166 00000 00000 1 Hagenmarkt                     HAGE 000 12 0001 001 000 000
+000167 00000 00000 1 Hahnenkleestraﬂe               HAHN 000 11 0002 001 000 000
+000167 00000 00000 1 Hahnenkleestraﬂe               HAHN 000 12 0002 001 000 000
+000168 00000 00000 1 Hallestraﬂe                    HALL 000 11 0001 001 000 000
+000168 00000 00000 1 Hallestraﬂe                    HALL 000 12 0001 001 000 000
+000169 00000 00000 1 Hamburger Straﬂe               HAMB 000 01 0001 001 000 000
+000169 00000 00000 1 Hamburger Straﬂe               HAMB 000 02 0001 001 000 000
+000169 00000 00000 1 Hamburger Straﬂe               HAMB 000 11 0001 001 000 000
+000169 00000 00000 1 Hamburger Straﬂe               HAMB 000 12 0001 001 000 000
+000169 00000 00000 1 Hamburger Straﬂe               HAMB 000 13 0001 001 000 000
+000170 00000 00000 1 Hannoversche Straﬂe            HANN 000 11 0001 001 000 000
+000170 00000 00000 1 Hannoversche Straﬂe            HANN 000 12 0001 001 000 000
+000171 00000 00000 1 Hans-Sommer-Straﬂe             HASO 000 11 0001 001 000 000
+000172 00000 00000 1 Hansestraﬂe West               HAWT 000 11 0001 001 000 000
+000172 00000 00000 1 Hansestraﬂe West               HAWT 000 12 0001 001 000 000
+000173 00000 00000 1 Hansestraﬂe                    HANS 000 11 0001 001 000 000
+000173 00000 00000 1 Hansestraﬂe                    HANS 000 12 0001 001 000 000
+000173 00000 00000 1 Hansestraﬂe                    HANS 000 13 0001 001 000 000
+000174 00000 00000 1 Hartgerstraﬂe                  HART 000 11 0001 001 000 000
+000174 00000 00000 1 Hartgerstraﬂe                  HART 000 12 0001 001 000 000
+000175 00000 00000 1 Harzblick                      HARZ 000 11 0001 001 000 000
+000175 00000 00000 1 Harzblick                      HARZ 000 12 0001 001 000 000
+000176 00000 00000 1 Hauptbahnhof                   HZOB 000 11 0001 001 000 000
+000176 00000 00000 1 Hauptbahnhof                   HZOB 000 12 0001 001 000 000
+000177 00000 00000 1 Hauptbahnhof S¸d               HAUS 000 11 0001 001 000 000
+000177 00000 00000 1 Hauptbahnhof S¸d               HAUS 000 12 0001 001 000 000
+000178 00000 00000 1 Hauptbahnhof                   HAUP 000 01 0002 001 000 000
+000178 00000 00000 1 Hauptbahnhof                   HAUP 000 02 0002 001 000 000
+000178 00000 00000 1 Hauptbahnhof                   HAUP 000 11 0002 001 000 000
+000178 00000 00000 1 Hauptbahnhof                   HAUP 000 12 0002 001 000 000
+000178 00000 00000 1 Hauptbahnhof                   HAUP 000 13 0002 001 000 000
+000178 00000 00000 1 Hauptbahnhof                   HAUP 000 14 0002 001 000 000
+000179 00000 00000 1 Hauptfriedhof                  HAUF 000 01 0001 001 000 000
+000179 00000 00000 1 Hauptfriedhof                  HAUF 000 02 0001 001 000 000
+000179 00000 00000 1 Hauptfriedhof                  HAUF 000 11 0001 001 000 000
+000179 00000 00000 1 Hauptfriedhof                  HAUF 000 12 0001 001 000 000
+000180 00000 00000 1 Hauptpost                      HAPO 000 12 0001 001 000 000
+000181 00000 00000 1 Havelstraﬂe                    HAVE 000 11 0001 001 000 000
+000181 00000 00000 1 Havelstraﬂe                    HAVE 000 12 0001 001 000 000
+000182 00000 00000 1 Heesfeld                       HEES 000 11 0001 001 000 000
+000182 00000 00000 1 Heesfeld                       HEES 000 12 0001 001 000 000
+000183 00000 00000 1 Hegerdorfstraﬂe                HEGE 000 11 0001 001 000 000
+000183 00000 00000 1 Hegerdorfstraﬂe                HEGE 000 12 0001 001 000 000
+000184 00000 00000 1 Heideblick                     HEID 000 11 0001 001 000 000
+000184 00000 00000 1 Heideblick                     HEID 000 12 0001 001 000 000
+000185 00000 00000 1 Heidehˆhe                      HEIH 000 11 0002 001 000 000
+000185 00000 00000 1 Heidehˆhe                      HEIH 000 12 0002 001 000 000
+000186 00000 00000 1 Heideweg                       HEIW 000 11 0001 001 000 000
+000186 00000 00000 1 Heideweg                       HEIW 000 12 0001 001 000 000
+000187 00000 00000 1 Heinrich-B¸ssing-Ring          HEBR 000 01 0001 001 000 000
+000187 00000 00000 1 Heinrich-B¸ssing-Ring          HEBR 000 02 0001 001 000 000
+000187 00000 00000 1 Heinrich-B¸ssing-Ring          HEBR 000 11 0001 001 000 000
+000188 00000 00000 1 Heinrich der Lˆwe Kaserne      HDLK 000 11 0001 001 000 000
+000188 00000 00000 1 Heinrich der Lˆwe Kaserne      HDLK 000 12 0001 001 000 000
+000189 00000 00000 1 Helenenstraﬂe                  HELE 000 11 0001 001 000 000
+000189 00000 00000 1 Helenenstraﬂe                  HELE 000 12 0001 001 000 000
+000190 00000 00000 1 Hemkenrode,Dorfstraﬂe          HEDO 000 11 0001 001 000 000
+000190 00000 00000 1 Hemkenrode,Dorfstraﬂe          HEDO 000 12 0001 001 000 000
+000191 00000 00000 1 Hemkenrode,Kalkwerk            HEKA 000 11 0001 001 000 000
+000191 00000 00000 1 Hemkenrode,Kalkwerk            HEKA 000 12 0001 001 000 000
+000192 00000 00000 1 Hildesheimer Straﬂe            HILD 000 11 0001 001 000 000
+000192 00000 00000 1 Hildesheimer Straﬂe            HILD 000 12 0001 001 000 000
+000193 00000 00000 1 Hinter den Hainen              HIHA 000 11 0001 001 000 000
+000193 00000 00000 1 Hinter den Hainen              HIHA 000 12 0001 001 000 000
+000194 00000 00000 1 Hochstraﬂe                     HOCH 000 11 0001 001 000 000
+000194 00000 00000 1 Hochstraﬂe                     HOCH 000 12 0001 001 000 000
+000195 00000 00000 1 Hohes Feld                     HOFE 000 11 0001 001 000 000
+000195 00000 00000 1 Hohes Feld                     HOFE 000 12 0001 001 000 000
+000196 00000 00000 1 Hohe Wiese                     HOWI 000 11 0001 001 000 000
+000196 00000 00000 1 Hohe Wiese                     HOWI 000 12 0001 001 000 000
+000197 00000 00000 1 Holzmindener Straﬂe            HOMI 000 11 0001 001 000 000
+000197 00000 00000 1 Holzmindener Straﬂe            HOMI 000 12 0001 001 000 000
+000198 00000 00000 1 Hondelager Straﬂe              HOND 000 11 0001 001 000 000
+000198 00000 00000 1 Hondelager Straﬂe              HOND 000 12 0001 001 000 000
+000199 00000 00000 1 Hordorf,Forststraﬂe            HOFO 000 11 0001 001 000 000
+000199 00000 00000 1 Hordorf,Forststraﬂe            HOFO 000 12 0001 001 000 000
+000200 00000 00000 1 Hordorf,Steinkamp              HOST 000 11 0001 001 000 000
+000200 00000 00000 1 Hordorf,Steinkamp              HOST 000 12 0001 001 000 000
+000201 00000 00000 1 Hordorf,Waldstraﬂe             HOWA 000 11 0001 001 000 000
+000201 00000 00000 1 Hordorf,Waldstraﬂe             HOWA 000 12 0001 001 000 000
+000202 00000 00000 1 Hordorfer Straﬂe               HORD 000 11 0001 001 000 000
+000202 00000 00000 1 Hordorfer Straﬂe               HORD 000 12 0001 001 000 000
+000203 00000 00000 1 Hˆseweg                        HOSE 000 11 0001 001 000 000
+000203 00000 00000 1 Hˆseweg                        HOSE 000 12 0001 001 000 000
+000204 00000 00000 1 Hugo-Luther-Straﬂe             HULU 000 11 0001 001 000 000
+000204 00000 00000 1 Hugo-Luther-Straﬂe             HULU 000 12 0001 001 000 000
+000205 00000 00000 1 H¸hnerkamp                     HUHN 000 11 0001 001 000 000
+000205 00000 00000 1 H¸hnerkamp                     HUHN 000 12 0001 001 000 000
+000206 00000 00000 1 Hunsr¸ckweg                    HUNS 000 11 0001 001 000 000
+000206 00000 00000 1 Hunsr¸ckweg                    HUNS 000 12 0001 001 000 000
+000207 00000 00000 1 H¸ttenweg                      HUTT 000 11 0001 001 000 000
+000207 00000 00000 1 H¸ttenweg                      HUTT 000 12 0001 001 000 000
+000208 00000 00000 1 Boeselagerstraﬂe               BOES 000 11 0001 001 000 000
+000208 00000 00000 1 Boeselagerstraﬂe               BOES 000 12 0001 001 000 000
+000209 00000 00000 1 Im Dorfe                       IMDO 000 12 0001 001 000 000
+000210 00000 00000 1 Im Groﬂen Moore                IGMO 000 11 0001 001 000 000
+000210 00000 00000 1 Im Groﬂen Moore                IGMO 000 12 0001 001 000 000
+000211 00000 00000 1 Im Seumel                      ISEU 000 11 0001 001 000 000
+000211 00000 00000 1 Im Seumel                      ISEU 000 12 0001 001 000 000
+000212 00000 00000 1 Im Steinkampe                  IMST 000 11 0001 001 000 000
+000212 00000 00000 1 Im Steinkampe                  IMST 000 12 0001 001 000 000
+000212 00000 00000 1 Im Steinkampe                  IMST 000 13 0001 001 000 000
+000213 00000 00000 1 Im Sydikum                     IMSY 000 11 0001 001 000 000
+000213 00000 00000 1 Im Sydikum                     IMSY 000 12 0001 001 000 000
+000214 00000 00000 1 In den Wiesen                  IDWI 000 11 0001 001 000 000
+000214 00000 00000 1 In den Wiesen                  IDWI 000 12 0001 001 000 000
+000215 00000 00000 1 Ind.-Geb.-Veltenhof West       INVW 000 11 0001 001 000 000
+000215 00000 00000 1 Ind.-Geb.-Veltenhof West       INVW 000 12 0001 001 000 000
+000216 00000 00000 1 Industriegebiet Veltenhof      INVE 000 11 0001 001 000 000
+000216 00000 00000 1 Industriegebiet Veltenhof      INVE 000 12 0001 001 000 000
+000217 00000 00000 1 Inselwall                      INSE 000 01 0001 001 000 000
+000217 00000 00000 1 Inselwall                      INSE 000 02 0001 001 000 000
+000218 00000 00000 1 Zum Wiesengrund                ZUWI 000 11 0001 001 000 000
+000218 00000 00000 1 Zum Wiesengrund                ZUWI 000 12 0001 001 000 000
+000219 00000 00000 1 Isarstraﬂe                     ISAR 000 11 0001 001 000 000
+000219 00000 00000 1 Isarstraﬂe                     ISAR 000 12 0001 001 000 000
+000220 00000 00000 1 Isoldestraﬂe                   ISOL 000 11 0001 001 000 000
+000220 00000 00000 1 Isoldestraﬂe                   ISOL 000 12 0001 001 000 000
+000221 00000 00000 1 John-F.-Kennedy-Platz          JFKP 000 01 0002 001 000 000
+000221 00000 00000 1 John-F.-Kennedy-Platz          JFKP 000 02 0002 001 000 000
+000221 00000 00000 1 John-F.-Kennedy-Platz          JFKP 000 03 0002 001 000 000
+000221 00000 00000 1 John-F.-Kennedy-Platz          JFKP 000 11 0002 001 000 000
+000221 00000 00000 1 John-F.-Kennedy-Platz          JFKP 000 12 0002 001 000 000
+000221 00000 00000 1 John-F.-Kennedy-Platz          JFKP 000 13 0002 001 000 000
+000222 00000 00000 1 J‰gersruh                      JAGE 000 11 0001 001 000 000
+000222 00000 00000 1 J‰gersruh                      JAGE 000 12 0001 001 000 000
+000223 00000 00000 1 Jahnplatz                      JAHN 000 01 0001 001 000 000
+000223 00000 00000 1 Jahnplatz                      JAHN 000 02 0001 001 000 000
+000223 00000 00000 1 Jahnplatz                      JAHN 000 11 0001 001 000 000
+000223 00000 00000 1 Jahnplatz                      JAHN 000 12 0001 001 000 000
+000224 00000 00000 1 Jahnstraﬂe                     JAHS 000 11 0001 001 000 000
+000224 00000 00000 1 Jahnstraﬂe                     JAHS 000 12 0001 001 000 000
+000225 00000 00000 1 Jasperallee                    JASP 000 11 0001 001 000 000
+000225 00000 00000 1 Jasperallee                    JASP 000 12 0001 001 000 000
+000225 00000 00000 1 Jasperallee                    JASP 000 13 0001 001 000 000
+000225 00000 00000 1 Jasperallee                    JASP 000 14 0001 001 000 000
+000226 00000 00000 1 J.-Fraunhofer-Straﬂe           JOFR 000 11 0001 001 000 000
+000226 00000 00000 1 J.-Fraunhofer-Straﬂe           JOFR 000 12 0001 001 000 000
+000227 00000 00000 1 J¸delstraﬂe                    JUDE 000 11 0001 001 000 000
+000227 00000 00000 1 J¸delstraﬂe                    JUDE 000 12 0001 001 000 000
+000228 00000 00000 1 Julius-Elster-Straﬂe           JUEL 000 11 0001 001 000 000
+000228 00000 00000 1 Julius-Elster-Straﬂe           JUEL 000 12 0001 001 000 000
+000229 00000 00000 1 K‰lberwiese                    KALB 000 11 0001 001 000 000
+000229 00000 00000 1 K‰lberwiese                    KALB 000 12 0001 001 000 000
+000230 00000 00000 1 Kanalbr¸cke                    KANA 000 11 0001 001 000 000
+000230 00000 00000 1 Kanalbr¸cke                    KANA 000 12 0001 001 000 000
+000231 00000 00000 1 Karlsbrunner Straﬂe            KARL 000 12 0001 001 000 000
+000232 00000 00000 1 Karl-Sprengel-Straﬂe           KASP 000 11 0001 001 000 000
+000232 00000 00000 1 Karl-Sprengel-Straﬂe           KASP 000 12 0001 001 000 000
+000233 00000 00000 1 Kasernenstraﬂe                 KASE 000 11 0001 001 000 000
+000233 00000 00000 1 Kasernenstraﬂe                 KASE 000 12 0001 001 000 000
+000234 00000 00000 1 Kastanienallee                 KAST 000 11 0001 001 000 000
+000234 00000 00000 1 Kastanienallee                 KAST 000 12 0001 001 000 000
+000234 00000 00000 1 Kastanienallee                 KAST 000 13 0001 001 000 000
+000234 00000 00000 1 Kastanienallee                 KAST 000 14 0001 001 000 000
+000235 00000 00000 1 Kennelweg                      KENN 000 11 0001 001 000 000
+000235 00000 00000 1 Kennelweg                      KENN 000 12 0001 001 000 000
+000236 00000 00000 1 Kleebreite                     KLEE 000 11 0001 001 000 000
+000236 00000 00000 1 Kleebreite                     KLEE 000 12 0001 001 000 000
+000237 00000 00000 1 Klein Gleidingen               KLGL 000 11 0001 001 000 000
+000237 00000 00000 1 Klein Gleidingen               KLGL 000 12 0001 001 000 000
+000238 00000 00000 1 Kl.Schˆppenstedt Neeteweg      KLSC 000 11 0001 001 000 000
+000238 00000 00000 1 Kl.Schˆppenstedt Neeteweg      KLSC 000 12 0001 001 000 000
+000238 00000 00000 1 Kl.Schˆppenstedt Neeteweg      KLSC 000 13 0001 001 000 000
+000238 00000 00000 1 Kl.Schˆppenstedt Neeteweg      KLSC 000 14 0001 001 000 000
+000239 00000 00000 1 Klein Veltheim                 KLVE 000 11 0001 001 000 000
+000239 00000 00000 1 Klein Veltheim                 KLVE 000 12 0001 001 000 000
+000240 00000 00000 1 Kauleteich                     KAUL 000 11 0001 001 000 000
+000240 00000 00000 1 Kauleteich                     KAUL 000 12 0001 001 000 000
+000241 00000 00000 1 Kleine Kreuzstraﬂe             KLKR 000 11 0001 001 000 000
+000241 00000 00000 1 Kleine Kreuzstraﬂe             KLKR 000 12 0001 001 000 000
+000242 00000 00000 1 Klingemannstraﬂe               KLIN 000 11 0001 001 000 000
+000242 00000 00000 1 Klingemannstraﬂe               KLIN 000 12 0001 001 000 000
+000243 00000 00000 1 Kˆ.An der Stadtmauer           KADS 000 11 0001 001 000 000
+000244 00000 00000 1 Kˆ.Bahnhof                     KBAH 000 11 0001 001 000 000
+000244 00000 00000 1 Kˆ.Bahnhof                     KBAH 000 12 0001 001 000 000
+000245 00000 00000 1 Kˆ.Klosterstraﬂe               KKLO 000 11 0011 001 000 000
+000245 00000 00000 1 Kˆ.Klosterstraﬂe               KKLO 000 12 0001 001 000 000
+000246 00000 00000 1 Kˆ.Am Spitzen Kamp             KASK 000 11 0001 001 000 000
+000246 00000 00000 1 Kˆ.Am Spitzen Kamp             KASK 000 12 0001 001 000 000
+000247 00000 00000 1 Kˆ.Am Markt                    KMAR 000 11 0001 001 000 000
+000247 00000 00000 1 Kˆ.Am Markt                    KMAR 000 12 0001 001 000 000
+000248 00000 00000 1 Bornum,Am Dorfe                BADE 000 11 0001 001 000 000
+000248 00000 00000 1 Bornum,Am Dorfe                BADE 000 12 0001 001 000 000
+000249 00000 00000 1 Bornum,Dorfstraﬂe              BORU 000 11 0001 001 000 000
+000249 00000 00000 1 Bornum,Dorfstraﬂe              BORU 000 12 0001 001 000 000
+000250 00000 00000 1 Kˆchingen,Ortsring             KOOR 000 11 0001 001 000 000
+000250 00000 00000 1 Kˆchingen,Ortsring             KOOR 000 12 0001 001 000 000
+000251 00000 00000 1 Kˆchingen,Planweg              KOPL 000 11 0001 001 000 000
+000251 00000 00000 1 Kˆchingen,Planweg              KOPL 000 12 0001 001 000 000
+000252 00000 00000 1 Steinriedendamm                STER 000 11 0001 001 000 000
+000252 00000 00000 1 Steinriedendamm                STER 000 12 0001 001 000 000
+000252 00000 00000 1 Steinriedendamm                STER 000 13 0001 001 000 000
+000252 00000 00000 1 Steinriedendamm                STER 000 14 0001 001 000 000
+000253 00000 00000 1 Kr‰henwinkel                   KRAH 000 11 0001 001 000 000
+000253 00000 00000 1 Kr‰henwinkel                   KRAH 000 12 0001 001 000 000
+000254 00000 00000 1 Kreisstraﬂe 54                 KREI 000 11 0001 001 000 000
+000254 00000 00000 1 Kreisstraﬂe 54                 KREI 000 12 0001 001 000 000
+000255 00000 00000 1 Krematorium                    KREM 000 01 0002 001 000 000
+000255 00000 00000 1 Krematorium                    KREM 000 02 0002 001 000 000
+000255 00000 00000 1 Krematorium                    KREM 000 11 0002 001 000 000
+000255 00000 00000 1 Krematorium                    KREM 000 12 0002 001 000 000
+000255 00000 00000 1 Krematorium                    KREM 000 13 0002 001 000 000
+000255 00000 00000 1 Krematorium                    KREM 000 14 0002 001 000 000
+000256 00000 00000 1 Kremsweg                       KRES 000 11 0001 001 000 000
+000256 00000 00000 1 Kremsweg                       KRES 000 12 0001 001 000 000
+000257 00000 00000 1 Kreuzteich                     KREU 000 11 0001 001 000 000
+000257 00000 00000 1 Kreuzteich                     KREU 000 12 0001 001 000 000
+000257 00000 00000 1 Kreuzteich                     KREU 000 13 0001 001 000 000
+000257 00000 00000 1 Kreuzteich                     KREU 000 14 0001 001 000 000
+000258 00000 00000 1 Krˆppelberg                    KROP 000 11 0001 001 000 000
+000258 00000 00000 1 Krˆppelberg                    KROP 000 12 0001 001 000 000
+000259 00000 00000 1 Kruckweg                       KRUC 000 01 0001 001 000 000
+000259 00000 00000 1 Kruckweg                       KRUC 000 02 0001 001 000 000
+000259 00000 00000 1 Kruckweg                       KRUC 000 11 0001 001 000 000
+000259 00000 00000 1 Kruckweg                       KRUC 000 12 0001 001 000 000
+000260 00000 00000 1 Kurt-Schumacher-Str.           KUSC 000 01 0002 001 000 000
+000260 00000 00000 1 Kurt-Schumacher-Str.           KUSC 000 02 0002 001 000 000
+000260 00000 00000 1 Kurt-Schumacher-Str.           KUSC 000 11 0002 001 000 000
+000261 00000 00000 1 L‰genkamp                      LAGE 000 11 0001 001 000 000
+000261 00000 00000 1 L‰genkamp                      LAGE 000 12 0001 001 000 000
+000262 00000 00000 1 Elm,Langelebener Pfahl         LANG 000 11 0001 001 000 000
+000262 00000 00000 1 Elm,Langelebener Pfahl         LANG 000 12 0001 001 000 000
+000263 00000 00000 1 Leiferdestraﬂe                 LEIF 000 11 0001 001 000 000
+000263 00000 00000 1 Leiferdestraﬂe                 LEIF 000 12 0001 001 000 000
+000264 00000 00000 1 Leinestraﬂe                    LEIN 000 11 0001 001 000 000
+000264 00000 00000 1 Leinestraﬂe                    LEIN 000 12 0001 001 000 000
+000265 00000 00000 1 Leipziger Straﬂe               LEIP 000 01 0001 001 000 000
+000265 00000 00000 1 Leipziger Straﬂe               LEIP 000 02 0001 001 000 000
+000265 00000 00000 1 Leipziger Straﬂe               LEIP 000 11 0001 001 000 000
+000265 00000 00000 1 Leipziger Straﬂe               LEIP 000 12 0001 001 000 000
+000266 00000 00000 1 Leisewitzstraﬂe                LEIS 000 01 0001 001 000 000
+000266 00000 00000 1 Leisewitzstraﬂe                LEIS 000 02 0001 001 000 000
+000266 00000 00000 1 Leisewitzstraﬂe                LEIS 000 11 0001 001 000 000
+000266 00000 00000 1 Leisewitzstraﬂe                LEIS 000 12 0001 001 000 000
+000267 00000 00000 1 Lehmweg                        LEHM 000 11 0001 001 000 000
+000267 00000 00000 1 Lehmweg                        LEHM 000 12 0001 001 000 000
+000268 00000 00000 1 Lengede,Bergstraﬂe             LEBE 000 11 0001 001 000 000
+000268 00000 00000 1 Lengede,Bergstraﬂe             LEBE 000 12 0001 001 000 000
+000269 00000 00000 1 Lengede,Bodenst. Weg           LEBO 000 11 0001 001 000 000
+000269 00000 00000 1 Lengede,Bodenst. Weg           LEBO 000 12 0001 001 000 000
+000270 00000 00000 1 Lengede,G‰rtlingsweg           LEGA 000 11 0001 001 000 000
+000270 00000 00000 1 Lengede,G‰rtlingsweg           LEGA 000 12 0001 001 000 000
+000271 00000 00000 1 Lengede,Lausitzer Straﬂe       LELA 000 11 0001 001 000 000
+000271 00000 00000 1 Lengede,Lausitzer Straﬂe       LELA 000 12 0001 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 01 0002 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 02 0002 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 03 0002 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 11 0002 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 12 0002 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 13 0002 001 000 000
+000272 00000 00000 1 Leonhardplatz                  LEON 000 14 0002 001 000 000
+000273 00000 00000 1 Zollkamp                       ZOLL 000 11 0001 001 000 000
+000273 00000 00000 1 Zollkamp                       ZOLL 000 12 0001 001 000 000
+000274 00000 00000 1 Lichtenberger Straﬂe           LICH 000 11 0001 001 000 000
+000274 00000 00000 1 Lichtenberger Straﬂe           LICH 000 12 0001 001 000 000
+000275 00000 00000 1 Liebigstraﬂe                   LIEB 000 11 0001 001 000 000
+000275 00000 00000 1 Liebigstraﬂe                   LIEB 000 12 0001 001 000 000
+000276 00000 00000 1 Liedingen                      LIED 000 11 0001 001 000 000
+000276 00000 00000 1 Liedingen                      LIED 000 12 0001 001 000 000
+000277 00000 00000 1 Liegnitzstraﬂe                 LIEG 000 11 0001 001 000 000
+000277 00000 00000 1 Liegnitzstraﬂe                 LIEG 000 12 0001 001 000 000
+000277 00000 00000 1 Liegnitzstraﬂe                 LIEG 000 13 0001 001 000 000
+000278 00000 00000 1 Ligusterweg                    LIGU 000 11 0001 001 000 000
+000278 00000 00000 1 Ligusterweg                    LIGU 000 12 0001 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 01 0001 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 02 0001 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 11 0002 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 12 0002 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 13 0002 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 14 0002 001 000 000
+000279 00000 00000 1 Lincolnsiedlung                LINC 000 15 0002 001 000 000
+000280 00000 00000 1 Hans-Geitel-Straﬂe             HGEI 000 11 0002 001 000 000
+000280 00000 00000 1 Hans-Geitel-Straﬂe             HGEI 000 12 0002 001 000 000
+000280 00000 00000 1 Hans-Geitel-Straﬂe             HGEI 000 13 0002 001 000 000
+000281 00000 00000 1 Luisenstraﬂe                   LUIS 000 01 0001 001 000 000
+000281 00000 00000 1 Luisenstraﬂe                   LUIS 000 02 0001 001 000 000
+000281 00000 00000 1 Luisenstraﬂe                   LUIS 000 11 0001 001 000 000
+000281 00000 00000 1 Luisenstraﬂe                   LUIS 000 12 0001 001 000 000
+000281 00000 00000 1 Luisenstraﬂe                   LUIS 000 13 0001 001 000 000
+000282 00000 00000 1 Kˆ.Lutterspring                KLUT 000 11 0001 001 000 000
+000282 00000 00000 1 Kˆ.Lutterspring                KLUT 000 12 0001 001 000 000
+000283 00000 00000 1 Madamenweg                     MADA 000 11 0001 001 000 000
+000283 00000 00000 1 Madamenweg                     MADA 000 12 0001 001 000 000
+000283 00000 00000 1 Madamenweg                     MADA 000 13 0001 001 000 000
+000283 00000 00000 1 Madamenweg                     MADA 000 14 0001 001 000 000
+000283 00000 00000 1 Madamenweg                     MADA 000 15 0001 001 000 000
+000284 00000 00000 1 Marienberger Straﬂe            MARI 000 11 0001 001 000 000
+000284 00000 00000 1 Marienberger Straﬂe            MARI 000 12 0001 001 000 000
+000285 00000 00000 1 Marienstift                    MARS 000 01 0002 001 000 000
+000285 00000 00000 1 Marienstift                    MARS 000 02 0002 001 000 000
+000285 00000 00000 1 Marienstift                    MARS 000 11 0001 001 000 000
+000285 00000 00000 1 Marienstift                    MARS 000 12 0001 001 000 000
+000285 00000 00000 1 Marienstift                    MARS 000 13 0001 001 000 000
+000285 00000 00000 1 Marienstift                    MARS 000 14 0001 001 000 000
+000286 00000 00000 1 Maschstraﬂe                    MASC 000 11 0001 001 000 000
+000286 00000 00000 1 Maschstraﬂe                    MASC 000 12 0001 001 000 000
+000287 00000 00000 1 Maybachstraﬂe                  MAYB 000 11 0001 001 000 000
+000287 00000 00000 1 Maybachstraﬂe                  MAYB 000 12 0001 001 000 000
+000288 00000 00000 1 Meinestraﬂe                    MEIN 000 11 0001 001 000 000
+000288 00000 00000 1 Meinestraﬂe                    MEIN 000 12 0001 001 000 000
+000289 00000 00000 1 Mendelssohnstraﬂe              MEND 000 11 0001 001 000 000
+000289 00000 00000 1 Mendelssohnstraﬂe              MEND 000 12 0001 001 000 000
+000290 00000 00000 1 Messeweg                       MESS 000 01 0001 001 000 000
+000290 00000 00000 1 Messeweg                       MESS 000 02 0001 001 000 000
+000290 00000 00000 1 Messeweg                       MESS 000 11 0001 001 000 000
+000290 00000 00000 1 Messeweg                       MESS 000 12 0001 001 000 000
+000290 00000 00000 1 Messeweg                       MESS 000 13 0001 001 000 000
+000290 00000 00000 1 Messeweg                       MESS 000 14 0001 001 000 000
+000291 00000 00000 1 Messegel‰nde Nordeing.         MENO 000 11 0002 001 000 000
+000291 00000 00000 1 Messegel‰nde Nordeing.         MENO 000 12 0002 001 000 000
+000292 00000 00000 1 Messegel‰nde S¸deing.          MESU 000 01 0001 001 000 000
+000292 00000 00000 1 Messegel‰nde S¸deing.          MESU 000 02 0001 001 000 000
+000292 00000 00000 1 Messegel‰nde S¸deing.          MESU 000 11 0001 001 000 000
+000292 00000 00000 1 Messegel‰nde S¸deing.          MESU 000 12 0001 001 000 000
+000293 00000 00000 1 Michelfelder Platz             MICH 000 11 0001 001 000 000
+000293 00000 00000 1 Michelfelder Platz             MICH 000 12 0001 001 000 000
+000294 00000 00000 1 Milanstraﬂe                    MILA 000 11 0001 001 000 000
+000294 00000 00000 1 Milanstraﬂe                    MILA 000 12 0001 001 000 000
+000295 00000 00000 1 Mittellandkanal                MITT 000 11 0001 001 000 000
+000295 00000 00000 1 Mittellandkanal                MITT 000 12 0001 001 000 000
+000296 00000 00000 1 Mˆwenweg                       MOWE 000 11 0001 001 000 000
+000296 00000 00000 1 Mˆwenweg                       MOWE 000 12 0001 001 000 000
+000297 00000 00000 1 Moorh¸ttenweg                  MOOR 000 01 0001 001 000 000
+000297 00000 00000 1 Moorh¸ttenweg                  MOOR 000 02 0001 001 000 000
+000297 00000 00000 1 Moorh¸ttenweg                  MOOR 000 11 0002 001 000 000
+000297 00000 00000 1 Moorh¸ttenweg                  MOOR 000 12 0002 001 000 000
+000297 00000 00000 1 Moorh¸ttenweg                  MOOR 000 13 0002 001 000 000
+000298 00000 00000 1 M¸hlenpfordtstraﬂe             MUHL 000 01 0001 001 000 000
+000298 00000 00000 1 M¸hlenpfordtstraﬂe             MUHL 000 02 0001 001 000 000
+000298 00000 00000 1 M¸hlenpfordtstraﬂe             MUHL 000 11 0001 001 000 000
+000298 00000 00000 1 M¸hlenpfordtstraﬂe             MUHL 000 12 0001 001 000 000
+000299 00000 00000 1 Hopfenanger                    HOPF 000 11 0001 001 000 000
+000299 00000 00000 1 Hopfenanger                    HOPF 000 12 0001 001 000 000
+000300 00000 00000 1 M¸nzstraﬂe                     MUNZ 000 11 0001 001 000 000
+000300 00000 00000 1 M¸nzstraﬂe                     MUNZ 000 12 0001 001 000 000
+000301 00000 00000 1 Neckarstraﬂe                   NECK 000 11 0001 001 000 000
+000301 00000 00000 1 Neckarstraﬂe                   NECK 000 12 0001 001 000 000
+000302 00000 00000 1 Nehrkornweg                    NEHR 000 11 0001 001 000 000
+000302 00000 00000 1 Nehrkornweg                    NEHR 000 12 0001 001 000 000
+000303 00000 00000 1 Neudammstraﬂe                  NEUD 000 11 0001 001 000 000
+000303 00000 00000 1 Neudammstraﬂe                  NEUD 000 12 0001 001 000 000
+000303 00000 00000 1 Neudammstraﬂe                  NEUD 000 13 0001 001 000 000
+000304 00000 00000 1 Neuruppinstraﬂe                NEUR 000 11 0001 001 000 000
+000304 00000 00000 1 Neuruppinstraﬂe                NEUR 000 12 0001 001 000 000
+000305 00000 00000 1 Niddastraﬂe                    NIDD 000 11 0001 001 000 000
+000305 00000 00000 1 Niddastraﬂe                    NIDD 000 12 0001 001 000 000
+000306 00000 00000 1 Nibelungenplatz                NIBE 000 01 0001 001 000 000
+000306 00000 00000 1 Nibelungenplatz                NIBE 000 02 0001 001 000 000
+000306 00000 00000 1 Nibelungenplatz                NIBE 000 11 0001 001 000 000
+000306 00000 00000 1 Nibelungenplatz                NIBE 000 12 0001 001 000 000
+000307 00000 00000 1 Nietzschestraﬂe                NIET 000 11 0001 001 000 000
+000307 00000 00000 1 Nietzschestraﬂe                NIET 000 12 0001 001 000 000
+000308 00000 00000 1 Nˆrdlicher Holzrand            NOHO 000 11 0001 001 000 000
+000308 00000 00000 1 Nˆrdlicher Holzrand            NOHO 000 12 0001 001 000 000
+000309 00000 00000 1 Nordbad                        NORB 000 11 0001 001 000 000
+000309 00000 00000 1 Nordbad                        NORB 000 12 0001 001 000 000
+000310 00000 00000 1 Nordhoffstraﬂe                 NORH 000 01 0001 001 000 000
+000310 00000 00000 1 Nordhoffstraﬂe                 NORH 000 02 0001 001 000 000
+000311 00000 00000 1 Nordstraﬂe                     NORD 000 11 0001 001 000 000
+000311 00000 00000 1 Nordstraﬂe                     NORD 000 12 0001 001 000 000
+000312 00000 00000 1 Nuﬂbergstraﬂe                  NUST 000 11 0001 001 000 000
+000312 00000 00000 1 Nuﬂbergstraﬂe                  NUST 000 12 0001 001 000 000
+000313 00000 00000 1 Nuﬂberg                        NUSS 000 11 0001 001 000 000
+000313 00000 00000 1 Nuﬂberg                        NUSS 000 12 0001 001 000 000
+000314 00000 00000 1 Otto-von-Guericke-Straﬂe       OGUS 000 11 0001 001 000 000
+000314 00000 00000 1 Otto-von-Guericke-Straﬂe       OGUS 000 12 0001 001 000 000
+000314 00000 00000 1 Otto-von-Guericke-Straﬂe       OGUS 000 13 0001 001 000 000
+000314 00000 00000 1 Otto-von-Guericke-Straﬂe       OGUS 000 14 0001 001 000 000
+000315 00000 00000 1 ÷ffentliche B¸cherei           OFBU 000 12 0001 001 000 000
+000316 00000 00000 1 Ohlenhofstraﬂe                 OHLE 000 11 0001 001 000 000
+000316 00000 00000 1 Ohlenhofstraﬂe                 OHLE 000 12 0001 001 000 000
+000316 00000 00000 1 Ohlenhofstraﬂe                 OHLE 000 13 0001 001 000 000
+000316 00000 00000 1 Ohlenhofstraﬂe                 OHLE 000 14 0001 001 000 000
+000317 00000 00000 1 Ohefeld                        OHEF 000 11 0001 001 000 000
+000317 00000 00000 1 Ohefeld                        OHEF 000 12 0001 001 000 000
+000318 00000 00000 1 Okerbr¸cke                     OKER 000 11 0001 001 000 000
+000318 00000 00000 1 Okerbr¸cke                     OKER 000 12 0001 001 000 000
+000319 00000 00000 1 Ottenroder Straﬂe              OTTE 000 01 0001 001 000 000
+000319 00000 00000 1 Ottenroder Straﬂe              OTTE 000 02 0001 001 000 000
+000319 00000 00000 1 Ottenroder Straﬂe              OTTE 000 11 0001 001 000 000
+000319 00000 00000 1 Ottenroder Straﬂe              OTTE 000 12 0001 001 000 000
+000320 00000 00000 1 Ottweilerstraﬂe                OTTW 000 11 0001 001 000 000
+000320 00000 00000 1 Ottweilerstraﬂe                OTTW 000 12 0001 001 000 000
+000320 00000 00000 1 Ottweilerstraﬂe                OTTW 000 13 0001 001 000 000
+000321 00000 00000 1 P.T.B.                         PTBB 000 11 0001 001 000 000
+000321 00000 00000 1 P.T.B.                         PTBB 000 12 0001 001 000 000
+000321 00000 00000 1 P.T.B.                         PTBB 000 13 0001 001 000 000
+000322 00000 00000 1 Packhof                        PACK 000 12 0001 001 000 000
+000323 00000 00000 1 Pappelallee                    PAPA 000 11 0001 001 000 000
+000323 00000 00000 1 Pappelallee                    PAPA 000 12 0001 001 000 000
+000324 00000 00000 1 Pappelbergsiedlung             PAPP 000 11 0001 001 000 000
+000324 00000 00000 1 Pappelbergsiedlung             PAPP 000 12 0001 001 000 000
+000324 00000 00000 1 Pappelbergsiedlung             PAPP 000 13 0001 001 000 000
+000325 00000 00000 1 Paracelsusstraﬂe               PARA 000 11 0002 001 000 000
+000325 00000 00000 1 Paracelsusstraﬂe               PARA 000 12 0002 001 000 000
+000325 00000 00000 1 Paracelsusstraﬂe               PARA 000 13 0002 001 000 000
+000325 00000 00000 1 Paracelsusstraﬂe               PARA 000 14 0002 001 000 000
+000326 00000 00000 1 Paxmannstraﬂe                  PAXM 000 11 0001 001 000 000
+000326 00000 00000 1 Paxmannstraﬂe                  PAXM 000 12 0001 001 000 000
+000327 00000 00000 1 Peterskamp                     PETE 000 11 0002 001 000 000
+000327 00000 00000 1 Peterskamp                     PETE 000 12 0002 001 000 000
+000328 00000 00000 1 Petristraﬂe                    PETR 000 11 0001 001 000 000
+000328 00000 00000 1 Petristraﬂe                    PETR 000 12 0001 001 000 000
+000329 00000 00000 1 Petzvalstraﬂe                  PETZ 000 01 0001 001 000 000
+000329 00000 00000 1 Petzvalstraﬂe                  PETZ 000 02 0001 001 000 000
+000329 00000 00000 1 Petzvalstraﬂe                  PETZ 000 11 0001 001 000 000
+000330 00000 00000 1 Pfarrgasse                     PFAR 000 11 0001 001 000 000
+000330 00000 00000 1 Pfarrgasse                     PFAR 000 12 0001 001 000 000
+000331 00000 00000 1 Pfleidererstraﬂe               PFLE 000 11 0001 001 000 000
+000331 00000 00000 1 Pfleidererstraﬂe               PFLE 000 12 0001 001 000 000
+000332 00000 00000 1 Pockelsstraﬂe                  POCK 000 11 0001 001 000 000
+000332 00000 00000 1 Pockelsstraﬂe                  POCK 000 12 0001 001 000 000
+000333 00000 00000 1 Pothof                         POTH 000 11 0001 001 000 000
+000333 00000 00000 1 Pothof                         POTH 000 12 0001 001 000 000
+000334 00000 00000 1 Potsdamstraﬂe                  POTS 000 11 0001 001 000 000
+000334 00000 00000 1 Potsdamstraﬂe                  POTS 000 12 0001 001 000 000
+000335 00000 00000 1 Pressehaus                     PRES 000 01 0001 001 000 000
+000335 00000 00000 1 Pressehaus                     PRES 000 02 0001 001 000 000
+000335 00000 00000 1 Pressehaus                     PRES 000 11 0001 001 000 000
+000335 00000 00000 1 Pressehaus                     PRES 000 12 0001 001 000 000
+000336 00000 00000 1 Prinz-Albrecht-Park            PALP 000 11 0001 001 000 000
+000336 00000 00000 1 Prinz-Albrecht-Park            PALP 000 12 0001 001 000 000
+000336 00000 00000 1 Prinz-Albrecht-Park            PALP 000 13 0001 001 000 000
+000336 00000 00000 1 Prinz-Albrecht-Park            PALP 000 14 0001 001 000 000
+000337 00000 00000 1 Querumer Straﬂe                QUER 000 01 0001 001 000 000
+000337 00000 00000 1 Querumer Straﬂe                QUER 000 02 0001 001 000 000
+000337 00000 00000 1 Querumer Straﬂe                QUER 000 11 0001 001 000 000
+000337 00000 00000 1 Querumer Straﬂe                QUER 000 12 0001 001 000 000
+000337 00000 00000 1 Querumer Straﬂe                QUER 000 13 0001 001 000 000
+000338 00000 00000 1 Radeklint                      RADE 000 01 0001 001 000 000
+000338 00000 00000 1 Radeklint                      RADE 000 02 0001 001 000 000
+000338 00000 00000 1 Radeklint                      RADE 000 11 0001 001 000 000
+000338 00000 00000 1 Radeklint                      RADE 000 12 0001 001 000 000
+000339 00000 00000 1 Raffteichbad                   RAFF 000 11 0001 001 000 000
+000339 00000 00000 1 Raffteichbad                   RAFF 000 12 0001 001 000 000
+000340 00000 00000 1 Raffturm                       RAFT 000 11 0001 001 000 000
+000340 00000 00000 1 Raffturm                       RAFT 000 12 0001 001 000 000
+000341 00000 00000 1 Zivildienstschule              ZIVI 000 11 0001 001 000 000
+000341 00000 00000 1 Zivildienstschule              ZIVI 000 12 0001 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 01 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 02 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 11 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 12 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 13 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 14 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 15 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 16 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 17 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 18 0002 001 000 000
+000342 00000 00000 1 Rathaus                        RATH 000 19 0002 001 000 000
+000343 00000 00000 1 Rathenaustraﬂe                 RATE 000 11 0001 001 000 000
+000343 00000 00000 1 Rathenaustraﬂe                 RATE 000 12 0001 001 000 000
+000344 00000 00000 1 Rautheimer Straﬂe              RAUT 000 11 0001 001 000 000
+000344 00000 00000 1 Rautheimer Straﬂe              RAUT 000 12 0001 001 000 000
+000345 00000 00000 1 Reitlingstraﬂe                 REIT 000 11 0001 001 000 000
+000345 00000 00000 1 Reitlingstraﬂe                 REIT 000 12 0001 001 000 000
+000346 00000 00000 1 Elm,Reitlingstal               RETT 000 11 0001 001 000 000
+000346 00000 00000 1 Elm,Reitlingstal               RETT 000 12 0001 001 000 000
+000347 00000 00000 1 Elm,Reitling                   ELRE 000 11 0001 001 000 000
+000347 00000 00000 1 Elm,Reitling                   ELRE 000 12 0001 001 000 000
+000348 00000 00000 1 Reuchlinstraﬂe                 REUC 000 11 0001 001 000 000
+000348 00000 00000 1 Reuchlinstraﬂe                 REUC 000 12 0001 001 000 000
+000348 00000 00000 1 Reuchlinstraﬂe                 REUC 000 13 0001 001 000 000
+000348 00000 00000 1 Reuchlinstraﬂe                 REUC 000 14 0001 001 000 000
+000349 00000 00000 1 Richard-Strauﬂ-Weg             RIST 000 11 0001 001 000 000
+000349 00000 00000 1 Richard-Strauﬂ-Weg             RIST 000 12 0001 001 000 000
+000350 00000 00000 1 Rheinring                      RHEI 000 01 0001 001 000 000
+000350 00000 00000 1 Rheinring                      RHEI 000 02 0001 001 000 000
+000350 00000 00000 1 Rheinring                      RHEI 000 11 0001 001 000 000
+000350 00000 00000 1 Rheinring                      RHEI 000 12 0001 001 000 000
+000351 00000 00000 1 Rhˆnweg                        RHON 000 11 0001 001 000 000
+000351 00000 00000 1 Rhˆnweg                        RHON 000 12 0001 001 000 000
+000352 00000 00000 1 Richmondweg                    RICH 000 01 0001 001 000 000
+000352 00000 00000 1 Richmondweg                    RICH 000 02 0001 001 000 000
+000352 00000 00000 1 Richmondweg                    RICH 000 11 0001 001 000 000
+000352 00000 00000 1 Richmondweg                    RICH 000 12 0001 001 000 000
+000353 00000 00000 1 Rodedamm                       RODE 000 11 0002 001 000 000
+000353 00000 00000 1 Rodedamm                       RODE 000 12 0002 001 000 000
+000354 00000 00000 1 Rodelandweg                    RODW 000 11 0001 001 000 000
+000354 00000 00000 1 Rodelandweg                    RODW 000 12 0001 001 000 000
+000355 00000 00000 1 Rudolfplatz                    RUDO 000 11 0001 001 000 000
+000355 00000 00000 1 Rudolfplatz                    RUDO 000 12 0001 001 000 000
+000355 00000 00000 1 Rudolfplatz                    RUDO 000 13 0001 001 000 000
+000355 00000 00000 1 Rudolfplatz                    RUDO 000 14 0001 001 000 000
+000355 00000 00000 1 Rudolfplatz                    RUDO 000 15 0001 001 000 000
+000355 00000 00000 1 Rudolfplatz                    RUDO 000 16 0001 001 000 000
+000356 00000 00000 1 Schule R¸ningen                SRUN 000 11 0001 001 000 000
+000356 00000 00000 1 Schule R¸ningen                SRUN 000 12 0001 001 000 000
+000357 00000 00000 1 R¸ningenstraﬂe                 RUNI 000 11 0001 001 000 000
+000357 00000 00000 1 R¸ningenstraﬂe                 RUNI 000 12 0001 001 000 000
+000358 00000 00000 1 R¸sterweg                      RUST 000 01 0001 001 000 000
+000358 00000 00000 1 R¸sterweg                      RUST 000 02 0001 001 000 000
+000358 00000 00000 1 R¸sterweg                      RUST 000 11 0001 001 000 000
+000358 00000 00000 1 R¸sterweg                      RUST 000 12 0001 001 000 000
+000358 00000 00000 1 R¸sterweg                      RUST 000 13 0001 001 000 000
+000358 00000 00000 1 R¸sterweg                      RUST 000 14 0001 001 000 000
+000359 00000 00000 1 Saalestraﬂe                    SAAL 000 01 0001 001 000 000
+000359 00000 00000 1 Saalestraﬂe                    SAAL 000 02 0001 001 000 000
+000359 00000 00000 1 Saalestraﬂe                    SAAL 000 11 0001 001 000 000
+000359 00000 00000 1 Saalestraﬂe                    SAAL 000 12 0001 001 000 000
+000360 00000 00000 1 Saarbr¸ckener Straﬂe           SAST 000 11 0001 001 000 000
+000360 00000 00000 1 Saarbr¸ckener Straﬂe           SAST 000 12 0001 001 000 000
+000361 00000 00000 1 Saarplatz                      SAAR 000 11 0001 001 000 000
+000361 00000 00000 1 Saarplatz                      SAAR 000 12 0001 001 000 000
+000361 00000 00000 1 Saarplatz                      SAAR 000 13 0001 001 000 000
+000361 00000 00000 1 Saarplatz                      SAAR 000 14 0001 001 000 000
+000362 00000 00000 1 Sachsendamm                    SACH 000 01 0001 001 000 000
+000362 00000 00000 1 Sachsendamm                    SACH 000 02 0001 001 000 000
+000362 00000 00000 1 Sachsendamm                    SACH 000 11 0001 001 000 000
+000362 00000 00000 1 Sachsendamm                    SACH 000 12 0001 001 000 000
+000363 00000 00000 1 Staatl.Untersuchungs‰mter      STUN 000 11 0001 001 000 000
+000363 00000 00000 1 Staatl.Untersuchungs‰mter      STUN 000 12 0001 001 000 000
+000364 00000 00000 1 Klinikum Salzdahlumer Str      KRSA 000 11 0001 001 000 000
+000364 00000 00000 1 Klinikum Salzdahlumer Str      KRSA 000 12 0001 001 000 000
+000365 00000 00000 1 Salzdahlumer Weg               SALZ 000 11 0001 001 000 000
+000365 00000 00000 1 Salzdahlumer Weg               SALZ 000 12 0001 001 000 000
+000366 00000 00000 1 Sandanger                      SAND 000 11 0001 001 000 000
+000366 00000 00000 1 Sandanger                      SAND 000 12 0001 001 000 000
+000367 00000 00000 1 Sandgrubenweg                  SAGR 000 11 0001 001 000 000
+000367 00000 00000 1 Sandgrubenweg                  SAGR 000 12 0001 001 000 000
+000368 00000 00000 1 Schapenstraﬂe                  SCHA 000 11 0001 001 000 000
+000368 00000 00000 1 Schapenstraﬂe                  SCHA 000 12 0001 001 000 000
+000369 00000 00000 1 Schenkendamm                   SCHE 000 11 0001 001 000 000
+000369 00000 00000 1 Schenkendamm                   SCHE 000 12 0001 001 000 000
+000370 00000 00000 1 Schillstraﬂe                   SCHI 000 11 0001 001 000 000
+000370 00000 00000 1 Schillstraﬂe                   SCHI 000 12 0001 001 000 000
+000371 00000 00000 1 Schlachthof                    SCHL 000 11 0001 001 000 000
+000371 00000 00000 1 Schlachthof                    SCHL 000 12 0001 001 000 000
+000372 00000 00000 1 Schlesierweg                   SCHW 000 11 0001 001 000 000
+000372 00000 00000 1 Schlesierweg                   SCHW 000 12 0001 001 000 000
+000373 00000 00000 1 Schmalbachstraﬂe               SCHM 000 01 0001 001 000 000
+000373 00000 00000 1 Schmalbachstraﬂe               SCHM 000 02 0001 001 000 000
+000373 00000 00000 1 Schmalbachstraﬂe               SCHM 000 11 0001 001 000 000
+000373 00000 00000 1 Schmalbachstraﬂe               SCHM 000 12 0001 001 000 000
+000374 00000 00000 1 Schˆppenstedter Turm           SCHT 000 11 0001 001 000 000
+000374 00000 00000 1 Schˆppenstedter Turm           SCHT 000 12 0001 001 000 000
+000374 00000 00000 1 Schˆppenstedter Turm           SCHT 000 13 0001 001 000 000
+000374 00000 00000 1 Schˆppenstedter Turm           SCHT 000 14 0001 001 000 000
+000375 00000 00000 1 Sch¸ﬂlerstraﬂe                 SCHR 000 11 0001 001 000 000
+000375 00000 00000 1 Sch¸ﬂlerstraﬂe                 SCHR 000 12 0001 001 000 000
+000376 00000 00000 1 Sch¸tzenplatz                  SCHZ 000 01 0001 001 000 000
+000376 00000 00000 1 Sch¸tzenplatz                  SCHZ 000 02 0001 001 000 000
+000376 00000 00000 1 Sch¸tzenplatz                  SCHZ 000 11 0001 001 000 000
+000376 00000 00000 1 Sch¸tzenplatz                  SCHZ 000 12 0001 001 000 000
+000377 00000 00000 1 Schulenrode                    SCHU 000 11 0001 001 000 000
+000377 00000 00000 1 Schulenrode                    SCHU 000 12 0001 001 000 000
+000378 00000 00000 1 Schulgasse                     SCHG 000 11 0001 001 000 000
+000378 00000 00000 1 Schulgasse                     SCHG 000 12 0001 001 000 000
+000379 00000 00000 1 Schwarzer Kamp                 SCHK 000 11 0001 001 000 000
+000379 00000 00000 1 Schwarzer Kamp                 SCHK 000 12 0001 001 000 000
+000380 00000 00000 1 Seikenkamp                     SEIK 000 11 0001 001 000 000
+000380 00000 00000 1 Seikenkamp                     SEIK 000 12 0001 001 000 000
+000380 00000 00000 1 Seikenkamp                     SEIK 000 13 0001 001 000 000
+000380 00000 00000 1 Seikenkamp                     SEIK 000 14 0001 001 000 000
+000381 00000 00000 1 Senefelderstraﬂe               SENE 000 11 0001 001 000 000
+000381 00000 00000 1 Senefelderstraﬂe               SENE 000 12 0001 001 000 000
+000382 00000 00000 1 Siedlerstraﬂe                  SIED 000 11 0001 001 000 000
+000382 00000 00000 1 Siedlerstraﬂe                  SIED 000 12 0001 001 000 000
+000383 00000 00000 1 Siegfriedstraﬂe                SIEG 000 01 0001 001 000 000
+000383 00000 00000 1 Siegfriedstraﬂe                SIEG 000 02 0001 001 000 000
+000383 00000 00000 1 Siegfriedstraﬂe                SIEG 000 11 0001 001 000 000
+000383 00000 00000 1 Siegfriedstraﬂe                SIEG 000 12 0001 001 000 000
+000383 00000 00000 1 Siegfriedstraﬂe                SIEG 000 13 0001 001 000 000
+000384 00000 00000 1 Siegstraﬂe                     SIES 000 11 0001 001 000 000
+000384 00000 00000 1 Siegstraﬂe                     SIES 000 12 0001 001 000 000
+000385 00000 00000 1 Siekgraben                     SIEK 000 11 0001 001 000 000
+000385 00000 00000 1 Siekgraben                     SIEK 000 12 0001 001 000 000
+000386 00000 00000 1 Sielkamp                       SIEL 000 11 0001 001 000 000
+000386 00000 00000 1 Sielkamp                       SIEL 000 12 0001 001 000 000
+000387 00000 00000 1 Siemsstraﬂe                    SIEM 000 11 0001 001 000 000
+000387 00000 00000 1 Siemsstraﬂe                    SIEM 000 12 0001 001 000 000
+000388 00000 00000 1 Sierﬂe,Am Feuerbrunnen         SIAF 000 11 0001 001 000 000
+000388 00000 00000 1 Sierﬂe,Am Feuerbrunnen         SIAF 000 12 0001 001 000 000
+000389 00000 00000 1 Sierﬂe,Bahnhof                 SIBA 000 11 0001 001 000 000
+000390 00000 00000 1 Sierﬂe,Inselweg                SIIN 000 11 0001 001 000 000
+000390 00000 00000 1 Sierﬂe,Inselweg                SIIN 000 12 0001 001 000 000
+000391 00000 00000 1 Sierﬂe,Neue Straﬂe             SINS 000 11 0001 001 000 000
+000391 00000 00000 1 Sierﬂe,Neue Straﬂe             SINS 000 12 0001 001 000 000
+000392 00000 00000 1 Sonnenberg                     SONN 000 11 0001 001 000 000
+000392 00000 00000 1 Sonnenberg                     SONN 000 12 0001 001 000 000
+000393 00000 00000 1 St.-Wendel-Straﬂe              SAWE 000 11 0001 001 000 000
+000393 00000 00000 1 St.-Wendel-Straﬂe              SAWE 000 12 0001 001 000 000
+000393 00000 00000 1 St.-Wendel-Straﬂe              SAWE 000 13 0001 001 000 000
+000394 00000 00000 1 Staatstheater                  STAA 000 11 0002 001 000 000
+000394 00000 00000 1 Staatstheater                  STAA 000 12 0002 001 000 000
+000394 00000 00000 1 Staatstheater                  STAA 000 13 0002 001 000 000
+000394 00000 00000 1 Staatstheater                  STAA 000 14 0002 001 000 000
+000394 00000 00000 1 Staatstheater                  STAA 000 15 0002 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 01 0001 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 02 0001 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 03 0001 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 04 0001 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 05 0001 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 06 0001 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 11 0002 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 12 0002 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 13 0002 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 14 0002 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 15 0002 001 000 000
+000395 00000 00000 1 Stadion                        STAD 000 16 0002 001 000 000
+000396 00000 00000 1 Stadthalle                     STAH 000 01 0001 001 000 000
+000396 00000 00000 1 Stadthalle                     STAH 000 02 0001 001 000 000
+000396 00000 00000 1 Stadthalle                     STAH 000 11 0001 001 000 000
+000396 00000 00000 1 Stadthalle                     STAH 000 12 0001 001 000 000
+000396 00000 00000 1 Stadthalle                     STAH 000 13 0001 001 000 000
+000397 00000 00000 1 Stadtpark                      STAP 000 11 0001 001 000 000
+000397 00000 00000 1 Stadtpark                      STAP 000 12 0001 001 000 000
+000398 00000 00000 1 Schˆnebergstraﬂe               SZST 000 11 0001 001 000 000
+000398 00000 00000 1 Schˆnebergstraﬂe               SZST 000 12 0001 001 000 000
+000399 00000 00000 1 Steinbergstraﬂe                STEI 000 11 0001 001 000 000
+000399 00000 00000 1 Steinbergstraﬂe                STEI 000 12 0001 001 000 000
+000400 00000 00000 1 Steinbrink                     STEB 000 11 0001 001 000 000
+000400 00000 00000 1 Steinbrink                     STEB 000 12 0001 001 000 000
+000401 00000 00000 1 Steinkamp                      STEK 000 11 0001 001 000 000
+000401 00000 00000 1 Steinkamp                      STEK 000 12 0001 001 000 000
+000402 00000 00000 1 Steintor                       STET 000 11 0001 001 000 000
+000402 00000 00000 1 Steintor                       STET 000 12 0001 001 000 000
+000403 00000 00000 1 Stiddien                       STID 000 11 0001 001 000 000
+000403 00000 00000 1 Stiddien                       STID 000 12 0001 001 000 000
+000404 00000 00000 1 Stieglitzweg                   STIE 000 11 0001 001 000 000
+000404 00000 00000 1 Stieglitzweg                   STIE 000 12 0001 001 000 000
+000405 00000 00000 1 Stiller Winkel                 STWI 000 11 0001 001 000 000
+000405 00000 00000 1 Stiller Winkel                 STWI 000 12 0001 001 000 000
+000406 00000 00000 1 Grundschule Stˆckh.            GSST 000 11 0001 001 000 000
+000406 00000 00000 1 Grundschule Stˆckh.            GSST 000 12 0001 001 000 000
+000407 00000 00000 1 Schulzentrum Stˆckh.           SZSK 000 11 0001 001 000 000
+000407 00000 00000 1 Schulzentrum Stˆckh.           SZSK 000 12 0001 001 000 000
+000408 00000 00000 1 Stolpstraﬂe                    STOL 000 11 0001 001 000 000
+000408 00000 00000 1 Stolpstraﬂe                    STOL 000 12 0001 001 000 000
+000409 00000 00000 1 Strombeckstraﬂe                STRO 000 11 0001 001 000 000
+000409 00000 00000 1 Strombeckstraﬂe                STRO 000 12 0001 001 000 000
+000410 00000 00000 1 S¸dstraﬂe                      SUDS 000 11 0001 001 000 000
+000410 00000 00000 1 S¸dstraﬂe                      SUDS 000 12 0001 001 000 000
+000411 00000 00000 1 Elm,Tetzelstein                TETZ 000 11 0001 001 000 000
+000411 00000 00000 1 Elm,Tetzelstein                TETZ 000 12 0001 001 000 000
+000412 00000 00000 1 Theaterwall                    THEW 000 01 0001 001 000 000
+000412 00000 00000 1 Theaterwall                    THEW 000 02 0001 001 000 000
+000412 00000 00000 1 Theaterwall                    THEW 000 11 0001 001 000 000
+000412 00000 00000 1 Theaterwall                    THEW 000 12 0001 001 000 000
+000413 00000 00000 1 Thiedebacher Weg               THIE 000 11 0001 001 000 000
+000413 00000 00000 1 Thiedebacher Weg               THIE 000 12 0001 001 000 000
+000414 00000 00000 1 Tiergarten Nord                TIEN 000 11 0001 001 000 000
+000414 00000 00000 1 Tiergarten Nord                TIEN 000 12 0001 001 000 000
+000415 00000 00000 1 Tiergarten                     TIER 000 11 0001 001 000 000
+000415 00000 00000 1 Tiergarten                     TIER 000 12 0001 001 000 000
+000416 00000 00000 1 Timmerlahstraﬂe                TIMM 000 11 0001 001 000 000
+000416 00000 00000 1 Timmerlahstraﬂe                TIMM 000 12 0001 001 000 000
+000417 00000 00000 1 Tostmannplatz                  TOST 000 11 0001 001 000 000
+000417 00000 00000 1 Tostmannplatz                  TOST 000 12 0001 001 000 000
+000418 00000 00000 1 Trierstraﬂe                    TRIE 000 11 0001 001 000 000
+000418 00000 00000 1 Trierstraﬂe                    TRIE 000 12 0001 001 000 000
+000419 00000 00000 1 Triftstraﬂe                    TRIF 000 11 0001 001 000 000
+000419 00000 00000 1 Triftstraﬂe                    TRIF 000 12 0001 001 000 000
+000420 00000 00000 1 Troppaustraﬂe                  TROP 000 11 0001 001 000 000
+000420 00000 00000 1 Troppaustraﬂe                  TROP 000 12 0001 001 000 000
+000421 00000 00000 1 Tuckermannstraﬂe               TUCK 000 11 0001 001 000 000
+000421 00000 00000 1 Tuckermannstraﬂe               TUCK 000 12 0001 001 000 000
+000422 00000 00000 1 TU Ostbereich                  TUOS 000 11 0001 001 000 000
+000422 00000 00000 1 TU Ostbereich                  TUOS 000 12 0001 001 000 000
+000423 00000 00000 1 Turmstraﬂe                     TURM 000 01 0002 001 000 000
+000423 00000 00000 1 Turmstraﬂe                     TURM 000 02 0001 001 000 000
+000423 00000 00000 1 Turmstraﬂe                     TURM 000 11 0002 001 000 000
+000423 00000 00000 1 Turmstraﬂe                     TURM 000 12 0002 001 000 000
+000423 00000 00000 1 Turmstraﬂe                     TURM 000 13 0002 001 000 000
+000424 00000 00000 1 Umspannwerk                    UMSP 000 11 0001 001 000 000
+000424 00000 00000 1 Umspannwerk                    UMSP 000 12 0001 001 000 000
+000425 00000 00000 1 Unter den Linden               UDLI 000 11 0001 001 000 000
+000425 00000 00000 1 Unter den Linden               UDLI 000 12 0001 001 000 000
+000426 00000 00000 1 Vallstedt,Alvesser Straﬂe      VAAL 000 11 0001 001 000 000
+000426 00000 00000 1 Vallstedt,Alvesser Straﬂe      VAAL 000 12 0001 001 000 000
+000427 00000 00000 1 Vallstedt,Sudetenstraﬂe        VASU 000 11 0001 001 000 000
+000427 00000 00000 1 Vallstedt,Sudetenstraﬂe        VASU 000 12 0001 001 000 000
+000428 00000 00000 1 Varrentrappstraﬂe              VARR 000 11 0001 001 000 000
+000428 00000 00000 1 Varrentrappstraﬂe              VARR 000 12 0001 001 000 000
+000429 00000 00000 1 Vechelade,Burgerstraﬂe         VABU 000 11 0001 001 000 000
+000429 00000 00000 1 Vechelade,Burgerstraﬂe         VABU 000 12 0001 001 000 000
+000430 00000 00000 1 Vechelade,Ferdinandstr.        VLFE 000 11 0001 001 000 000
+000431 00000 00000 1 Vechelde,Bahnhof               VEBA 000 11 0001 001 000 000
+000431 00000 00000 1 Vechelde,Bahnhof               VEBA 000 12 0001 001 000 000
+000432 00000 00000 1 Vechelde,Rathaus               VERA 000 11 0001 001 000 000
+000432 00000 00000 1 Vechelde,Rathaus               VERA 000 12 0001 001 000 000
+000433 00000 00000 1 Vechelde,Wahler Weg            VEWA 000 11 0001 001 000 000
+000433 00000 00000 1 Vechelde,Wahler Weg            VEWA 000 12 0001 001 000 000
+000434 00000 00000 1 Vechelde,Weiﬂes Roﬂ            VEWR 000 11 0001 001 000 000
+000434 00000 00000 1 Vechelde,Weiﬂes Roﬂ            VEWR 000 12 0001 001 000 000
+000435 00000 00000 1 Veltheim,Kirchstraﬂe           VEKI 000 11 0001 001 000 000
+000435 00000 00000 1 Veltheim,Kirchstraﬂe           VEKI 000 12 0001 001 000 000
+000436 00000 00000 1 Veltheim,Stadtweg              VEST 000 11 0001 001 000 000
+000436 00000 00000 1 Veltheim,Stadtweg              VEST 000 12 0001 001 000 000
+000437 00000 00000 1 Bahn¸bergang Vˆlkenrode        BAVO 000 11 0001 001 000 000
+000437 00000 00000 1 Bahn¸bergang Vˆlkenrode        BAVO 000 12 0001 001 000 000
+000438 00000 00000 1 Schulzentrum Volkm.            SVOL 000 11 0002 001 000 000
+000438 00000 00000 1 Schulzentrum Volkm.            SVOL 000 12 0002 001 000 000
+000439 00000 00000 1 von Pawelsches Holz            VPAH 000 11 0001 001 000 000
+000439 00000 00000 1 von Pawelsches Holz            VPAH 000 12 0001 001 000 000
+000440 00000 00000 1 Waisenhausdamm                 WAIS 000 11 0001 001 000 000
+000440 00000 00000 1 Waisenhausdamm                 WAIS 000 12 0001 001 000 000
+000441 00000 00000 1 Waller Weg                     WAWE 000 11 0001 001 000 000
+000441 00000 00000 1 Waller Weg                     WAWE 000 12 0001 001 000 000
+000442 00000 00000 1 Wartheweg                      WART 000 11 0001 001 000 000
+000442 00000 00000 1 Wartheweg                      WART 000 12 0001 001 000 000
+000443 00000 00000 1 Weddel,Ahornallee              WEAH 000 11 0001 001 000 000
+000443 00000 00000 1 Weddel,Ahornallee              WEAH 000 12 0001 001 000 000
+000444 00000 00000 1 Weddel,Bahnhof                 WEBA 000 11 0001 001 000 000
+000444 00000 00000 1 Weddel,Bahnhof                 WEBA 000 12 0001 001 000 000
+000445 00000 00000 1 Weddel,Dorfplatz               WEDO 000 11 0001 001 000 000
+000445 00000 00000 1 Weddel,Dorfplatz               WEDO 000 12 0001 001 000 000
+000445 00000 00000 1 Weddel,Dorfplatz               WEDO 000 13 0001 001 000 000
+000446 00000 00000 1 Weddel,Pfingstanger            WEPF 000 11 0001 001 000 000
+000446 00000 00000 1 Weddel,Pfingstanger            WEPF 000 12 0001 001 000 000
+000447 00000 00000 1 Weddel,Schapener Straﬂe        WESS 000 11 0001 001 000 000
+000447 00000 00000 1 Weddel,Schapener Straﬂe        WESS 000 12 0001 001 000 000
+000448 00000 00000 1 Weddeler Straﬂe                WEDD 000 11 0001 001 000 000
+000448 00000 00000 1 Weddeler Straﬂe                WEDD 000 12 0001 001 000 000
+000449 00000 00000 1 Wedtlenstedt,Schleusenstr      WSSC 000 11 0001 001 000 000
+000449 00000 00000 1 Wedtlenstedt,Schleusenstr      WSSC 000 12 0001 001 000 000
+000450 00000 00000 1 Wedtlenstedt,Stadtweg          WSSW 000 11 0001 001 000 000
+000450 00000 00000 1 Wedtlenstedt,Stadtweg          WSSW 000 12 0001 001 000 000
+000451 00000 00000 1 Welfenplatz                    WELF 000 11 0002 001 000 000
+000451 00000 00000 1 Welfenplatz                    WELF 000 12 0002 001 000 000
+000451 00000 00000 1 Welfenplatz                    WELF 000 13 0002 001 000 000
+000452 00000 00000 1 Wendebr¸ck                     WEND 000 11 0001 001 000 000
+000452 00000 00000 1 Wendebr¸ck                     WEND 000 12 0001 001 000 000
+000453 00000 00000 1 Wenden Schule                  WESC 000 11 0001 001 000 000
+000453 00000 00000 1 Wenden Schule                  WESC 000 12 0001 001 000 000
+000454 00000 00000 1 Wendener Weg                   WENW 000 10 0001 001 000 000
+000454 00000 00000 1 Wendener Weg                   WENW 000 11 0001 001 000 000
+000454 00000 00000 1 Wendener Weg                   WENW 000 12 0001 001 000 000
+000455 00000 00000 1 Weserstraﬂe                    WESE 000 01 0001 001 000 000
+000455 00000 00000 1 Weserstraﬂe                    WESE 000 02 0001 001 000 000
+000455 00000 00000 1 Weserstraﬂe                    WESE 000 11 0001 001 000 000
+000455 00000 00000 1 Weserstraﬂe                    WESE 000 12 0001 001 000 000
+000456 00000 00000 1 Wolfenb¸ttel,Forstweg          WOFO 000 11 0001 001 000 000
+000456 00000 00000 1 Wolfenb¸ttel,Forstweg          WOFO 000 12 0001 001 000 000
+000457 00000 00000 1 Wolfenb¸ttel,Landratsamt       WOLA 000 11 0001 001 000 000
+000457 00000 00000 1 Wolfenb¸ttel,Landratsamt       WOLA 000 12 0001 001 000 000
+000458 00000 00000 1 Wolfenb¸ttel,Bahnhof           WOBA 000 11 0001 001 000 000
+000458 00000 00000 1 Wolfenb¸ttel,Bahnhof           WOBA 000 12 0001 001 000 000
+000459 00000 00000 1 Wolfenb¸ttel,Br.Herzogstr.     WOBH 000 11 0001 001 000 000
+000459 00000 00000 1 Wolfenb¸ttel,Br.Herzogstr.     WOBH 000 12 0001 001 000 000
+000460 00000 00000 1 Wolfenb¸ttel,Campestraﬂe       WOCA 000 11 0001 001 000 000
+000460 00000 00000 1 Wolfenb¸ttel,Campestraﬂe       WOCA 000 12 0001 001 000 000
+000461 00000 00000 1 Wolfenb¸ttel,Kornmarkt         WOKO 000 11 0002 001 000 000
+000461 00000 00000 1 Wolfenb¸ttel,Kornmarkt         WOKO 000 12 0002 001 000 000
+000462 00000 00000 1 Wolfenb¸ttel,Kleine Breite     WOKB 000 11 0001 001 000 000
+000462 00000 00000 1 Wolfenb¸ttel,Kleine Breite     WOKB 000 12 0001 001 000 000
+000463 00000 00000 1 Wolfenb¸ttel,Mittelweg         WOMI 000 11 0001 001 000 000
+000463 00000 00000 1 Wolfenb¸ttel,Mittelweg         WOMI 000 12 0001 001 000 000
+000464 00000 00000 1 Wolfenb¸ttel,Sternhaus         WOST 000 11 0001 001 000 000
+000464 00000 00000 1 Wolfenb¸ttel,Sternhaus         WOST 000 12 0001 001 000 000
+000465 00000 00000 1 Wierthe                        WIER 000 11 0001 001 000 000
+000465 00000 00000 1 Wierthe                        WIER 000 12 0001 001 000 000
+000466 00000 00000 1 Wiesengrund                    WIES 000 11 0001 001 000 000
+000466 00000 00000 1 Wiesengrund                    WIES 000 12 0001 001 000 000
+000467 00000 00000 1 Rote Wiese                     ROWI 000 11 0001 001 000 000
+000467 00000 00000 1 Rote Wiese                     ROWI 000 12 0001 001 000 000
+000468 00000 00000 1 Goethestraﬂe                   GOET 000 11 0001 001 000 000
+000468 00000 00000 1 Goethestraﬂe                   GOET 000 12 0001 001 000 000
+000469 00000 00000 1 Schefflerstraﬂe                SFFS 000 11 0001 001 000 000
+000469 00000 00000 1 Schefflerstraﬂe                SFFS 000 12 0001 001 000 000
+000470 00000 00000 1 Obersickte,Wilhelmshˆhe        SIWI 000 11 0001 001 000 000
+000470 00000 00000 1 Obersickte,Wilhelmshˆhe        SIWI 000 12 0001 001 000 000
+000471 00000 00000 1 Obersickte,Birkenweg           SIBI 000 11 0001 001 000 000
+000471 00000 00000 1 Obersickte,Birkenweg           SIBI 000 12 0001 001 000 000
+000471 00000 00000 1 Obersickte,Birkenweg           SIBI 000 13 0001 001 000 000
+000472 00000 00000 1 Neuerkerode                    NEKE 000 11 0001 001 000 000
+000472 00000 00000 1 Neuerkerode                    NEKE 000 12 0001 001 000 000
+000472 00000 00000 1 Neuerkerode                    NEKE 000 13 0001 001 000 000
+000472 00000 00000 1 Neuerkerode                    NEKE 000 14 0001 001 000 000
+000473 00000 00000 1 Lucklum,M¸hlenstraﬂe           LUMU 000 11 0001 001 000 000
+000473 00000 00000 1 Lucklum,M¸hlenstraﬂe           LUMU 000 12 0001 001 000 000
+000474 00000 00000 1 Lucklum,Steinm¸hle             LUST 000 11 0001 001 000 000
+000474 00000 00000 1 Lucklum,Steinm¸hle             LUST 000 12 0001 001 000 000
+000475 00000 00000 1 Erkerode,Ludquelleweg          ERLU 000 11 0001 001 000 000
+000475 00000 00000 1 Erkerode,Ludquelleweg          ERLU 000 12 0001 001 000 000
+000476 00000 00000 1 Erkerode,‹ber den Hˆfen        ERUH 000 11 0001 001 000 000
+000476 00000 00000 1 Erkerode,‹ber den Hˆfen        ERUH 000 12 0001 001 000 000
+000477 00000 00000 1 Evessen,Markmorgen             EVMM 000 11 0001 001 000 000
+000477 00000 00000 1 Evessen,Markmorgen             EVMM 000 12 0001 001 000 000
+000478 00000 00000 1 Evessen,Heisterbeck            EVHB 000 11 0001 001 000 000
+000478 00000 00000 1 Evessen,Heisterbeck            EVHB 000 12 0001 001 000 000
+000479 00000 00000 1 Evessen,Bertramstraﬂe          EVBE 000 11 0001 001 000 000
+000479 00000 00000 1 Evessen,Bertramstraﬂe          EVBE 000 12 0001 001 000 000
+000480 00000 00000 1 Evessen,Am Klosterhof          EVAK 000 11 0001 001 000 000
+000480 00000 00000 1 Evessen,Am Klosterhof          EVAK 000 12 0001 001 000 000
+000481 00000 00000 1 Gilzum                         GILZ 000 11 0001 001 000 000
+000481 00000 00000 1 Gilzum                         GILZ 000 12 0001 001 000 000
+000482 00000 00000 1 Hachum                         HACH 000 11 0001 001 000 000
+000482 00000 00000 1 Hachum                         HACH 000 12 0001 001 000 000
+000483 00000 00000 1 Dettum,Nordstraﬂe              DENO 000 11 0001 001 000 000
+000483 00000 00000 1 Dettum,Nordstraﬂe              DENO 000 12 0001 001 000 000
+000484 00000 00000 1 Dettum,Sportplatz              DESP 000 11 0001 001 000 000
+000484 00000 00000 1 Dettum,Sportplatz              DESP 000 12 0001 001 000 000
+000485 00000 00000 1 Dettum Bahnhof                 DEBA 000 11 0001 001 000 000
+000485 00000 00000 1 Dettum Bahnhof                 DEBA 000 12 0001 001 000 000
+000486 00000 00000 1 Mˆnchevahlberg                 MVAB 000 11 0001 001 000 000
+000486 00000 00000 1 Mˆnchevahlberg                 MVAB 000 12 0001 001 000 000
+000487 00000 00000 1 Weferlingen,Abzweig            WEAB 000 11 0001 001 000 000
+000487 00000 00000 1 Weferlingen,Abzweig            WEAB 000 12 0001 001 000 000
+000488 00000 00000 1 Weferlingen                    WEFE 000 11 0001 001 000 000
+000488 00000 00000 1 Weferlingen                    WEFE 000 12 0001 001 000 000
+000489 00000 00000 1 Schandelah,Immegarten          SCIM 000 11 0001 001 000 000
+000489 00000 00000 1 Schandelah,Immegarten          SCIM 000 12 0001 001 000 000
+000490 00000 00000 1 Schandelah,Hordorfer Straﬂe    SCHO 000 11 0001 001 000 000
+000490 00000 00000 1 Schandelah,Hordorfer Straﬂe    SCHO 000 12 0001 001 000 000
+000491 00000 00000 1 Steinriedendamm                STE1 000 12 0001 001 000 000
+000491 00000 00000 1 Steinriedendamm                STE1 000 13 0001 001 000 000
+000492 00000 00000 1 F.A.L.                         FAL1 000 11 0001 001 000 000
+000492 00000 00000 1 F.A.L.                         FAL1 000 12 0001 001 000 000
+000493 00000 00000 1 Saarplatz                      SAA1 000 11 0001 001 000 000
+000493 00000 00000 1 Saarplatz                      SAA1 000 12 0001 001 000 000
+000494 00000 00000 1 Saarbr¸ckener Straﬂe           SAS1 000 11 0001 001 000 000
+000494 00000 00000 1 Saarbr¸ckener Straﬂe           SAS1 000 12 0001 001 000 000
+000495 00000 00000 1 John-F.-Kennedy-Platz          JFK1 000 11 0001 001 000 000
+000495 00000 00000 1 John-F.-Kennedy-Platz          JFK1 000 12 0001 001 000 000
+000497 00000 00000 1 Kath.Friedhof                  KAF1 000 11 0001 001 000 000
+000497 00000 00000 1 Kath.Friedhof                  KAF1 000 12 0001 001 000 000
+000498 00000 00000 1 Rautheimer Straﬂe              RAU1 000 11 0001 001 000 000
+000498 00000 00000 1 Rautheimer Straﬂe              RAU1 000 12 0001 001 000 000
+000499 00000 00000 1 Leonhardplatz                  LEO1 000 13 0001 001 000 000
+000499 00000 00000 1 Leonhardplatz                  LEO1 000 14 0001 001 000 000
+000500 00000 00000 1 Peterskamp                     PET1 000 11 0001 001 000 000
+000500 00000 00000 1 Peterskamp                     PET1 000 12 0001 001 000 000
+000501 00000 00000 1 Hahnenkleestraﬂe               HAH1 000 11 0001 001 000 000
+000501 00000 00000 1 Hahnenkleestraﬂe               HAH1 000 12 0001 001 000 000
+000502 00000 00000 1 Am Wendentor                   AWEN 000 01 0001 001 000 000
+000502 00000 00000 1 Am Wendentor                   AWEN 000 02 0001 001 000 000
+000502 00000 00000 1 Am Wendentor                   AWEN 000 11 0001 001 000 000
+000502 00000 00000 1 Am Wendentor                   AWEN 000 12 0001 001 000 000
+000503 00000 00000 1 Hagenmarkt                     HAG1 000 01 0001 001 000 000
+000503 00000 00000 1 Hagenmarkt                     HAG1 000 02 0001 001 000 000
+000504 00000 00000 1 Campestraﬂe                    CAM1 000 01 0001 001 000 000
+000504 00000 00000 1 Campestraﬂe                    CAM1 000 02 0001 001 000 000
+000505 00000 00000 1 Friedrich-Wilhelm-Platz        FRW1 000 01 0001 001 000 000
+000505 00000 00000 1 Friedrich-Wilhelm-Platz        FRW1 000 02 0001 001 000 000
+000505 00000 00000 1 Friedrich-Wilhelm-Platz        FRW1 000 11 0001 001 000 000
+000505 00000 00000 1 Friedrich-Wilhelm-Platz        FRW1 000 12 0001 001 000 000
+000505 00000 00000 1 Friedrich-Wilhelm-Platz        FRW1 000 13 0001 001 000 000
+000505 00000 00000 1 Friedrich-Wilhelm-Platz        FRW1 000 14 0001 001 000 000
+000506 00000 00000 1 Schule Timmerlah               GSTI 000 11 0001 001 000 000
+000506 00000 00000 1 Schule Timmerlah               GSTI 000 12 0001 001 000 000
+000507 00000 00000 1 Sackring Bad                   SACK 000 11 0001 001 000 000
+000507 00000 00000 1 Sackring Bad                   SACK 000 12 0001 001 000 000
+000508 00000 00000 1 Cremlingen Polizei             CRPO 000 11 0001 001 000 000
+000508 00000 00000 1 Cremlingen Polizei             CRPO 000 12 0001 001 000 000
+000509 00000 00000 1 Cremlingen Schule              CRSC 000 11 0001 001 000 000
+000509 00000 00000 1 Cremlingen Schule              CRSC 000 12 0001 001 000 000
+000510 00000 00000 1 Grundschule Weddel             GSWE 000 11 0001 001 000 000
+000510 00000 00000 1 Grundschule Weddel             GSWE 000 12 0001 001 000 000
+000511 00000 00000 1 Wenden Bad                     WBAD 000 11 0001 001 000 000
+000511 00000 00000 1 Wenden Bad                     WBAD 000 12 0001 001 000 000
+000512 00000 00000 1 Grundschule R¸hme              GSRU 000 11 0001 001 000 000
+000512 00000 00000 1 Grundschule R¸hme              GSRU 000 12 0001 001 000 000
+000513 00000 00000 1 Grundschule Heidberg           GSHE 000 11 0001 001 000 000
+000513 00000 00000 1 Grundschule Heidberg           GSHE 000 12 0001 001 000 000
+000514 00000 00000 1 Mascherode Sporthalle          MASP 000 11 0001 001 000 000
+000514 00000 00000 1 Mascherode Sporthalle          MASP 000 12 0001 001 000 000
+000515 00000 00000 1 Grundschule Lehndorf           GSLE 000 11 0001 001 000 000
+000515 00000 00000 1 Grundschule Lehndorf           GSLE 000 12 0001 001 000 000
+000516 00000 00000 1 Schapenholz                    SHOL 000 11 0001 001 000 000
+000516 00000 00000 1 Schapenholz                    SHOL 000 12 0001 001 000 000
+000517 00000 00000 1 Grundschule Volkm.             GSVO 000 11 0001 001 000 000
+000517 00000 00000 1 Grundschule Volkm.             GSVO 000 12 0001 001 000 000
+000518 00000 00000 1 Gliesmarode Bad                GIBA 000 11 0001 001 000 000
+000518 00000 00000 1 Gliesmarode Bad                GIBA 000 12 0001 001 000 000
+000519 00000 00000 1 Marktstraﬂe                    MARK 000 11 0001 001 000 000
+000519 00000 00000 1 Marktstraﬂe                    MARK 000 12 0001 001 000 000
+000520 00000 00000 1 Tempelhofstraﬂe                TEMP 000 11 0001 001 000 000
+000520 00000 00000 1 Tempelhofstraﬂe                TEMP 000 12 0001 001 000 000
+000521 00000 00000 1 Falkenhorst                    FALK 000 11 0001 001 000 000
+000521 00000 00000 1 Falkenhorst                    FALK 000 12 0001 001 000 000
+000522 00000 00000 1 Grundschule Hondelage          GSHO 000 11 0001 001 000 000
+000522 00000 00000 1 Grundschule Hondelage          GSHO 000 12 0001 001 000 000
+000523 00000 00000 1 Grundschule Kralenriede        GSKR 000 11 0001 001 000 000
+000523 00000 00000 1 Grundschule Kralenriede        GSKR 000 12 0001 001 000 000
+000524 00000 00000 1 Grundschule Waggum             GSWA 000 11 0001 001 000 000
+000524 00000 00000 1 Grundschule Waggum             GSWA 000 12 0001 001 000 000
+000525 00000 00000 1 Heidberg Bad                   HEBA 000 11 0001 001 000 000
+000525 00000 00000 1 Heidberg Bad                   HEBA 000 12 0001 001 000 000
+000526 00000 00000 1 Weddeler Straﬂe                WED1 000 11 0001 001 000 000
+000526 00000 00000 1 Weddeler Straﬂe                WED1 000 12 0001 001 000 000
+000527 00000 00000 1 Westerbergstraﬂe               WEST 000 11 0001 001 000 000
+000527 00000 00000 1 Westerbergstraﬂe               WEST 000 12 0001 001 000 000
+000530 00000 00000 1 Danziger Straﬂe                DAN1 000 11 0001 001 000 000
+000530 00000 00000 1 Danziger Straﬂe                DAN1 000 12 0001 001 000 000
+000533 00000 00000 1 Wiesengrund                    WIE1 000 11 0001 001 000 000
+000533 00000 00000 1 Wiesengrund                    WIE1 000 12 0001 001 000 000
+000534 00000 00000 1 Messegel‰nde Nordeing.         MEN1 000 11 0002 001 000 000
+000534 00000 00000 1 Messegel‰nde Nordeing.         MEN1 000 12 0002 001 000 000
+000535 00000 00000 1 Holzhof                        HOL1 000 12 0001 001 000 000
+000536 00000 00000 1 Moorh¸ttenweg                  MOO1 000 11 0001 001 000 000
+000536 00000 00000 1 Moorh¸ttenweg                  MOO1 000 12 0001 001 000 000
+000547 00000 00000 1 Wenden Schule                  WES1 000 11 0001 001 000 000
+000547 00000 00000 1 Wenden Schule                  WES1 000 12 0001 001 000 000
+000556 00000 00000 1 Waller Weg                     WAW1 000 11 0001 001 000 000
+000556 00000 00000 1 Waller Weg                     WAW1 000 12 0001 001 000 000
+000567 00000 00000 1 Wenden Schule                  WES2 000 11 0001 001 000 000
+000567 00000 00000 1 Wenden Schule                  WES2 000 12 0001 001 000 000
+000568 00000 00000 1 Wenden Schule                  WES3 000 11 0001 001 000 000
+000568 00000 00000 1 Wenden Schule                  WES3 000 12 0001 001 000 000
+000569 00000 00000 1 Turmstraﬂe                     TUR1 000 11 0001 001 000 000
+000569 00000 00000 1 Turmstraﬂe                     TUR1 000 12 0001 001 000 000
+000570 00000 00000 1 R¸hme,Schule                   RUSC 000 11 0001 001 000 000
+000570 00000 00000 1 R¸hme,Schule                   RUSC 000 12 0001 001 000 000
+000571 00000 00000 1 Lehndorf Schule                LESC 000 11 0001 001 000 000
+000571 00000 00000 1 Lehndorf Schule                LESC 000 12 0001 001 000 000
+000572 00000 00000 1 Raffturm                       RAF1 000 11 0001 001 000 000
+000572 00000 00000 1 Raffturm                       RAF1 000 12 0001 001 000 000
+000573 00000 00000 1 Raffturm                       RAF2 000 11 0001 001 000 000
+000573 00000 00000 1 Raffturm                       RAF2 000 12 0001 001 000 000
+000574 00000 00000 1 Neudammstraﬂe                  NEU1 000 11 0001 001 000 000
+000574 00000 00000 1 Neudammstraﬂe                  NEU1 000 12 0001 001 000 000
+000575 00000 00000 1 Grundschule Weddel             GSWD 000 11 0001 001 000 000
+000575 00000 00000 1 Grundschule Weddel             GSWD 000 12 0001 001 000 000
+000576 00000 00000 1 Klein Schˆppenstedt            KLS1 000 11 0001 001 000 000
+000576 00000 00000 1 Klein Schˆppenstedt            KLS1 000 12 0001 001 000 000
+000577 00000 00000 1 Creml. Polizei                 CRP1 000 11 0001 001 000 000
+000577 00000 00000 1 Creml. Polizei                 CRP1 000 12 0001 001 000 000
+000578 00000 00000 1 Hordorf,Waldstraﬂe             HOW1 000 11 0001 001 000 000
+000578 00000 00000 1 Hordorf,Waldstraﬂe             HOW1 000 12 0001 001 000 000
+000579 00000 00000 1 Grundschule Lehndorf           GSL1 000 11 0001 001 000 000
+000579 00000 00000 1 Grundschule Lehndorf           GSL1 000 12 0001 001 000 000
+000580 00000 00000 1 Emsstraﬂe                      EMS1 000 11 0001 001 000 000
+000580 00000 00000 1 Emsstraﬂe                      EMS1 000 12 0001 001 000 000
+000581 00000 00000 1 Rheinring                      RHE1 000 11 0001 001 000 000
+000581 00000 00000 1 Rheinring                      RHE1 000 12 0001 001 000 000
+000582 00000 00000 1 Isarkrug                       ISA1 000 11 0001 001 000 000
+000582 00000 00000 1 Isarkrug                       ISA1 000 12 0001 001 000 000
+000583 00000 00000 1 Emsstraﬂe                      EMS2 000 11 0001 001 000 000
+000583 00000 00000 1 Emsstraﬂe                      EMS2 000 12 0001 001 000 000
+000584 00000 00000 1 Luisenstraﬂe                   LUI1 000 11 0001 001 000 000
+000584 00000 00000 1 Luisenstraﬂe                   LUI1 000 12 0001 001 000 000
+000585 00000 00000 1 Bastholzsiedlung               BAS1 000 11 0001 001 000 000
+000585 00000 00000 1 Bastholzsiedlung               BAS1 000 12 0001 001 000 000
+000586 00000 00000 1 Pappelallee                    PAP1 000 11 0001 001 000 000
+000586 00000 00000 1 Pappelallee                    PAP1 000 12 0001 001 000 000
+000587 00000 00000 1 Im Groﬂen Moore                IGM1 000 11 0001 001 000 000
+000587 00000 00000 1 Im Groﬂen Moore                IGM1 000 12 0001 001 000 000
+000588 00000 00000 1 Am Platz                       APL1 000 11 0001 001 000 000
+000588 00000 00000 1 Am Platz                       APL1 000 12 0001 001 000 000
+000589 00000 00000 1 Dammwiese                      DAW1 000 11 0001 001 000 000
+000589 00000 00000 1 Dammwiese                      DAW1 000 12 0001 001 000 000
+000590 00000 00000 1 Rathaus                        RAT1 000 11 0001 001 000 000
+000590 00000 00000 1 Rathaus                        RAT1 000 12 0001 001 000 000
+000590 00000 00000 1 Rathaus                        RAT1 000 18 0001 001 000 000
+000591 00000 00000 1 Rathaus                        LHOF 000 11 0002 001 000 000
+000591 00000 00000 1 Rathaus                        LHOF 000 12 0002 001 000 000
+000592 00000 00000 1 Gew. Querumer Forst            GGQU 000 11 0011 001 000 000
+000592 00000 00000 1 Gew. Querumer Forst            GGQU 000 12 0011 001 000 000
+000593 00000 00000 1 R¸hmer Weg                     RUWE 001 11 0001 001 000 000
+000593 00000 00000 1 R¸hmer Weg                     RUWE 001 12 0001 001 000 000
+000594 00000 00000 1 Zum Ackerberg                  ZUAG 001 11 0001 001 000 000
+000594 00000 00000 1 Zum Ackerberg                  ZUAG 001 12 0001 001 000 000
+000595 00000 00000 1 Herzogin-Elisabeth-Straﬂe      HEEL 001 11 0001 001 000 000
+000595 00000 00000 1 Herzogin-Elisabeth-Straﬂe      HEEL 001 12 0001 001 000 000
+000596 00000 00000 1 Lindenstraﬂe                   LINS 001 11 0001 001 000 000
+000596 00000 00000 1 Lindenstraﬂe                   LINS 001 12 0001 001 000 000
+000597 00000 00000 1 Efeuweg                        EFEU 001 11 0001 001 000 000
+000597 00000 00000 1 Efeuweg                        EFEU 001 12 0001 001 000 000
+000598 00000 00000 1 Papenweide                     PAPE 001 11 0001 001 000 000
+000598 00000 00000 1 Papenweide                     PAPE 001 12 0001 001 000 000
+000599 00000 00000 1 Friedrichshˆhe                 FRIE 001 11 0001 001 000 000
+000599 00000 00000 1 Friedrichshˆhe                 FRIE 001 12 0001 001 000 000
+000600 00000 00000 1 SZ-Thiede,Panscheberg          PANS 001 11 0001 001 000 000
+000600 00000 00000 1 SZ-Thiede,Panscheberg          PANS 001 12 0001 001 000 000
+000601 00000 00000 1 Hermannstraﬂe                  HERM 001 11 0001 001 000 000
+000601 00000 00000 1 Hermannstraﬂe                  HERM 001 12 0001 001 000 000
+000602 00000 00000 1 Julius-Konegen-Straﬂe          JUKO 001 11 0001 001 000 000
+000602 00000 00000 1 Julius-Konegen-Straﬂe          JUKO 001 12 0001 001 000 000
+000603 00000 00000 1 Traunstraﬂe                    TRAU 001 11 0001 001 000 000
+000603 00000 00000 1 Traunstraﬂe                    TRAU 001 12 0001 001 000 000
+000604 00000 00000 1 Peenestraﬂe                    PEEN 001 11 0001 001 000 000
+000604 00000 00000 1 Peenestraﬂe                    PEEN 001 12 0001 001 000 000
+000605 00000 00000 1 Oberkamp                       OBER 001 11 0001 001 000 000
+000605 00000 00000 1 Oberkamp                       OBER 001 12 0001 001 000 000
+000606 00000 00000 1 Maienstraﬂe                    MAIE 001 11 0001 001 000 000
+000606 00000 00000 1 Maienstraﬂe                    MAIE 001 12 0001 001 000 000
+000607 00000 00000 1 Hauptbahnhof                   HAU1 000 01 0001 001 000 000
+000607 00000 00000 1 Hauptbahnhof                   HAU1 000 02 0001 001 000 000
+000608 00000 00000 1 Lindenberg                     LINB 000 11 0001 001 000 000
+000608 00000 00000 1 Lindenberg                     LINB 000 12 0001 001 000 000
+000609 00000 00000 1 Lindenberg 1                   LIN1 000 11 0001 001 000 000
+000609 00000 00000 1 Lindenberg 1                   LIN1 000 12 0001 001 000 000
+000610 00000 00000 1 Altewiek                       ALTW 000 11 0001 001 000 000
+000610 00000 00000 1 Altewiek                       ALTW 000 12 0001 001 000 000
+000611 00000 00000 1 Korfestraﬂe                    KORF 000 11 0001 001 000 000
+000611 00000 00000 1 Korfestraﬂe                    KORF 000 12 0001 001 000 000
+000612 00000 00000 1 Steinkamp                      STK1 000 11 0001 001 000 000
+000612 00000 00000 1 Steinkamp                      STK1 000 12 0001 001 000 000
+000613 00000 00000 1 An der Rothenburg 1            ADR1 000 11 0001 001 000 000
+000613 00000 00000 1 An der Rothenburg 1            ADR1 000 12 0001 001 000 000
+000614 00000 00000 1 Am Lehmanger 1                 ALE1 000 11 0001 001 000 000
+000614 00000 00000 1 Am Lehmanger 1                 ALE1 000 12 0001 001 000 000
+000615 00000 00000 1 Kirche R¸hme                   KIRU 000 11 0001 001 000 000
+000615 00000 00000 1 Kirche R¸hme                   KIRU 000 12 0001 001 000 000
+000616 00000 00000 1 Kirche Nietzschestraﬂe         KINI 000 11 0001 001 000 000
+000616 00000 00000 1 Kirche Nietzschestraﬂe         KINI 000 12 0001 001 000 000
+000617 00000 00000 1 Kirche Wendhausen              KIWE 000 11 0001 001 000 000
+000617 00000 00000 1 Kirche Wendhausen              KIWE 000 12 0001 001 000 000
+000618 00000 00000 1 Lindenberg                     LIN2 000 11 0001 001 000 000
+000619 00000 00000 1 Lindenberg                     LIN3 000 11 0001 001 000 000
+000620 00000 00000 1 Lindenberg                     LIN4 000 11 0001 001 000 000
+000621 00000 00000 1 Lindenberg                     LIN5 000 11 0001 001 000 000
+000622 00000 00000 1 Lindenberg                     LIN6 000 11 0001 001 000 000
+000623 00000 00000 1 Lindenberg                     LIN7 000 11 0001 001 000 000
+000624 00000 00000 1 Lindenberg                     LIN8 000 11 0001 001 000 000
+000625 00000 00000 1 Lindenberg                     LIN9 000 11 0001 001 000 000
+000626 00000 00000 1 Vechelade,Vogelsang            VAVO 000 11 0001 001 000 000
+000626 00000 00000 1 Vechelade,Vogelsang            VAVO 000 12 0001 001 000 000
+000627 00000 00000 1 Verkehrsgarten                 VERK 000 11 0001 001 000 000
+000627 00000 00000 1 Verkehrsgarten                 VERK 000 12 0001 001 000 000
+000628 00000 00000 1 Verkehrsgarten 1               VER1 000 11 0001 001 000 000
+000628 00000 00000 1 Verkehrsgarten 1               VER1 000 12 0001 001 000 000
+000629 00000 00000 1 Lindenberg 10                  LI10 000 11 0001 001 000 000
+000629 00000 00000 1 Lindenberg 10                  LI10 000 12 0001 001 000 000
+000630 00000 00000 1 Obersickte,Bahnhofstraﬂe       SIHO 001 11 0001 001 000 000
+000630 00000 00000 1 Obersickte,Bahnhofstraﬂe       SIHO 001 12 0001 001 000 000
+000631 00000 00000 1 Niedersickte,Burschenhof       NIBU 001 11 0001 001 000 000
+000631 00000 00000 1 Niedersickte,Burschenhof       NIBU 001 12 0001 001 000 000
+000633 00000 00000 1 Apelnstedt,M¸hle               APM‹ 001 11 0001 001 000 000
+000633 00000 00000 1 Apelnstedt,M¸hle               APM‹ 001 12 0001 001 000 000
+000634 00000 00000 1 Apelnstedt,Dorfplatz           APDO 001 11 0001 001 000 000
+000634 00000 00000 1 Apelnstedt,Dorfplatz           APDO 001 12 0001 001 000 000
+000635 00000 00000 1 Volzum                         VOLZ 001 11 0001 001 000 000
+000635 00000 00000 1 Volzum                         VOLZ 001 12 0001 001 000 000
+000636 00000 00000 1 Hˆtzum                         H÷TZ 001 11 0001 001 000 000
+000636 00000 00000 1 Hˆtzum                         H÷TZ 001 12 0001 001 000 000
+000637 00000 00000 1 Kl.Schˆppenstedt Schmiedeb.    KLSB 000 11 0001 001 000 000
+000637 00000 00000 1 Kl.Schˆppenstedt Schmiedeb.    KLSB 000 12 0001 001 000 000
+000638 00000 00000 1 Destedt,Schulstraﬂe            DEGA 000 11 0001 001 000 000
+000638 00000 00000 1 Destedt,Schulstraﬂe            DEGA 000 12 0001 001 000 000
+000639 00000 00000 1 Braunstraﬂe                    BRAU 000 11 0001 001 000 000
+000639 00000 00000 1 Braunstraﬂe                    BRAU 000 12 0001 001 000 000
+002000 00000 00000 2 Betriebshof Lindenberg         LIND 000 00 0000 000 000 000
+003000 00000 00000 2 Busgarage Braunschweig         BGBS 000 00 0000 000 000 000
+004000 00000 00000 2 Betriebshof Altewiek           ALTE 000 00 0000 000 000 000
+005000 00000 00000 2 Fa. Mundstock                  MUND 000 00 0000 000 000 000
+006000 00000 00000 2 Fa. Schmidt                    RBSC 000 00 0000 000 000 000
+007000 00000 00000 2 Ersatzverkehr                  TEST 000 00 0000 000 000 000
+008000 00000 00000 2 BS Bus- und Bahn-Ger¸mpel      BBBG 000 00 0000 000 000 000

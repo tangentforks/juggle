@@ -1,0 +1,668 @@
+<html>
+<head>
+<title>Child Classes</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="richedit_control.htm">&gt&gt;</a>&nbsp;
+<a href="child_controls.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Child Classes</h1></td>
+<TR><TD colspan="2"> 
+
+
+
+
+<P>
+The class defines the appearance and behavior of the control. The classes are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>button</pre>
+<TD VALIGN="TOP" WIDTH=525>
+pushbutton
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>check box</pre>
+<TD VALIGN="TOP" WIDTH=525>
+check box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>combobox</pre>
+<TD VALIGN="TOP" WIDTH=525>
+combination of edit and listbox
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre></pre>combodrop
+<TD VALIGN="TOP" WIDTH=525>
+dropdown combo box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>combolist</pre>
+<TD VALIGN="TOP" WIDTH=525>
+combination of edit and listbox
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>edit</pre>
+<TD VALIGN="TOP" WIDTH=525>
+single line edit box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>editm</pre>
+<TD VALIGN="TOP" WIDTH=525>
+multiline edit box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>groupbox</pre>
+<TD VALIGN="TOP" WIDTH=525>
+group box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>isigraph</pre>
+<TD VALIGN="TOP" WIDTH=525>
+graphics box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>isipicture</pre>
+<TD VALIGN="TOP" WIDTH=525>
+picture from a BMP, WMF, or ICO file
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>listbox</pre>
+<TD VALIGN="TOP" WIDTH=525>
+list box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>radiobutton</pre>
+<TD VALIGN="TOP" WIDTH=525>
+radio button
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>scrollbar</pre>
+<TD VALIGN="TOP" WIDTH=525>
+horizontal scrollbar
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>scrollbarv</pre>
+<TD VALIGN="TOP" WIDTH=525>
+vertical scrollbar
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>static</pre>
+<TD VALIGN="TOP" WIDTH=525>
+static text
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>staticbox</pre>
+<TD VALIGN="TOP" WIDTH=525>
+display box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>progress</pre>
+<TD VALIGN="TOP" WIDTH=525>
+progress bar
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>richedit</pre>
+<TD VALIGN="TOP" WIDTH=525>
+single line rich edit control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>richeditm</pre>
+<TD VALIGN="TOP" WIDTH=525>
+multiline rich edit control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>spin</pre>
+<TD VALIGN="TOP" WIDTH=525>
+horizontal spin button
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>spin</pre>
+<TD VALIGN="TOP" WIDTH=525>
+vertical spin button
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>tab</pre>
+<TD VALIGN="TOP" WIDTH=525>
+tab control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>trackbar</pre>
+<TD VALIGN="TOP" WIDTH=525>
+horizontal trackbar
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>trackbarv</pre>
+<TD VALIGN="TOP" WIDTH=525>
+vertical trackbar
+</tr></table>
+
+<B><I>button</I></B><br>
+A <I>button</I> simply initiates a Windows event when pushed. Possible styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>bs_defpushbutton</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+the default pushbutton. Pressing Enter has the same effect as clicking this button.
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>bs_ownerdraw</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+a button with a picture from a graphics file
+</tr></table>
+
+<B><I>checkbox</I></B><br>
+A <I>checkbox</I> allows a two way selection - checked or unchecked. The only style is:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>bs_lefttext</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+the caption is displayed on the left, instead of on the right.
+</tr></table>
+
+Use the <code>set</code> command to set the value of a checkbox, for example, to check control <code>cb</code>:
+
+<pre>
+   wd 'set cb 1'
+</pre>
+
+<P>
+The result of <code>wd'q'</code> contains the current value of each check box.
+
+<P>
+<B><I>combobox</I></B><br>
+<B><I>combodrop</I></B><br>
+<B><I>combolist</I></B><br>
+A <I>combobox</I> is a combination of a listbox and an edit box. You can enter a response into the edit box, or select a response from the listbox. You may select only one item in a combobox. 
+
+<P>
+A <I> combodrop</I> is similar to a combobox, but initially shows only the edit box, and allows the list box to appear when selected. 
+
+<P>
+A <I> combolist</I> is similar to a combobox, except that you may select only from the list box, and may not enter any response into the edit box. 
+
+<P>
+Class styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>cbs_autohscroll</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+allow horizontal scrolling of the edit box
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>cbs_sort</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+sort entries alphabetically
+</tr></table>
+
+Use the <code>set</code> command to set the possible selections in a checkbox. This can be a list of names, that may be delimited by <code>LF, EAV</code> or &quot;.  For example:
+
+<pre>
+   wd 'set cbox red green blue brown'
+   wd 'set cbox &quot;red&quot; &quot;green&quot; &quot;blue&quot; &quot;brown&quot;'
+   wd 'set cbox ',; (;:'red green blue brown') ,each LF
+</pre>
+
+<P>
+Use <code>setselect</code> to set the selection. For example, the following sets item 2:
+
+<pre>
+   wd 'setselect cbox 2'
+</pre>
+
+<P>
+The result of <code>wd'q'</code> contains the current value and selection of each combobox. For example:
+
+<pre>
+...
++------------+-----------------------------+
+|cbox        |blue                         |
++------------+-----------------------------+
+|cbox_select |2                            |
++------------+-----------------------------+
+</pre>
+
+<P>
+<B><I>edit</I></B><br>
+<B><I>editm</I></B><br>
+An <I>edit</I> control is a single-line box, and an <I>editm</I> control is a multiline box, in which text can be displayed and edited. Edit control styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_autohscroll</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+use horizontal scroll bars if required
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_autovscroll</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+use vertical scroll bars if required
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_center</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+center text
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_lowercase</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+lowercase text only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_readonly</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display text as read-only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_right</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+right justify text in control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_uppercase</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+uppercase text only
+</tr></table>
+
+Use the set command to write text to an edit control. For example:
+
+<pre>
+   wd 'set edit *Jeremy Fisher'
+</pre>
+
+<P>
+The result of <code>wd'q'</code> contains the current text for each edit box, and indices of any selected text:
+
+<pre>
+...
++------------+-----------------------------+
+|edit        |Peter Rabbit                 |
++------------+-----------------------------+
+|edit_select |6 12                         |
++------------+-----------------------------+
+</pre>
+
+<P>
+<B><I>groupbox</I></B><br>
+A groupbox control is a box used to group controls, most often radiobuttons. There are no class styles.
+
+<P>
+<B><I>isigraph</I></B><br>
+An isigraph control is a window that can display graphics. First create an isigraph control, then use graphics commands to create and display the graphics. All graphics commands start with <code>g</code>. Graphics are displayed only when the <code>gshow</code> command is given.
+
+<P>
+Graphics commands apply to the currently selected isigraph control. The graphics window has coordinates running from (0,0) in the bottom left hand corner to (1000,1000) at the top right. 
+
+<P>
+See the demos, Studio|Demos|isigraph.
+
+<P>
+<B><I>isipicture</I></B><br>
+An isipicture control displays an image from a file. The file may be a DIB (device independent bitmap), WMF (Windows metafile) or ICO (icon file). DIB files usually have a file extension of .bmp.
+
+<P>
+The <code>set</code> command sets the filename. For example, to display the J logo icon:
+
+<pre>
+   wd 'set isipicture *system\examples\data\j.ico'
+</pre>
+
+<P>
+<B><I>listbox</I></B><br>
+A listbox control displays a list of items that can be selected by the user. Listbox control styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>lbs_extendsel</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+extended select holding down the Shift key
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>lbs_multicolumn</pre>  
+<TD VALIGN="TOP" WIDTH=300><P>
+display in multiple columns
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>lbs_multiplesel</pre>  
+<TD VALIGN="TOP" WIDTH=300><P>
+allow multiple selections
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>lbs_ownerdrawfixed</pre>  
+<TD VALIGN="TOP" WIDTH=300><P>
+create an ownerdrawn listbox
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>lbs_sort</pre>  
+<TD VALIGN="TOP" WIDTH=300><P>
+sort entries alphabetically
+</tr></table>
+
+Use the <code>set</code> command to put items in the listbox (as in combobox above).
+
+<P>
+In the result of <code>wd'q'</code>, multiple selections are delimited by <code>LF</code>. For example:
+
+<pre>
++--------------+-----------------------------+
+|listbox       |green blue brown             |
++--------------+-----------------------------+
+|listbox_select|1 2 3                        |
++--------------+-----------------------------+
+</pre>
+
+<P>
+<B><I>progress</I></B><br>
+A progress control displays a bar used to indicate the status of a program. Use the <code>set</code> command to set values between 0 and 100. For example, to indicate the half way stage:
+
+<pre>
+   wd 'set pg 50'
+</pre>
+
+<P>
+<B><I>radiobutton</I></B><br>
+radiobutton controls typically allow a single selection from a group of controls. Selecting one control switches the others off.  The only style is:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>bs_lefttext</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+the caption is displayed on the left, instead of on the right.
+</tr></table>
+
+Use the <code>set</code> command to set the value of a radiobutton, for example, to check control <code>rb</code>:
+
+<pre>
+   wd 'set rb 1'
+</pre>
+
+<P>
+The result of <code>wd'q'</code> contains the current value of each radiobutton.
+
+<P>
+<B><I>richedit</I></B><br>
+<B><I>richeditm</I></B><br>
+A <I> richedit</I> control is a single line edit box, and a <I>richeditm</I> control is a multiline edit box, each containing rich edit text.  Class styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_autohscroll</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+use horizontal scroll bars if required
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_autovscroll</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+use vertical scroll bars if required
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_center</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+center text
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_readonly</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display text as read-only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_right</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+right justify text in control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>es_sunken</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display sunken
+</tr></table>
+
+For more information, see the Richedit Control section later in this chapter.
+
+<P>
+<B><I>scrollbar</I></B><br>
+<B><I>scrollbarv</I></B><br>
+A <I>scrollbar</I> control displays a horizontal scrollbar, and a <I>scrollbarv</I> displays a vertical scrollbar. There are no class styles.
+
+<P>
+The <code>set</code> command sets four values for the scrollbar: leftmost (or top) position, current position, rightmost (or bottom) position, and the size of change resulting from a click in the area between the thumbbox and either end of the scrollbar. 
+
+<pre>
+   wd 'set sb 0 500 1000 50'
+</pre>
+
+<P>
+A single parameter sets the current position:
+
+<pre>
+   wd 'set sb 600'
+</pre>
+
+<P>
+Clicking a scrollbar signals an event. The result of <code>wd'q'</code> has the current position of the scrollbar. For example:
+
+<pre>
+...
++----------+----------------------------+
+|sb        |550                         |
++----------+----------------------------+
+</pre>
+
+<P>
+<B><I>spin</I></B><br>
+<B><I>spinv</I></B><br>
+A <I> spin</I> control displays two arrows horizontally, and a <I>spinv</I> control displays the arrows vertically. Clicking an arrow initiates a Windows event, and the result of <code>wd'q'</code> is <code>_1</code> for the down or left arrow, <code>1</code> for the up or right arrow.
+
+<P>
+<B><I>static</I></B><br>
+A static control is used to display text. It is never active. Static control styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_center</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+center text
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_leftnowordwrap</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+left justify, no word wrap
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_noprefix</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+allow &amp; characters in control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_right</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+right justify text
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_simple</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+static text control
+</tr></table>
+
+<B><I>staticbox</I></B><br>
+A static control is used to display boxes with various types of frames and backgrounds. It is never active. Staticbox control styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_blackframe</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+black frame
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_blackrect</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+black rectangle
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_etchedframe</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+etched frame
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_etchedhorz</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+etched horizontally only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_etchedvert</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+etched vertically only
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_grayframe</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+gray frame
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_grayrect</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+gray rectangle
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_sunken</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+sunken
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_whiteframe</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+white frame
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>ss_whiterect</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+white rectangle
+</tr></table>
+
+<B><I>tab</I></B><br>
+A tab control is used to display several Windows controls on tab forms. Class styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tcs_button</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display tabs as buttons
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tcs_multiline</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+allow tabs to be displayed in several lines
+</tr></table>
+
+For more information, see the Tab Control section later in this chapter.
+
+<P>
+<B><I>trackbar</I></B><br>
+<B><I>trackbarv</I></B><br>
+A <I> trackbar</I> control displays a horizontal trackbar, and a <I>trackbarv</I> displays a vertical trackbar. Class styles are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_autoticks</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display tick marks along control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_both</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display tick marks on both sides of control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_enableselrange</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+enables <code>setselect</code> to mark a range on the trackbar
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_left</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display thumb pointing to left / tick marks on left
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_nothumb</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+do not display a thumb control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_noticks</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+do not display any tick marks
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300><P>
+<li><pre>tbs_top</pre>
+<TD VALIGN="TOP" WIDTH=525><P>
+display thumb pointing to top / tick marks on top
+</tr></table>
+
+The set command sets up to five values for the trackbar: leftmost (or top) position, current position, rightmost (or bottom) position, and the size of change resulting from a click in the area between the thumbbox and either end of the trackbar, and line size. 
+
+<pre>
+   wd 'set tb 0 3 20 1 1'
+</pre>
+
+<P>
+A single parameter sets the current position:
+
+<pre>
+   wd 'set tb 4'
+</pre>
+
+<P>
+Clicking a trackbar signals an event. The result of <code>wd'q'</code> has the current position of the trackbar. For example:
+
+<pre>
+...
++------------+--------------------------+
+|tb          |4                         |
++------------+--------------------------+
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="richedit_control.htm">&gt&gt;</a>&nbsp;
+<a href="child_controls.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></table></body>
+</html>

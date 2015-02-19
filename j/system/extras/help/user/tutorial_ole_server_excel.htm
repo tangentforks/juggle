@@ -1,0 +1,372 @@
+<html>
+<head>
+<title>Tutorial: J OLE Server for Excel</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="tutorial_ole_client_excel.htm">&gt&gt;</a>&nbsp;
+<a href="ole_examples.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Tutorial: J OLE Server for Excel</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+This tutorial has been created with Excel 97 and J401. Expect different behavior with other versions!
+
+<P>
+It will help to have the Excel VBA help file VBAXL8.HLP (or similar) readily available.
+
+<P>
+Before running it, copy the file jsutils.xls from J directory system\examples\ole\excel to your Excel directory.
+
+<P>
+Introduction<br>
+The purpose of OLE Automation is to allow a client program to run functions in a server program, and the basic idea is pretty straightforward - simply load J from Excel, then send it the required J functions for execution. In practice is it helpful to create Excel macros that provide cover functions for the basic tasks such as loading J, reading cells for transmission to J and so on. Thus you typically program with a mixture of J functions and Excel macros.
+
+<P>
+Functions provided by an OLE Server are referred to as <I>methods</I>, see<I> </I><a href="j_ole_auto_server.htm">J OLE Automation Server</a>
+
+<P>
+In Excel, you can enter these method names in upper or lowercase. When you enter names in Excel, it gives them its default capitalization. Here we use lowercase throughout.
+
+<P>
+Troubleshooting<br>
+You are going to be working with both J and Excel sessions active. It will be helpful to close down other applications to minimize screen clutter.
+
+<P>
+As you use OLE, commands sent from Excel may change the active focus to J. To enter new commands in Excel, click on the Excel session to change the active focus back to Excel.
+
+<P>
+Most of the time when things go wrong, you can simply shut down J and Excel and start again. Sometimes, the J server has been loaded but is not visible. You can check this by pressing Ctrl+Alt+Del simultaneously, which brings up the list of current applications loaded. If necessary, select J and click End Task.
+
+<P>
+Sometimes when you edit Excel macros, Excel closes down J - it closes the OLE Automation object which may in turn cause J to close. You will then need to re-open the J OLE Automation object. If J has closed and you try to run an OLE command, the error message is &quot;Object variable not Set&quot;. This problem occurs only while you are developing Excel macros, and should not occur when your application is in use. 
+
+<P>
+If you use the utilities in jsutil.xls, there will be no problem in trying to re-open the J OLE Automation object even if it is already open.
+
+<P>
+One of the &quot;user-friendly&quot; features of Excel is to change your entry in a cell if it thinks it may be incorrect.  For example, &quot;i.5&quot; gets changed into &quot;I.5&quot;. To get around this, enter more letters, then backspace and delete the extra entries, for example, instead of &quot;i.5' try entering &quot;ii.5&quot;.
+
+<P>
+Tutorial<br>
+Start by unloading all applications, then loading Excel. Arrange the window so that it covers only about half the screen. Open a new workbook if none is shown.
+
+<P>
+Bring up Visual Basic (Alt-F11 or Tools|Macro|Visual Basic...), and insert a new module sheet (Insert|Module).
+
+<P>
+With the module sheet visible, select menu item Tools|References and check both J DLL Server and J EXE Server, and click OK. In practice you need only check the server that will be used; also, if you use the jsutil.xls utilities described below, this reference will be done for you. 
+
+<P>
+In the module sheet, enter:
+
+<P>
+Public js As Object
+
+<P>
+Sub jopen()<br>
+Set js = CreateObject(&quot;jexeserver&quot;)<br>
+End Sub
+
+<P>
+The first statement declares the name js that will be used for the JEXEServer. The function jopen will be used to load the JEXEServer. Note that you can only run this once - you will get an error at this point if you try to open the server twice.
+
+<P>
+<B>Loading J</B><br>
+Next open up the Immediate window for experimentation (if not already open). To do so, select menu item View|Immediate. You can enter a series of commands in this Window - when you press Enter, Excel runs the command in the line where the cursor is. 
+
+<P>
+To load J (it will not be visible), enter:<br><br>
+jopen
+<P>
+To show J, enter:<br><br>
+<P>
+js.show 1
+
+<P>
+This means: run the <I>show</I> method of js, i.e. of the JEXEServer, with argument 1.
+
+<P>
+The J OLE Automation Server should now be visible. Maximize the ijx window within the J session, then arrange the windows so that both Excel and J are visible. Note that not only is the J Server visible, but if you click on it to give it focus then you have full access to the regular J development system.
+
+<P>
+In the Excel Immediate window, experiment with show:
+<p>
+<table>
+<tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+js.show 0
+<TD VALIGN="TOP" WIDTH=402><P>
+this hides the window<br>
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+js.show 1
+<TD VALIGN="TOP" WIDTH=402><P>
+this shows it again
+</tr></table>
+
+<P>
+Next set on logging - this tells J to display commands sent by Excel in the J window:
+
+<P>
+js.log 1
+
+<P>
+<B>Sending commands to J</B><br>
+The required function is do, which takes a J sentence as its argument. Note that Excel strings are delimited by the double quote, so that J quotes can be entered as is, and need not be doubled. Try:<br>
+
+<P>
+js.do &quot;i.4 5&quot;
+<P>
+js.do &quot; 1!:1&lt;'c:\autoexec.bat' &quot;
+
+<P>
+You should see the statements and results in the J window.
+
+<P>
+<B>Retrieving values from J</B><br>
+The function get retrieves a value from J, as a Variant datatype. Variants cannot be displayed directly in the Immediate window, but can be assigned to a worksheet range. For example:
+
+<P>
+Set value of x in J:
+<P>
+js.do &quot;x=: i.4 5&quot;
+<P>
+Retrieve value of x into Excel variant y:
+<P>
+js.get &quot;x&quot;,y
+<P>
+Set value of y into the worksheet:
+<P>
+Worksheets(&quot;sheet1&quot;).Range(&quot;a1:e4&quot;)=y
+
+<P>
+Now close the Immediate window and switch to Sheet1 to see that the value of y has been written in.
+
+<P>
+<B>Utilities</B><br>
+Now lets take a look at the J OLE utilities in jsutil.xls.
+
+<P>
+Close Excel (no save) and the J OLE Automation server. Reload Excel and open a new workbook if none is shown. Use Visual Basic, Insert|Module to create a new module as before, then select Tools|Reference and add jsutil.xls (you will likely have to Browse to the file). 
+
+<P>
+Note that jsutil.xls should already reference the J Servers, so you do not need to reference them specifically in any workbook that includes this as a module. You might confirm that jsutil.xls does indeed reference the J Servers.
+
+<P>
+The utilities available are:
+<P>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=177><P>
+jdopen
+<TD VALIGN="TOP" WIDTH=493><P>
+open JDLLServer
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jxopen
+<TD VALIGN="TOP" WIDTH=493><P>
+open JEXEServer
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jcmd (string)
+<TD VALIGN="TOP" WIDTH=493><P>
+execute J command, return result as variant
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jcmdc string,r,c,h,w
+<TD VALIGN="TOP" WIDTH=493><P>
+execute J command, store result in active sheet at row,col,height,width
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jcmdr string,range
+<TD VALIGN="TOP" WIDTH=493><P>
+execute J command, store result in active sheet at range
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jdo string
+<TD VALIGN="TOP" WIDTH=493><P>
+execute J command
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jget(x)
+<TD VALIGN="TOP" WIDTH=493><P>
+get J noun x
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jloadprofile
+<TD VALIGN="TOP" WIDTH=493><P>
+load standard J profile
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jlog boolean
+<TD VALIGN="TOP" WIDTH=493><P>
+log on/off  (EXE only)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=177><P>
+jshow boolean
+<TD VALIGN="TOP" WIDTH=493><P>
+show on/off (EXE only)
+</TR></TABLE>
+
+<P>
+You can customize these or add your own utilities.
+
+<P>
+<B><I>Loading J automatically</I></B><br>
+In the Module, enter an auto_open subroutine as follows:
+
+<P>
+Sub auto_open()<br>
+jxopen<br>
+jshow 1<br>
+jlog 1<br>
+End Sub
+
+<P>
+This sub will be run each time this workbook is opened. It opens the JEXEServer, shows the J session and logs commands sent from J. 
+
+<P>
+In practice, only the first command jxopen is needed, and if you are using the JDLLServer instead, you would need only:
+
+<P>
+Sub auto_open()            (do not enter this now!)<br>
+jdopen<br>
+End Sub
+
+<P>
+Now put the cursor on the name auto_open and press F5 to run it. The J session should display. 
+
+<P>
+Now check that auto_open works correctly when you load the book. Switch back to Excel, save the book as test.xls and close Excel - note that the J session will close as well. Reload Excel, and open test.xls - you should see the J session again. Arrange the windows so that both Excel and J are visible.
+
+<P>
+<B><I>jcmd</I></B><br>
+In Excel, switch to Sheet1 and in cell B3 enter:
+
+<P>=jcmd(&quot;+/2 3 5 7&quot;)
+
+<P>
+(You may find it more convenient to enter this in the Formula Bar, rather than directly in the cell.)
+
+<P>
+The statement should be executed in J, and the result (17) displayed in Excel.
+
+<P>
+Try:
+
+<P>
+In cell B5 enter: 12<br>
+In cell B6 enter: 15<br>
+In cell B7 enter: =jcmd(B5 &amp; &quot;*&quot; &amp; B6)
+
+<P>
+B7 displays the result (180). Note that if you now change B5 or B6, then B7 will be recalculated.
+
+<P>
+In general, jcmd can be used for calculations which return a single value to be displayed in the current cell. The right argument is the sentence to be sent to J.
+
+<P>
+This method is really only suitable for simple calculations. Typically, you will want to run calculations that return a range of results to Excel and you set up such calculations by invoking an Excel macro explicitly, for example, by selecting Tools|Macro|Run or pressing an assigned hot-key, or else by setting the OnEntry property for the worksheet.
+
+<P>
+<B>jcmdc, jcmdr</B><br>
+These utilities execute a J expression, displaying the result in a range in the active sheet. Function jcmdc specifies the range as 4 numbers: topleft row, column, number of rows, number of columns. Function jcmdr specifies the range in the traditional alphanumeric notation, for example: C6:E10.
+
+<P>
+We will create a macro run to test these and subsequent expressions. Switch to the module and enter:
+
+<P>
+Sub run()<br>
+jcmdc &quot;?3 4$10&quot;, 2, 3, 3, 4<br>
+End Sub
+
+<P>
+Next, return to the worksheet, select Tools|Macro, highlight run and click Options. Enter Ctrl-r as the shortcut key and click OK. Close the Macro dialog, switch to Sheet1 and press Ctrl-r. The macro should run and display the result. Press Ctrl-r again to re-run the macro.
+
+<P>
+<B>jsetc, jsetr</B><br>
+These utilities set values in J, from a range in the active sheet. As with jcmdc and jcmdr above, jsetc specifies the range as 4 numbers and function jsetr specifies the range in the traditional notation. Switch to the module and edit run to:
+
+<P>
+Sub run()<br>
+jsetr &quot;Y&quot;, &quot;D3:F4&quot;<br>
+End Sub
+
+<P>
+Switch to Sheet1 and as before use Tools|Macro to select Ctrl-r as a shortcut key for the macro. In the worksheet, press Ctrl-r. Then click on the J session and display Y (these are random numbers so the exact values will likely differ):
+
+<pre>
+   Y
++-+-+-+
+|4|8|8|
++-+-+-+
+|7|3|1|
++-+-+-+</pre>
+
+<B>OnEntry</B><br>
+Change run to:
+
+<P>
+Sub run()<br>
+jsetc &quot;Y&quot;, 2, 3, 3, 4<br>
+jcmdc &quot;+/\&gt;Y&quot;, 7, 3, 3, 4<br>
+End Sub
+
+<P>
+Switch to Sheet1, use Tools|Macro to select Ctrl-r as the shortcut key, then in the worksheet, press Ctrl-r. The macro will read the numbers in the upper range and display the sum scan in the lower range. Now if you change one of the numbers in the upper range, for example E2, you must press Ctrl-r to update the lower range. To get Excel to update the lower range automatically, create and run a function that sets the <code>OnEntry</code> property. In the module, enter:
+
+<P>
+Sub setentry()<br>
+Worksheets(&quot;sheet1&quot;).OnEntry = &quot;run&quot;<br>
+End Sub
+
+<P>
+Put the cursor on the function name setentry and press F5 to run it. Switch back to sheet1 and try changing values in the upper range - the lower range will be automatically re-calculated.
+
+<P>
+<B>JDLL</B><br>
+The commands described work the same way using the JDLL. To experiment, switch to the module, comment out auto_open and enter a new version as:
+
+<P>
+Sub auto_open()<br>
+jdopen<br>
+setentry<br>
+End Sub
+
+<P>
+Next close Excel (saving changes), re-open it and load the test.xls workbook. Switch to Sheet1 and try changing values in the upper range.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="tutorial_ole_client_excel.htm">&gt&gt;</a>&nbsp;
+<a href="ole_examples.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

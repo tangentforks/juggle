@@ -1,0 +1,23 @@
+directory:  system/packages/files
+
+This directory contains file access scripts.
+
+dbase.ijs
+=========
+This script defines verbs to read dBASE files directly - useful
+when ODBC access is not available or is inappropriate.
+
+jfiles.ijs
+==========
+This script contains definitions for the J component file system. 
+See jfiles.txt.
+
+kfiles.ijs
+==========
+This script contains definitions for a keyed file system.
+See kfiles.txt.
+
+nfiles.ijs
+==========
+This script defines functions to read and write files in various
+internal formats.

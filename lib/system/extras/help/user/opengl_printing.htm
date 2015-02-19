@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>OpenGL printing</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="formedit.htm">&gt&gt;</a>&nbsp;
+<a href="g13_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>OpenGL printing</h1>
+<TR><TD colspan="2"> 
+
+
+
+  <P>
+Printing OpenGL images is not directly supported. However, it is possible to get reasonably good printing of OpenGL images by creating a bitmap RC, drawing to the bitmap, and then printing the bitmap. If the bitmap is not stretched to much to fit the printing area the quality of the printed image is good.
+
+  <P>
+The steps are as follows:<br>
+1. create temporary form and isigraph control<br>
+2. create a bitmap RC<br>
+3. size image - the size handler, but with bitmap size, not glqwh''<br>
+4. draw image - the paint handler<br>
+5. save the bitmap to file
+
+  <P>
+Something like the following could be used to print an OpenGL image drawn on form a in isigraph control.
+
+<pre>
+print=: verb define
+wd 'pc p;cc g isigraph ws_clipchildren ws_clipsiblings;'
+BMPSIZE=.2$1000  NB. big bitmap for little stretch
+glaRC 1,BMPSIZE
+NB. do initialization required by size and paint
+size BMPSIZE  NB. a_g_size calls size with glqwh''
+a_g_paint''
+glaSaveBMP 't.bmp'
+wd'pclose'
+NB. print t.bmp file with 2D printing
+)
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="formedit.htm">&gt&gt;</a>&nbsp;
+<a href="g13_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

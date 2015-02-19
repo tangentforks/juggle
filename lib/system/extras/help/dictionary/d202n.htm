@@ -1,0 +1,134 @@
+<html>
+<head><title>^: Power</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="d202v.htm">&gt&gt;</a>&nbsp;
+<a href="d201.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=33%><b><font size=+2>Power</font></b></td>
+<td align=center width=34%><font face="Courier New" size=+3>u^:n &nbsp;_ _ _</font></td>
+<td align=right  width=33%>&nbsp;</td>
+</tr></table>
+<br>
+
+<table width=100%>
+<tr><td valign=top bgcolor=#eeeeee>
+Two cases occur: a numeric integer<tt> n</tt>,<tt> </tt>and a 
+gerund<tt> n</tt> .
+<br>&nbsp;</td>
+</tr></table><br>
+
+<b>Numeric case. </b>The verb<tt> u </tt> (or<tt> x&u</tt>)<tt> </tt>is 
+applied<tt> n </tt>times.  For example:<br>
+
+<pre>
+   (] ; +/\ ; +/\^:2 ; +/\^:0 1 2 3 _1 _2 _3 _4) 1 2 3 4 5
++---------+-----------+------------+-------------+
+|1 2 3 4 5|1 3 6 10 15|1 4 10 20 35|1  2  3  4  5|
+|         |           |            |1  3  6 10 15|
+|         |           |            |1  4 10 20 35|
+|         |           |            |1  5 15 35 70|
+|         |           |            |1  1  1  1  1|
+|         |           |            |1  0  0  0  0|
+|         |           |            |1 _1  0  0  0|
+|         |           |            |1 _2  1  0  0|
++---------+-----------+------------+-------------+
+</pre>
+
+An infinite power<tt> n </tt>produces the limit of the application 
+of<tt> u</tt> .<tt> </tt>For example, if<tt> x=:2 </tt>
+and<tt> y=:1</tt>,<tt> </tt>
+then<tt> x o.^:_ y </tt>is<tt> 0.73908</tt>,<tt> </tt>the solution of 
+the equation<tt> y=Cos y</tt> .<tt> </tt>If<tt> n </tt>is negative, 
+the obverse<tt> u^:_1 </tt>is applied<tt> |n </tt>times.  
+The obverse (which is normally the inverse) is specified for six cases:<br><br>
+
+1. &nbsp;The self-inverse functions<tt> + - -. % %. |. |: /: [ ] C. p.</tt><br><br>
+
+
+2. &nbsp;The pairs in the following lists:<br>
+
+<pre>
+  &lt;  &lt;:  +.       +:  +~  *.       *:  *~  ^   ,:  ,~
+  &gt;  &gt;:  j./"1"_  -:  -:  r./"1"_  %:  %:  ^.  {.  &lt;.@-:@# {. ]
+
+  ;:              #.  ".  ;~    3!:1  3!:3  p:     q:
+  ;@(,&' '&.>"1)  #:  ":  >@{.  3!:2  3!:2  pi(n)  */
+
+  \:     o.       j.     r.
+  /:@|.  %&(o.1)  %&0j1  %&0j1@^.
+</pre>
+  
+3. &nbsp;Obviously invertible bonded dyads such 
+as<tt> -&3 </tt>and<tt> 10&^. </tt>
+and<tt> 1 0 2&|: </tt>and<tt> 3&|. </tt>and<tt> 1&o. </tt>
+and<tt> a.&i. </tt>as well as<tt> u@v </tt>and<tt> u&v </tt>
+if<tt> u </tt>and<tt> v </tt>are invertible.<br><br>
+
+4. &nbsp;Monads of the form<tt> v/\ </tt>and<tt> v/\. </tt>where<tt> v </tt>
+is one of<tt> +  * -  %  =  ~:</tt><br><br>
+
+5. &nbsp;Obverses specified by the conjunction<tt> :.</tt><br><br>
+
+6. &nbsp;The following cases merit special mention:<br><br>
+
+<table>
+<tr><td>&nbsp;</td><td valign=top>
+<tt>p:^:_1 n </tt>gives the number of primes less than<tt> n</tt>,<tt> </tt>
+denoted by<tt> <font face=Symbol>p</font>(n) </tt>in math<br>&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td><td valign=top>
+<tt>q:^:_1 </tt>is<tt> */</tt><br>&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td><td valign=top>
+<tt>#^:_1 </tt>with a boolean left argument is "Expand" 
+(whose fill atom<tt> f </tt>can be specified by 
+<i>fit</i>,<tt> b&amp;#^:_1!.f</tt>)<br>&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td><td valign=top>
+<tt>a&#.^:_1 </tt>produces the base-<tt>a </tt>representation<br>&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td><td valign=top>
+<tt>!^:_1 </tt>and<tt> !&n^:_1 </tt>and<tt> !&n&^:_1 </tt>
+produce the appropriate results<br>&nbsp;</td></tr>
+</table>
+<br>
+
+<b>Gerund case.</b>  (Compare with the gerund case of the merge 
+adverb<tt> }</tt>)<br><br>
+
+<pre>
+   x u^:(v0`v1`v2)y   <font face=Times><font face=Symbol>&#171;</font></font>   (x v0 y)u^:(x v1 y) (x v2 y)
+   x u^:(   v1`v2)y   <font face=Times><font face=Symbol>&#171;</font></font>   x u^:([` v1`v2) y
+     u^:(   v1`v2)y   <font face=Times><font face=Symbol>&#171;</font></font>   u^:(v1 y) (v2 y)
+</pre>
+
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="d202v.htm">&gt&gt;</a>&nbsp;
+<a href="d201.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

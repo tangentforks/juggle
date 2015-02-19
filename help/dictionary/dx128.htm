@@ -1,0 +1,78 @@
+<html>
+<head><title>128!: Numerical Functions</title><html>
+<head><link href="../jdoc.css" rel=stylesheet></head>
+<body><!--top jump start--><a href="special.htm">&gt&gt;</a>&nbsp;
+<a href="dx018.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<hr><!--top jump end-->
+
+<br>
+<table width=100%><tr>
+<td align=left   width=50%><b><font size=+2>Numerical Functions</font></b></td>
+<td align=right  width=50%><b><font face="Courier New" size=+3>128!:</font></b></td>
+</tr></table>
+<br>
+
+<TABLE>
+<TR><TD VALIGN="TOP" WIDTH=120><tt>128!:0 y</tt></td>
+<TD>
+<B>QR</B>.  Produces the QR decomposition of a complex matrix<tt> y </tt>
+(in the domain of matrix inverse<tt> %.</tt>),<tt> </tt>
+an Hermitian matrix and a square upper triangular matrix, 
+individually boxed.
+
+<pre>
+   x=: +/ . *                  <FONT FACE=Times size=+1>Matrix product</FONT>
+   A=: j./?. 2 7 4$10          <FONT FACE=Times size=+1>A random complex matrix</FONT>
+   $A
+7 4
+   'Q R'=: 128!:0 A
+   $Q
+7 4
+   $R
+4 4
+   &gt;./|,(=i.4) - (+|:Q) x Q    <FONT FACE=Times size=+1>Q is Hermitian</FONT>
+6.33846e_16
+   0~:R                        <FONT FACE=Times size=+1>R is upper triangular</FONT>
+1 1 1 1
+0 1 1 1
+0 0 1 1
+0 0 0 1
+   A -: Q x R
+1
+</pre>
+</TD></TR>
+
+<TR><TD VALIGN="TOP"><tt>128!:1 y</tt></td>
+<TD><B>R Inv</B>.  Invert square upper triangular matrix.
+</td></tr>
+
+</table>
+
+<br>
+
+<br><br>
+
+<!--bottom jump start--><hr><a href="special.htm">&gt&gt;</a>&nbsp;
+<a href="dx018.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Dictionary<!--bottom jump end--></body>
+</html>

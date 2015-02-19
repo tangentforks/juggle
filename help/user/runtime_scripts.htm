@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Runtime Scripts (ijr files)</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="runtime_apps.htm">&gt&gt;</a>&nbsp;
+<a href="runtime_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Runtime Scripts (ijr files)</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+J Runtime can load normal <code>ijs</code> script files. In addition it can load the <code>ijr</code> encoded form of script files.
+
+<P>
+In development your application will likely require several script files, but in general it is preferable for a runtime application to have only a single script file. This can be built using the Project Manager. 
+
+<P>
+The <code>makejr</code> command converts a script file to an encoded form. For example:
+
+<pre>
+   wd 'makejr app.ijs app.ijr'
+</pre>
+
+<P>
+J loaded with the <B>/rt</B> parameter will load <code>app.ijr</code> and work exactly as if it were the <code>app.ijs</code> file. Encoding script files for use with runtime has several advantages: 
+<br><br>
+<li>prevents accidental modifications<br>
+<li>prevents unapproved modifications<br>
+<li>provides a closed application<br>
+<li>protects proprietary material
+
+<P>
+The <code>ijr</code> encoding is adequate protection from legitimate users. However, it is not proof against a serious attack by skilled computer professionals. If you are concerned with the proprietary nature of your <code>ijr</code> files, you must ensure that they are not loaded into a system that contains untrusted code. Similarly, you must ensure you do not load scripts that could contain untrusted code. To do this, your main <code>ijr</code> script should first verify that the namelist in all locales is empty before continuing. In most cases, this main script should not load any other scripts. If it must, then it must validate that the script is the right one before running it.
+
+<P>
+If you have security concerns that require more than these precautions, please contact us.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="runtime_apps.htm">&gt&gt;</a>&nbsp;
+<a href="runtime_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

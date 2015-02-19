@@ -1,0 +1,58 @@
+This is the J Workbench.
+
+It is a session manager replacement strongly geared towards
+the development with tacit definitions.  It comes with
+debugging support for tacit definitions, hyper-code and
+cross referencing facilities, and support for classic scripts.
+
+Most of the workbench was developped in 1996 on an early release
+of J 3.01.  At that time, it was named "J Laboratory" and was
+demonstrated under that name to the public during the 1996 J User's
+Conference (Toronto) and APL96 (Lancaster).  The code has been
+updated since then to run with current versions of J but not really
+maintained.  For example, the implementation of the locale handling
+should be revised now.  Starting with this release, it is actively
+supported again.
+
+INSTALLATION:
+
+The suggested place for all these files is the directory
+contrib\windows\packages\workbench.  The best way to get
+the package is "exporting" it via CVS from juggle.gaertner.de.
+
+For installation, you have to do the following steps:
+
+- If you are not using the recommended place (again: that is
+  contrib\windows\packages\workbench), you must adjust the
+  "tbar" command in wbwd.ijs to reflect the proper file location.
+
+- "open 'system\extras\config\scripts'"
+  to add an entry for the "wb.ijs" project
+  file in the "PUBLIC (package) definitions" section.
+  For example:
+  wb	contrib/windows/packages/workbench/wb.ijs  j
+
+- Save & Run the changed "scripts" definitions (hit Ctrl-W).
+  The project file will do its own bootstrap then.
+
+You should now and henceforth be able to load and run the J Laboratory.
+Simply enter
+        require 'wb'
+        wb''
+in a .ijx window.  Congrats.  You are running now both
+the WorkBench and the classic session manager.
+
+Check out the "Help" menu to find some short introductions
+and tutorials to get you started.
+
+Help saving day for the next generation of workbenchers.
+Mail me THE FIRST FIVE STUMBLING BLOCKS you encounter,
+no matter what they are.  Write a mail directly to:
+j-workbench@gaertner.de
+
+After this installation phase, I'd like to get bug reports.
+Using CVS, you can sync to any new release painlessly
+without going through all the installation motions a second
+time.
+
+                                           Martin Neitzel

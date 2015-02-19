@@ -1,0 +1,41 @@
+.TH PWGEN 1L "Dec 1996" local GDS
+.SH NAME
+pwgen \- the idiot's password generator
+.SH SYNOPSIS
+.B pwgen
+.RB [ -LUAsadh ]
+.RI "[-c " charset ]
+.RI "[-l " length ]
+.RI "[-n " count ]
+.RB [ -u ]
+.SH DESCRIPTION
+Use this silly program to generate one or more random strings of a given
+length,
+by default 8 characters.
+The characters are drawn by default from the "safe" character set
+which avoids several ambiguities (letter oh vs. digit zero et.al.).
+
+Options
+.BR "L, U, A, s, a, d," " and " h
+request the alpabetic, lower case, upper case, "safe", alpanumeric,
+decimal and hexadecimal character sets,
+respectively.
+Other character sets can be specified via
+.BI "-c " string
+.
+
+.P
+The
+.B -u
+usage option will display the usage including the pre-defined codesets
+to
+.I stderr
+and abort.
+
+.SH FILES
+/dev/urandom, where the system supports it.
+.SH BUGS
+what?
+.SH AUTHORS
+Martin Neitzel for studio gds, Dec '96.
+Updated 1999.

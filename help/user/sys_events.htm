@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>System Events</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="winctrl.htm">&gt&gt;</a>&nbsp;
+<a href="wait.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>System Events</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+Some events are not attached to a specific form, and are considered as system events - these are the timer and DDE events. These events have a <code>sys_</code> prefix for their handler names, instead of the <I><code>formname</code></I>_ prefix used for form events. For example, the <code>wd'q'</code> result for a timer event is:
+
+<pre>
++----------+-----------+
+|syshandler|sys_handler|
++----------+-----------+
+|sysevent  |sys_timer  |
++----------+-----------+
+|sysdefault|sys_default|
++----------+-----------+
+</pre>
+
+<P>
+The <code>wd'q'</code> result for a ddepoke event is:
+
+<pre>
++----------+-----------+
+|syshandler|sys_handler|
++----------+-----------+
+|sysevent  |sys_ddepoke|
++----------+-----------+
+|sysdefault|sys_default|
++----------+-----------+
+</pre>
+
+<P>
+To respond to such events, you define an appropriate event handler just as for a form event handler. 
+
+<P>
+For example, define a handler for a timer event that writes the current time to the session, then set the timer to be 1000 milliseconds. The timestamps when Windows signals the timer event are written to the current session
+
+<pre>
+   sys_timer=: (6!:0) (1!:2) 2:
+
+   wd 'timer 1000'
+
+1996 1 3 10 15 37.72
+
+1996 1 3 10 15 38.76
+
+1996 1 3 10 15 39.81
+
+1996 1 3 10 15 40.9
+</pre>
+
+<P>
+To switch off the timer, create a new execution session (i.e. a jx window) and enter:
+
+<pre>
+   wd 'timer 0'
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="winctrl.htm">&gt&gt;</a>&nbsp;
+<a href="wait.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

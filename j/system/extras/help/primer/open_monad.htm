@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Open - monad ></title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="from_dyad.htm">&gt&gt;</a>&nbsp;
+<a href="link_dyad.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Open - monad  > </h1><TR><TD>
+
+<P>The monad &gt; (open) is the inverse of box. That is, it takes the contents out of a box. Applied to a noun that is already open it has no effect.</P>
+
+<PRE>   > 23 5 7
+23 5 7
+
+   a =. i.5  
+   a
+0 1 2 3 4
+
+   < a
++---------+
+¦0 1 2 3 4¦
++---------+
+
+   > < a
+0 1 2 3 4
+</Pre>
+<P>Look &gt; up in the J Dictionary. The monad &gt; has a rank of <TT>0 </TT>so it applies to each atom in its argument. Each atom is opened, creating a partial result, that is then assembled with all the other partial results into the final result.</P>
+
+<PRE>   a =. 1 2 3 ; 5 6 7
+   a
++-----------+
+¦1 2 3¦5 6 7¦
++-----------+
+
+   > a
+1 2 3
+5 6 7
+</PRE>
+<P> The assembly of the partial results is straightforward if they all have the same rank and shape. But with open the partial results could have very different ranks and shapes.</P>
+<PRE>   a =. 1 ; 2 3 ; 4 5 6
+   a	
++-----------+
+¦1¦2 3¦4 5 6¦
++-----------+
+
+   > a
+1 0 0
+2 3 0
+4 5 6
+</PRE>
+<P>Each atom is opened and the partial results are extended to fit into the result frame.</P>
+
+<PRE>> 1     	gives	1	(atom) 
+> 2 3  	gives	2 3	(list)
+> 4 5 6	gives	4 5 6	(list)
+</PRE>
+<P>The result frame has to have partial results that all have the same rank and shape. To do this, each partial result is extended to have the same rank as the rank of the highest rank result and a shape that is the maximum along any axis of all the partial results.</P>
+
+<P>In the example above, the atom <TT>1</TT> is extended to a list and is padded with <TT>0</TT>'s to have a shape of <TT>3</TT>. The list<TT> 2 3</TT> is padded with a <TT>0</TT> to have a shape of <TT>3</TT>. The <TT>4 5 6</TT> list is already OK. And the final result has a frame of <TT>3</TT> where each result cell is a list of 3 atoms.</P>
+
+<P>What if the boxes contain characters?
+</P>
+<PRE>   > 'abc' ; 'defg' ; 'hijkl'
+abc  
+defg 
+hijkl
+</PRE>
+<P>The result is a <TT>3</TT> by <TT>5</TT> table. The character partial results are extended in a similar manner, but blanks are used as fill, rather than <TT>0</TT>. You cannot open a boxed list that contains both character and numeric data.</P>
+
+<PRE>   > 1 2 3 ; 'asdf'
+¦domain error
+¦       >1 2 3;'asdf'
+</PRE>
+<P>There is no way to put the numeric and character partial results together in the frame so there is a domain error.</P>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="from_dyad.htm">&gt&gt;</a>&nbsp;
+<a href="link_dyad.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

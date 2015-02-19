@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Java applet security</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="sockets.htm">&gt&gt;</a>&nbsp;
+<a href="java_examples.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Java sandbox and applet security</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+A java applet downloaded from the web runs on your system in a secure environment called the sandbox. An applet running in the sandbox is not allowed to do anything that could violate the security of your system. In particular it can't read or write files. It is very important that a J object created in the sandbox obeys the rules. J foreigns ( <code>!:</code> ) and wd commands that could violate sandbox rules are disabled when the J object is created in the sandbox.
+<br><br>
+
+<H3><B>Important exception: loading ijs script files is allowed.</B></H3>
+
+<P>
+Be very careful about adding applet classes to your hard drive or changing your classpath. An applet loaded from your hard drive has complete access to your system. Allowing a strange applet to run from your hard drive is just as dangerous as running a strange exe program on your system.
+
+<P>
+It might sometimes be useful to explicitly request sandbox security completely independently from Java and Automation. For example, you might want sandbox security to run a script downloaded from the net. You trust the script, but setting sandbox security makes it safer. You can explicitly set sandbox security:
+
+<pre>
+   wd'security 1'    NB. wd sandbox security
+   9!:24 [ 1         NB. !: sandbox security
+</pre>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="sockets.htm">&gt&gt;</a>&nbsp;
+<a href="java_examples.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

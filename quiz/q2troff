@@ -1,0 +1,19 @@
+#!/bin/sh
+
+awk '
+BEGIN {
+	FS="\t"
+	print ".hy 0"
+	print ".ll 15c"
+	print ".ad 0"
+	print ".ps 24\n.vs 28\n.fam H\n.B"
+}
+
+/^stop/	{ exit }
+
+/./	{ ctnt[$1] = $2 $3 }
+/^$/ {
+	printf (".ps 14\n")
+	printf (".tl @@%s@\n.ps 24\n.sp 2\n", ctnt["G"])
+	printf ("%s\n.bp\n", ctnt["Q"])
+}' $*

@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>Execution Time &amp; Space</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="date_time.htm">&gt&gt;</a>&nbsp;
+<a href="type_change.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Execution Time And Space</h1>
+<TR><TD colspan="2"> 
+
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>v0=: time=: 6!:2</TT></TD>	<TD>Time to execute y (or avg of x executes)</TD></TR>
+  <TR><TD><TT>m1=: space=: 7!:2</TT></TD>	<TD>Space used to execute y</TD></TR>
+  <TR><TD><TT>v2=:  ts=: 6!:2, 7!:2@]</TT></TD>	<TD>Time and space</TD></TR>
+</TABLE>
+
+
+<P>The foregoing phrases may be used to obtain the time and space required to execute a sentence. For example:</P>
+
+<PRE>   r=: report=: ?3 4 5$10
+   r;(/:~r);(/:"1~r)
++-----------------------------+
+&brvbar;6 6 9 3 5&brvbar;6 4 7 9 7&brvbar;3 5 6 6 9&brvbar;
+&brvbar;8 0 0 5 6&brvbar;2 0 7 3 6&brvbar;0 0 5 6 8&brvbar;
+&brvbar;0 3 0 4 6&brvbar;7 9 3 2 9&brvbar;0 0 3 4 6&brvbar;
+&brvbar;5 9 8 5 0&brvbar;7 7 6 0 6&brvbar;0 5 5 8 9&brvbar;
+&brvbar;         &brvbar;         &brvbar;         &brvbar;
+&brvbar;6 4 7 9 7&brvbar;6 6 9 3 5&brvbar;4 6 7 7 9&brvbar;
+&brvbar;2 0 7 3 6&brvbar;8 0 0 5 6&brvbar;0 2 3 6 7&brvbar;
+&brvbar;7 9 3 2 9&brvbar;0 3 0 4 6&brvbar;2 3 7 9 9&brvbar;
+&brvbar;7 7 6 0 6&brvbar;5 9 8 5 0&brvbar;0 6 6 7 7&brvbar;
+&brvbar;         &brvbar;         &brvbar;         &brvbar;
+&brvbar;8 2 4 7 4&brvbar;8 2 4 7 4&brvbar;2 4 4 7 8&brvbar;
+&brvbar;2 2 3 1 4&brvbar;2 2 3 1 4&brvbar;1 2 2 3 4&brvbar;
+&brvbar;8 9 0 9 5&brvbar;8 9 0 9 5&brvbar;0 5 8 9 9&brvbar;
+&brvbar;5 3 9 4 2&brvbar;5 3 9 4 2&brvbar;2 3 4 5 9&brvbar;
++-----------------------------+
+
+   time '/:~r'
+0
+
+   100 time '/:~r'
+0.0005
+
+   100 time '/:"1~r'
+0.0005
+
+   space '/:"1~r'
+4160
+
+   100 ts '/:"1~r'
+0.0005 4160 </PRE>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="date_time.htm">&gt&gt;</a>&nbsp;
+<a href="type_change.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

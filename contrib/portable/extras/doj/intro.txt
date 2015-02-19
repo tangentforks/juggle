@@ -1,0 +1,30 @@
+N The Dictionary of J
+T
+ J is a dialect of APL, a formal imperative language.
+ Because it is imperative, a sentence in J may also be
+ called an _(instruction)_, and may be _(executed)_ to
+ produce a _(result)_.  Because it is formal and
+ unambiguous it can be executed mechanically by a
+ computer, and is therefore called a
+ _(programming language)_.  Because it shares the
+ analytic properties of mathematical notation, it is
+ also called an analytic language.
+ 
+ APL originated in an attempt to provide consistent
+ notation for the teaching and analysis of topics
+ related to the application of computers, and developed
+ through its use in a variety of topics, and its
+ implementation in computer systems [1-5].
+ 
+ J is implemented in C (as detailed in Hui [6]), and is
+ ported to a number of different host computer systems.
+ The effect of the specific host is minimal and
+ communication with it is confined to the single
+ _(foreign conjunction)_ detailed in the appendix.  See
+ help files for other host facilities such as Windows.
+ 
+ The Introduction in this book provides guidance to
+ beginners.  References [7-9] use J in the exposition
+ of various mathematical topics.
+
+# vim:tw=55:ai:ic:inf

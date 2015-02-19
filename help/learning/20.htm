@@ -1,0 +1,771 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 20: Scalar Numerical Functions</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 20: Scalar Numerical Functions</H1>
+<p>
+In this chapter we look at built-in scalar functions  
+for computing numbers from numbers.  
+This chapter is a straight catalog 
+of functions, with links to the sections  
+as follows: 
+<p>
+<TABLE COLS=5 CELLPADDING=5> 
+<TR> 
+<TD> <A HREF="#ceil">  Ceiling </A> 
+<TD> <A HREF="#conj">  Conjugate </A>  
+<TD> <A HREF="#cos">   cos </A> 
+<TD> <A HREF="#acos">  cos<sup>-1</sup></A> 
+<TD> <A HREF="#cosh">  cosh </A> 
+<TR> 
+<TD> <A HREF="#acosh"> cosh<sup>-1</sup> </A> 
+<TD> <A HREF="#decr"> Decrement </A> 
+<TD> <A HREF="#divi"> divide </A> 
+<TD> <A HREF="#doub"> Double </A> 
+<TD> <A HREF="#expo"> Exponential </A> 
+<TR> 
+<TD> <A HREF="#fact"> Factorial </A> 
+<TD> <A HREF="#floo"> Floor </A> 
+<TD> <A HREF="#gcd">  GCD </A> 
+<TD> <A HREF="#halv"> Halve </A> 
+<TD> <A HREF="#incr"> Increment </A> 
+<TR> 
+<TD> <A HREF="#lcm"> LCM </A> 
+<TD> <A HREF="#loga"> Logarithm </A> 
+<TD> <A HREF="#logn"> Log, Natural </A> 
+<TD> <A HREF="#logn"> Magnitude </A> 
+<TD> <A HREF="#minu"> Minus </A> 
+<TR> 
+<TD> <A HREF="#mult"> multiply </A> 
+<TD> <A HREF="#nega"> Negate</A> 
+<TD> <A HREF="#outo"> OutOf</A> 
+<TD> <A HREF="#piti"> PiTimes </A> 
+<TD> <A HREF="#addi"> Plus </A> 
+<TR> 
+<TD> <A HREF="#powe"> power </A> 
+<TD> <A HREF="#pyth"> Pythagorean </A> 
+<TD> <A HREF="#reci"> Reciprocal </A> 
+<TD> <A HREF="#resi"> Residue </A> 
+<TD> <A HREF="#root"> Root </A> 
+<TR> 
+<TD> <A HREF="#sin"> sin </A> 
+<TD> <A HREF="#asin"> sin<sup>-1</sup></A> 
+<TD> <A HREF="#sinh"> sinh </A> 
+<TD> <A HREF="#asinh"> sinh<sup>-1</sup></A> 
+<TD> <A HREF="#squa"> Square </A> 
+<TR> 
+<TD> <A HREF="#sroo"> SquareRoot </A> 
+<TD> <A HREF="#tan">  tan </A> 
+<TD> <A HREF="#atan"> tan<sup>-1</sup></A> 
+<TD> <A HREF="#tanh"> tanh </A> 
+<TD> <A HREF="#atanh"> tanh<sup>-1</sup> </A> 
+</TABLE> 
+<H2>20.1  Numbers from Numbers</H2>
+<H3>20.1.1  Plus and Conjugate</H3>
+<p>
+<A NAME="addi"></A> 
+Dyadic <TT>+</TT> is arithmetic addition. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2 + 2</TT></TD> 
+<TD><TT>3j4 + 5j4</TT></TD> 
+<TD><TT>2r3 + 1r6</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>4</TD> 
+<TD><PRE>8j8</TD> 
+<TD><PRE>5r6</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="conj"></A> 
+Monadic <TT>+</TT> is "Conjugate". 
+For a real number <TT>y</TT>, the conjugate is <TT>y</TT>. 
+For a complex number <TT>xjy</TT> (that is, <TT>x + 0jy</TT>), 
+the conjugate is <TT>x - 0jy</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+ 2</TT></TD> 
+<TD><TT>+ 3j4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>3j_4</TD> 
+</PRE></TABLE> 
+<H3>20.1.2  Minus and Negate</H3>
+<p>
+<A NAME="minu"></A> 
+Dyadic <TT>-</TT> is arithmetic subtraction. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2 - 2</TT></TD> 
+<TD><TT>3 - 0j4</TT></TD> 
+<TD><TT>2r3 - 1r6</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0</TD> 
+<TD><PRE>3j_4</TD> 
+<TD><PRE>1r2</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="nega"></A>Monadic <TT>-</TT> is "Negate". 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>- 2</TT></TD> 
+<TD><TT>- 3j4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>_2</TD> 
+<TD><PRE>_3j_4</TD> 
+</PRE></TABLE> 
+<H3>20.1.3  Increment and Decrement</H3>
+<p>
+<A NAME="incr"></A> 
+Monadic <TT>>:</TT> is called "Increment". It adds <TT>1</TT> to its argument. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>>: 2</TT></TD> 
+<TD><TT>>: 2.5</TT></TD> 
+<TD><TT>>: 2r3</TT></TD> 
+<TD><TT>>: 2j3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3.5</TD> 
+<TD><PRE>5r3</TD> 
+<TD><PRE>3j3</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="decr"></A> 
+Monadic <TT>&lt;:</TT> is called "Decrement".  
+It subtracts <TT>1</TT> from its argument. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>&lt;: 3</TT></TD> 
+<TD><TT>&lt;: 2.5</TT></TD> 
+<TD><TT>&lt;: 2r3</TT></TD> 
+<TD><TT>&lt;: 2j3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>1.5</TD> 
+<TD><PRE>_1r3</TD> 
+<TD><PRE>1j3</TD> 
+</PRE></TABLE> 
+<H3>20.1.4  Times and Signum</H3>
+<p>
+<A NAME="mult"></A>Dyadic <TT>*</TT> is multiplication. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2 * 3</TT></TD> 
+<TD><TT>3j1 * 2j2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>6</TD> 
+<TD><PRE>4j8</TD> 
+</PRE></TABLE> 
+<p>
+Monadic <TT>*</TT> is called "Signum". For a real number <TT>y</TT>, 
+the value of <TT>(* y)</TT> is <TT>_1</TT> or <TT>0</TT> or <TT>1</TT>  
+as <TT>y</TT> is negative, zero or positive. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>* _2</TT></TD> 
+<TD><TT>* 0</TT></TD> 
+<TD><TT>* 2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>_1</TD> 
+<TD><PRE>0</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<p>
+More generally, <TT>y</TT> may be real or complex,  
+and the signum is equivalent to <TT>y % | y</TT>. 
+Hence the signum of a complex number has magnitude 1  
+and the same angle as the argument. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 3j4</TT></TD> 
+<TD><TT>| y</TT></TD> 
+<TD><TT>y % | y</TT></TD> 
+<TD><TT>* y</TT></TD> 
+<TD><TT>| * y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3j4</TD> 
+<TD><PRE>5</TD> 
+<TD><PRE>0.6j0.8</TD> 
+<TD><PRE>0.6j0.8</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<H3>20.1.5  Division and Reciprocal</H3>
+<p>
+<A NAME="divi"></A> 
+Dyadic <TT>%</TT> is division. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>2 % 3</TT></TD> 
+<TD><TT>3j4 % 2j1</TT></TD> 
+<TD><TT>12x % 5x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.666667</TD> 
+<TD><PRE>2j1</TD> 
+<TD><PRE>12r5</TD> 
+</PRE></TABLE> 
+<p>
+<TT>1 % 0</TT> is "infinity" but  <TT>0 % 0</TT> is <TT>0</TT>           
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1 % 0</TT></TD> 
+<TD><TT>0 % 0</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>_</TD> 
+<TD><PRE>0</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="reci"></A> 
+Monadic <TT>%</TT> is the "reciprocal" function. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>% 2</TT></TD> 
+<TD><TT>% 0j1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.5</TD> 
+<TD><PRE>0j_1</TD> 
+</PRE></TABLE> 
+<H3>20.1.6  Double and Halve</H3>
+<p>
+<A NAME="doub"></A>Monadic <TT>+:</TT> is the "double" verb. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+: 2.5</TT></TD> 
+<TD><TT>+: 3j4</TT></TD> 
+<TD><TT>+: 3x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>5</TD> 
+<TD><PRE>6j8</TD> 
+<TD><PRE>6</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="halv"></A> 
+Monadic <TT>-:</TT> is the  "halve" verb: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>-: 6</TT></TD> 
+<TD><TT>-: 6.5</TT></TD> 
+<TD><TT>-: 3j4</TT></TD> 
+<TD><TT>-: 3x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3.25</TD> 
+<TD><PRE>1.5j2</TD> 
+<TD><PRE>3r2</TD> 
+</PRE></TABLE> 
+<H3>20.1.7  Floor and Ceiling</H3>
+<p>
+<A NAME="floo"> </A> 
+Monadic <TT>&lt;.</TT> (left-angle-bracket dot) is called "Floor". 
+For real <TT>y</TT> the floor of <TT>y</TT> is <TT>y</TT> 
+rounded downwards to an integer, that is,  
+the largest integer  not exceeding <TT>y</TT>.   
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>&lt;. 2</TT></TD> 
+<TD><TT>&lt;. 3.2</TT></TD> 
+<TD><TT>&lt;.  _3.2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>3</TD> 
+<TD><PRE>_4</TD> 
+</PRE></TABLE> 
+<p>
+For complex <TT>y</TT>, the floor lies within a unit circle 
+center <TT>y</TT>, that is, the magnitude of (<TT>y - &lt;. y</TT>) 
+is less than <TT>1</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 3.4j3.4</TT></TD> 
+<TD><TT>z =: &lt;. y</TT></TD> 
+<TD><TT>y - z</TT></TD> 
+<TD><TT>| y-z</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3.4j3.4</TD> 
+<TD><PRE>3j3</TD> 
+<TD><PRE>0.4j0.4</TD> 
+<TD><PRE>0.565685</TD> 
+</PRE></TABLE> 
+<p>
+This condition (magnitude less than 1) means that 
+the floor of say <TT>3.8j3.8</TT> is not <TT>3j3</TT> but <TT>4j3</TT> 
+because <TT>3j3</TT> does not satisfy the condition. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 3.8j3.8</TT></TD> 
+<TD><TT>z =: &lt;. y</TT></TD> 
+<TD><TT>| y-z</TT></TD> 
+<TD><TT>| y - 3j3</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3.8j3.8</TD> 
+<TD><PRE>4j3</TD> 
+<TD><PRE>0.824621</TD> 
+<TD><PRE>1.13137</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="ceil"></A> 
+Monadic <TT>>.</TT> is called "Ceiling". For real <TT>y</TT> 
+the ceiling 
+of <TT>y</TT> is <TT>y</TT> rounded upwards to an integer,  
+that is, the smallest integer greater than or 
+equal to <TT>y</TT>. For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>>. 3.0</TT></TD> 
+<TD><TT>>. 3.1</TT></TD> 
+<TD><TT>>. _2.5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>4</TD> 
+<TD><PRE>_2</TD> 
+</PRE></TABLE> 
+<p>
+Ceiling applies to complex <TT>y</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>>. 3.4j3.4</TT></TD> 
+<TD><TT>>. 3.8j3.8</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3j4</TD> 
+<TD><PRE>4j4</TD> 
+</PRE></TABLE> 
+<H3>20.1.8  Power and Exponentiation</H3>
+<p>
+<A NAME="powe"></A> 
+Dyadic <TT>^</TT> is the "power" verb: <TT>(x^y)</TT> 
+is <TT>x</TT> raised-to-the-power <TT>y</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>10 ^ 2</TT></TD> 
+<TD><TT> 10 ^ _2</TT></TD> 
+<TD><TT>100 ^ 1%2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>100</TD> 
+<TD><PRE>0.01</TD> 
+<TD><PRE>10</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="expo"></A> 
+Monadic <TT>^</TT> is exponentiation (or antilogarithm): <TT>^y</TT> 
+means <TT>(e^y)</TT> where <TT>e</TT> is Euler's constant, <TT>2.71828...</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>^ 1</TT></TD> 
+<TD><TT>^ 0j1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2.71828</TD> 
+<TD><PRE>0.540302j0.841471</TD> 
+</PRE></TABLE> 
+<p>
+Euler's equation, supposedly engraved 
+on his tombstone is: 
+ e <sup> i pi</sup> +1 = 0  
+<PRE>
+   (^ 0j1p1) + 1
+0
+</PRE>
+<H3>20.1.9  Square</H3>
+<p>
+<A NAME="squa"></A>Monadic <TT>*:</TT> is "Square". 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>*: 4</TT></TD> 
+<TD><TT>*: 2j1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>16</TD> 
+<TD><PRE>3j4</TD> 
+</PRE></TABLE> 
+<H3>20.1.10  Square Root</H3>
+<p>
+<A NAME="sroo"></A>Monadic <TT>%:</TT> is "Square Root". 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>%: 9</TT></TD> 
+<TD><TT>%: 3j4</TT></TD> 
+<TD><TT>2j1 * 2j1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>2j1</TD> 
+<TD><PRE>3j4</TD> 
+</PRE></TABLE> 
+<H3>20.1.11  Root</H3>
+<p>
+<A NAME="root"></A>If <TT>x</TT> is integral, then <TT>x %: y</TT> is the "x'th root" of <TT>y</TT>: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>3 %: 8</TT></TD> 
+<TD><TT>_3 %: 8</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>0.5</TD> 
+</PRE></TABLE> 
+<p>
+More generally, <TT>(x %: y)</TT> is an abbreviation for 
+ <TT>(y ^ % x)</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>x =: 3 3.1</TT></TD> 
+<TD><TT>x %: 8</TT></TD> 
+<TD><TT>8 ^  % x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3 3.1</TD> 
+<TD><PRE>2 1.95578</TD> 
+<TD><PRE>2 1.95578</TD> 
+</PRE></TABLE> 
+<H3>20.1.12  Logarithm and Natural Logarithm</H3>
+<p>
+<A NAME="loga"></A> 
+Dyadic <TT>^.</TT> is the base-x logarithm function, that is, 
+ <TT>(x ^. y)</TT> is the logarithm of <TT>y</TT> to base <TT>x</TT> : 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>10 ^. 1000</TT></TD> 
+<TD><TT>2 ^. 8</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="logn"></A> 
+Monadic <TT>^.</TT> is the "natural logarithm" function. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>e =: ^ 1</TT></TD> 
+<TD><TT>^. e</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2.71828</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<H3>20.1.13  Factorial and OutOf</H3>
+<p>
+<A NAME="fact"></A> 
+The factorial function is monadic <TT>!</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>! 0 1 2 3 4</TT></TD> 
+<TD><TT>! 5x 6x 7x 8x</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1 1 2 6 24</TD> 
+<TD><PRE>120 720 5040 40320</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="outo"></A>The number of combinations of <TT>x</TT> objects 
+selected out of <TT>y</TT> objects 
+is given by the expression <TT>x ! y</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> 1 ! 4</TT></TD> 
+<TD><TT>2 ! 4</TT></TD> 
+<TD><TT>3 ! 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>4</TD> 
+<TD><PRE>6</TD> 
+<TD><PRE>4</TD> 
+</PRE></TABLE> 
+<H3>20.1.14  Magnitude and Residue</H3>
+<p>
+Monadic <TT>|</TT> is called "Magnitude". For a real number <TT>y</TT> 
+the magnitude of <TT>y</TT> is the absolute value: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>| 2</TT></TD> 
+<TD><TT>| _2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>2</TD> 
+</PRE></TABLE> 
+<p>
+More generally, <TT>y</TT> may be real or complex, 
+and the magnitude is equivalent to <TT>(%: y * + y)</TT>.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: 3j4</TT></TD> 
+<TD><TT>y * + y</TT></TD> 
+<TD><TT>%: y * + y</TT></TD> 
+<TD><TT>| y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3j4</TD> 
+<TD><PRE>25</TD> 
+<TD><PRE>5</TD> 
+<TD><PRE>5</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="resi"></A>The dyadic verb <TT>|</TT> is called "residue".  
+the remainder when <TT>y</TT> is divided by <TT>x</TT> 
+is given by <TT>(x | y)</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>10 | 12</TT></TD> 
+<TD><TT> 3 | _2 _1 0 1 2 3 4 5</TT></TD> 
+<TD><TT>1.5 | 3.7</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>2</TD> 
+<TD><PRE>1 2 0 1 2 0 1 2</TD> 
+<TD><PRE>0.7</TD> 
+</PRE></TABLE> 
+<p>
+If <TT>x | y</TT> is zero, then x is a divisor of y: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>4 | 12</TT></TD> 
+<TD><TT>12 % 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+The residue function applies to complex numbers: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a =: 1j2</TT></TD> 
+<TD><TT>b=: 2j3</TT></TD> 
+<TD><TT>a | b</TT></TD> 
+<TD><TT>a | (a*b)</TT></TD> 
+<TD><TT>(b-1j1) % a</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1j2</TD> 
+<TD><PRE>2j3</TD> 
+<TD><PRE>1j1</TD> 
+<TD><PRE>0</TD> 
+<TD><PRE>1</TD> 
+</PRE></TABLE> 
+<H3>20.1.15  GCD and LCM</H3>
+<p>
+<A NAME="gcd"></A> 
+The greatest common divisor (GCD) of <TT>x</TT> and <TT>y</TT> 
+is given by <TT>(x +. y)</TT>. 
+Reals and rationals in the domain of <TT>+.</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>6 +. 15</TT></TD> 
+<TD><TT>_6 +. _15</TT></TD> 
+<TD><TT>2.5 +. 3.5</TT></TD> 
+<TD><TT>6r7 +. 15r7</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>3</TD> 
+<TD><PRE>0.5</TD> 
+<TD><PRE>3r7</TD> 
+</PRE></TABLE> 
+<p>
+Complex numbers are also in the domain of <TT>+.</TT>.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>a=: 1j2</TT></TD> 
+<TD><TT>b=:2j3</TT></TD> 
+<TD><TT>c=:3j5</TT></TD> 
+<TD><TT> (a*b) +. (b*c)</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1j2</TD> 
+<TD><PRE>2j3</TD> 
+<TD><PRE>3j5</TD> 
+<TD><PRE>2j3</TD> 
+</PRE></TABLE> 
+<p>
+If <TT>x</TT> and <TT>y</TT> are complex, 
+then <TT>x +. y</TT> may differ from <TT>y +. x</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>1 +. 0j1</TT></TD> 
+<TD><TT>0j1 +. 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>1</TD> 
+<TD><PRE>0j1</TD> 
+</PRE></TABLE> 
+<p>
+We can see that the same result is produced 
+by Euclid's algorithm for <TT>(x GCD y)</TT>, 
+which is: 
+   if <TT>y=0</TT> then <TT>x</TT>, otherwise <TT>(x|y) GCD x</TT>. 
+Here is a verb <TT>E</TT>, to  model the algorithm. 
+<PRE>
+   E  =:  (| E [) ` [ @. (]=0:)
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>6 E 15</TT></TD> 
+<TD><TT>1 +. 0j1</TT></TD> 
+<TD><TT>1 E 0j1</TT></TD> 
+<TD><TT>0j1 +. 1</TT></TD> 
+<TD><TT>0j1 E 1</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>1</TD> 
+<TD><PRE>0j1</TD> 
+<TD><PRE>0j1</TD> 
+</PRE></TABLE> 
+<p>
+<A NAME="lcm"></A> 
+The Least Common Multiple of <TT>x</TT> and <TT>y</TT> is given 
+by <TT>(x *. y)</TT>. 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>(2 * 3) *. (3 * 5)</TT></TD> 
+<TD><TT>2*3*5</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>30</TD> 
+<TD><PRE>30</TD> 
+</PRE></TABLE> 
+<H2>20.2  Circle Functions</H2>
+<H3>20.2.1  Pi Times</H3>
+<p>
+<A NAME="piti"></A> 
+There is a built-in verb <TT>o.</TT> (lower-case o dot). 
+Monadic <TT>o.</TT> is called "Pi Times"; it multiplies its argument by 
+3.14159... 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>o. 1</TT></TD> 
+<TD><TT>o. 2</TT></TD> 
+<TD><TT>o. 1r6</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>3.14159</TD> 
+<TD><PRE>6.28319</TD> 
+<TD><PRE>0.523599</TD> 
+</PRE></TABLE> 
+<H3>20.2.2  Trigonometric and Other Functions</H3>
+<p>
+If <TT>y</TT> is an angle in radians,  
+then the sine of <TT>y</TT> is given by the expression <TT>1 o. y</TT>. 
+The sine of (pi over 6) is 0.5 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y =: o. 1r6</TT></TD> 
+<TD><TT>1 o. y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.523599</TD> 
+<TD><PRE>0.5</TD> 
+</PRE></TABLE> 
+<p>
+The general scheme for dyadic <TT>o.</TT> is that <TT>(k o. y)</TT> means:  
+apply to <TT>y</TT> a function selected by <TT>k</TT>. 
+Giving conventional names to the available  
+functions, we have: 
+<PRE>
+   sin   =:  1 & o.  NB. <A name="sin"> sine</A>
+   cos   =:  2 & o.  NB. <A name="cos"> cosine </A>
+   tan   =:  3 & o.  NB. <A name="tan"> tangent</A>
+   
+   sinh  =:  5 & o.  NB. <A name="sinh"> hyperbolic sine</A> 
+   cosh  =:  6 & o.  NB. <A name="cosh"> hyperbolic cosine </A> 
+   tanh  =:  7 & o.  NB. <A name="tanh"> hyperbolic tangent </A>
+   
+   asin  =: _1 & o.  NB. <A name="asin"> inverse sine </A>
+   acos  =: _2 & o.  NB. <A name="acos"> inverse cosine </A>
+   atan  =: _3 & o.  NB. <A name="atan"> inverse tangent</A> 
+   
+   asinh =: _5 & o.  NB. <A name="asinh"> inverse hyperbolic sine</A>
+   acosh =: _6 & o.  NB. <A name="acosh"> inverse hyperbolic cosine </A>
+   atanh =: _7 & o.  NB. <A name="atanh"> inverse hyperbolic tangent</A>
+   
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>y</TT></TD> 
+<TD><TT>sin y</TT></TD> 
+<TD><TT>asin sin  y</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.523599</TD> 
+<TD><PRE>0.5</TD> 
+<TD><PRE>0.523599</TD> 
+</PRE></TABLE> 
+<H3>20.2.3  Pythagorean Functions</H3>
+<p>
+There are also the <A name="pyth">"pythagorean"</A>functions: 
+<PRE>
+      0 o. y  means   %:   1 - y^2
+      4 o. y  means   %:   1 + y^2
+      8 o. y  means   %: - 1 + y^2
+     _4 o. y  means   %:  _1 + y^2
+     _8 o. y  means - %: - 1 + y^2 
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT> y =: 0.6</TT></TD> 
+<TD><TT>0 o. y</TT></TD> 
+<TD><TT> %: 1 - y^2</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>0.6</TD> 
+<TD><PRE>0.8</TD> 
+<TD><PRE>0.8</TD> 
+</PRE></TABLE> 
+<p>
+This is the end of chapter 20 
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="21.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2000. 
+This material may be freely reproduced,
+provided that this copyright notice and provision is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 29 May 00</p>
+</BODY>
+</HTML>
+

@@ -1,0 +1,265 @@
+LABTITLE=: 'Print Utilities'
+
+NB. =========================================================
+Lab Section Introduction
+The following print utilities are included with J:
+
+   print       a simple text printer
+   print2      2-up printing, useful for printing scripts
+   write       page formatter for text and graphics, with
+               fine control over spacing and justification.
+)
+PREPARE
+clear''
+PREPARE
+
+NB. =========================================================
+Lab Section print - text printer
+"print" is a simple text printer that can be used for printing any J data or text files.
+
+First, load the print utilities:
+)
+load 'print'
+
+NB. =========================================================
+Lab Section
+There are two verbs:
+
+   [opt] print data            prints any J data
+   [opt] printfile filename    prints text files
+
+The next section will demonstrate - ensure your printer is available, then advance to the next section.
+)
+
+NB. =========================================================
+Lab Section
+)
+print i.2 3 4
+printfile 'system/examples/print\jeltz.txt'
+
+NB. =========================================================
+Lab Section
+The left argument is optional, and is a list of one or more of the following, separated by a semicolon:
+
+  font {fontspec}    specifies font
+  fontsize {size}    specifies fontsize in points
+  footer {text}      footer text (bottom left of page)
+  fit                fit text to page width
+  land | landscape   set landscape mode (default is portrait)
+  ruler              put a ruler at the top of the page
+)
+
+NB. =========================================================
+Lab Section
+)
+'fontsize 14;footer Testing;land' print ;/i.#~4
+
+NB. =========================================================
+Lab Section
+The default font for print is given in Edit|Configure|Print. Typically this is a fixed-pitch font with line drawing characters, though it need not be.
+
+For example, see the effect of a proportional font without line-drawing characters:
+)
+
+NB. =========================================================
+Lab Section
+)
+'font arial 12' print ;/i.#~4
+
+NB. =========================================================
+Lab Section
+"fit" controls whether the text is fitted to the page width - by default it is not. Note that if the text is wider than the page it will be wrapped anyway, so fit only comes into effect when the text is shorter than the page width.
+
+Compare the following examples:
+)
+
+NB. =========================================================
+Lab Section
+)
+'fontsize 9' printfile 'system/examples/print\alice.txt'
+'fit;fontsize 9' printfile 'system/examples/print\alice.txt'
+
+NB. =========================================================
+Lab Section print2 - a 2-up text printer
+"print2" is a 2-up printer (two "pages" are printed on a single page in landscape mode). There are two verbs:
+
+   print2 data            prints any J data
+   printfile2 filename    prints text files
+
+For example, print the "dates" script file in 2-up mode:
+)
+
+NB. =========================================================
+Lab Section
+)
+printfile2 'dates'
+
+NB. =========================================================
+Lab Section
+The font for print2 is given in Edit|Configure|Print, and should be a 7 to 7.5 point fixed pitch font with line-drawing characters.
+
+The default font is "Courier New" which is available on all Windows systems, but which unfortunately does not read well in a small point size. Much better is Lucida Console which is distributed with Microsoft Plus. If you have this font, configure to use it as 7.25 point bold oem.
+)
+
+NB. =========================================================
+Lab Section write - page formatter
+"write" is a frame-based formatter that lets you control fonts, justification and line spacing. You create a page, and write text to one or more frames in it. The result of writing text is either the space remaining if the text does not fill the frame, or the text that overflows the frame.
+
+You can also draw boxes and lines, and include graphics.
+)
+
+NB. =========================================================
+Lab Section
+You specify fonts as a fontspec with sizes in points, for example: '"Times New Roman" 12 bold'
+
+All other measurements are in inches measured from the edge of the paper. Frames are 4 numbers (x y w h), where x y is the top left corner, w is the width and h the height. Negative w or h means measure from the right or bottom edge.
+
+For example, a frame of 0.5 0.5 _0.5 6 has top left corner at 0.5 0.5 inches, has the right side 0.5 inches from the right edge of the paper, and is 6 inches deep.
+)
+
+NB. =========================================================
+Lab Section
+First load the write utilities, then read in two text variables that will be printed:
+)
+load 'write'
+alice=: freads 'system/examples/print\alice.txt'
+jeltz=: freads 'system/examples/print\jeltz.txt'
+
+NB. =========================================================
+Lab Section
+Verbs:
+
+   startprint   - starts a print job
+   endprint     - ends a print job
+   startpage    - starts a new page
+   endpage      - ends a page
+
+Start by creating a print job and a new page:
+)
+startprint''
+startpage''
+
+NB. =========================================================
+Lab Section
+Verb:
+
+   drawbox      - draws a box
+
+Draw a box at the 0.5 inch margin all round:
+)
+PREPARE
+wd 'psel print'
+PREPARE
+drawbox 0.5 0.5 _0.5 _0.5
+
+NB. =========================================================
+Lab Section
+Verb:
+
+   preview     - previews the page
+
+The next section will run preview. Since this displays a window, you must click on the J session to give it focus before trying Ctrl-A again. You can either leave the display shown, or close it. In any case, at each stage from now on, a preview will be done to display the current state of the page.
+
+You can resize the preview window as required.
+)
+
+NB. =========================================================
+Lab Section
+)
+PREPARE
+wd 'psel print'
+PREPARE
+preview''
+
+NB. =========================================================
+Lab Section
+The main verb is:
+
+   write   - writes text to a page
+
+The right argument has 4 elements:
+   justification     0=left,1=right,2=both,3=centred
+   frame             xywh
+   fontspec          font
+   text              your text goes here!
+
+For example, the next section writes a header:
+)
+
+NB. =========================================================
+Lab Section
+)
+PREPARE
+wd 'psel print'
+PREPARE
+write 3;1 0.75 _1 0.5;'Arial 18 bold';'Rough Justice'
+preview''
+
+NB. =========================================================
+Lab Section
+The result of write has two values:
+   the frame remaining   (if the text did not fill the frame)
+   the text remaining    (if there is an overflow)
+
+This result tells you whether you can put more text into the frame, or whether you have some overflow text that should be put into a new frame.
+
+For example, the next section writes text to a frame, and the result shows that the text overflowed (check variable "bal"):
+)
+
+NB. =========================================================
+Lab Section
+)
+PREPARE
+wd 'psel print'
+PREPARE
+frame=: 0.75 1.25 3.125 _0.75
+'pos bal'=: write 2;frame;'"Times New Roman" 10';alice
+preview''
+
+NB. =========================================================
+Lab Section
+The next section writes the balance to a new frame, and the result shows the frame remaining (check variable "pos" and note that "bal" is now empty):
+)
+
+NB. =========================================================
+Lab Section
+)
+PREPARE
+wd 'psel print'
+PREPARE
+frame=: 4.375 1.25 3.125 _0.75
+'pos bal'=: write 2;frame;'"Times New Roman" 10';<bal
+preview''
+
+NB. =========================================================
+Lab Section
+Since there is space left in the frame, we can use the result to add additional lines and text:
+)
+
+NB. =========================================================
+Lab Section
+)
+PREPARE
+wd 'psel print'
+PREPARE
+yval=: 0.25+1{pos
+drawline 4.375,yval,7.5,yval
+pos=: pos+0 0.5 0 _0.5
+write 3;pos;'Arial 12 bold italic';'Highway Madness'
+pos=: pos+0 0.35 0 _0.35
+write 2;pos;'"Times New Roman" 10 italic';jeltz
+preview''
+
+NB. =========================================================
+Lab Section
+To finish off this page and print it, the next section runs endpage, then endprint:
+)
+
+NB. =========================================================
+Lab Section
+)
+PREPARE
+wd 'psel print'
+PREPARE
+endpage''
+endprint''

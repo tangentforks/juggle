@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>Tab Control</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="win_ctrl_toolbar.htm">&gt&gt;</a>&nbsp;
+<a href="win_ctrl_statusbar.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Tab Control</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+A tab control is a  panel used to display other controls. 
+
+<P>
+Commands applicable to the tab control are:
+<p>
+<TABLE>
+<TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>set tab text;</pre>
+<TD VALIGN="TOP" WIDTH=525>
+add a tab label to the control
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>setreplace tab n text;</pre>
+<TD VALIGN="TOP" WIDTH=525>
+replace the text of a tab label
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>setinsert tab n text;</pre>
+<TD VALIGN="TOP" WIDTH=525>
+insert a tab label
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>setdelete tab n;</pre>
+<TD VALIGN="TOP" WIDTH=525>
+delete a tab label
+</tr></table>
+
+There are two uses for tab controls:
+<p>
+<LI>You can set up a single set of controls, and use the tab control to switch between different values for the controls. In this case, the controls in the tab area are created in the same form as the tab itself.
+<p><li>You can set up several forms, and use the tab control to switch between forms. In this case, the forms should be created separately from the main form.
+
+<P>
+As an example of the first use, you could create controls that contain values for days of the week. Selecting the tab for the day changes the values of the controls accordingly. 
+
+<P>
+For example, the following demo shows an edit control that depends on the day of week:
+
+<pre>
+   load 'system\examples\demo\days.ijs'
+</pre>
+
+<P>
+An example of the second type of tab control is the  controls demo that displays the main Windows controls supported by J, see menu Studio|Demos|Controls.
+
+<P>
+In this example, the controls displayed on each tab were created in separate script files:  system\examples\demo\control1.ijs, control2.ijs etc.
+
+<P>
+This second type of tab control uses the  <code>creategroup</code> command to allow several forms to be displayed in a single form. 
+
+<P>
+A form definition used with a <code>creategroup</code> command is an ordinary form that can be designed and tested with the form editor. It is loaded by the parent of the tab control by doing a <code>form_run</code>'' that is bracketed by <code>creategroup</code> commands. The first creategroup command gives the id of the tab control where the new controls are being created. The final <code>creategroup</code> command has no parameter. 
+
+<P>
+<code>creategroup</code> causes parent commands such as <code>pc</code> to be ignored so that when the form definition is run, the child creates occur in the original parent form. The initial argument to <code>creategroup</code> is an id, usually of a tab control, in the current form. Controls created under a <code>creategroup</code> command are created as hidden, and as part of a group with the id from their (ignored) <code>pc</code> command. The <code>setshow</code> command with a group id, shows or hides the controls in a group. 
+
+<P>
+For example, here is the relevant code from the controls demo:
+
+<pre>
+wd 'creategroup tabs'
+edits_run''
+selects_run''
+wd 'creategroup'
+</pre>
+
+<P>
+This code:
+<p>
+<li>uses <code>creategroup</code> to prepare to load forms for the <code>tabs</code> control<br>
+<li>loads each form to be shown on the <code>tabs</code> control<br>
+<li>uses <code>creategroup</code> with no parameter to finish up
+
+<P>
+Note that a tab control should be created before any controls that appear on top of it <code>-</code> this ensures controls will be painted properly.
+
+<P>
+The event data for a tab control is the label text and the <code>id<I>_select</I></code> variable contains the index of the selected tab.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="win_ctrl_toolbar.htm">&gt&gt;</a>&nbsp;
+<a href="win_ctrl_statusbar.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Miscellaneous</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="references.htm">&gt&gt;</a>&nbsp;
+<a href="case_statements.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Miscellaneous</h1>
+<TR><TD colspan="2"> 
+
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD>
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>v0=. '.'&amp;$: : (2&amp;{.@(&lt;;._1)@,)</TT></TD>	<TD>Split y on x (on period for monad)</TD></TR>
+  <TR><TD><TT>m1=: (i.@# = i.~) # ]</TT></TD>	<TD>Nub <TT>~.</TT></TD></TR>
+  <TR><TD><TT>n2=: a.{~65 97+/i.26</TT></TD>	<TD>A-Z, a-z</TD></TR>
+  <TR><TD><TT>m3=: &lt;;._2@(,&amp;':');._2</TT></TD>	<TD>UNIX /etc/passwd relation</TD></TR>
+</TABLE>
+
+
+<P>For example:</P></TD></TR></TABLE>
+
+<PRE>   v0 'filename.ext'
++------------+
+&brvbar;filename&brvbar;ext&brvbar;
++------------+
+
+   ';' v0 'filename;ext'
++------------+
+&brvbar;filename&brvbar;ext&brvbar;
++------------+</PRE>
+
+<TABLE BORDER="0" WIDTH="500"><TR><TD><P>The following illustrates miscellaneous matters, including multiple assignments:</P></TD></TR></TABLE>
+
+<PRE>n=. 'psmith';(i.3 4);100 200	NB. assign local to explicit definition
+n=: 'psmith';(i.3 4);100 200	NB. assign global
+'a b c'=: n			NB. assign single letter names
+'one two three'=: n		NB. assign names
+'a b c'=: i.3 4			NB. assign rows of matrix
+'a b c d'=: |:i.3 4		NB. assign cols of matrix
+[x=: i.5				NB. assign and display result
+v=: +:@*:				NB. assign name to verb
+([ v) i.5				NB. invoke verb, return argument
+(;v) i.5				NB. invoke verb, return argument
+				NB. linked to result</PRE>
+
+
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="references.htm">&gt&gt;</a>&nbsp;
+<a href="case_statements.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

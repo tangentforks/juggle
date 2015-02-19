@@ -1,0 +1,740 @@
+<html>
+<head>
+<title>wd commands</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="g12_commands.htm">&gt&gt;</a>&nbsp;
+<a href="win_driver_cmd_ref_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>wd commands 11!:0</h1>
+<TR><TD colspan="2"> 
+
+
+<P>
+wd takes a string right argument and returns a string result. A wd argument is 0 or more statements delimited by semicolons. A statement is a command followed by 0 or more parameters. Commands and parameters are separated by one or more whitespace characters from the set: space, carriage return, line feed, tab, vertical tab, and form feed. Simple parameters start with an alphanumeric, -, or _, and run to a; or whitespace. A * starts a parameter at the next character, and runs to the end of the array. Delimited parameters start with &quot;, 255{a. (EAV), or 197{a. and run to the matching delimiter. Some commands are not supported in some environments.</p>
+
+<P>
+A wd error is a J domain error. Command qer returns the error message text and wd argument index for the last error.</p>
+
+<P>
+The first letters of a command usually indicate a category: dde, mb (message box and common dialogs), menu, ole, p (parent), q (queries), set (setting properties), sm (session manager), and vbx.</p>
+
+<P>
+A parameter can be an id, style, number, or text. An id identifies a parent, child, menu item, or other object. A style is a keyword, usually with a prefix. For example, bs_autoradiobutton is a button style. </p>
+
+  <P>
+A color is 3 parameters giving RGB values in the range 0 to 255. For example, 0 0 0 is black, 255 255 255 is white, and 255 0 0 is red.</p>
+
+  <P>
+A bool is 0 or 1 and is 1 if elided.</p>
+
+  <P>
+Several commands (clipcopy, smappend, smwrite, and set for edit and editm controls) have an optional parameter called trailing. If trailing is elided or 1, then trailing blanks are removed. If trailing is 0, then trailing blanks are not removed.</p>
+
+  <P>
+<B>wd commands</B></p>
+
+<P>
+acttask taskhandle ;  activate task. winexec returns taskhandle.</p>
+
+  <P>
+acttitle title ;  activate window with title bar that matches (case insensitive)</p>
+
+  <P>
+beep i ;  beep i times</p>
+
+  <P>
+cc id class [style...] ;  create child</p>
+
+  <P>
+clipcopy text [trailing] ;  put text on the clipboard (line frets converted to host frets)</p>
+
+  <P>
+clipcopyx text ;  put text on the clipboard (data unchanged)</p>
+
+  <P>
+clippaste ;  result is text from the clipboard</p>
+
+  <P>
+cn name ;  set child name after a cc command (otherwise setcaption is preferred)</p>
+
+  <P>
+creategroup id ;  causes parent commands to be ignored so that, when a form definition is run, the child controls created are in the current form. The id is a control in the current form, usually a tab control, and child creates are offset from that control. Controls created under creategroup are hidden and are part of a group with the id from their ignored pc command. The setshow command with a group id hides or shows the controls in a group. A form definition loaded under creategroup is a normal form definition that can be designed and tested with the form editor. It is loaded by a main form with a form_run that is bracketed by creategroup commands. The first creategroup gives the id of a control in the main form and the final creategroup command has no parameter and ends the group.</p>
+
+  <P>
+creategroup ;  ends the group started by a previous creategroup command</p>
+
+  <P>
+ddeadvise t i d ;  send data to client in an advise loop. Client will get ddeadvise event.</p>
+
+  <P>
+ddecons ;  return s|t active conversations</p>
+
+  <P>
+ddedis [s [t]] ;  discontinue conversations</p>
+<P>
+<Table>
+<TR>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>wd 'ddedis;'</pre>
+<TD VALIGN="TOP" WIDTH=525>
+conversations with all servers
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>wd 'ddedis s;'</pre>
+<TD VALIGN="TOP" WIDTH=525>
+conversations with server s
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=300>
+<pre>wd 'ddedis s t;'</pre>
+<TD VALIGN="TOP" WIDTH=525>
+conversation with server s on topic t
+</tr></table>
+
+ddeex s t d ;  data d is sent to server s for topic t to execute
+
+  <P>
+ddename id ;  set dde service name (can be done only once). Command line /ddename= can also set dde service name.
+
+  <P>
+ddepoke s t i d ;  send data to S|T!I
+
+  <P>
+ddereq s t i ;  data for item i is requested from S|T
+
+  <P>
+ddereqd d ;  send data in response to ddereq event (must be done immediately after ddereq event)
+
+  <P>
+ddestart s t i ;  advise loop requested for S|T!I. New data signals ddeadvise event.
+
+  <P>
+ddestop s t i ;  stop advise loop on S|T!I
+
+  <P>
+fontdef <a href="fontspec.htm">fontspec</a>;  default font used when a child is created.
+
+  <P>
+formsize button-width , button-height , edit-width, edit-height , label-height  ; sets form edit default control sizes.
+
+  <P>
+makejr in.ijs out.ijr ;  converts ijs input file to a J runtime ijr file
+
+  <P>
+mb title text [style...] ;  messagebox with styles from set (mb_arbortretryignore, mb_defbutton2, mb_defbutton3, mb_iconasterisk, mb_iconexclamation, mb_iconhand, mb_iconinformation, mb_iconquestion, mb_iconstop, mb_ok, mb_okcancel, mb_retrycancel, mb_yesno, mb_yesnocancel)
+
+  <P>
+mbcolor [colors] ;  choose color common dialog box. Result is chosen color and 16 custom colors. Colors are 3 integers giving RGB values. Optional argument sets initial chosen color and 16 custom colors (51 integer values in range 0 to 255).
+
+  <P>
+mbfont [<a href="fontspec.htm">fontspec</a>] ;  choose font common dialog. Start with last chosen and set new one if OK. Result is a <a href="fontspec.htm">fontspec</a>.
+
+  <P>
+mbopen title directory filename filterpairs [style...] ;  open file common dialog returns fully qualified file name selected by user. Filterpairs are delimited by |. Styles are from the set (ofn_createprompt, ofn_filemustexist, ofn_nochangedir, ofn_overwriteprompt, ofn_pathmustexist).
+
+<pre>
+wd 'qs mbopen'
+wd 'mbopen'
+wd 'mbopen  mytitle  &quot;&quot;  &quot;&quot;  &quot;Write(*.wri)|*.wri|(Word(*.doc)|*.doc&quot;
+   ofn_filemustexist'
+</PRE>
+
+<P>
+mbprinter [pd_printsetup] ;  The parameter selects the setup dialog instead of the print dialog. The result is '' if the user pressed CANCEL. If the user pressed OK, the result is the name of the selected printer followed by LF delimited values. Currently the only value after the name is the print-to-file value from the print dialog. This sets the session default printer setup ithat is used by glzcreate with no argument. 
+
+  <P>
+mbsave title directory filename filterpairs [style...] ;  save file common dialog returns fully qualified file name (see mbopen).
+
+  <P>
+menu id text ;  add menu item
+
+  <P>
+menupop text;  add popup menu item
+
+  <P>
+menupopz ;  ends popup menu and drops down a level
+
+  <P>
+menusep ;  separator line in a popup menu
+
+  <P>
+oledlg id ;  run property dialog. State can be saved with the olesave command.
+
+  <P>
+oleenable id eventname [bool]  ;  enable/disable event. You must enable an event in order to trigger an event in J.
+
+  <P>
+oleget id objectname property ;  return property value. Objectname is <I>base</I>, <I>temp</I>, or a name set with oleid. If the result is an object, it is set as the temp object. This allows a series of wd commands that use the temp object to get the next object.
+
+  <P>
+oleinfo id ;  return information about events, methods, properties, and constants
+
+  <P>
+oleload id filename ;  initialize properties from a file created by olesave. An oleload should only be done once before it is shown.
+
+  <P>
+olemethod id objectname method parameters....;  run a method. , is an elided parameter. A wd parameter of , is the same as &quot;&quot;, except it is treated as an elided parameter where appropriate.Some methods distinguish between a numeric parameter and a string. A simple (not delimited) string that is an integer is treated as an integer. If you want 23 to be treated as a string, use &quot;23&quot;. If the result is an object, it is set as the temp object.
+
+  <P>
+An object parameter is indicated by a simple parameter of the form:
+object:formid.childid.objectname
+
+  <P>
+A picture object parameter is indicated by a simple parameter of the form:
+picture:filename
+
+  <P>
+olesave id filename ;  save properties in a file that can be used to initialize a control after it is created
+
+  <P>
+oleset id objectname property value ;  set property value
+
+  <P>
+pctive ;  SetActiveWindow for selected parent
+
+  <P>
+pas i j ;  parent size adjusted to provide i and j margins beyond children
+
+  <P>
+pc id [style...] ;  parent create. Styles are: nomenu, nomin, nomax, nosize, dialog, owner, and closeok.
+
+  <P>
+pcenter ;  center parent on screen
+
+  <P>
+pclose ;  close parent. If no parent selected, nothing is done and there is no error.
+
+  <P>
+phandler sentence;  sentence to run as form event handler instead of normal wdhandler'
+
+  <P>
+pmove x y w h ;  move and resize parent. Values are in logical units and are relative to the top left corner of the screen. Value of -1 inherits current value.
+
+  <P>
+pmovex x y w h  ;  move and size form in pixels
+
+  <P>
+pn text ;  name for parent window caption
+
+  <P>
+psel id ;  select parent id to be target for subsequent commands
+
+  <P>
+psel n ;  select parent with qhwnp of n for subsequent command
+
+  <P>
+psel ;  clear parent and child selection
+
+  <P>
+pshow [style] ;  style is from the set: sw_hide, sw_minimize, sw_restore, sw_show, sw_showmaximized, sw_showminimized, sw_showminnoactive, sw_showna, sw_shownoactivate, sw_shownormal. sw_shownormal is the default.
+
+  <P>
+pshowx n... ;  argument is sysinfo data. Shows window as it was when sysinfo was set.
+
+  <P>
+ptop [bool];  set 1 so that window stays on top of other windows
+
+  <P>
+q ;  return event data
+
+  <P>
+qabout ;  returns: release, minor release, system, edition, registration.<br>
+4.06<br>
+a<br>
+Windows 95<br>
+Professional Edition<br>
+0123-456-7890
+
+ <P>
+Possible system strings: Macintosh, Windows NT, Windows 95, Windows 3.1.
+
+  <P>
+qbreak ;  returns count of menu/button/and toolbar commands that have been ignored because J was busy. This value can be polled in a loop with a long execution time to see if the user is getting impatient.
+
+  <P>
+qchildxywh id;  return child position and size in units
+
+  <P>
+qchildxywhx id;  return child position and size in pixels
+
+  <P>
+qcmdline ;  return command line
+
+  <P>
+qcode data ;  encodes data for use in order system.
+
+  <P>
+qcolor color ;  return RGB for system colors defined in system\packages\color\wdcolor.ijs
+
+  <P>
+qd ;  return data for form. Similar to q result.
+
+  <P>
+qer ;  return last error information
+
+  <P>
+qformsize ;  returns form edit default control sizes: button width, button height, edit width, edit height, label height. 
+
+  <P>
+qformx ;  returns form x y w h values in pixels.
+
+  <P>
+qhinst ;  return HINSTANCE of application
+
+  <P>
+qhwndc id;  return HWND (handle) of child
+
+  <P>
+qhwndp ;  return HWND (handle) of current parent
+
+  <P>
+qhwndx ;  return HWND (handle) of application
+
+  <P>
+qkeystate keys ;  returns 0 or 1 (pressed) for each key in keys. The values in keys are virtual key values as defined in packages\graphics\vkeys.ijs.
+
+  <P>
+qm ;  return system metrics:<br>
+screen width, screen height,<br>
+x logical unit, y logical unit,<br>
+cxborder, cyborder,<br>
+cxfixedframe, cyfixedframe,<br>
+cxframe, cyframe,<br>
+cycaption, cymenu,<br>
+desktop x, desktop y,<br>
+desktop w, desktop h<br>
+More elements may be added.
+
+  <P>
+qp ;  return parent ids.
+
+  <P>
+qprinters ;  returns an LF delimited list of printers. The first entry is the session default printer. The second entry is the system default printer. The remaining entries are a list of all printers. The session default printer starts out as the system default printer and is changed by mbprinter or File|Print Setup.
+
+  <P>
+qrt ;  return 1 if runtime version
+
+  <P>
+qrtf id;  return RTF data from richedit control
+
+  <P>
+qs [cmd] ;  return styles or keywords used in command. cmd can be: cc, gpen, mb, mbopen, mbsave, pshow, sendkeys, smshow, or winexec
+
+  <P>
+qscreen ; screen information (see glqprinter)<br>
+<Table>
+<TR>
+<TD VALIGN="TOP" WIDTH=200>
+horzsize
+<TD VALIGN="TOP" WIDTH=525>
+width in millimeters
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+vertsize
+<TD VALIGN="TOP" WIDTH=525>
+height in millimeters
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+horzres
+<TD VALIGN="TOP" WIDTH=525>
+width in pixels
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+Vertres
+<TD VALIGN="TOP" WIDTH=525>
+height in raster lines (pixels)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+logpixelsx
+<TD VALIGN="TOP" WIDTH=525>
+horizontal pixels per logical inch
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+logpixelsy
+<TD VALIGN="TOP" WIDTH=525>
+vertical pixels per logical inch
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+bitspixel
+<TD VALIGN="TOP" WIDTH=525>
+number of color bits per pixel.
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+planes
+<TD VALIGN="TOP" WIDTH=525>
+number of color planes
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+numcolors
+<TD VALIGN="TOP" WIDTH=525>
+number of entries in the device's color table (_1 if &gt; 8)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+aspectx
+<TD VALIGN="TOP" WIDTH=525>
+relative width of a pixel
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+aspecty
+<TD VALIGN="TOP" WIDTH=525>
+relative height of a pixel
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+aspectxy
+<TD VALIGN="TOP" WIDTH=525>
+diagonal width of a pixel
+</tr></table>
+
+<P>
+qsmact ;  return file name of active window
+
+  <P>
+qsmall ;  return file names of all windows
+
+  <P>
+qsmcsize ;  return size in characters of jx output window
+
+  <P>
+qsmmfmove ;  size and position in pixels of J session (mainframe) window
+
+  <P>
+qsmmfshow ;  session show value (see qsmmfshow)
+
+  <P>
+qsmout ;  return file name of JX output window
+
+  <P>
+qsmsize ; return size of smsel window (x y w h) in pixels
+
+  <P>
+qsmwh ;  return size of main frame client area in pixels
+
+  <P>
+qvbx id ;  return information about properties and events of VBX control
+
+  <P>
+rem text ;  remark
+
+  <P>
+reset ;  close all windows, release all wd resources and objects
+
+  <P>
+sbar n;  create status bar with n panes
+
+  <P>
+sbarset id width text;  set id, width, and text of the next statusbar pane. A width of -1 leaves the width unchanged. A set command sets the text of the pane.
+
+  <P>
+sbarshow [bool];  show (1) or hide statusbar
+
+  <P>
+sendkeys text ;  send keystrokes to active window (Win31 only)<br>
++^%~()[]{} are special characters<br>
++ upshifts the next character (+a is the same as A)<br>
+^ control shift<br>
+% alt shift.<br>
+~ ENTER key.
+
+  <P>
+To send a special character as a normal character enclose it in {}. To send + , put {+} in text.
+
+  <P>
+{key n} repeats key n times. For example: {a 5} or {left 3}.
+
+  <P>
+Keys without an ASCII value are indicated by keywords in braces. {tab} is the tabkey.
+
+  <P>
+wd 'winexec calc.exe;'<br>
+wd 'acttitle calculator; sendkeys &quot;123{+}4~&quot;;'
+
+  <P>
+set id [parameters...]  ;  set object property
+
+  <P>
+checkbox, radiobutton - check (1 or elided) or uncheck (0)
+
+  <P>
+combobox - similar to listbox
+
+  <P>
+edit, editm - set text. Takes optional trailing parameter.
+
+  <P>
+isipicture - set filename of picture source. dib or bmp (device independent bitmap), wmf (windows metafile), or ico (icon) file to display.
+
+  <P>
+listbox - clear contents and add items. A parameter can contain LF delimited items. Ownerdrawfixed listbox items are picture file names.
+
+<pre>
+wd 'set  listbox  red  green  blue'
+wd 'set  listbox  red  green  blue  &quot;pink',LF,'orange&quot;'
+</pre>
+
+<P>
+menu -  check (1 or elided) or uncheck (0). If menu and toolbar button have same id, both are set.
+
+  <P>
+progressbar - set value in range 0 to 100
+
+  <P>
+richedit, richeditm - set RTF text
+
+  <P>
+scrollbar - set min/position/max/pagesize values or just position
+
+<pre>
+wd'set scrollbar 0 60 100 10'
+wd'set scrollbar 75'
+</pre>
+
+<P>
+static - set text
+
+  <P>
+statusbar - set pane text
+
+  <P>
+tab - add a tab for each parameter
+
+<pre>wd'set tab Jan Feb Mar Apr'</pre>
+
+ <P>
+toolbar -  check (1 or elided) or uncheck (0). If menu and toolbar button have same id, both are set.
+
+  <P>
+trackbar - similar to scrollbar but has linesize in addition to pagesize
+
+<pre>wd'set trackbar 0 60 100 10 2'</pre>
+
+ <P>
+setbkgnd id color ;  set background RGB color of richedit or richeditm control
+
+  <P>
+setcaption id text ;  set control caption. If control is ownerdraw button, text is picture filename.
+
+  <P>
+setcolwidth id width ;  set multicolumn listbox column width
+
+  <P>
+setdelete id n ;  delete tab item n
+
+  <P>
+setenable id [bool] ;  enable (1) or disable. Applies to menu items, toolbar buttons, and controls.
+
+  <P>
+setfocus id ;  set focus on control
+
+  <P>
+setfont id <a href="fontspec.htm">fontspec</a>;  set font for control
+
+  <P>
+setinsert id n text ;  insert tab item at position n
+
+  <P>
+setinvalid id ;  InvalidateRect
+
+  <P>
+setlimit id n '  limit length of user typed text in edit, editm, richedit, richeditm, combodrop, and combobox controls.
+
+  <P>
+setreadonly id [bool] ;  set readonly (1) for edit, editm, richedit, and richeditm
+
+  <P>
+setreplace id newtext ;  replace selected text with newtext in edit, editm, richedit, and richeditm control
+
+  <P>
+setreplace id n newtext ;  replace tab item n text with newtext
+
+  <P>
+setscroll id n ;  scroll n to be first visible line in editm and richeditm control
+
+  <P>
+setselect id [parameters...] ;  set selection
+
+  <P>
+edit, editm, richedit, richeditm - parameters are [ start end [noscroll ] ]. Selects text from start to end. If start and end are elided, then all text is selected. If noscroll is elided or 1, then the selection is not scrolled into view. If noscroll is 0, then the selection is scrolled into view
+
+  <P>
+combobox, listbox - -number of item to select. -1 clears selection.
+
+  <P>
+trackbar - parameters are start and end of range to mark as selected
+
+  <P>
+setshow id [bool] ;  show (1) or hide. If it is a group id (the id of the pc command ignored by a creategroup), then all controls in the group are affected. Controls explicitly hidden are not affected by a group show.
+
+  <P>
+settabstops id [ n [ n [ n...] ] ] ;  sets tab stops in editm and listbox controls. Values are in dialog units.
+
+  <P>
+setupdate id ;  UpdateWindow
+
+  <P>
+setxywh id x y w h ;  set child position and size in units
+
+  <P>
+setxywhx id x y w h ;  set child position and size in pixels
+
+  <P>
+smappend text [trailing] ; appends text to smsel window
+
+  <P>
+smcascade ;  menu Window/Cascade
+
+  <P>
+smclose ;  close smsel window (does NOT save)
+
+  <P>
+smfocus ;  set smsel window in focus
+
+<P>
+smfont <a href="fontspec.htm">fontspec</a>;  set font for all session manager windows
+
+<P>
+smformedit ;  Edit|Form Edit for selected sm window
+
+  <P>
+smgetsel ;  return start and end caret selection information
+
+  <P>
+smgetshow ;  return sm mainframe window state: 0 normal, 1 maximized, 2 iconic
+
+  <P>
+sminputlog ;  return input log
+
+  <P>
+smmfmove x y w h ;  move and size J session in pixels. The qsmmfmove command returns the current information.
+
+  <P>
+smmfshow [style] ;  same style as for pshow. When J starts with a profile its starts with sw_hide and an smmfshow must be done to show the session. The qsmmfshow command returns the current information.
+
+  <P>
+smove x y w y ;  move and size smsel window (pixels)
+
+  <P>
+smopen ; open (if not already open) file set by smsel
+
+  <P>
+smprompt prompt [default [flag]] ;  used in input line recall. The prompt is issued at the next request for input from the session manager.
+If default is supplied, it is added to the prompt and is highlighted. The
+flag is 0 if the normal J prompt should be deleted. The line recall facility
+uses smprompt.
+
+  <P>
+smread ;  return text from smsel window
+
+  <P>
+smsave ;  save selected window (if modified)
+
+  <P>
+smsbarshow  bool] ;  show or hide status bar
+
+  <P>
+smscroll i ;  scroll selected window
+
+  <P>
+smsel filename ;  sets file name used to select window for other commands
+
+  <P>
+smselact ;  selects (smsel) the active window
+
+  <P>
+smselout ;  selects (smsel) the output window
+
+  <P>
+smsetcmd n t name sentence help ;<br>
+n is 2 to 9 and indicates a function key<br>
+t is 0 for no definition, 1 for noisy, 2 for quiet, 3 for silent<br>
+name appears on Tool menu (include TAB to put Fn at right)<br>
+sentence is passed to J for execution when function key is pressed<br>
+help appears in status bar line at bottom of main window
+
+  <P>
+smsetselect [start end [noscroll] ] ;  Selects text from start to end. If start and end are elided, then all text is selected. If noscroll is elided or 1, then the selection is not scrolled into view. If noscroll is 0, then the selection is scrolled into view.
+
+  <P>
+smshow [style] ;  same style as for pshow
+
+  <P>
+smtile ;  menu Window/Tile
+
+  <P>
+smtilea ;  menu Window/Tile across
+
+  <P>
+smwrite text [trailing] ;  write new text to smsel
+
+  <P>
+tbar filename;  set filename of bmp file for toolbar
+
+  <P>
+tbarset id index image;  set id for a toolbar button. index is the position in the displayed toolbar and image is the index of the button bitmap to use from the toolbar bitmap.
+
+  <P>
+tbarshow [bool];  show (1) or hide toolbar
+
+  <P>
+timer i ;  set interval timer to i milliseconds. Event systimer occurs when time has elapsed. The timer keeps triggering events until the timer is turned off. An argument of 0 turns the timer off. The systimer event may be delayed if J is busy, and it is possible for several delayed events to be reported as a single event.
+
+  <P>
+vbxenable id eventname [parameter types]  ;  enable VBX control event
+
+  <P>
+vbxevent eventname...  ;  VBX control
+
+  <P>
+vbxget id property...  ;  get VBX control property
+
+  <P>
+vbxrefresh id  ; repaint VBX control
+
+  <P>
+vbxset id property value...  ;  set VBX control property
+
+  <P>
+wait ;  the normal message loop executes a handler in immediate execution when an event occurs. This is overkill for getting input from a simple form, and the way mb works is simpler: the message box is displayed, other events are disabled until it is closed, and the result is the wd result. The wait command allows a form to be used in a similar way. The wait command shows the form, disables events except for that form, and waits for an event. The event information is given by <PRE>wd'q'</PRE>. While a wait form is active events in other forms, DDE events, and timer events are disabled. They are enabled when the wait form is closed.
+
+  <P>
+winexec text [style];  Execute DOS or Windows program. style is same as for pshow. 
+
+<pre>
+wd ' winexec  &quot;write.exe  text.wri&quot;  sw_showmaximized;'
+</pre>
+
+  <P>
+winhelp filename [context] ;  run Windows help. Optional argument is integer topic number. Filename &quot;&quot; or &quot; dictionary&quot; (note leading blank) selects J Dictionary.
+
+  <P>
+xywh x y w h ;  sets rectangle. -1 value inherits the previous value.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="g12_commands.htm">&gt&gt;</a>&nbsp;
+<a href="win_driver_cmd_ref_overview.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

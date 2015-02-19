@@ -1,0 +1,54 @@
+This is "imerge", Kernighan's & Pike's "idiff" program out of their
+fabulous book "The UNIX Programming Environment" (Prentice-Hall 1984).
+Check out more info about the book (and the entire software suite)
+at http://cm.bell-labs.com/cm/cs/upe/ .
+
+In short, imerge runs a diff on two files and asks interactively
+for each delta which variant should go into a third, merged file.
+
+I typed in the little C program directly from the book back in 1986
+or some such.  I just noticed today (2000) that the entire code of
+the book is now available through the Internet.  (It didn't float
+around on Usenet back then.)  The copyright in the package says:
+
+	Copyright (C) Lucent Technologies, 1997.
+
+	All Rights Reserved Permission to use, copy, modify, and
+	distribute this software and its documentation for any purpose
+	and without fee is hereby granted, provided that the above
+	copyright notice appear in all copies and that both the
+	copyright notice and this permission notice and warranty
+	disclaimer appear in supporting documentation, and that the name
+	of Lucent Technologies or any of its entities not be used in
+	advertising or publicity pertaining to distribution of the
+	software without specific, written prior permission.
+
+	LUCENT TECHNOLOGIES DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+	SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+	AND FITNESS.  IN NO EVENT SHALL LUCENT OR ANY OF ITS ENTITIES BE
+	LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
+	DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+	WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
+	ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+	PERFORMANCE OF THIS SOFTWARE.
+
+In since I didn't apply significant changes to the code this still
+is all which applies.  Have fun with it.
+
+Not after hesitating for a some time, I took liberty to change the name
+when I wrote program and man page.  I think "imerge" captures the
+purpose of the tool so much better and I still think "man -k" should be
+enough to save day.
+
+Sooner or later, I took imerge/idiff with me wherever I had to do some
+work, without changing anything much.  It's now  CVS'ed for easier
+accessibility.
+
+Use the repository :pserver:anoncvs@cvs.gaertner.de:/usr/local/cvs with
+password "cvs" to check for any updates.   Which are unlikely, though.
+These AT&T folks sure were able to avoid version numbers other than
+"1.0".  And I'm not intending to break with this fine tradition where
+not necessary.
+
+						Martin Neitzel
+						neitzel@gaertner.de

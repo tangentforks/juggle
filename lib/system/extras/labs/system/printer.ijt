@@ -1,0 +1,769 @@
+LABTITLE=: 'Print Introduction'
+LABWINDOWED=: 0
+
+NB. =========================================================
+Lab Section Introduction
+This lab introduces the print commands in J.
+)
+PREPARE
+load 'gl2'
+pinit=: 3 : 0
+wd :: ] 'psel printer;pclose'
+wd 'pc printer'
+wd 'cc isigraph isigraph rightmove bottommove'
+wd 'pas 0 0'
+glzcreate''
+)
+
+startdoc =: 3 : 0
+if. _1 = 4!:0<'printtofile' do. printtofile =: 1 end.
+if. printtofile do.
+ p =.  'temp/print.prn'
+ r =. 'print to file ',p
+else.
+ p =. ''
+ r =. 'print to printer'
+end.
+glzstartdoc '"',y.,'" ',p
+r
+)
+
+startdocpageclear=: 3 : 0
+r=.startdoc y.
+startpageclear''
+r
+)
+
+startdocpage=: 3 : 0
+r=.startdoc y.
+startpage''
+r
+)
+
+startpage=: glzstartpage
+startpageclear=: glclear @ glzstartpage
+
+endpage=: glzendpage @ glzprint @ glshow
+endpagedoc=: glzenddoc @ glzendpage @ glzprint @ glshow
+create=: glzcreate
+
+print=: 3 : 0
+startdocpage y.
+glzprint''
+endpagedoc''
+)
+
+pagesize =: 3 : 0
+pdata =: glqprinter''       NB. printer info
+pixelswh =: 2 3 { pdata     NB. pixel width and height
+pixelspi =: 4 5 { pdata     NB. pixels in an inch
+1440 *pixelswh % pixelspi   NB. page size in twips
+)
+
+NB. draw paper size rectangle, ellipse, and cross
+previewexample =: 3 : 0
+wd'pshow;ptop'
+glmap 6
+glzcreate''
+r =: 0 0 , pagesize''
+glrect r
+glellipse r
+gllines r
+gllines 0 3 2 1{r
+glshow''
+)
+
+NB. settext 'text';'arial 240';'text';1440 1440
+settext =: 3 : 0
+glfont >1{y.
+gltextxy >2{y.
+gltext ":>0{y.
+)
+
+NB. preview x y scroll position
+pvscroll =: 3 : 0
+glwindoworg 1440 * y.
+glpaint''
+)
+
+pvtop =: 3 : 0
+gltop 1{pagesize''
+glpaint''
+)
+
+pvbottom =: glpaint @ gltop
+pvtwips =: glpaint @ glmap bind 6
+pvisotropic =: glpaint @ glmap bind 7
+
+NB. fit text;font
+NB. how many chars from text in the font will fit in 4 inches
+NB. result is chars, length, height
+fit =: 3 : 0
+glextentfont >1{y.
+txt=.>0{y.
+cnt =. 0
+while.
+ (cnt<:#txt)*.(4*1440) >: glqextent cnt{.txt
+do.
+ cnt =. >:cnt
+end.
+cnt =. <:cnt
+wh =. glqextent cnt{.txt
+cnt,wh
+)
+
+NB. wraptext text;font;location
+NB. return number of lines
+wraptext =: 3 : 0
+txt =. >0{y.
+fnt =. >1{y.
+loc =. >2{y.
+i =. 0
+while. #txt do.
+ 'c l h' =. fit txt;fnt NB. indirect assignment
+ settext (c{.txt);fnt;loc - 0,i*h
+ txt =. c}.txt
+ i =. >:i
+end.
+i
+)
+PREPARE
+
+NB. =========================================================
+Lab Section Prerequisites
+You should have a general familiarity with the window driver comands before taking this lab.
+
+You should also be familiar with the high level utilities provided by the 'print' package (load 'print') before you take this lab. There is a lab called Print Utilities on how to use those facilities.
+)
+
+NB. =========================================================
+Lab Section Overview
+This is an advanced lab on how to use the Window Driver and Graphics Library commands to drive printers.
+
+When you finish this lab you will have seen all the printing commands and should be comfortable with working with printers at this low level.
+)
+
+NB. =========================================================
+Lab Section isigraph Commands
+The printer is accessed with the isigraph control.
+
+Graphics library commands have a prefix of gl, and are defined in script gl2.
+
+Commands specific to the printer have a prefix of glz.
+
+Enquiry commands that return information have a prefix of glq.
+
+For example:
+ glplay       isigraph command
+ glzcreate    isigraph printer command
+ glqextent    returns information about an isigraph font
+ glqdevmode   returns information about an isigraph printer
+)
+
+NB. =========================================================
+Lab Section qprinters
+qprinters lists all printers.
+
+The first entry is the default printer. The second entry is the system default printer. The default printer is system default when J starts. The remaining entries list all printers. File|Print Setup can change the default printer.
+)
+wd'qprinters'
+
+NB. =========================================================
+Lab Section
+Use menu command File|Print Setup to select the printer you want to use in this lab.
+
+Set it to portrait orientation.
+)
+
+NB. =========================================================
+Lab Section
+Printing is done with an isigraph control in a form window.
+
+Normally this printer control window is invisible.
+
+In later sections you will see how this window can be made visible and be used as a print preview.
+)
+
+NB. =========================================================
+Lab Section
+pinit is a simple utility that closes all windows and creates a new printer window with an isigraph control and then creates a printer for that control based on the default printer.
+)
+
+NB. =========================================================
+Lab Section
+Most sections start with a pinit to be sure the printer control is properly created. This makes sections less sensitive to actions in previous sections or to your own experiments.
+
+glzcreate creates a default printer for the control.
+)
+pinit
+
+NB. =========================================================
+Lab Section
+glzcreate creates a printer (a printer context).
+
+glzcreate with no argument creates a printer based on the default printer.
+
+glzcreate with an argument from the result of qprinters creates a printer based on that printer
+
+Note that pinit'' does a glzcreate.
+
+The second glzcreate deletes that first printer and creates a new one.
+)
+pinit''
+
+glzcreate''   NB. create printer
+
+NB. =========================================================
+Lab Section
+glzstartdoc starts a printer document (print job).
+
+The glzstartdoc argument is the job name.
+
+The job name is "(Untitled)" if it is elided.
+
+Look in the Print Manager for the job.
+)
+pinit''
+
+glzstartdoc '"my print job"'
+
+NB. =========================================================
+Lab Section
+glzenddoc ends the document
+
+Look in the Print Manager to see that the job is done.
+)
+PREPARE
+wd 'psel printer'
+PREPARE
+glzenddoc'' NB. empty prints quickly and quietly
+
+NB. =========================================================
+Lab Section
+glzstartdoc takes two optional parameters.
+
+The first is a job name.
+
+The second is a filename for a print to file.
+)
+pinit''
+
+glzstartdoc 'myjob temp/print.prn'
+
+NB. =========================================================
+Lab Section
+glzabortdoc can be used to abort a print job.
+)
+PREPARE
+wd 'psel printer'
+PREPARE
+glzabortdoc''
+
+NB. =========================================================
+Lab Section
+Printing can be slow and is perhaps unnecessary if you have already seen the output in an earlier session.
+
+Set global printtofile to 1 if you wish to quickly and quitely print to file.
+
+You can change the value of printtofile at any time.
+)
+printtofile =: 1   NB. print to file
+
+printtofile =: 0   NB. print to printer
+
+NB. =========================================================
+Lab Section
+Draw some text and print it.
+
+Utility startdocpageclear is used to start the document, start a page, and clear the drawing.
+
+Utility endpagedoc is used to end the page and the document.
+
+The printer mapping is twips. A twips is a 20th of a point (%1440 of an inch). A 240 twips font is a 12 point font.
+)
+pinit''
+
+startdocpageclear 'my print job'
+glfont 'arial 240'
+gltextxy 1440 1440
+gltext 'testing 1 2 3'
+glshow''       NB. must be done for the commands to draw
+glzprint''     NB. print drawing on printer
+endpagedoc''   NB. end page and document
+
+NB. the page should be printing now
+
+NB. =========================================================
+Lab Section
+Several simple utilities are used such as startdocpageclear and endpagedoc.
+
+These are simple verbs that execute common sequence of glz... commands.
+
+Look at their definitions for more details.
+)
+
+NB. =========================================================
+Lab Section
+The lower left corner of the paper is location 0 0.
+
+The x value goes to the right and the y value goes up.
+
+The settext utility draws text in a font at an x y location.
+
+Location 1440*1 9 is 1 inch from the left and 9 inches up from the bottom.
+)
+
+NB. =========================================================
+Lab Section
+Use the utilities to print a page.
+)
+pinit''
+
+startdocpageclear 'page'
+settext 'big top left' ; 'arial 480' ; 1440*1 9
+settext 'small bottom right' ; 'arial 240' ; 1440*5 1
+endpagedoc''
+
+NB. =========================================================
+Lab Section
+stardocpageclear'' starts document and does startpageclear''
+
+startpageclear''   starts a page and does a glclear startpage''        starts a page
+
+endpage''          ends pages before the last page endpagedoc''       ends last page and ends document
+
+glclear clears the drawing, but keeps the printer.
+
+At the lower glz... command level:
+ glzstartdoc/glzenddoc bracket a document
+ glzstartpage/glzendpage bracket each page
+)
+
+NB. =========================================================
+Lab Section
+Print a two page report
+)
+pinit''
+
+startdocpageclear'2 page report'
+settext'page 1';'arial 240';1440 1440
+endpage''
+
+startpageclear''
+settext'page 2';'arial 240';1440 1440
+endpagedoc''
+
+NB. the report should be printing now.
+
+NB. =========================================================
+Lab Section
+Print 2 page report with the 1st page in landscape.
+
+glzdevmode sets the device mode properties.
+
+glzdevmode must be done before glzstartpage.
+)
+pinit''
+
+startdoc'orientation print'
+glzdevmode 'orientation 2'    NB. 2 is landscape
+startpageclear''              NB. glzdevmode done first
+settext'landscape page 1';'arial 240';1440 1440
+endpage''
+
+glzdevmode 'orientation 1'
+startpageclear''
+settext'portrait page 2';'arial 240';1440 1440
+endpagedoc''
+
+NB. =========================================================
+Lab Section
+glqdevmode returns the currently created printer device mode properties.
+
+The result: orientation, papersize, paperlength, paperwidth, scale, copies, source, quality, color, duplex, yresolution, truetype
+)
+pinit''
+
+glqdevmode''  NB. devmode of currently created printer
+
+NB. =========================================================
+Lab Section
+Use File|Print Setup to change a printer device mode that is reported in glqdevmode.
+
+For example change the orientation to landscape.
+
+The next step creates a new printer that will reflect this.
+)
+
+NB. =========================================================
+Lab Section
+Check the glqdevmode result to see that it reflects changes you made with File|Print Setup.
+)
+pinit''
+glqdevmode''  NB. properties of current printer
+
+NB. =========================================================
+Lab Section
+Use File|Print Setup to change the printer back to portrait.
+)
+
+NB. =========================================================
+Lab Section
+The second parameter to glzstartdoc is the name of a file.
+
+If a filename is provided the printing is done to file.
+
+This file can be printed later with the print command.
+)
+
+NB. =========================================================
+Lab Section
+glqprinter returns information about the printer.
+
+Check the documentation of the meaning of all the values.
+
+The 2 3 index positions give the width and height of the printer page in device units (pixels).
+
+The 4 5 index positions give the horizontal and vertical pixels per inch.
+
+The pagesize is the printable area and is usually smaller than the physical page size.
+)
+pinit''
+
+[pdata =: glqprinter''  NB. convert string to numbers
+[pixelswh =: 2 3 { pdata     NB. pixel width and height
+[pixelspi =: 4 5 { pdata     NB. pixels in an inch
+[iwh =: pixelswh % pixelspi  NB. inches width and height
+[pagesizen =: iwh * 1440  NB. page size in twips
+
+NB. =========================================================
+Lab Section
+Let's print a page with rectangle marking the printable area.
+)
+pinit''
+
+startdocpageclear'lab rectangle'
+glrect 0 0 ,pagesizen
+settext'rectangle border';'arial 480';1440 1440
+endpagedoc''
+
+NB. =========================================================
+Lab Section
+Text length and height information is necessary for taking care of line breaks in wrapping lines, page breaks for ending pages, and in positioning graphical objects in relation to text.
+
+glzextent returns the width and height of text.
+
+glextentfont sets the font that is used in the calculation.
+)
+pinit''
+
+glextentfont 'arial 480'
+[textwh =: glqextent 'testing 1 2 3'
+[texth =: 1 { textwh
+
+NB. =========================================================
+Lab Section
+Print a page with that text and use the height (which includes the standard interline spacing for that font at that size) to place other lines below.
+)
+pinit''
+
+startdocpageclear'multi lines'
+glfont 'arial 480'
+settext 'first line';'arial 480';1440 2880
+settext 'second line';'arial 480';1440 2880 - 0,texth
+settext 'third line';'arial 480';1440 2880 - 0,2*texth
+endpagedoc''
+
+NB. =========================================================
+Lab Section
+Let's calculate a line break.
+
+For now we will ignore words and just wrap the line at the character that would go over the margin.
+
+We calculate the length of the line and remove characters until they will fit.
+
+The fit utility return the number of characters that will fit in 4 inches.
+
+Take a look at the definition of fit.
+
+Try fit with various arguments.
+)
+pinit''
+
+fit (100$'abc');'arial 480'
+
+NB. =========================================================
+Lab Section
+The wrap utility uses fit to write a long string to multiple lines wrapping to fit within the 4 inch limit.
+
+Write text that is wrapped to a width of 4 inches.
+)
+pinit''
+
+text =: 400$127{.32}.a.
+startdocpageclear'wrap lines'
+wraptext text;'arial 480';1440*1 9
+endpagedoc''
+
+NB. =========================================================
+Lab Section
+qgtextmetrics returns information about a font.
+
+It is similar to qgextent in that it uses the screen or printer depending on gextent and uses the font set by gextentfont. The 7 values it returns are:
+
+ Height  Ascent  Descent
+ InternalLeading  ExternalLeading
+ AverageCharWidth  MaxCharWidth
+
+AverageCharWidth can be used in a fancier wrap verb that guesses where the line break will occur and then uses qgextent to do the final calculations.
+)
+pinit''
+
+glextentfont 'arial 240'
+glqtextmetrics''    NB. h w a d int ext avg max
+glqextent 'x'       NB. x is usually the average char
+
+NB. =========================================================
+Lab Section
+Justify text.
+
+qextent returns how wide the text will be. The justification space required is the difference between this width and the available width.
+
+gtextjustify sets a width the number of blanks over which it is to be distributed.
+
+This space is added to the blanks in the following gtext commands. The space continues to affect gtext commands until it is consumed, so may affect a series of gtext commands (possibly using different fonts).
+)
+
+NB. =========================================================
+Lab Section
+Justify text example.
+)
+pinit''
+
+startdocpageclear''
+glrect 1000 0 7000 10000  NB. 7000 available width
+t=.'Copulas may be used indirectly. For example: ''w h'' =. 2 3'
+settext t;'arial 240';1000 5000  NB. unjustified
+glextentfont 'arial 240'
+'w h' =. glqextent t
+extra_space =. 7000 - w
+over_this_many_blanks =. +/ ' '=t
+gltextjustify extra_space,over_this_many_blanks
+settext t;'arial 240';1000 5000 + 0,h  NB. justified
+endpagedoc''
+
+NB. =========================================================
+Lab Section WMF Files
+A wmf file can be played into an isigraph control.
+
+In particular a plot can be saved as a wmf file and then played into the printer control.
+
+The first step is to create a wmf file of a plot. Note that glfile requires the full file name.
+)
+pinit''
+
+WMF=: JDIR_j_,'temp/plot.wmf'
+
+require'plot trig numeric'
+'COLOR BLACK' plot sin steps 0 10 100
+glfile WMF
+glsave 0 0 0
+
+NB. =========================================================
+Lab Section
+The wmf file saved in temp/plot.wmf can be played into the printer and then printed.
+
+glplayxywh sets the rectangle where the wmf file will be played.
+
+By default the wmf file is played so that it is scaled to fit within the rectangle set by gplayxywh.
+)
+pinit''
+
+startdocpageclear''
+glplayxywh 1440 4320 7200 4320
+glplay WMF
+endpagedoc''
+
+NB. =========================================================
+Lab Section
+Create 2 plots and print them on a single page.
+)
+WMF1=: JDIR_j_,'temp/plot1.wmf'
+WMF2=: JDIR_j_,'temp/plot2.wmf'
+
+require'plot trig numeric'
+'sbar' plot >:?.>:i.3 4
+glfile WMF1
+glsave 0 0 0
+'surface' plot sin */~ steps 0 3 30
+glfile WMF2
+glsave 0 0 0
+
+pinit''
+
+startdocpageclear''
+settext 'Two Plots';'arial 480';1440 * 2 10
+glplayxywh 1440 * 1 1 6 3
+glplay WMF1
+glplayxywh 1440 * 2 6 5 3
+glplay WMF2
+endpagedoc''
+
+NB. =========================================================
+Lab Section Print Plot
+A plot window is an isigraph control and it could be used to directly print the plot.
+
+A printer is created in the plot control and the plot is then printed.
+
+glmap is used to change the printer mapping mode from the default twips to anisotropic. This causes the plot to scale to fill the page.
+)
+require'plot trig numeric'
+'COLOR BLACK' plot (sin; sin*cos) steps 0 10 100
+glzcreate''
+glzmap 8
+glzdevmode 'orientation 2'
+startdoc 'plot'
+glzstartpage''
+glzprint''
+glzendpage''
+glzenddoc''
+glzdelete''
+
+NB. =========================================================
+Lab Section
+The pcontrol window and isigraph control can be used to preview the drawing that will be printed.
+
+The text 'testing 1 2 3' won't be visible because the default mapping of the window is anisotropic and has extents of 1000 1000. This means that the drawing from in the rectangle 0 0 1000 1000 is scaled to show in the window. Our text is outside that rectangle.
+)
+pinit''
+
+wd'pshow;ptop'
+settext 'testing 1 2 3';'arial 240';1440 1440
+glshow''
+
+NB. =========================================================
+Lab Section
+Do the previous example, but now change the mapping to twips.
+
+The text should now be visible in the window.
+
+Resize the window and note that the drawing is not scaled.
+)
+pinit''
+
+wd'pshow;ptop'
+glmap 6
+settext 'testing 1 2 3';'arial 240';0 1440
+glshow''
+
+NB. =========================================================
+Lab Section
+Recreate the previous example and print it.
+)
+pinit''
+
+wd'pshow;ptop'
+glmap 6
+settext 'testing 1 2 3';'arial 240';0 1440
+glshow''
+print''
+
+NB. =========================================================
+Lab Section
+It would be useful to mark the border of the paper in the screen window with a rectangle.
+
+previewexmple draw a rectangle, ellipse, and cross that fill the printer page.
+
+Depending on the size of your screen you may not be able to resize the window large enough to see all the drawing.
+)
+pinit''
+
+previewexample''
+
+NB. =========================================================
+Lab Section
+The drawing can be scrolled within the screen window.
+
+The gwindoworg command give the coordinates in the drawing that are mapped to the lower left corner of the screen window.
+
+Drawing commands such as gtext need a gshow to be made visible.
+
+Similarly, mapping commands such as gmap and gwindoworg need a gpaint command to cause redrawing with the new information. However, unlike drawing commands, mapping commands will affect the next time the drawing is repaint (for exmaple if it is covered and uncovered).
+
+pvscroll verb can be used to scroll the drawing.
+   pvscroll 0 0  NB. scroll to lower left corner
+   pvscroll 0 2  NB. scroll 2 inches up
+   pvscroll 4 0  NB. scroll 4 inches over
+
+Try scrolling the drawing.
+)
+pinit''
+
+previewexample''
+
+glwindoworg 1440 * 5 5  NB. scroll 5 over and 5 up
+glpaint''
+
+NB. use the scroll verb to scroll the draing
+
+NB. =========================================================
+Lab Section
+The print preview can also be scaled to fit the availbable display space in the window on the screen.
+
+This is probably best done with the isotropic mapping to preserve the aspect ratio. With the isotropic mapping we also need to indicate the extent of the drawing so that it can be scaled. This is done with the gwindowext command.
+
+Resize the window and note how the isotropic mapping mode preserves the aspect ratio.
+)
+pinit''
+
+previewexample''
+
+glmap 7
+glwindowext pagesize''
+glpaint''
+
+NB. =========================================================
+Lab Section
+In the previous example the drawing is "tied" to the bottom of the screen window. Use the gtop command to 'tie' the drawing to the top of the screen window.
+)
+pinit''
+
+previewexample''
+
+gltop 1{pagesize''
+glpaint''
+
+NB. =========================================================
+Lab Section
+Use the following verbs to change how the preview is displayed and experiment with the various combinations.
+
+Resize the preview window to see how things work.
+
+ pvtwips''       twips mapping
+ pvisotropic''   isotropic mapping
+
+ pvtop''         tie to top
+ pvbottom''      tie to bottom
+
+ pvscroll x y    scroll drawing on screen
+)
+pinit''
+
+previewexample''
+
+NB. =========================================================
+Lab Section mbprint
+The mbprint command runs the same printer common dialog as does File|Print Setup.
+
+The next section will run mbprint.
+
+When it runs, select the printer you want to print on in this lab and set it to have portrait orientation.
+)
+
+NB. =========================================================
+Lab Section Reset Printer
+)
+PREPARE
+wd :: ] 'psel printer;pclose'
+PREPARE
+wd'mbprinter'

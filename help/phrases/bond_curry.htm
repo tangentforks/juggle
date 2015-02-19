@@ -1,0 +1,274 @@
+<html>
+<head>
+<title>Bond Or Curry</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="ambivalent_functions.htm">&gt&gt;</a>&nbsp;
+<a href="function_tables.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Bond Or Curry </h1>
+<TR><TD colspan="2">
+
+<P>Fixing an argument of a verb produces a monad. Some verbs so produced are sufficiently important to justify being denoted by a primitive symbol, and the following table often shows the corresponding primitive together with the English definition. The conjunction & (often called with) is used to bond an argument to a verb.</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>m0 =: 1&+</TT></TD>	<TD>Increment <TT>>:</TT></TD>
+  </TR>
+
+  <TR><TD><TT>m1 =: +&1</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+
+  <TR><TD><TT>m2 =: _1&+</TT></TD><TD>	Decrement <TT>&lt;:</tt></TD>
+  </TR>
+  
+  <TR><TD><TT>m3 =: -&1</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+
+  <TR><TD><TT>m4 =: 1&-</TT></TD>	<TD>Not <TT>-.</TT> (logical and prob complement)</TD>
+  </TR>
+
+  <TR><TD><TT>m5 =: 1&~:</TT></TD>	<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+
+  <TR><TD><TT>m6 =: 0&=</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  <TR><TD><TT>m7 =: 0&-</TT></TD>	<TD>Negate - (arithmetic)</TD>
+  </TR>
+  <TR><TD><TT>m8 =: _1&*</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  
+  <TR><TD><TT>m9 =: *&_1</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  <TR><TD><TT>m10=: 2&*</TT></TD>	<TD>Double <TT>+:</TT></TD>
+  </TR>
+  <TR><TD><TT>m11=: *&2</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  <TR><TD><TT>m12=: 3&*</TT></TD>	<TD>Triple</TD>
+  </TR>
+  <TR><TD><TT>m13=: *&3</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  <TR><TD><TT>m14=: 0j1&*</TT></TD>	<TD><TT>j.</TT> (Multiply by &radic;-1)</TD>
+  </TR>
+  <TR><TD><TT>m15=: ^@j.</TT></TD>	<TD><TT>r.</TT>(Complex # on unit circle at y radians)</TD>
+  </TR>
+  <TR><TD><TT>m16=: 1p1&*</TT></TD>	<TD><TT>*</TT> times  <TT>o.</TT></TD>
+  </TR>
+  <TR><TD><TT>m17=: 0.5&*</TT></TD>	<TD>Halve <TT>-:</TT></TD>
+  </TR>
+  <TR><TD><TT>m18=: *&0.5</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  <TR><TD><TT>m19=: %&2</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+  </TR>
+  <TR><TD><TT>m20=: 1&%</TT></TD>	<TD>Reciprocal <TT>%</TT></TD>
+  </TR>
+
+<TR><TD><TT>m21=: ^&_1</TT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+</TR>
+<TR><TD><TT>m22=: ^&2</TT></TD>	<TD>Square <TT>*:</TT></TD></TR>
+
+<TR><TD><TT>m23=: ^&33</TT></TD>	<TD>Cube</TD>
+</TR>
+<TR><TD><TT>m24=: \^&0.5</TT></TD><TD>Square root <TT>%:</TT></TD>
+</TR>
+
+<TR><TD><TT>m25=: ^&1r2</TT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+</TR>
+<TR><TD><TT>m26=: 2&%:</TT></TD>	<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD></TR>
+
+<TR><TD><TT>m27=: ^&(%3)</TT></TD>	<TD>Cube root</TD>
+</TR>
+<TR><TD><TT>m28=: ^&1r3</TT></TD>	<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD></TR>
+
+<TR><TD><TT>m29=: 3&%:</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+</TR>
+
+<TR><TD><TT>m30=: (^1)&^</TT></TD>	<TD>Exponential ^</TD>
+</TR>
+
+<TR><TD><TT>m31=: 1x1&^</TT></TD>	   	<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+</TR>
+
+<TR><TD><TT>m32=: 1x1&^.</TT></TD>	<TD>Natural log <TT>^.</TT></TD>
+</TR>
+<TR><TD><TT>m33=: 10&^</TT></TD>	<TD>Antilog</TD>
+</TR>
+
+<TR><TD><TT>m34=: 10&^.</TT></TD>	<TD>Base-10 log</TD>
+</TR>
+<TR><TD><TT>m35=: &gt;:@&lt;.@(10&^.)@(1&&gt;.)</TT></TD>	<TD># of digits needed to represent integer <TT>y</TT></TD></TR>
+
+<TR><TD><TT>m36=: #@(10&#.^:_1)"0</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+</TR>
+<TR><TD><TT>m37=: &gt;:@&lt;.@( 2&^.)@(1&>.)</TT></TD>	<TD># of bits needed to represent integer y</TD>
+</TR>
+
+<TR><TD><TT>m38=: #@( 2&#.^:_1)"0</TT></TD>		<TD>&nbsp;&nbsp;&nbsp;&nbsp;"</TD>
+</TR>
+<TR><TD><TT>m39=: 0&{</TT></TD>	<TD>Head  (first) <TT>{.</TT></TD>
+</TR>
+<TR><TD><TT>m40=: _1&{</TT></TD>	<TD>Tail (last) <TT>{:</TT></TD>
+</TR>
+<TR><TD><TT>m41=: 1&}.</TT></TD>	<TD>Behead <TT>}.</TT></TD>
+</TR>
+<TR><TD><TT>m42=: _1&}</TT>.</TD><TD>	Curtail <TT>}:</TT></TD>
+</TR>
+<TR><TD><TT>m43=: 0&&lt;</tt></TD>	<TD>Positive test</TD>
+</TR>
+<TR><TD><TT>m44=: 0&&gt;</TT></TD>	<TD>Negative test</TD>
+</TR>
+<TR><TD><TT>m45=: 0&&gt;.</TT></TD>	<TD>Max (0,y)</TD> 
+</TR>
+<TR><TD><TT>m46=: 0&&lt;.</TT></TD>	<TD>Min (0,y) </TD>
+</TR>
+<TR><TD><TT>m47=: (0&=)@(2&|)</TT></TD>	<TD>Even test</TD>
+</TR>
+<TR><TD><TT>m48=: (1&=)@(2&|)</TT></TD>	<TD>Odd test</TD>
+</TR>
+
+<TR><TD><TT>m49=: _1&A.</TT></TD>	<TD>Reverse <TT>|.</TT></TD>
+</TR>
+<TR><TD><TT>m50=: (&lt;0 _1)&C.</tt></TD>	<TD>Interchange first and last items</TD>
+</TR>
+<TR><TD><TT>m51=: &gt;.@(0.5&+)</TT></TD>	<TD>Round</TD>
+</TR>
+<TR><TD><TT>m52=: ,~ $ 1: , ] $ 0:</TT></TD>	<TD>Identity matrix of order <TT>y</TT></TD>
+</TR>
+<TR><TD><TT>m53=: -.@('  '&E.) # ]</TT></TD>	<TD>Remove multiple blanks</TD>
+</TR>
+<TR><TD><TT>m54=: BC=: i.@>: ! ]</TT></TD>	<TD>Binomial coefficients of order <TT>y</TT></TD>
+</TR>
+<TR><TD><TT>m55=: (0&,+,&0)^:([ `1:)</TT></TD>	<TD>&nbsp;&nbsp;&nbsp;&nbsp;" 	(recursive)</TD>
+</TR>
+<TR><TD><TT>m56=: BCT=:i. !/ i.</TT></TD>	<TD>BC table of orders to y-1</TD>
+</TR>
+<TR><TD><TT>m57=: PAT=: |:@BCT</TT></TD>	<TD>Pascal's triangle</TD>
+</TR>
+<TR><TD><TT>m58=: (0&,+,&0)^:(i.`1:)</TT></TD>	<TD>&nbsp;&nbsp;&nbsp;&nbsp;"	 (recursive)</TD>
+</TR>
+<TR><TD><TT>m59=: IX=: a.&i.</TT></TD>	<TD>Index in ASCII alphabet</TD>
+</TR>
+<TR><TD><TT>m60=: Lt=:(1&e.)@(e.&a.)@,</TT></TD>	<TD>Literal test</TD>
+</TR>
+<TR><TD><TT>m61=: 1&#.</TT></TD>	<TD>Sum over lists (last axis) <TT>+/"1</TT></TD>
+</TR>
+<TR><TD><TT>m62=: 1&,</TT></TD>	<TD>Preface a row of 1's</TD>
+</TR>
+<TR><TD><TT>m63=: ,&1</TT></TD>	<TD>Append a row of 1's</TD>
+</TR>
+<TR><TD><TT>m64=: 1&,.</TT></TD>	<TD>Preface a column of 1's</TD>
+</TR>
+<TR><TD><TT>m65=: ,.&1</TT></TD>	<TD>Append a column of 1's</TD>
+</TR>
+<TR><TD><TT>m66=: 1&,@$ $ ,</TT></TD>	<TD>Itemize (append leading 1 to shape) <TT>,:</TT></TD>
+</TR>
+<TR><TD><TT>m67=: sin=: 1&o.</TT></TD>	<TD>Sin</TD>
+</TR>
+<TR><TD><TT>m68=: asin=: _1&o.</TT></TD>	<TD>Arcsin</TD>
+</TR>
+<TR><TD><TT>m69=: cos=: 2&o.</TT></TD>	<TD>Cos</TD>
+</TR>
+<TR><TD><TT>m70=: acos=: _2&o.</TT></TD>	<TD>Arccos</TD>
+</TR>
+<TR><TD><TT>m71=: tan=: 3&o.</TT></TD>	<TD>Tan</TD>
+</TR>
+<TR><TD><TT>m72=: atan=: _3&o.</TT></TD>	<TD>Arctan</TD>
+</TR>
+<TR><TD><TT>m73=: sinh=: 5&o.</TT></TD>	<TD>Sinh</TD>
+</TR>
+<TR><TD><TT>m74=: asinh=: _5&o.</TT></TD>	<TD>Arcsinh</TD>
+</TR>
+<TR><TD><TT>m75=: cosh=: 6&o.</TT></TD>	<TD>Cosh</TD>
+</TR>
+<TR><TD><TT>m76=: acosh=: _6&o.</TT></TD>	<TD>Arccosh</TD>
+</TR>
+<TR><TD><TT>m77=: tanh=: 7&o.</TT></TD>	<TD>Tanh</TD>
+</TR>
+<TR><TD><TT>m78=: atanh=: _7&o.</TT></TD>	<TD>Arctanh</TD>
+</TR>
+
+</TABLE>
+
+<P>Similarly, a conjunction in isolation with one of its arguments produces an adverb. For example:</P>
+
+<PRE>   a79=: each=: &.>
+   a80=: inv=: ^:_1
+   ] boxes=: ;: 'I sing of Olaf'
++--------------+
+¦I¦sing¦of¦Olaf¦
++--------------+
+
+   |.boxes
++--------------+
+¦Olaf¦of¦sing¦I¦
++--------------+
+
+   |. each boxes
++--------------+
+¦I¦gnis¦fo¦falO¦
++--------------+
+
+   ^&3 inv 0 1 2 3 4
+0 1 1.25992 1.44225 1.5874
+
+   ^&3 ^&3 inv 0 1 2 3 4
+0 1 2 3 4
+</PRE>
+
+<TABLE ALIGN="center" BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
+  <TR><TD><TT>a79=: each=: &.></TT></TD>	<TD>Apply argument function to each box</TD>
+  </TR>
+  <TR><TD><TT>a80=: inv=: ^:_1</TT></TD>	<TD>Inverse</TD>
+  </TR>
+  <TR><TD><TT>a81=: ^:_</TT></TD>	<TD>Limit</TD>
+  </TR>
+  <TR><TD><TT>a82=: (D.1) " 0</TT></TD>	<TD>First derivative</TD>
+  </TR>
+  <TR><TD><TT>a83=: ;.1</TT></TD>	<TD>Partition</TD>
+  </TR>
+  <TR><TD><TT>a84=: !.0</TT></TD>	<TD>Exact comparison; e.g. <TT>= a84</TT></TD>
+  </TR>
+  <TR><TD><TT>a85=: "0</TT></TD>	<TD>Constant function on scalars</TD>
+  </TR>
+  <TR><TD><TT>a86=: "1</TT></TD>	<TD>Constant function on lists</TD>
+  </TR>
+  <TR><TD><TT>a87=: "_1</TT></TD>	<TD>Constant function on items</TD>
+  </TR>
+  <TR><TD><TT>a88=: "_</TT></TD>	<TD>Constant function on entire argument</TD>
+  </TR>
+  <TR><TD><TT>a89=: 0!:</TT></TD>	<TD>Script; silent execute is <TT>se=: 0 a89</TT></TD>
+  </TR>
+  <TR><TD><TT>a90=: file=: 1!:</TT></TD>	<TD>File; e.g. <TT>read=:1 file</TT></TD>
+  </TR>
+</TABLE>
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="ambivalent_functions.htm">&gt&gt;</a>&nbsp;
+<a href="function_tables.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Phrases<!--bottom jump end--></td></tr></table></body>
+</html>

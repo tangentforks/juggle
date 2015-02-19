@@ -1,0 +1,364 @@
+<HTML>
+<HEAD>
+<TITLE>Ch 13: Tacit Operators</TITLE>
+
+<STYLE TYPE="text/css">
+<!--
+TT  {font-size: 11pt; COLOR: BLUE}
+PRE {font-size: 11pt; COLOR: BLUE}
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY BGCOLOR=WHITE>
+
+<table border="0" cellpadding="5" cellspacing="0"  width="100%">
+ <tr> <td valign="top" width="17%"> <p> </td>
+      <td valign="top" width="83%"> 
+<H1>Chapter 13: Operators Tacitly Defined</H1>
+<H2>13.1  Introduction</H2>
+<p>
+J provides built-in operators 
+such as the composition-conjunction <TT>@</TT>. In the previous chapter 
+we looked at defining our own operators explicitly. 
+In this chapter we look at defining operators tacitly. 
+<H3>13.1.1  Preparations</H3>
+<p>
+It will be helpful to have a few verbs for  
+making examples. Verbs <TT>f</TT>, <TT>g</TT> and <TT>h</TT> are meant to be trivial functions where, 
+by looking at their results, it is easy to track how they were applied.  
+<PRE>
+      f =: 'f' & ,
+      g =: 'g' & ,
+      h =: 'h' & ,
+   
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f 'a'</TT></TD> 
+<TD><TT>g 'a'</TT></TD> 
+<TD><TT>f g 'a'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>fa</TD> 
+<TD><PRE>ga</TD> 
+<TD><PRE>fga</TD> 
+</PRE></TABLE> 
+<H2>13.2  A Tacit Adverb</H2>
+<p>
+Recall from Chapter 7 the Rank conjunction, <TT>(")</TT>.  
+For example, the verb <TT>(&lt; " 0)</TT>  applies Box <TT>(&lt;)</TT> 
+to each rank-0 (scalar) item of the argument.  
+<p>
+A tacit adverb to apply a given verb to each scalar can be  
+written as <TT>(" 0)</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>each =: " 0</TT></TD> 
+<TD><TT>&lt; each </TT></TD> 
+<TD><TT>&lt; each 'abc'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>"0</TD> 
+<TD><PRE>&lt;"0</TD> 
+<TD><PRE>+-+-+-+ 
+|a|b|c| 
++-+-+-+</TD> 
+</PRE></TABLE> 
+<p>
+The scheme is, that for a conjunction <TT>C</TT> and  
+a noun <TT>N</TT>, the expression <TT>(C N)</TT> denotes an adverb such that: 
+<PRE>
+         x (C N)  means  x C N 
+</PRE>
+<p>
+Here is another example. Recall from Chapter 10 the Power conjunction <TT>(^:)</TT>  
+which applies a verb repeatedly, so that <TT>( f ^: 3 y)</TT> means <TT>f f f y</TT>. 
+An adverb which applies a verb twice can be written as <TT>^: 2</TT> 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>twice =: ^: 2</TT></TD> 
+<TD><TT>f twice</TT></TD> 
+<TD><TT>(f twice) 'a'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>^:2</TD> 
+<TD><PRE>f^:2</TD> 
+<TD><PRE>ffa</TD> 
+</PRE></TABLE> 
+<H2>13.3  Patterns</H2>
+<p>
+The tacit adverb <TT>(" 0)</TT> is patterned as a conjunction followed by a noun. 
+If we write V for a verb, N for a noun, A for an adverb 
+and C for a conjunction, then this pattern, conjunction-followed-by-noun, can be called 
+pattern CN. 
+<p>
+The J language attaches meaning to many different patterns. For example, 
+the meaning of an expression of pattern VN is: the application of a verb to a noun argument. 
+The meaning of pattern VVV is a fork of three verbs. 
+<p>
+In this chapter we will look at further patterns useful for defining operators. 
+We have met our first example using pattern CN above to define an adverb. 
+The patterns fall into groups, so we look at each group in turn. 
+Patterns of two objects are called bidents and patterns of three are called tridents. 
+<H2>13.4  Adverbs From Bonded Conjunctions</H2>
+<p>
+We have already met the bident CN. 
+Recall its scheme, which is: if <TT>C</TT> is a conjunction, 
+<TT>N</TT> a noun, then the bident <TT>(C N)</TT> denotes an adverb such that 
+for an argument <TT>x</TT> 
+<PRE>
+    x (C N) means  x C N 
+</PRE>
+<p>
+Altogether there are four similar schemes 
+<p>
+<TABLE BORDER=1 CELLPADDING=6>  
+<TR><TD>pattern <TD> is <TD>     with scheme 
+<TR><TD>CN      <TD>adverb <TD> <TT>x (C N)  means  x C N</TT>  
+<TR><TD>NC      <TD>adverb <TD> <TT>x (N C)  means  N C x</TT> 
+<TR><TD>VC      <TD>adverb <TD> <TT>x (V C)  means  V C x</TT> 
+<TR><TD>CV      <TD>adverb <TD> <TT>x (C V)  means  x C V</TT> 
+</TABLE>  
+<p>
+Here is another example, a bident of pattern <TT>VC</TT>. 
+<PRE>
+   A =: h @   NB. verb conjunction
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>A</TT></TD> 
+<TD><TT>g A</TT></TD> 
+<TD><TT>(g A) 'a'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>h@</TD> 
+<TD><PRE>h@g</TD> 
+<TD><PRE>hga</TD> 
+</PRE></TABLE> 
+<p>
+These patterns are a form of bonding (or currying) whereby we take a two-argument function  
+and fix the value of one of its arguments to get a one-argument function  
+<p>
+However,  there is a difference between bonding a dyadic verb  
+(as in <TT>+ & 2</TT> for example) and bonding a conjunction.  
+With the conjunction, there is no need for a bonding operator 
+such as <TT>&</TT>. We just write <TT>(" 0)</TT> with no intervening operator.   
+The reason is that in the case of <TT>+ & 2</TT>, 
+omitting the <TT>&</TT> would give <TT>+ 2</TT> which means: apply the monadic case of <TT>+</TT> to 2, giving <TT>2</TT>. However, 
+conjunctions don't have monadic cases, so the bident <TT>(" 0)</TT> is recognised as a bonding. 
+<H2>13.5  Compositions of Adverbs</H2>
+<p>
+If <TT>A0</TT> and <TT>A1</TT> are 
+adverbs, then the bident <TT>(A0 A1)</TT> denotes an adverb which applies <TT>A0</TT> and then <TT>A1</TT> 
+<p>
+For example: 
+<PRE>
+   A0 =: f @    NB. adverb (bident VC)
+   A1 =: @ g    NB. adverb (bident CV)
+    
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>h A0</TT></TD> 
+<TD><TT>(h A0) A1</TT></TD> 
+<TD><TT>Z =: A0 A1</TT></TD> 
+<TD><TT>h Z</TT></TD> 
+<TD><TT>h Z 'a'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>f@h</TD> 
+<TD><PRE>f@h@g</TD> 
+<TD><PRE>A0 A1</TD> 
+<TD><PRE>f@h@g</TD> 
+<TD><PRE>fhga</TD> 
+</PRE></TABLE> 
+<p>
+Similarly for a trident of 3 adverbs, <TT>A0</TT> <TT>A2</TT> and <TT>A3</TT>. 
+We have the two schemes 
+<p>
+<TABLE BORDER=1 CELLPADDING=6>  
+<TR><TD>pattern <TD> is <TD>     with scheme 
+<TR><TD>AA  <TD>    adverb  <TD> <TT>x (A0 A1)      means  (x A0) A1</TT> 
+<TR><TD>AAA   <TD>  adverb  <TD> <TT>x (A0 A1 A2)   means  ((x A0) A1) A2</TT> 
+</TABLE> 
+<H2>13.6  Hook-Making Adverb</H2>
+<p>
+If <TT>A</TT> is an adverb, <TT>V</TT> a verb,  
+then the bident <TT>(A V)</TT> denotes an adverb. This adverb, given an argument <TT>x</TT> 
+generates a verb in the form of the hook <TT>(x A) V</TT>.   
+For example: 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>av =: ~ f</TT></TD> 
+<TD><TT>, av</TT></TD> 
+<TD><TT>, av 'a'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>~ f</TD> 
+<TD><PRE>,~ f</TD> 
+<TD><PRE>faa</TD> 
+</PRE></TABLE> 
+<p>
+The scheme is: 
+<TABLE BORDER=1 CELLPADDING=6>  
+<TR><TD>pattern <TD> is <TD>     with scheme 
+<TR><TD>AV     <TD> adverb  <TD>  <TT>x (A V)       means  (x A) V</TT> 
+</TABLE> 
+<H2>13.7  Fork-Making Adverb</H2>
+<p>
+If <TT>A</TT> is an adverb, <TT>V1</TT> and <TT>V2</TT> are verbs, 
+then the trident <TT>(A V1 V2)</TT> denotes an adverb which generates a fork. 
+For example: 
+<PRE>
+   avv =: / % #  NB. adv verb verb
+</PRE>
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>avv</TT></TD> 
+<TD><TT>+ avv</TT></TD> 
+<TD><TT>+ avv 2 4</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>/ % #</TD> 
+<TD><PRE>+/ % #</TD> 
+<TD><PRE>3</TD> 
+</PRE></TABLE> 
+<p>
+The scheme for trident AVV is: 
+<TABLE BORDER=1 CELLPADDING=6>  
+<TR><TD>pattern <TD> is <TD>     with scheme 
+<TR><TD>AVV <TD> adverb  <TD> <TT>x (A V1 V2)    means  (x A)  V1   V2 </TT> 
+</TABLE> 
+<H2>13.8  Identity Operators</H2>
+<p>
+It will be useful at this point to introduce identity-operators 
+for the sake of the examples which follow.  
+The built-in adverb <TT>RB:</TT> is the identity-adverb. Its argument can be a noun or verb. 
+Its result is identical to its argument.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>+ ]:</TT></TD> 
+<TD><TT>(f@g) ]:</TT></TD> 
+<TD><TT>6 ]:</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>+</TD> 
+<TD><PRE>f@g</TD> 
+<TD><PRE>6</TD> 
+</PRE></TABLE> 
+<p>
+The built-in conjunction <TT>[.</TT>, called "Lev", is  the left-identity conjunction.  
+Its arguments can be  nouns or verbs. Its result is identical to its left argument.  
+Similarly, for the conjunction <TT>RB.</TT>, called "Dex", its result is identical to its right argument.  
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>f [. g</TT></TD> 
+<TD><TT>f ]. g</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>f</TD> 
+<TD><PRE>g</TD> 
+</PRE></TABLE> 
+<p>
+Now we return to our theme of patterns defining operators. 
+<H2>13.9  Fork-making Conjunctions</H2>
+<p>
+Now we look at patterns denoting conjunctions which generate forks. 
+<p>
+Suppose that <TT>C0</TT>,<TT>C1</TT>, ... are conjunctions, <TT>V0</TT>,<TT>V1</TT>, ... are verbs,  
+and <TT>A0</TT> ,<TT>A1</TT> ...  are adverbs.  
+<p>
+Then the trident <TT>(C0 V1 C2)</TT> for example, denotes a conjunction  
+according to the scheme for the pattern CVC below. 
+We have schemes for these patterns: 
+<p>
+<TABLE BORDER=1 CELLPADDING=6>  
+<TR><TD>pattern <TD> is <TD>     with scheme 
+<TR><TD>CVC<TD>conjunction <TD> <TT>x (C0 V1 C2) y  means  (x C0 y) V1     (x C2 y)</TT> 
+<TR><TD>VVC<TD>conjunction <TD> <TT>x (V0 V1 C2) y  means  V0       V1     (x C2 y)</TT> 
+<TR><TD>CVV<TD>conjunction <TD> <TT>x (C0 V1 V2) y  means  (x C0 y) V1     V2 </TT> 
+<TR><TD>AAV<TD>conjunction <TD> <TT>x (A0 A1 V2) y  means  (x A0)   (y A1) V2 </TT> 
+</TABLE> 
+<p>
+For example, 
+<p>
+<TABLE CELLPADDING=10 BORDER=1> 
+<TR  VALIGN=TOP> 
+<TD><TT>cvc =: [. , ].</TT></TD> 
+<TD><TT>foo =: f cvc g</TT></TD> 
+<TD><TT>foo 'a'</TT></TD> 
+<TR VALIGN=TOP> 
+<TD><PRE>[. , ].</TD> 
+<TD><PRE>f , g</TD> 
+<TD><PRE>faga</TD> 
+</PRE></TABLE> 
+<p>
+Here is a derivation of the last result: 
+<PRE>
+   foo 'a'
+faga
+   
+   (f cvc g) 'a'              NB. by defn of foo
+faga
+   
+   (f ([. , ].) g) 'a'        NB. by defn of cvc
+faga
+   
+   ((f [. g) , (f ]. g)) 'a'  NB. by trident CVC
+faga
+   
+   (f , g) 'a'                NB. by defn of [. and ].   
+faga
+   
+   (f 'a') , (g 'a')          NB. f , g is a fork
+faga
+   
+   ('fa' , 'ga')              NB. by defn of f and g
+faga
+   
+</PRE>
+<H2>13.10  More Patterns</H2>
+<p>
+There are schemes for further patterns, as shown in the following table. 
+<p>
+<TABLE BORDER=1 CELLPADDING=6>  
+<TR><TD>pattern <TD> is      <TD>     with scheme 
+<TR><TD>NCA <TD> adverb      <TD><TT> x (N0 C1 A2)    means  N0     C1 (x A2)</TT> 
+<TR><TD>VCA <TD> adverb      <TD><TT>  x (V0 C1 A2) y  means V0     C1 (x A2)</TT> 
+<TR><TD>ACN <TD> adverb      <TD><TT>  x (A0 C1 N2)   means  (x A0) C1 N2</TT> 
+<TR><TD>ACV <TD> adverb      <TD><TT>  x (A0 C1 V2)   means  (x A1) C1 V2</TT> 
+<TR><TD>ACA <TD> adverb      <TD><TT> x (A0 C1 A2)    means  (x A0) C1 (y A2)</TT> 
+<TR><TD>AC  <TD> adverb      <TD><TT> x (A0 C1)       means  (x A0) C1 x</TT> 
+<TR><TD>CA  <TD> conjunction <TD><TT> x (C0 A1) y     means  (x C0 y) A1</TT> 
+<TR><TD>CAA <TD> conjunction <TD><TT> x (C0 A1 A2) y  means  ((x C0 y) A1) A2</TT> 
+<TR><TD>NCC <TD> conjunction <TD><TT> x (N0 C1 C2) y  means  N0       C1 (x C2 y)</TT> 
+<TR><TD>VCC <TD> conjunction <TD><TT>x (V0 C1 C2) y   means  V0       C1 (x C2 y)</TT> 
+<TR><TD>ACC <TD> conjunction <TD><TT> x (A0 C1 C2) y  means  (x A0)   C1 (x C2 y)</TT> 
+<TR><TD>CCN <TD> conjunction <TD><TT> x (C0 C1 N2) y  means  (x C0 y) C1 N2</TT> 
+<TR><TD>CCA <TD> conjunction <TD><TT> x (C0 C1 A2) y  means  (x C0 y) C1 (y A2)</TT> 
+<TR><TD>CCC <TD> conjunction <TD><TT> x (C0 C1 C2) y  means  (x C0 y) C1 (x C2 y)</TT> 
+</TABLE> 
+<p>
+<p>
+This is the end of Chapter 13. 
+<p>
+  </tr> </table>
+
+<HR> 
+<p ALIGN=LEFT>
+<A HREF="14.htm"> NEXT </A> <BR>
+<A HREF="book.htm#toc"> Table of Contents </A>
+</p> 
+
+<HR>
+<p ALIGN=CENTER> <FONT SIZE=-2>Copyright &copy; Roger Stokes 2001. 
+This material may be freely reproduced,
+provided that this copyright notice is also reproduced.
+</p>
+ 
+<p ALIGN=CENTER> last updated 1 Feb 01</p>
+</BODY>
+</HTML>
+

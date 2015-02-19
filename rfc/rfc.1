@@ -1,0 +1,50 @@
+.TH RFC 1L
+.SH NAME
+rfc \- Show a Request For Comments
+.SH SYNOPSIS
+.B rfc
+.I rfc-number
+
+.BR "rfc -i " [rfc|std|bcp|fyi]
+
+.B rfc
+-k 
+.I keyword
+
+.BR "rfc -i " [rfc|std|bcp|fyi]
+
+.BR "rfc -v " 
+.SH DESCRIPTION
+.B rfc
+can lookup RFCs by keyword or number, fetch them, display them, and
+store them in a local cache (typically /var/rfc) for repeated study.
+You can run
+.B rfc
+with
+.B RFCDIR
+set in the environment to any absolute(!) path
+to use an alternate local cache directory.
+.P
+.B rfc
+is usuually invoked with an RFC number in order to fetch the RFC if
+necessary  and display it.
+.SH OPTIONS
+.IP " -i [rfc|std|bcp|fyi]"
+shows the rfc-, std-, bcp- or fyi-index respectively, default is rfc.
+
+.IP "-k <keyword>"
+looks for keyword in the rfc-index and displays all matching lines
+
+.IP " -r [rfc|std|bcp|fyi]"
+refresh the rfc-, std-, bcp- or fyi-index respectively, default is rfc.
+You should do this occasionally, say twice a year.
+
+.IP "rfc -v " 
+shows version number
+
+.SH FILES
+/var/rfc - default directory containig the index-files and rfc-docs.
+
+.SH BUGS
+.B rfc
+Please report bugs to neitzel@gaertner.de

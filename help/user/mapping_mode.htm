@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>Mapping Mode</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="g13_commands.htm">&gt&gt;</a>&nbsp;
+<a href="isigraph_events.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>Mapping Mode</h1>
+<TR><TD colspan="2"> 
+
+
+  <P>
+gl2 command values are in logical units. The mapping mode affects how logical units are mapped onto the display surface.
+
+  <P>
+There are 8 mapping modes:
+
+<pre>
+mode           unit        x     y
+
+MM_TEXT        pixel       right down
+MM_LOENGLISH   0.01 inch   right up
+MM_LOMETRIC    0.1 mm      right up
+MM_HIENGLISH   0.001 inch  right up
+MM_TWIPS       %1440 inch  right up
+MM_HIMETIRC    0.01 mm     right up
+MM_ISOTROPIC   x=y         ?     ?
+MM_ANISOTROPIC ?           ?     ?
+</pre>
+
+  <P>
+glmap sets the mapping mode. The default is anisotropic.
+
+  <P>
+The modes from loenglish to himetric are referred to as metric modes.
+
+  <P>
+The text mapping mode is not called text because it is for text, but because it has x y coordinates that go across and down as in reading English text. The text mode is different from the metric modes in that its y axis goes down, rather than up.
+
+  <P>
+A twip is a &quot;twentieth of a point&quot;. A point is approximately %72 of an inch and in computer systems a twip is considered to be exactly %1440 of an inch. This mode is particularly suited to laying out text and graphs for printing.
+
+  <P>
+The isotropic and anisotropic modes can be used to scale logical units into the available device units. The isotropic mode preserves the aspect ratio of the image when it is scaled.
+
+  <P>
+<B>Mapping coordinates</B>
+
+  <P>
+The default behavior is a logical drawing surface that has 0 0 as its lower left corner and 1000 1000 as its upper right corner. This can be modified as described in this section, but if you want something different, it might be easier to use glmapraw as described in the next section.
+
+  <P>
+The <B>windowport</B> is the drawing represented by the drawing commands. The <B>viewport </B>is the surface (screen window or printer paper) that the drawing is drawn on.
+
+  <P>
+The origin of the windowport can be set to cause the drawing to scroll on the viewport.
+
+  <P>
+The scaling done in the anisotropic and isotropic mode is done based on the ratio between the x and y extents of the viewport and windowport. It is the ratios of these extents that is important, not the individual values. The extent values are ignored in the other mapping modes.
+
+  <P>
+The viewport (drawing surface) origin is fixed as 0 0 in the lower left corner. The viewport extent is fixed as the pixels in the x and y directions. These values can not be changed by commands. However, as the window on the screen is resized, the viewport extents change.
+
+  <P>
+The default windowport (drawing) is 0 0 and the default windowport extent is 1000 1000. The glwindoworg command changes the origin and the glwindowext command changes the extent.
+
+  <P>
+With a mapping mode of anisotropic these default values result in an image that is drawn with logical coordinates in the range 0 to 1000 scaled to fit the viewport. The lower left corner of the viewport is 0 0. The x axis starts at 0 and is positive to the right. The y axis starts at 0 and is positive upwards.
+
+  <P>
+For the metric modes, this results in the drawing displayed with its lower left corner at the lower left corner of the viewport. The x axis starts at 0 and is positive to the right. The y axis starts at 0 and is positive upwards.
+
+  <P>
+With text mode the Y axis is down and you must use negative y values to be seen in the viewport.
+
+  <P>
+<B>glmapraw</B>
+
+  <P>
+glmapraw turns off the default behavior decribed above. With MM_TEXT, drawing command values are in pixels and the drawing is directly to the pixels on the drawing surface. The resize event (glwantresize) can be used to redraw based on the new pixel size of the control.
+
+  <P>
+<B>Mapping and repainting</B>
+
+  <P>
+The mapping commands glmap, glmapraw, glwindoworg, glwindowext, and gltop change information on how to draw the image. They do not cause a repaint of the image.
+
+  <P>
+Changing the mapping information requires repainting the image to see the change. A glshow with nothing new to show won't do this. A glpaint command forces repainting.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="g13_commands.htm">&gt&gt;</a>&nbsp;
+<a href="isigraph_events.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

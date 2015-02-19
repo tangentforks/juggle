@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Overview</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="j_ole_auto_server.htm">&gt&gt;</a>&nbsp;
+<a href="oleocx.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>OLE &amp; OCX Overview</h1>
+<TR><TD colspan="2"> 
+
+
+
+<P>
+OLE allows client programs to access server programs, enabling integration between a variety of software components. All OLE servers are usable by all OLE clients. 
+
+<P>
+An OCX control, also known as an ActiveX control, or Microsoft Custom Control, is a special form of OLE control. The main difference is that OCX controls cause events, and are <I>in-process</I> server objects (DLL) whereas OLE controls are <I>local-server objects</I> (EXE).
+
+<P>
+Both OLE and OCX controls are application packages that can be accessed in a simple and consistent way from other Windows applications. 
+
+<P>
+J Win95/NT supports OLE and OCX, enabling J to be used both as a calculation server and as a client for other Windows software such as Visual Basic and Excel. In particular, OLE makes it very easy to add the power of J to other applications.
+
+<P>
+<B>OLE</B><br>
+A key part of OLE is that a server can run in the same task, or as a separate task, or even as a separate task on another network connected machine. A server in the same task is an <I>in-process server</I>, a server in another task on the same machine is a <I>local server</I>, and a server on another machine is a <I>remote server</I>. An in-process server is the most efficient; the task can call the in-process server's routines almost as efficiently as its own routines.
+
+<P>
+Servers provide functions, called <I>methods</I>, that can be accessed by a client. For example, the J server provides a method <code>Do</code> which executes a J sentence; and a method Get which retrieves the value of a variable. If a client runs the method <code>Do'x=. 3+5'</code>, this causes the sentence to be executed in the J server. The client can then call method <code>Get</code> to retrieve the value of <code>x</code>.
+
+<P>
+<I>OLE Automation</I> is an interface supported by many clients and servers. OLE Automation gives a client an interface to a server that mimics the server's end-user interface. This allows a client to automate what would otherwise have to be done manually by a user. Although this is useful, the real power comes when the server has a general purpose programming environment that can be used to build complex services that can be used from a client. OLE Automation then provides easy access from the client to the full power of the server.
+
+<P>
+J supports OLE Automation as follows:<br><br>
+
+<B><I>J OLE Automation server</I></B>. There are two servers: <br>
+<li><I> JDLLServer</I> is an in-process J server 
+<li><I> JEXEServer</I> is a local J server
+
+<P>
+<B><I>J OLE Automation client</I></B>. This supports servers such as Excel, that provide an OLE Automation interface to an application object that supports macro execution. 
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="j_ole_auto_server.htm">&gt&gt;</a>&nbsp;
+<a href="oleocx.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

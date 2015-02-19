@@ -1,0 +1,487 @@
+<html>
+<head>
+<title>gl2 commands</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="fontspec.htm">&gt&gt;</a>&nbsp;
+<a href="wd_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>gl2 commands 11!:2000+n</h1>
+<TR><TD colspan="2"> 
+
+
+
+  <P>
+gl2 commands are for 2D (GDI) drawing in an isigraph control. Script system\main\gl2.js defines gl2 verbs.
+
+<pre>load 'gl2' NB. define verbs such as: glarc=:11!:2001</pre>
+
+  <P>
+Most gl2 commands add drawing information to a buffer. When the control is painted, it is painted with these buffered commands. Some commands, such as glcursor are not buffered commands and either have an immediate effect, or change a global state.
+
+  <P>
+<a href="mapping_mode.htm">mapping mode</a> affects how the logical units of the gl2 commands are mapped onto the display surface.
+
+  <P>
+<a href="isigraph_events.htm">isigraph events</a> allow user interaction with the isigraph control with the keyboard and mouse.
+
+  <P>
+<B>gl2 commands</B>
+
+  <P>
+glarc  x y w h xa ya xz yz  -  draw arc on the ellipse defined by rectangle. Arc starts at xa,ya and ends at xz,yz. Start and end points need not lie on the ellipse, they define a line from the center that intersects the ellipse.
+
+  <P>
+glbkcolor  ''  -  set current background color to current color (last grgb). Background color is used in the gaps in styled lines and as the background for text.
+
+  <P>
+glbkmode  bool  -  set background mode for gbkcolor to OPAQUE with 0, or TRANSPARENT with 1
+
+  <P>
+glbmp  filename  -display bitmap in glbmpxywh rectangle
+
+  <P>
+glbmpxywh  x  y  w  h  -  set rectangle for the display of a bitmap
+
+  <P>
+glbrush  ''  -  select solid brush in current color
+
+  <P>
+glbrushnull  ''  -  select null brush (leaves area painted with it unchanged)
+
+  <P>
+glcapture  type  -  type is 0 release, 1 capture, 2 line band, 3 box band, 4 ellipse band, 5 vertical line, 6 horizontal line. A capture is normally done in a mouse down event and a glcapture 0 should be done in the mouse up event.
+
+  <P>
+glcaret  w h  -  create a caret at the current position with a width and height of w h.
+
+  <P>
+glchord  x y w h xa ya xz yz  -  same parameters as garc. Drawn with pen and brush.
+
+  <P>
+glclear  ''  -  clear isigraph drawing buffer and reset defaults. If a printer context has been created, it is carried forward. Default values are 0 except for the following:<br>
+glmap anisotropic<br>
+glzmap twips<br>
+glbkcolor white<br>
+glwindowext 1000 1000<br>
+glplaymap anisotropic<br>
+glplayextent 1000 1000<br>
+glextent 1
+
+  <P>
+glclear  n  -  initialize graphics state. If n is '' or 0, then an InvalidateRect is done, If n is 1, then it is not done.
+
+  <P>
+glellipse  x y w h  -    draw an ellipse in the rectangle with pen and brush
+
+  <P>
+glextent  bool  -  0 selects the screen context and 1 selects the printer for glqextent and glqtextmetrics. The default is 1.
+
+  <P>
+glextentfont <a href="fontspec.htm">fontspec</a> -  set font for glqtextent and glqtextmetrics
+
+  <P>
+glfile  filename  -  set filename for glsave and glsavebmp. '' is the clipboard.
+
+  <P>
+glflood  i j color  -  fill area around point i,j with the current brush. The area is bounded by color.
+
+  <P>
+glfont <a href="fontspec.htm">fontspec</a> -  font for text commands
+
+  <P>
+glgrid  ''  -  buffered drawing command that causes a grid to be painted. The grid is painted based on the state information set by the following glgrid... commands.
+
+  <P>
+glgridatt  attributes  -  A set of attributes is a list of 20 integers. The argument is the ravel of the sets of attributes.
+
+  <P>
+attribute set: pen, brush, text, font, align, edit, 8 unused values
+
+  <P>
+pen, brush, and text are 3 integers with RGB values<br>
+font: _1 selects font based on first character (-, _ , and digit select font 1); 0 selects font 0, 1 selects font 1<br>
+align: _1 selects left or right based on first character (-, _, and digit selects right), 0 selects right, 1 selects left, 2 selects center.<br>
+edit: 0 not editable, 1 editable
+
+  <P>
+glgridborder  borders  -  a border is specified as 20 integers:<br>
+row, col, rows, cols, left b, top b, right b, bottom b<br>
+b field for each side is a type and RGB color<br>
+type is 0 to 3 and 11 for none, thin, medium, fat, and double line
+
+  <P>
+glgriddrawmark  ''  -  undraw previous mark and draw new mark
+
+  <P>
+glgridedit  text  -  create edit box at mark
+
+  <P>
+glgridedit  0  -  destroy edit box
+
+  <P>
+glgridedit  1  -  enable arrow keys in edit box
+
+  <P>
+glgridfill width height fixfilltype filltype  -  information about cells beyond the grid data 
+
+  <P>
+glgridfix  row  col  -  fixed rows and columns
+
+  <P>
+glgridfont0 <a href="fontspec.htm">fontspec</a>
+
+  <P>
+glgridfont1 <a href="fontspec.htm">fontspec</a>
+
+  <P>
+glgridgetedit  ''  -  get text from edit box
+
+  <P>
+glgridgettext  row  col  -  get text for this cell
+
+  <P>
+glgridgettype  row  col  -  get type and attributes for this cell
+
+  <P>
+glgridh  heights  -  row heights for the grid data
+
+  <P>
+glgridinvalidate  bool  -  1 causes subsequent glgridtext and glgridtype commands to invalidate the cells they change.
+
+  <P>
+glgridmark  row col rows cols  -  marked range of cells
+
+  <P>
+glgridrc  rows  cols  -  rows and columns in grid data
+
+  <P>
+glgridrchw  row  col  rows cols  -  select subarray used in subsequent glgridtext and glgridtype commands
+
+  <P>
+glgridscroll  row  col  -  scrolled rows and columns
+
+  <P>
+glgridskip  row  col  -  rows and columns in total data that are not in grid data
+
+  <P>
+glgridtext  -  NULL terminated strings of grid data
+
+  <P>
+glgridtype  types  -  integer value for each cell that selects its attributes
+
+  <P>
+glgridw  widths  -  column widths for the grid data
+
+  <P>
+glline  i j  -  draw line from current position to point i,j and update current position
+
+  <P>
+gllined  I j k l linelen spacelen [linelen spacelen ...]  -  draw dashed line from i,j to k,l. Works only for vertical and horizontal lines.
+
+  <P>
+gllines  pts  -  draw connected lines. pts is 2 or more points.
+
+  <P>
+glmap   mode  -  mode is one of: MM_TEXT, MM_LOMETRIC, MM_HIMETRIC, MM_LOENGLISH, MM_HIENGLISH, MM_TWIPS, MM_ISOTROPIC, MM_ANISOTROPIC. The default is anisotropic. See <a href="mapping_mode.htm">mapping mode</a>.
+
+  <P>
+glmapraw  -  turn off default isigraph mapping behavior. See <a href="mapping_mode.htm">mapping mode</a>.
+
+  <P>
+glmark  -  set mark in graphics buffer and reset pens etc.
+
+  <P>
+glmarkc  -  clear graphics buffer back to last gmark (does not undraw)
+
+  <P>
+glmove i j  -     move current position to i,j
+
+  <P>
+glpaint  ''  -  does immediate paint of a 2D control. The painting of a 3D control is delayed until the paint event handler can be run.
+
+  <P>
+glpaintx  ''  -  mark control for painting when possible. If a glpaintx is done and J continues execution for a while, then the painting will be delayed. 
+
+  <P>
+glpen i [style]  -  select pen. pen is color from last glrgb command and is i units wide. style is from the set (ps_solid, ps_dash, ps_dot, ps_dashdot, ps_dashdotdot, ps_null, ps_insideframe)
+
+  <P>
+gllpie x y w h xa ya xz yz  -    draw pie shaped wedge with pen and brush. Same parameters as garc.
+
+  <P>
+glpixel i j;  draw pixel at i,j in current color
+
+  <P>
+glplay  filename  _  the wmf file filename is played into the isigraph control. The glplaymap, glplayxywh, and glplayext commands determine how the file is played.
+
+  <P>
+glplayext  extx exty  _  windowport extent information for scaling the wmf file
+
+  <P>
+glplaymap  mode  _  set map mode for playing a wmf file. See <a href="mapping_mode.htm">mapping mode</a>.
+
+  <P>
+glplayxywh  x y w h  _  set rectangle for playing a wmf file. This is not a clipping rectangle and if the drawing goes beyond the w and h values it will be displayed. The w h values establish the extents that are used for scaling if the drawing is done in an isotropic or anisotropic mapping.
+
+  <P>
+glpolygon pts  _  draw polygon in pen and brush
+
+  <P>
+glpolymode bool  -  0 selects <B>alternate</B> filling of polygon and 1 selects <B>winding</B>
+
+  <P>
+glqdevmode  ''  -  return printer document properties (see glzdevmode)
+
+  <P>
+glqextent  text  -  return width and height of the text in a particular font on a particular device. The glextent command determines whether the screen or printer context is used and glextentfont determines which font is used.
+
+  <P>
+The layout (rasterization) of text is quite complicated and the final length of text is not simply the sum of the lengths of the individual characters. For this reason, calculations based on character widths are not very useful.
+
+  <P>
+In addition, the length of text depends on the device. Drawing &quot;testing 1 2 3&quot; with an arial 240 font in a twips mapping will have different lengths on the screen, on a 150dpi printer, and on a 300dpi printer. Calculations such as line breaks, page breaks, and positioning stuff at the end of text are sensitive to the actual device.
+
+  <P>
+glqprinter  ''  -  return printer information<br>
+<Table>
+<TR>
+<TD VALIGN="TOP" WIDTH=200>
+horzsize
+<TD VALIGN="TOP" WIDTH=525>
+width in millimeters
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+vertsize
+<TD VALIGN="TOP" WIDTH=525>
+height in millimeters
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+horzres
+<TD VALIGN="TOP" WIDTH=525>
+width in pixels
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+Vertres
+<TD VALIGN="TOP" WIDTH=525>
+height in raster lines (pixels)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+logpixelsx
+<TD VALIGN="TOP" WIDTH=525>
+horizontal pixels per logical inch
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+logpixelsy
+<TD VALIGN="TOP" WIDTH=525>
+vertical pixels per logical inch
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+bitspixel
+<TD VALIGN="TOP" WIDTH=525>
+number of color bits per pixel.
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+planes
+<TD VALIGN="TOP" WIDTH=525>
+number of color planes
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+numcolors
+<TD VALIGN="TOP" WIDTH=525>
+number of entries in the device's color table (_1 if &gt; 8)
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+aspectx
+<TD VALIGN="TOP" WIDTH=525>
+relative width of a pixel
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+aspecty
+<TD VALIGN="TOP" WIDTH=525>
+relative height of a pixel
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+aspectxy
+<TD VALIGN="TOP" WIDTH=525>
+diagonal width of a pixel
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+physicalwidth
+<TD VALIGN="TOP" WIDTH=525>
+width of the physical page. A 600 dpi printer on 8.5&quot;x11&quot; paper could have a physical width of 5100. The physical page is almost always greater than the printable area of the page, and never smaller.
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+physicalheight
+<TD VALIGN="TOP" WIDTH=525>
+height of the physical page
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+physicaloffsetx
+<TD VALIGN="TOP" WIDTH=525>
+distance from the left edge of the physical page to the left edge of the printable area. A 600 dpi printer on 8.5&quot;x11&quot; paper, that cannot print on the leftmost 0.25&quot; of paper, has a horizontal physical offset of 150.
+</tr><tr>
+<TD VALIGN="TOP" WIDTH=200>
+physicaloffsety
+<TD VALIGN="TOP" WIDTH=525>
+distance from the top edge of the physical page to the top edge of the printable area
+</tr></table>
+
+  <P>
+glqtextmetrics  ''  -  return font information. The context (screen or printer) is selected by glextent and the font is selected by glextentfont. The values are: Height, Ascent, Descent, InternalLeading, ExternalLeading, AverageCharWidth, MaxCharWidth
+
+  <P>
+glqwh  ''  -  return window width and height in pixels.
+
+  <P>
+glrect  x y w h  -  draw rectangle with pen and brush
+
+  <P>
+glrgb  color  -  set current color
+
+  <P>
+glroundr  x y w h rw rh  -  draw rectangle with rounded corners defined by ellipse with width rw and height rh
+
+  <P>
+glsave  flip w h  -  save drawing in WMF format in the glfile filename. Save to the clipboard if filename is empty.
+
+  <P>
+flip 0 has J orientation of 0 0 as lower left corner.<br>
+flip 1 flips for applications like Word with 0 0 as upper left corner.
+
+  <P>
+w h are suggested clipboard width and height in 0.01 millimeters.
+
+  <P>
+The wmf file is saved without a &quot;placeable metafile header&quot;. Some applications require this 22 byte header at the front of a wmf file. The utility <code>addwmfheader</code> from script system\main\winutil.js adds a header to a wmf file so that it is suitable for use by WORD and similar applications.
+
+  <P>
+glsavebmp  width  height  -  save drawing as bitmap (24bit color) to glfile filename. Save to clipboard if filename is empty.
+
+  <P>
+glsel  id  -  select isigraph child of currently selected parent for graphic commands
+
+  <P>
+glsel  hwndc  -  hwndc is the result of wd'qhwndc' for an isigraph control. Parent and child are selected as the wd and gl command targets.
+
+  <P>
+glshow  ''  -  add new commands (since last glshow or glshowx) to the 2D paint buffer and immediately paints just the new commands. A glshow immediately after creating and showing a form can result in extra painting and flicker. The glshow paints the new stuff, which in most cases is everything, and then the normal window painting mechanism requests painting the new window and the painting will be done again. It is generally better to use glshowx and glpaintx.
+
+  <P>
+glshowx  ''  -  add new commands to the 2D paint buffer with no explicit painting
+
+  <P>
+gltext  text  -  write text in the glfont font. Where and how the text is displayed is affected by the gltextalign and gltextxy commands.
+
+  <P>
+gltextalign  TA_value  -  the TA_value affects how gltext displays text<br>
+TA_LEFT  TA_CENTER  TA_RIGHT<br>
+TA_TOP  TA_BASELINE  TA_BOTTOM<br>
+TA_NOUPDATECP  TA_UPDATECP
+
+  <P>
+The first option in each group is the default. TA_NOUPDATECP causes gltext to use the position set by gltextxy. TA_UPDATECP causes gltext to use and update the current position.
+
+  <P>
+Values from each of the 3 groups can be combined:
+
+<pre>
+gltextalign TA_BOTTOM + TA_UPDATEDCP
+</pre>
+
+  <P>
+gltextcolor  ''  -  glrgb color is set as color of text for gtext
+
+  <P>
+gltlextjustify  space  nblanks  -  space is the amount of space to insert for nblanks. This space per blank is inserted for EACH blank in subsequent gtext commands. Because of rounding error there may be unused space at the end of the text. To allow spacing multiple texts on the same line this unused space is carried over into the next qlgextent calculations. Justifying a line should be sure to start with this unused space set to 0. A gltextjustify 0 0 sets this unused space to 0. Each section of a line should be measured with glqextent and then a gltextjustify should be done with the required space and the number of blanks in that section of text, and finally the gltext should be done. At the end of the justifying a line it is a good practice to do a gltextjustify 0 0 to clear the unused space value and to be sure that subsequent text is not inadvertently spaced out.
+
+  <P>
+gltext commands painted with glshow after gltextjustify commands have been processed will not be justified unless the entire control is repainted. glpaint forces a repaint.
+
+  <P>
+The Macintosh runs the gltextjustify command without error, but text justification is not supported and the text is displayed without justification.
+
+  <P>
+gltextxy  x  y  -  position for gltext with gltexalign of TA_NOUPDATECP
+
+  <P>
+gltop  topvalue  -  topvalue is in logical units and ties that y coordinate value to the top of the drawing . This can be used to make a window display the top part of an image, rather than the bottom part.
+
+  <P>
+glwantresize  -  request resize event for gl2 control.
+
+  <P>
+glwindowext  x  y  -  default is 1000 1000. Change these values to change the scale (zoom) in anisotropic and isotropic mappings
+
+  <P>
+glwindoworg  x  y  -  default is 0 0. Change these values to scroll the drawing in the viewport
+
+  <P>
+glzabortdoc  ''  -  cancel the print job
+
+  <P>
+glzcreate  printername  -  name from the set of printers returned by wd qprinters. If no name is given then the session default printer is used. If a printer context already exists, it is deleted before creating the new context. The session default printer is the system default printer when J is started. This can be changed with wd mbprinter.
+
+  <P>
+glzdelete  ''  -  deletes printer context created by glzcreate. There is no error if there is no context.
+
+  <P>
+glzdevmode  ''  -  modifies printer document properties such as orientation and copies. The command glqdevmode returns the properties that can be changed by glzdevmode and their current values. You can determine arguments for glzdevmode by using mbprinter to create the desired printer document setup and then use glqdevmode to get those values. This command must be done before the glzstartpage command.
+
+  <P>
+The Macintosh does not support glzdevmode and printer properties can not be changed.
+
+  <P>
+The information returned is: orientation, papersize, paperlength, paperwidth, scale, copies, source, quality, color, duplex, yresolution, truetype
+
+  <P>
+glzenddoc  ''  -  ends a document.
+
+  <P>
+glzendpage  ''  -  ends a page.
+
+  <P>
+glzmap  mode  -  set mapping mode used in printing. Default is twips.
+
+  <P>
+glzprint  ''  -  draws the image on the printer.
+
+  <P>
+glzstartdoc  'jobname  [filename]'  -  the job name can be up to 31 characters and appears in print manager. The filename indicates to print to a file instead of the printer. This file can be printed with the print command. The Macintosh does not support the second parameter of file name.
+<pre>
+   glzstartdoc '&quot;first job&quot;'
+   glzstartdoc '&quot;my job&quot; tofile.prn'
+</pre>
+  <P>
+glzstartpage  ''  -  starts a page. Each page must be bracketed by a glzstartpage and a glzendpage.
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="fontspec.htm">&gt&gt;</a>&nbsp;
+<a href="wd_commands.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

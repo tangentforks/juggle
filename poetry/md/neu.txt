@@ -1,0 +1,7 @@
+Ich bin ein neuer Text.
+I am a new text.
+  This is even newer.  (Do a "cvs annotate" to
+  see the revisions next to the lines. The lines
+  above and below should be tagged as refering
+  to older versions.)
+Je suis un texte nouvaux.  Mais oui, alors!

@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<TITLE>lexer.ijs.html</TITLE>
+</HEAD>
+<BODY BGcolor=#ffffff TEXT=#000000>
+<PRE>
+<FONT color=#000080>require</FONT> <FONT color=#008080>'regex files strings'</FONT>
+
+<FONT color=#008000>NB. regex patterns for comments, numbers, identifiers, strings, ...</FONT>
+<FONT color=#008000>NB. The last part (the &quot;.&quot;) catches &quot;any remaining illegal character&quot;.</FONT>
+<FONT color=#008000>NB. We cannot say whether a one-letter identifier would be matched</FONT>
+<FONT color=#008000>NB. through the id subpattern or the &quot;remaining&quot; subpattern.</FONT>
+<FONT color=#008000>NB. However, that's not important anyway -- the big &quot;select.&quot; in</FONT>
+<FONT color=#008000>NB. token_analyze will recognize a one-letter id as such.</FONT>
+
+<FONT color=#008000>NB. The second-to-last expression for &quot;white-space&quot; is just [SPC TAB]</FONT>
+<FONT color=#008000>NB. and does not recognize \v \n \r.  Neither \v nor \013 does the</FONT>
+<FONT color=#008000>NB. job within the [].</FONT>
+<FONT color=#008000>NB. While the lack of \n \r is not so bad because \r are suppressed</FONT>
+<FONT color=#008000>NB. during fread, the \v is a problem.  We could charsub those. XXX</FONT>
+
+<FONT color=#008000>NB. Multi-line strings are not allowed -- phew.</FONT>
+
+<FONT color=#000080>lexemes</FONT> <FONT color=#000000>=:</FONT> <FONT color=#000080>LF</FONT> <FONT color=#008080>-.</FONT><FONT color=#ffa500>~</FONT> <FONT color=#000080>noun</FONT> <FONT color=#000080>define</FONT>
+(<FONT color=#008080>%.*</FONT>)<FONT color=#008080>|</FONT>
+(<FONT color=#008080>-?[</FONT><FONT color=#a020f0>0</FONT><FONT color=#008080>-</FONT><FONT color=#a020f0>9</FONT><FONT color=#008080>]+</FONT>(<FONT color=#ffa500>\.</FONT><FONT color=#008080>[</FONT><FONT color=#a020f0>0</FONT><FONT color=#008080>-</FONT><FONT color=#a020f0>9</FONT><FONT color=#008080>]+</FONT>)<FONT color=#008080>?</FONT>(<FONT color=#008080>[</FONT><FONT color=#000080>eE</FONT><FONT color=#008080>]-?[</FONT><FONT color=#a020f0>0</FONT><FONT color=#008080>-</FONT><FONT color=#a020f0>9</FONT><FONT color=#008080>]+</FONT>)<FONT color=#008080>?</FONT>)<FONT color=#008080>|</FONT>
+(<FONT color=#ffa500>/</FONT><FONT color=#008080>?[</FONT><FONT color=#000080>a</FONT><FONT color=#008080>-</FONT><FONT color=#000080>zA</FONT><FONT color=#008080>-</FONT><FONT color=#000080>Z</FONT><FONT color=#008080>][-</FONT>_<FONT color=#000080>a</FONT><FONT color=#008080>-</FONT><FONT color=#000080>zA</FONT><FONT color=#008080>-</FONT><FONT color=#000080>Z0</FONT><FONT color=#008080>-</FONT><FONT color=#a020f0>9</FONT><FONT color=#008080>]*</FONT>)<FONT color=#008080>|</FONT>
+(<FONT color=#ff0000>&quot;</FONT><FONT color=#008080>[^</FONT><FONT color=#ff0000>&quot;</FONT><FONT color=#008080>]*</FONT><FONT color=#ff0000>&quot;</FONT>)<FONT color=#008080>|</FONT>
+(<FONT color=#008080>[][{</FONT><FONT color=#ffa500>}</FONT><FONT color=#008080>]</FONT>)<FONT color=#008080>|</FONT>
+(<FONT color=#008080>[</FONT>  <FONT color=#008080>]+</FONT>)<FONT color=#008080>|</FONT>
+<FONT color=#ff0000>.</FONT>
+)
+
+<FONT color=#000080>digits</FONT> <FONT color=#000000>=:</FONT> <FONT color=#008080>'0123456789'</FONT>
+<FONT color=#000080>alpha</FONT>  <FONT color=#000000>=:</FONT> <FONT color=#008080>'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'</FONT>
+
+<FONT color=#008000>NB. *id_protector v</FONT>
+<FONT color=#008000>NB. Map a GML id into a J name uniquely and safely:</FONT>
+<FONT color=#008000>NB. map - and _ into _d_ and _u_ and add a safe &quot;anti-locale&quot; suffix.</FONT>
+
+<FONT color=#000080>id_protect</FONT> <FONT color=#000000>=:</FONT> <FONT color=#000080>monad</FONT> <FONT color=#000080>define</FONT>
+  ((<FONT color=#c0c0c0>y.</FONT> <FONT color=#000080>rplc</FONT> <FONT color=#008080>'_'</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'_u_'</FONT>) <FONT color=#000080>rplc</FONT> <FONT color=#008080>'-'</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'_d_'</FONT>) <FONT color=#008080>,</FONT> <FONT color=#008080>'_x_xx'</FONT>
+)
+
+<FONT color=#008000>NB. *token_analyze v</FONT>
+<FONT color=#008000>NB. Argument: an isolated token.</FONT>
+<FONT color=#008000>NB. Result is a boxed pair:  tokencode;token</FONT>
+
+<FONT color=#000080>token_analyze</FONT> <FONT color=#000000>=:</FONT> <FONT color=#000080>monad</FONT> <FONT color=#000080>define</FONT>
+  <FONT color=#000080>first</FONT> <FONT color=#000000>=.</FONT> <FONT color=#008080>{.</FONT> <FONT color=#000080>tk</FONT> <FONT color=#000000>=.</FONT> <FONT color=#c0c0c0>y.</FONT>
+
+  <FONT color=#008000>NB. We'll return negative type codes for elements to be</FONT>
+  <FONT color=#008000>NB. suppressed later.</FONT>
+
+  <B><FONT color=#804040>if.</FONT></B> <FONT color=#000080>first</FONT><FONT color=#008080>=</FONT><FONT color=#008080>'%'</FONT> <B><FONT color=#804040>do.</FONT></B>
+     _<FONT color=#a020f0>1</FONT> <FONT color=#008080>;</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> <FONT color=#000080>first</FONT> <FONT color=#008080>e.</FONT> <FONT color=#a020f0>9</FONT> <FONT color=#a020f0>10</FONT> <FONT color=#a020f0>11</FONT> <FONT color=#a020f0>13</FONT> <FONT color=#a020f0>32</FONT> <FONT color=#008080>{</FONT> <FONT color=#000080>a</FONT><FONT color=#ff0000>.</FONT> <B><FONT color=#804040>do.</FONT></B>
+     _<FONT color=#a020f0>2</FONT> <FONT color=#008080>;</FONT> <FONT color=#000080>a</FONT><FONT color=#ff0000>.</FONT> <FONT color=#008080>i.</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> <FONT color=#000080>first</FONT> <FONT color=#008080>e.</FONT> <FONT color=#008080>'-'</FONT><FONT color=#008080>,</FONT><FONT color=#000080>digits</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. Number.</FONT>
+     <FONT color=#008000>NB. XXX shouldn't we separate ints and reals for</FONT>
+     <FONT color=#008000>NB. later correctness checking?</FONT>
+     ((<FONT color=#008080>+.</FONT><FONT color=#ffa500>/</FONT> <FONT color=#008080>'.eE'</FONT> <FONT color=#008080>e.</FONT> <FONT color=#000080>tk</FONT>) <FONT color=#008080>{</FONT> <FONT color=#a020f0>0</FONT> <FONT color=#a020f0>9</FONT> ) <FONT color=#008080>;</FONT> <FONT color=#ff0000>&quot;.</FONT> <FONT color=#008080>'-_'</FONT> <FONT color=#000080>charsub</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> <FONT color=#000080>first</FONT> <FONT color=#008080>=</FONT> <FONT color=#008080>'&quot;'</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. String</FONT>
+     <FONT color=#a020f0>1</FONT> <FONT color=#008080>;</FONT> <FONT color=#008080>}.}:</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> (<FONT color=#008080>&lt;</FONT><FONT color=#000080>tk</FONT>) <FONT color=#008080>e.</FONT> <FONT color=#008080>'true'</FONT><FONT color=#008080>;</FONT><FONT color=#008080>'false'</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. Catch these constants before general keywords / ids.</FONT>
+     <FONT color=#a020f0>8</FONT> <FONT color=#008080>;</FONT> <FONT color=#000080>tk</FONT> <FONT color=#008080>-:</FONT> <FONT color=#008080>'true'</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> (<FONT color=#008080>&lt;</FONT><FONT color=#000080>tk</FONT>) <FONT color=#008080>e.</FONT> <FONT color=#000080>operatorlist</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. Built-in operator.</FONT>
+     <FONT color=#a020f0>2</FONT> <FONT color=#008080>;</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> <FONT color=#000080>first</FONT> <FONT color=#008080>e.</FONT> <FONT color=#000080>alpha</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. Identifier.</FONT>
+     <FONT color=#a020f0>2</FONT> <FONT color=#008080>;</FONT> <FONT color=#000080>id_protect</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> (<FONT color=#000080>first</FONT> <FONT color=#008080>=</FONT> <FONT color=#008080>'/'</FONT>) <FONT color=#008080>*.</FONT> (<FONT color=#008080>#</FONT><FONT color=#000080>tk</FONT>) <FONT color=#008080>&gt;</FONT> <FONT color=#a020f0>1</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#a020f0>3</FONT> <FONT color=#008080>;</FONT> <FONT color=#008080>'/'</FONT><FONT color=#008080>,</FONT> <FONT color=#000080>id_protect</FONT> <FONT color=#008080>}.</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> <FONT color=#000080>first</FONT> <FONT color=#008080>e.</FONT> <FONT color=#008080>'[]{}'</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. Some self-returning tokens.  Type code are 3..7.</FONT>
+     (<FONT color=#a020f0>4</FONT> <FONT color=#008080>+</FONT> <FONT color=#008080>'[]{}'</FONT> <FONT color=#008080>i.</FONT> <FONT color=#000080>first</FONT>) <FONT color=#008080>;</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>elseif.</FONT></B> <FONT color=#a020f0>1</FONT> <B><FONT color=#804040>do.</FONT></B>
+     <FONT color=#008000>NB. Whoa -- something yet unknown!  Give it a negative code:</FONT>
+     _<FONT color=#a020f0>3</FONT> <FONT color=#008080>;</FONT> <FONT color=#008080>'*unknown lexeme* :'</FONT><FONT color=#008080>,</FONT> <FONT color=#000080>tk</FONT>
+  <B><FONT color=#804040>end.</FONT></B>
+)
+
+<FONT color=#008000>NB. clean_tokenlist v</FONT>
+<FONT color=#008000>NB. remove comments and unknowns, whatever has a negative code:</FONT>
+<FONT color=#000080>clean_tokenlist</FONT> <FONT color=#000000>=:</FONT> <FONT color=#008080>#</FONT><FONT color=#ffa500>~</FONT> (<FONT color=#008080>0:</FONT> <FONT color=#008080>&lt;:</FONT> <FONT color=#008080>*</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>&gt;</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>{.</FONT><FONT color=#ff0000>&quot;</FONT><FONT color=#a020f0>1</FONT>)
+
+<FONT color=#008000>NB. *tokenizer v</FONT>
+<FONT color=#008000>NB. Right argument is a filename.</FONT>
+<FONT color=#008000>NB. Optional Boolean left argument suppresses / activates (default)</FONT>
+<FONT color=#008000>NB. the removal of comments and such.</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. Result is a list of boxed code;token pairs (goes into parser).</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. 1. Cut the source text using the lexemes regexp.</FONT>
+<FONT color=#008000>NB. 2. Compute the code;token pair for each token.</FONT>
+<FONT color=#008000>NB.    Integers are told from flotas here, &quot;-quotes are stripped,</FONT>
+<FONT color=#008000>NB.    and &quot;-&quot; are converted to &quot;_&quot; ...</FONT>
+<FONT color=#008000>NB. 3. supress comments</FONT>
+<FONT color=#008000>NB.</FONT>
+<FONT color=#008000>NB. sample usage (for now just step 1):</FONT>
+<FONT color=#008000>NB.    tokenizer &lt;'gml/mini.gml'</FONT>
+<FONT color=#008000>NB. +-------------+--+-+----------+----+</FONT>
+<FONT color=#008000>NB. |% no comment.|17|4|% comment.|addi|</FONT>
+<FONT color=#008000>NB. +-------------+--+-+----------+----+</FONT>
+
+<FONT color=#000080>tokenizer</FONT> <FONT color=#000000>=:</FONT> <FONT color=#000080>verb</FONT> <FONT color=#000080>define</FONT>
+  <FONT color=#a020f0>1</FONT> <FONT color=#000080>tokenizer</FONT> <FONT color=#c0c0c0>y.</FONT>
+<FONT color=#ff0000>:</FONT>
+  <FONT color=#000080>clean_tokenlist</FONT><FONT color=#008080>^:</FONT><FONT color=#c0c0c0>x.</FONT> <FONT color=#000080>token_analyze</FONT><FONT color=#ff0000>@</FONT><FONT color=#008080>&gt;</FONT> <FONT color=#000080>lexemes</FONT> <FONT color=#000080>rxall</FONT> <FONT color=#000080>fread</FONT> <FONT color=#c0c0c0>y.</FONT>
+)
+</PRE>
+</BODY>
+</HTML>

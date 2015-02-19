@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Rank conjunction "</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="result_shape.htm">&gt&gt;</a>&nbsp;
+<a href="agreement.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Rank conjunction "</h1><TR><TD>
+
+<P>The primitive <TT>"</TT> (double-quote, not two quotes) is the rank conjunction. Conjunctions haven't been introduced yet and there is more detail in a later section. For now, just think of a conjunction as similar to a dyad verb in that it takes a left and right argument and has a result. The particular use of <TT>"</TT> of interest here is when the left argument is a verb and the right argument is a noun. Yes, conjunctions can take verb arguments, as well as noun, whereas a verb can take only noun arguments.</P>
+<P>In the section on names there was an example where you directly defined a name as a verb.</P>
+
+<PRE>   plus =. +
+</PRE>
+<P>This style of definition is more direct than the type you used to define <TT>centigrade</TT>. It is called tacit definition and is dealt with in more detail in a later section. The name plus is defined as the primitive <TT>+</TT> and thus has the same rank as <TT>+</TT> of <TT>0 0 0</TT> .</P>
+<P>The rank conjunction produces a new verb from its left argument with the rank information from its right argument. </P>
+
+<PRE>   plus000 =. + " 0 0 0
+</PRE>
+<P>The right argument for <TT>"</TT> is the rank information for the primitive <TT>+</TT> that is given in the J Dictionary (look up <TT>+</TT> in the vocabulary, turn to the definition page, and note the rank information in the heading). The first 0 is the rank of the monad argument. The second and third 0's are respectively the rank of the dyad left and right arguments.</P>
+
+<P>Since <TT>plus000 </TT>is <TT>+</TT> with same ranks as the primitive <TT>+</TT> it should behave just as does <TT>+</TT> or <TT>plus </TT>. You can verify this with a few experiments borrowed from the previous section on agreement.</P>
+
+<PRE>   a =. i. 2 3
+   a plus000 a
+0 2  4
+6 8 10
+
+   a plus000 1 2 3
+¦length error
+¦   a   plus000 1 2 3</PRE>
+
+<P>The length error occurs because the arguments do not agree as per the previous section. The left frame is <TT>2 3</TT> and the right frame <TT>3</TT>, and <TT>3</TT> is not a prefix of <TT>2 3</TT>; there are extra cells from the left argument without corresponding cells from the right argument.</P>
+
+<P>However, it seems reasonable to want to add the list <TT>1 2 3</TT> to each list in the left argument. You know what you want it to do. Visually:</P>
+
+<PRE>0 1 2   +   1 2 3      gives   1 3 5
+3 4 5       ...                4 6 8
+</PRE>
+<P>You want a variation of <TT>+</TT> that adds lists from its left argument to lists from its right. You can do that by changing the arguments to the <TT>"</TT> conjunction to indicate that the dyad left and right ranks are lists.</P>
+
+<PRE>   plus011 =. + " 0 1 1
+   a plus011 1 2 3
+1 3 5
+4 6 8
+
+ 
+   1 2 3 plus011 a
+1 3 5
+4 6 8</PRE>
+
+<P>In practice you wouldn't bother to give a name to such a specific application of <TT>+</TT> and you would instead use the expression directly.</P>
+
+<PRE>   1 2 3 +" 0 1 1 a
+1 3 5
+4 6 8
+</PRE>
+<P>Since <TT>+</TT> is applied dyadically and both ranks are 1, you can use the shorter form of <TT>+"1</TT> which uses 1 for the rank of all arguments.</P>
+
+<PRE>   1 2 3 +"1 a
+1 3 5
+4 6 8</PRE>
+
+<P>In this case, the left frame is empty with a cell shape of <TT>3</TT> and the right frame is <TT>2</TT> with a cell shape of <TT>3</TT>.  Empty is a prefix of <TT>2</TT>,  and so the frames agree.</P>
+
+<P>There is one thing you have to be aware of.
+</P>
+<PRE>   a +"1 1 2 3
+¦length error
+¦   a    +"1 1 2 3</PRE>
+
+<P>The problem is that J doesn't know that you want the first 1 to be the argument to <TT>"</TT> and the second 1 to be part of the constant <TT>1 2 3</TT>. What happens is that the constant <TT>1 1 2 3</TT> is used as the right argument of <tt>"</tt> and since <TT>"</TT> is defined to allow only arguments of 1 2 or 3 numbers, there is a length error. You need to let J know that the 1 belongs to the <TT>"</TT> and that the <TT>1 2 3</TT> is a constant. </P>
+
+<PRE>   a (+"1) 1 2 3
+1 3 5
+4 6 8
+
+   a +"1 (1 2 3)
+1 3 5
+4 6 8
+</PRE>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="result_shape.htm">&gt&gt;</a>&nbsp;
+<a href="agreement.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>

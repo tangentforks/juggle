@@ -1,0 +1,120 @@
+<html>
+<head>
+<title>DDE Overview</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="server_client.htm">&gt&gt;</a>&nbsp;
+<a href="dde.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<hr><!--top jump end-->
+
+
+
+
+<TR valign="baseline"><TD><H1>DDE Overview</h1>
+<TR><TD colspan="2"> 
+
+<i>Dynamic Data Exchange</i> allows Windows programs to communicate with each other. 
+
+<p>
+DDE allows two Windows programs to exchange data by posting messages to each 
+other using a standard protocol. J provides a comprehensive set of DDE commands so 
+that you can communicate between J and any other Windows program supporting DDE, 
+including another copy of J. You may have up to 20 DDE conversations at a time.
+
+<p>
+For example, with DDE you could set up J as a calculation server, so that another 
+Windows program could send it a sentence for evaluation and receive back the result.
+
+<p>
+The DDE interface uses the Window Driver. Messages are <i>sent</i> with Window Driver 
+commands, for example:
+
+<pre>
+   wd 'ddereq jserver calc res'
+</pre>
+
+<p>
+Messages are <i>received</i> as a Windows event, and require handlers, named 
+<code>sys_eventname</code>, for each event. 
+
+<p>
+For example, here is a typical result of <code>wd'q'</code>, following a ddepoke event:
+
+<pre>
+   wdq
++----------+-----------+
+|syshandler|sys_handler|
++----------+-----------+
+|sysevent  |sys_ddepoke|
++----------+-----------+
+|sysdefault|sys_default|
++----------+-----------+
+|systopic  |top        |
++----------+-----------+
+|sysitem   |item       |
++----------+-----------+
+|sysdata   |+/\i.10    |
++----------+-----------+
+</pre>
+
+<p>
+To respond to a <code>ddepoke</code>, you define a handler named <code>sys_ddepoke</code>, for example the 
+following is used in file <code>system\packages\dde\server2.ijs</code>:
+
+<pre>
+sys_ddepoke=: 3 : 0
+sysdata=: sysdata -. CRLF,TAB
+write0 sysdata
+if. sysdata -: 'exit' do. return. end.
+if. sysdata -: 'off' do. 
+  delay 1
+  signoff '' 
+end.
+try. val=: &quot;.sysdata
+catch. val=: 'unable to execute: ',sysdata end.
+if. FORMAT do. val=: &quot;:val end.
+write1 val
+topitem=: topitem,systopic;sysitem;&lt;val
+)
+</pre>
+
+<p>
+Most Windows applications support DDE in some form or another. However, not all 
+applications support the complete set of DDE commands, and in some cases the 
+command usage is not standard. With J, you write programs to handle the DDE 
+interface, and therefore you can tailor the J side of the protocol to fit the other 
+application's requirements.
+
+<p>
+In this chapter we discuss general principles of DDE with examples of a J to J DDE link, 
+and then discuss a link between J and <i>Microsoft Word for Windows</i>. Several other 
+examples, including a link to <i>Microsoft Visual Basic</i> will be found in the directory: 
+system\examples\dde.
+
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="server_client.htm">&gt&gt;</a>&nbsp;
+<a href="dde.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+User<!--bottom jump end--></td></tr></table></body>
+</html>

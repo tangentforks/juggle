@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>Result shape</title>
+<LINK REL=stylesheet HREF="../jdoc.css" TYPE="text/css">
+</head><body><!--top jump start--><a href="checkpoint_e.htm">&gt&gt;</a>&nbsp;
+<a href="rank_conjunction.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<hr><!--top jump end-->
+
+
+ 
+
+<TR valign="baseline"><TD><H1>Result shape</h1><TR><TD>
+
+<P>In the previous sections the question of the shape of the result was glossed over. For a monad the frame of the result is the same as the frame of the argument. For a dyad the frame of the result is the frame of the longer of the frames of the arguments (or either frame if they are the same).</P>
+
+<P>With a verb like <TT>+</TT> that has an atom result for each atom argument this is straightforward. Things get more interesting with verbs that have more complicated behavior.</P>
+
+<P>Consider the verb <TT>$ </TT>.  Look it up in the J Dictionary and you'll see it has rank of <TT> _ 1 _ </TT> . The <TT>_</TT> indicates an infinite (unbounded) rank and means that the verb applies to the entire argument. The monad has unbounded rank and so applies to the entire right argument. If you think about the monad <TT>$</TT> with a result that is the shape of its entire right argument this makes sense. The dyad left rank is 1 and this means that it applies to lists from the left argument. The dyad right rank is unbounded and so applies to the entire right argument.</P>
+
+<PRE>   2 4 $ i.3
+0 1 2 0
+1 2 0 1
+
+   2 4 $"1 0 i.3
+0 0 0 0
+0 0 0 0
+
+1 1 1 1
+1 1 1 1
+
+2 2 2 2
+2 2 2 2</PRE>
+
+<P>The first example is what you have seen before, but what is going on in the second? The <TT>$"1 0</TT> means that <TT>$</TT> will get cell arguments as a list (1-cells) on the left and as an atom (0-cell) on the right. The left frame is empty (nothing is left of the shape of the left argument after a 1-cell is taken) and the right frame is 3 (there are 3 0-cells in the right argument). So the result frame is 3.</P>
+
+ 
+<PRE>2 4 $ 0   gives   0 0 0 0   left 1-cell $ right 0-cell 
+                  0 0 0 0
+
+... $ 1   gives   1 1 1 1   repeat 1-cell $ next 0-cell
+                  1 1 1 1
+
+... $ 2   gives   2 2 2 2   repeat 1-cell $ next 0-cell
+                  2 2 2 2 
+</PRE>
+<P>The frame of the result is <TT>3</TT> and the things in that frame are <TT>2</TT> by <TT>4</TT> tables, so the shape of the final result is <TT>3 2 4</TT>.</P>
+
+<PRE>   $ 2 4 $"1 0 i.3
+3 2 4
+</PRE>
+<P>Rank (noun rank, verb rank, frames, cells, and the rank conjunction) applies to all verbs and greatly increases the ways in which you can use any verb.</P>
+
+</TD>
+  </tr>
+<TR><TD>
+<!--bottom jump start--><hr><a href="checkpoint_e.htm">&gt&gt;</a>&nbsp;
+<a href="rank_conjunction.htm">&lt&lt;</a>&nbsp;
+<a href="../index/a.htm">Ndx</a>&nbsp;
+<a href="../user/contents.htm">Usr</a>&nbsp;
+<a href="../primer/contents.htm">Pri</a>&nbsp;
+<a href="../phrases/contents.htm">Phr</a>&nbsp;
+<a href="../dictionary/contents.htm">Dic</a>&nbsp;
+<a href="../release/contents.htm">Rel</a>&nbsp;
+<a href="../dictionary/vocabul.htm">Voc</a>&nbsp;
+<a href="../dictionary/xmain.htm">!:</a>&nbsp;
+<a href="../user/win_driver_cmd_ref_overview.htm">wd</a>&nbsp;
+<a href="../index.htm">Help</a>&nbsp;
+Primer<!--bottom jump end--></td></tr></table></body>
+</html>
